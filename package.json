@@ -1,0 +1,19 @@
+{
+  "name": "allinonediscordbot",
+  "version": "1.0.0",
+  "description": "A discord bot for everything",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamesatjaminit/AllInOneDiscordBot.git"
+  },
+  "author": "James Cook",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jamesatjaminit/AllInOneDiscordBot/issues"
+  },
+  "homepage": "https://github.com/jamesatjaminit/AllInOneDiscordBot#readme"
+}
