@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/jamesatjaminit/AllInOneDiscordBot/issues"
   },
-  "homepage": "https://github.com/jamesatjaminit/AllInOneDiscordBot#readme"
+  "homepage": "https://github.com/jamesatjaminit/AllInOneDiscordBot#readme",
+  "dependencies": {
+    "discord.js": "^12.4.1",
+    "sqlite3": "^5.0.0"
+  }
 }
