@@ -1,0 +1,6 @@
+module.exports = {
+	name: 'purge',
+	description: 'Purges messages',
+	execute(client, message, args, db) {
+	},
+};
