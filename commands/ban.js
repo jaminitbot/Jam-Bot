@@ -14,7 +14,6 @@ module.exports = {
             if (!targetRole.comparePositionTo(authorRole) <= 0) return message.reply('You can\'t kick them, your role is lower than them!') // https://stackoverflow.com/questions/64056025/discord-js-ban-user-permissions-command
         }
         message.guild.member(memberToBan).ban(memberToBan, {reason: reason, days: 1});
-        message.delete()
         message.reply(`I banned ${memberToBan}`)
 	},
 };
