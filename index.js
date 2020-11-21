@@ -13,26 +13,28 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-// Events
+// Event requires
 const guildCreate = require('./events/guildCreate')
 const guildDelete = require('./events/guildDelete')
 const message = require('./events/message')
 const messageDelete = require('./events/messageDelete')
 
+// Database connections
 let db = new sqlite3.cached.Database('database.db', (err) => {
     if (err) {
       return console.error(err.message);
     }
     console.log('Connected to the SQlite database.');
   });
-client.on('ready', () => {
-   console.log('Logged in');
-});
 
+// Events
+client.on('ready', () => {console.log('Logged in')})
 client.on("guildCreate", guild => {guildCreate.register(guild, db)})
 client.on("guildDelete", guild  => { guildDelete.register(guild, db)})
 client.on("message", msg => { message.register(client, msg, db) })
 client.on("messageDelete", msg => { messageDelete.register(client, msg, db) })
+
+// SIGINT STUFF
 if (process.platform === "win32") {
   var rl = require("readline").createInterface({
     input: process.stdin,
@@ -45,7 +47,7 @@ if (process.platform === "win32") {
 }
 
 process.on("SIGINT", function () {
-  //graceful shutdown
+  // Shutdown stuff nicely
   db.close()
   console.log('Quiting...')
   client.destroy()
