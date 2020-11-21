@@ -9,8 +9,8 @@ module.exports = {
         } else if (deleteCount < 1){
             message.reply('You can\'t delete less than one message!')
             return
-        } else if (deleteCount > 100){
-            message.reply('You can\'t delete more than 100 messages in one go!')
+        } else if (deleteCount > 99){
+            message.reply('You can\'t delete more than 99 messages in one go!')
             return
         }
         message.channel.bulkDelete(deleteCount + 1).catch(error => message.reply(`Couldn't delete messages because of: ${error}`));
