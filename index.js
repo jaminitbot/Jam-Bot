@@ -17,6 +17,7 @@ for (const file of commandFiles) {
 const guildCreate = require('./events/guildCreate')
 const guildDelete = require('./events/guildDelete')
 const message = require('./events/message')
+const messageDelete = require('./events/messageDelete')
 
 let db = new sqlite3.cached.Database('database.db', (err) => {
     if (err) {
@@ -27,10 +28,11 @@ let db = new sqlite3.cached.Database('database.db', (err) => {
 client.on('ready', () => {
    console.log('Logged in');
 });
+
 client.on("guildCreate", guild => {guildCreate.register(guild, db)})
 client.on("guildDelete", guild  => { guildDelete.register(guild, db)})
 client.on("message", msg => { message.register(client, msg, db) })
-
+client.on("messageDelete", msg => { messageDelete.register(client, msg, db) })
 if (process.platform === "win32") {
   var rl = require("readline").createInterface({
     input: process.stdin,

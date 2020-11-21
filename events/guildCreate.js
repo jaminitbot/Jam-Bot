@@ -10,6 +10,11 @@ module.exports = {
                 return console.error(err.message);
             }   
         })
+        db.run('INSERT INTO "' + guild.id + '" (key, value) VALUES (\'modLogChannel\', \'\')', (err) => {
+            if (err) {
+                return console.error(err.message);
+            }   
+        })
         })
     }
 }

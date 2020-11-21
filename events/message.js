@@ -1,7 +1,7 @@
 
 module.exports = {
     register(client, msg, db){
-        if (msg.author.bot){return}
+        if (msg.author.bot) return
         let message = String(msg.content).toLowerCase()
         let guild = msg.guild
         db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => {
