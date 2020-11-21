@@ -16,6 +16,7 @@ module.exports = {
         switch(setting){
             case 'prefix':
                 prefix.execute(client, message, args, db)
+                return
             default:
                 message.channel.send({ embed: embed })
         }
