@@ -5,6 +5,10 @@ const client = new Discord.Client();
 const config = require('./config.json')
 const sqlite3 = require('sqlite3').verbose();
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 // Registers all the commands in the commands folder
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -54,4 +58,4 @@ process.on("SIGINT", function () {
   process.exit();
 });
 
-client.login(config.token);
+client.login(process.env.TOKEN);
