@@ -1,0 +1,11 @@
+{
+    "discord": {
+        "token": "TOKEN"
+    },
+    "defaults": {
+        "prefix": "!"
+    },
+    "settings": {
+        "databaseLocation": "database.db"
+    }
+}

@@ -5,10 +5,6 @@ const client = new Discord.Client();
 const config = require('./config.json')
 const sqlite3 = require('sqlite3').verbose();
 
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
-
 // Registers all the commands in the commands folder
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -24,7 +20,7 @@ const message = require('./events/message')
 const messageDelete = require('./events/messageDelete')
 
 // Database connections
-let db = new sqlite3.cached.Database('database.db', (err) => {
+let db = new sqlite3.cached.Database(config.settings.databaseLocation, (err) => {
     if (err) {
       return console.error(err.message);
     }
@@ -33,7 +29,7 @@ let db = new sqlite3.cached.Database('database.db', (err) => {
 
 // Events
 client.on('ready', () => {console.log('Logged in')})
-client.on("guildCreate", guild => {guildCreate.register(guild, db)})
+client.on("guildCreate", guild => {guildCreate.register(guild, db, config)})
 client.on("guildDelete", guild  => { guildDelete.register(guild, db)})
 client.on("message", msg => { message.register(client, msg, db) })
 client.on("messageDelete", msg => { messageDelete.register(client, msg, db) })
@@ -58,4 +54,4 @@ process.on("SIGINT", function () {
   process.exit();
 });
 
-client.login(config.token);
+client.login(config.discord.token);
