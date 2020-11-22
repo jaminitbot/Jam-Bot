@@ -3,10 +3,8 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const client = new Discord.Client();
 const sqlite3 = require('sqlite3').verbose();
+require('dotenv').config();
 
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
 
 // Registers all the commands in the commands folder
 client.commands = new Discord.Collection();
