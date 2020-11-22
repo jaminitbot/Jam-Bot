@@ -2,7 +2,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const client = new Discord.Client();
-const config = require('./config.json')
 const sqlite3 = require('sqlite3').verbose();
 
 if (process.env.NODE_ENV !== 'production') {
