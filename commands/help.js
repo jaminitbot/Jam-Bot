@@ -1,6 +1,6 @@
 module.exports = {
-	name: 'purge',
-	description: 'Purges messages',
+	name: 'help',
+	description: 'Help me',
 	execute(client, message, args, db) {
         message.channel.send('You need help?')
 	},
