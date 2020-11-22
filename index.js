@@ -1,16 +1,16 @@
 // Mr imports
-const Discord = require('discord.js');
-const fs = require('fs');
-const client = new Discord.Client();
+const Discord = require('discord.js')
+const fs = require('fs')
+const client = new Discord.Client()
 const config = require('./config.json')
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('sqlite3').verbose()
 
 // Registers all the commands in the commands folder
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
+	const command = require(`./commands/${file}`)
+	client.commands.set(command.name, command)
 }
 
 // Event requires
@@ -21,10 +21,8 @@ const messageDelete = require('./events/messageDelete')
 
 // Database connections
 let db = new sqlite3.cached.Database(config.settings.databaseLocation, (err) => {
-    if (err) {
-      return console.error(err.message);
-    }
-    console.log('Connected to the SQlite database.');
+    if (err) return console.error(err.message)
+    console.log('Connected to the SQlite database')
   });
 
 // Events
@@ -42,16 +40,16 @@ if (process.platform === "win32") {
   });
 
   rl.on("SIGINT", function () {
-    process.emit("SIGINT");
+    process.emit("SIGINT")
   });
 }
 
 process.on("SIGINT", function () {
   // Shutdown stuff nicely
   db.close()
-  console.log('Quiting...')
+  console.log('Closing gracefully...')
   client.destroy()
-  process.exit();
+  process.exit()
 });
 
-client.login(config.discord.token);
+client.login(config.discord.token)
