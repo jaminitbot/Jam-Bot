@@ -10,7 +10,7 @@ module.exports = {
             "description": "prefix: Sets the prefix for the bot\nmodlog: Various modlog commands",
             "color": 7135759
         }
-        let setting = args[0]
+        const setting = args[0]
         if (!setting){ // If no setting was specified, show the help
             message.channel.send({ embed: embed })
             return

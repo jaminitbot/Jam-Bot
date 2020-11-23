@@ -21,7 +21,7 @@ const message = require('./events/message')
 const messageDelete = require('./events/messageDelete')
 
 // Database connections
-let db = new sqlite3.cached.Database(config.settings.databaseLocation, (err) => {
+const db = new sqlite3.cached.Database(config.settings.databaseLocation, (err) => {
     if (err) return console.error(err.message)
     console.log('Connected to the SQlite database')
   });
@@ -39,7 +39,6 @@ if (process.platform === "win32") {
     input: process.stdin,
     output: process.stdout
   });
-
   rl.on("SIGINT", function () {
     process.emit("SIGINT")
   });
