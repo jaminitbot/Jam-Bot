@@ -1,5 +1,5 @@
 # AllInOneDiscordBot
-A discord bot designed to be easy to setup but full of features.
+A discord bot designed to be easy to setup, but full of features.
 ## Installation
 1) `git clone https://github.com/jamesatjaminit/AllInOneDiscordBot`
 2) `cd AllInOneDiscordBot`
