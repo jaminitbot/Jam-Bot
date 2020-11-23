@@ -1,4 +1,5 @@
 // Runs the things in guildCreate incase the bot is not online when the guild is joined
+// TODO: #3 Implement something to delete tables as well as add
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const config = require('../config.json')
