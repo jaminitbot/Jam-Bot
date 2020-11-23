@@ -4,10 +4,8 @@ module.exports = {
         if (msg.author.bot) return
         let message = String(msg.content).toLowerCase()
         let guild = msg.guild
-        db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => {
-            if (err){
-                console.log(err)
-            }
+        db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
+            if (err) console.log(err)
             let prefix = String(row.value)
             const args = msg.content.slice(prefix.length).trim().split(/ +/);
             const command = args.shift().toLowerCase();

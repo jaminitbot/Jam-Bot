@@ -9,7 +9,7 @@ module.exports = {
         } else if (deleteCount < 1){
             message.reply('You can\'t delete less than one message!')
             return
-        } else if (deleteCount > 99){
+        } else if (deleteCount > 99){ // Discord api doesn't let us do more than 100
             message.reply('You can\'t delete more than 99 messages in one go!')
             return
         }

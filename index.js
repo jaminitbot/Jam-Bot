@@ -6,6 +6,7 @@ const config = require('./config.json')
 const sqlite3 = require('sqlite3').verbose()
 
 // Registers all the commands in the commands folder
+// https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 for (const file of commandFiles) {

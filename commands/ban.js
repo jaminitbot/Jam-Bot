@@ -10,8 +10,8 @@ module.exports = {
         let reason = args.splice(1).join(' ');
         const authorRole = message.member.roles.highest;
         const targetRole = memberToBan.roles.highest;
-        if (!message.member.hasPermission(["ADMINISTRATOR"])){
-            if (!targetRole.comparePositionTo(authorRole) <= 0) return message.reply('You can\'t kick them, your role is lower than them!') // https://stackoverflow.com/questions/64056025/discord-js-ban-user-permissions-command
+        if (!message.member.hasPermission(["ADMINISTRATOR"])){ // Admins without a role need to be able to overide
+            if (!targetRole.comparePositionTo(authorRole) <= 0) return message.reply('You can\'t kick them, your role is lower than them!') // Doesn't allow a user to ban someone whose role is higher than theres https://stackoverflow.com/questions/64056025/discord-js-ban-user-permissions-command
         }
         message.guild.member(memberToBan).ban(memberToBan, {reason: reason, days: 1});
         message.reply(`I banned ${memberToBan}`)

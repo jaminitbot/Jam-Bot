@@ -10,7 +10,7 @@ module.exports = {
         let reason = args.splice(1).join(' ');
         const authorRole = message.member.roles.highest;
         const targetRole = memberToKick.roles.highest;
-        if (!message.member.hasPermission(["ADMINISTRATOR"])){
+        if (!message.member.hasPermission(["ADMINISTRATOR"])){ // Admins without a role need to be able to overide
             if (!targetRole.comparePositionTo(authorRole) <= 0) return message.reply('You can\'t kick them, your role is lower than them!') // https://stackoverflow.com/questions/64056025/discord-js-ban-user-permissions-command
         } 
         message.guild.member(memberToKick).kick(memberToKick, {reason: reason});

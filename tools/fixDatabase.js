@@ -5,7 +5,7 @@ const client = new Discord.Client()
 const config = require('../config.json')
 const guildCreate = require('../events/guildCreate')
 const sqlite3 = require('sqlite3').verbose()
-let db = new sqlite3.cached.Database("../" + config.settings.databaseLocation, (err) => {
+let db = new sqlite3.cached.Database("../" + config.settings.databaseLocation, (err) => { // TODO: Should probably move this to a function that can be used globally
     if (err) return console.error(err.message)
     console.log('Connected to the SQlite database')
   });
