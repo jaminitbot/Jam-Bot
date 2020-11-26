@@ -52,4 +52,4 @@ process.on("SIGINT", function () {
   process.exit()
 });
 
-client.login(config.discord.token)
+client.login(config.settings.token)
