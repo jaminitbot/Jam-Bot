@@ -7,7 +7,7 @@ const sqlite3 = require('sqlite3').verbose()
 
 // Registers all the commands in the commands folder
 // https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
-client.commands = new Discord.Collection();
+client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`)
@@ -22,34 +22,34 @@ const messageDelete = require('./events/messageDelete')
 
 // Database connections
 const db = new sqlite3.cached.Database(config.settings.databaseLocation, (err) => {
-    if (err) return console.error(err.message)
-    console.log('Connected to the SQlite database')
-  });
+	if (err) return console.error(err.message)
+	console.log('Connected to the SQlite database')
+})
 
 // Events
 client.on('ready', () => {console.log('Logged in')})
-client.on("guildCreate", guild => {guildCreate.register(guild, db, config)})
-client.on("guildDelete", guild  => { guildDelete.register(guild, db)})
-client.on("message", msg => { message.register(client, msg, db) })
-client.on("messageDelete", msg => { messageDelete.register(client, msg, db) })
+client.on('guildCreate', guild => {guildCreate.register(guild, db, config)})
+client.on('guildDelete', guild  => { guildDelete.register(guild, db)})
+client.on('message', msg => { message.register(client, msg, db) })
+client.on('messageDelete', msg => { messageDelete.register(client, msg, db) })
 
 // SIGINT STUFF
-if (process.platform === "win32") {
-  var rl = require("readline").createInterface({
-    input: process.stdin,
-    output: process.stdout
-  });
-  rl.on("SIGINT", function () {
-    process.emit("SIGINT")
-  });
+if (process.platform === 'win32') {
+	var rl = require('readline').createInterface({
+		input: process.stdin,
+		output: process.stdout
+	})
+	rl.on('SIGINT', function () {
+		process.emit('SIGINT')
+	})
 }
 
-process.on("SIGINT", function () {
-  // Shutdown stuff nicely
-  db.close()
-  console.log('Closing gracefully...')
-  client.destroy()
-  process.exit()
-});
+process.on('SIGINT', function () {
+	// Shutdown stuff nicely
+	db.close()
+	console.log('Closing gracefully...')
+	client.destroy()
+	process.exit()
+})
 
 client.login(config.settings.token)
