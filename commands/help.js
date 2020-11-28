@@ -18,7 +18,7 @@ module.exports = {
 				}
 			}
 			if (addCommand){
-				Helpmessage = Helpmessage + '\n' + command.name + ': ' + command.description
+				Helpmessage = Helpmessage + '\n' + command.name + ': ' + command.description // TODO: Add command useage
 			}
 		}
 		message.channel.send(Helpmessage)
