@@ -3,7 +3,7 @@ const Discord = require('discord.js')
 const fs = require('fs')
 const client = new Discord.Client()
 const config = require('./config.json')
-const sqlite3 = require('sqlite3').verbose()
+const dbScript = require('./functions/Db')
 
 // Registers all the commands in the commands folder
 // https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
@@ -21,11 +21,11 @@ const message = require('./events/message')
 const messageDelete = require('./events/messageDelete')
 
 // Database connections
-const db = new sqlite3.cached.Database(config.settings.databaseLocation, (err) => {
-	if (err) return console.error(err.message)
-	console.log('Connected to the SQlite database')
-})
-
+const db = dbScript.connect(config)
+if (!db){
+	console.error('Error connecting to db')
+	process.exit(1)
+}
 // Events
 client.on('ready', () => {console.log('Logged in')})
 client.on('guildCreate', guild => {guildCreate.register(guild, db, config)})

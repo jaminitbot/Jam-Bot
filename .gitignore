@@ -113,3 +113,4 @@ dist
 # My stuff
 database.db
 config.json
+yarn.lock
