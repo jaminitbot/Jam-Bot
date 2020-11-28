@@ -2,6 +2,8 @@ module.exports = {
 	name: 'purge',
 	description: 'Purges messages',
 	execute(client, message, args, db) {
+		if(!message.member.hasPermission(['MANAGE_MESSAGES'])) return message.reply('You do not have permission to perform this command!') // Checks if the user can manage messages
+		if(!message.guild.me.hasPermission(['MANAGE_MESSAGES'])) return message.channel.send('I dont have permission to perform this command, try inviting me again!') // Checks if bot can manage messages
 		const deleteCount = parseInt(args[0], 10)
 		if (!deleteCount) {
 			message.reply('You need to specify how many messages to delete!')
