@@ -1,3 +1,5 @@
+// DB Driver to accomodate for multiple types of databases
+// TODO: #8 Actually implement support for multiple databases as sqlite only works as the commands (for the driver) are different for mysql
 module.exports = {
     connect(config){
         const DatabaseType = config.settings.database.databaseType
