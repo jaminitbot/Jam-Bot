@@ -4,7 +4,9 @@ const modLog = require('./settings/modlog')
 module.exports = {
 	name: 'settings',
 	description: 'Settings tings',
+	permissions: 'ADMINISTRATOR',
 	execute(client, message, args, db,) {
+		if(!message.member.hasPermission(['ADMINISTRATOR'])) return message.channel.send('You don\'t have permission for that matey!')
 		const embed = { // TODO: #4 Improve help text on settings
 			'title': 'Settings',
 			'description': 'prefix: Sets the prefix for the bot\nmodlog: Various modlog commands',
