@@ -16,6 +16,9 @@ module.exports = {
 			message.reply('You can\'t delete more than 99 messages in one go!')
 			return
 		}
-		message.channel.bulkDelete(deleteCount + 1).catch(error => message.reply(`Couldn't delete messages because of: ${error}`))
+		message.channel.bulkDelete(deleteCount + 1).catch(error => {
+			console.error('Error when deleting messages: ' + error)
+			message.channel.send('Error when trying to delete messages, if this persists contact the bot owner') // TODO: Mention bot owner from config file
+		})
 	},
 }
