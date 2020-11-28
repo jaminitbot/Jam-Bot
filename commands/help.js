@@ -4,7 +4,7 @@ let Helpmessage = ""
 module.exports = {
 	name: 'help',
 	description: 'Help me',
-	execute(client, message, args, db) { // TODO: #5 Actually implement a help command
+	execute(client, message, args, db) {
 		for (const file of commandFiles) {
 			let addCommand = false
 			const command = require(`../commands/${file}`)
