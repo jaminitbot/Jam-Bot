@@ -7,5 +7,5 @@ A discord bot designed to be easy to setup, but full of features.
 4) `node index.js`
 ## TODO:
 * Implement more commands
-* Add multiple database support (#8)
+* Add multiple database support (#8)[https://github.com/jamesatjaminit/AllInOneDiscordBot/issues/8]
 * Possible web interface?
