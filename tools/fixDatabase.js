@@ -12,4 +12,5 @@ client.on('ready', () => {
 		guildCreate.register(guild, db, config)
 	})
 })
+
 client.login(config.settings.token)
