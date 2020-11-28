@@ -1,10 +1,10 @@
 const fs = require('fs')
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'))
-let Helpmessage = ""
 module.exports = {
 	name: 'help',
 	description: 'Help me',
 	execute(client, message, args, db) {
+		let Helpmessage = ""
 		for (const file of commandFiles) {
 			let addCommand = false
 			const command = require(`../commands/${file}`)
