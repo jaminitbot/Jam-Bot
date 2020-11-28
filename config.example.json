@@ -1,11 +1,11 @@
 {
-    "settings": {
-        "token": "TOKEN",
-        "database": {
-            "databaseLocation": "database.db"
-        }
-    },
-    "defaults": {
-        "prefix": "!"
+  "settings": {
+    "token": "TOKEN",
+    "database": {
+      "databaseLocation": "database.db"
     }
+  },
+  "defaults": {
+    "prefix": "!"
+  }
 }
