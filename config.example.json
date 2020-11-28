@@ -1,7 +1,9 @@
 {
     "settings": {
         "token": "TOKEN",
-        "databaseLocation": "database.db"
+        "database": {
+            "databaseLocation": "database.db"
+        }
     },
     "defaults": {
         "prefix": "!"
