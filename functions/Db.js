@@ -3,6 +3,7 @@
 module.exports = {
     connect(config){
         const DatabaseType = config.settings.database.databaseType
+        const database = config.settings.database
         if (DatabaseType == 'sqlite'){
             try {
                 sqlite3 = require('sqlite3').verbose()
@@ -25,10 +26,10 @@ module.exports = {
                 return null
             }
             var connection = mysql.createConnection({
-                host     : config.settings.database.host,
-                user     : config.settings.database.user,
-                password : config.settings.database.password,
-                database : config.settings.database.database
+                host     : database.host,
+                user     : database.user,
+                password : database.password,
+                database : database.database
               });
               
               connection.connect();
