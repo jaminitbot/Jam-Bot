@@ -4,8 +4,7 @@
   "description": "A discord bot for everything",
   "main": "index.js",
   "scripts": {
-    "bot": "node bot/index.js",
-    "web": "node ./web/bin/www"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -18,13 +17,7 @@
   },
   "homepage": "https://github.com/jamesatjaminit/AllInOneDiscordBot#readme",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~4.3.1",
-    "discord.js": "^12.5.1",
-    "express": "~4.17.1",
-    "http-errors": "~1.8.0",
-    "jade": "~1.11.0",
-    "morgan": "~1.10.0"
+    "discord.js": "^12.5.1"
   },
   "devDependencies": {
     "eslint": "^7.14.0"
