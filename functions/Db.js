@@ -17,7 +17,7 @@ module.exports = {
                 console.log('Connected to the SQlite database')
             })
             return db            
-        } if (DatabaseType == 'mysql') {
+        } else if (DatabaseType == 'mysql') {
             try {
                 mysql = require('mysql')
             } catch (err){

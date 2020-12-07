@@ -22,6 +22,7 @@ const messageDelete = require('./events/messageDelete')
 
 // Database connections
 const db = dbScript.connect(config)
+
 if (!db){
 	console.error('Error connecting to db')
 	process.exit(1)

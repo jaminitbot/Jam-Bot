@@ -4,7 +4,7 @@ module.exports = {
 			if (err) {
 				return console.error(err.message)
 			}
-			db.run('INSERT INTO "' + guild.id + '" (key, value) VALUES (\'prefix\', \''+ config.defaults.prefix + '\'\')', (err) => { // Input default prefix
+			db.run('INSERT INTO "' + guild.id + '" (key, value) VALUES (\'prefix\', \''+ config.defaults.prefix + '\')', (err) => { // Input default prefix
 				if (err) {
 					return console.error(err.message)
 				}   
