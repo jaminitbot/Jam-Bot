@@ -10,7 +10,7 @@ function msToTime(duration) {
 }
 module.exports = {
 	name: 'uptime',
-	description: 'Uptime!',
+	description: 'Displays the current uptime!',
 	execute(client, message, args, db) {
 		message.channel.send('Uptime: ' + msToTime(client.uptime))
 	},
