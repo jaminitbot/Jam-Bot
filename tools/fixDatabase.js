@@ -11,6 +11,7 @@ client.on('ready', () => {
 	client.guilds.cache.forEach((guild) => {
 		guildCreate.register(guild, db, config)
 	})
+	client.destroy()
 })
 
 client.login(config.settings.token)
