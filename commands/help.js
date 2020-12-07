@@ -1,5 +1,5 @@
 const fs = require('fs')
-const commandFiles = fs.readdirSync('./bot/commands/').filter(file => file.endsWith('.js')) // Go through all the files in the root of the commands folder
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js')) // Go through all the files in the root of the commands folder
 module.exports = {
 	name: 'help',
 	description: 'Displays a list of avaliable commands',

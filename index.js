@@ -8,7 +8,7 @@ const dbScript = require('./functions/Db')
 // Registers all the commands in the commands folder
 // https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
 client.commands = new Discord.Collection()
-const commandFiles = fs.readdirSync('./bot/commands').filter(file => file.endsWith('.js'))
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`)
 	client.commands.set(command.name, command)
