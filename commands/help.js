@@ -26,7 +26,7 @@ module.exports = {
 			if (command && command.name && command.description){
 				if (command.permissions){ // If the perms to run the command have been specified
 					if (message.member.hasPermission(command.permissions)){ // Check if they have the perm
-						addCommand = true // Show the command in the help text
+						addCommand = true // Show the command in the help text if they do
 					}
 				} else {
 					addCommand = true

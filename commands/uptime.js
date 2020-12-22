@@ -13,6 +13,6 @@ module.exports = {
 	description: 'Displays the current uptime!',
 	usage: '!uptime',
 	execute(client, message, args, db) {
-		message.channel.send('Uptime: ' + msToTime(client.uptime))
+		message.channel.send('The bot has been up for: ' + msToTime(client.uptime))
 	},
 }
