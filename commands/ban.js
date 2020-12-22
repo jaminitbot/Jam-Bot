@@ -2,6 +2,7 @@ module.exports = {
 	name: 'ban',
 	description: 'Bans a member',
 	permissions: 'BAN_MEMBERS',
+	usage: '!ban @user',
 	execute(client, message, args, db) {
 		if(!message.member.hasPermission(['BAN_MEMBERS'])) return message.reply('You do not have permission to perform this command!') // Checks if the user can ban
 		if(!message.guild.me.hasPermission(['BAN_MEMBERS', 'ADMINISTRATOR'])) return message.channel.send('I don\'t have permission to perform this command, check I can ban people!') // Checks if bot can ban
