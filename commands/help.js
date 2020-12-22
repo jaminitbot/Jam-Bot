@@ -19,7 +19,11 @@ module.exports = {
 			}
 		}
 		const commandToFind = String(args[0]).toLowerCase()
-		let Helpmessage = "help: Displays this message, or shows the usage for a command"
+		let embed = {
+			'title': 'Help',
+			'description': ''
+		}
+		embed.description += 'help: List avaliable commands or get usage on a specific command'
 		for (const file of commandFiles) {
 			let addCommand = false
 			const command = require(`../commands/${file}`)
@@ -33,9 +37,9 @@ module.exports = {
 				}
 			}
 			if (addCommand){
-				Helpmessage = Helpmessage + '\n' + command.name + ': ' + command.description
+				embed.description += '\n' + command.name + ': ' + command.description
 			}
 		}
-		message.channel.send(Helpmessage)
+		message.channel.send({embed: embed})
 	},
 }
