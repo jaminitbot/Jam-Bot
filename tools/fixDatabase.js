@@ -9,6 +9,7 @@ const db = dbScript.connect(config)
 
 client.on('ready', () => {
 	client.guilds.cache.forEach((guild) => {
+		console.log('Registering guild: ' + guild)
 		guildCreate.register(guild, db, config)
 	})
 	client.destroy()

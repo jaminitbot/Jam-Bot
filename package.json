@@ -4,7 +4,8 @@
   "description": "A discord bot for everything",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "fixDb": "node tools/fixDatabase.js"
   },
   "repository": {
     "type": "git",
