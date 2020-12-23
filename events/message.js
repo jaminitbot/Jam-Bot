@@ -7,7 +7,7 @@ module.exports = {
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
 			if (err) console.log(err)
 			if (row){
-				let prefix = String(row.value)
+				prefix = String(row.value)
 			} else {
 				prefix = config.defaults.prefix
 			}

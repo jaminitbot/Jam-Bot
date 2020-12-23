@@ -4,10 +4,10 @@ const suggestions = require('./settings/suggestions')
 module.exports = {
 	name: 'settings',
 	description: 'Configures settings',
-	permissions: 'MANAGE_SERVER',
+	permissions: 'MANAGE_GUILD',
 	usage: '!settings',
 	execute(client, message, args, db,) {
-		if(!message.member.hasPermission(['MANAGE_SERVER'])) return message.channel.send('You don\'t have permission for that matey, you need the `Manage Server` permission!')
+		if(!message.member.hasPermission(['MANAGE_CHANNELS'])) return message.channel.send('You don\'t have permission for that matey, you need the `Manage Server` permission!')
 		const embed = { // TODO: #4 Improve help text on settings, maybe itterrate over like help command use
 			'title': 'Settings',
 			'description': 'prefix: Sets the prefix for the bot\nmodlog: Various modlog commands\nSuggestions: Sets the suggestion channel',
