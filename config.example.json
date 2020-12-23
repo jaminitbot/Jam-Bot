@@ -1,7 +1,7 @@
 {
     "settings": {
         "ownerid": "ID",
-        "ownername": "NAME"
+        "ownername": "NAME",
         "token": "TOKEN",
         "database": {
             "databaseType": "sqlite",
