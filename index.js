@@ -53,9 +53,6 @@ process.on('SIGINT', function () {
 	process.exit()
 })
 client.on('ready', () => {
-	client.guilds.cache.forEach((guild) => {
-		console.log('Registering guild: ' + guild)
-		guildCreate.register(guild, db, config)
-	})
+	console.log('Logged in...')
 })
 client.login(config.settings.token)
