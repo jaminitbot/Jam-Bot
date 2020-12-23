@@ -1,3 +1,4 @@
+const config = require('../config.json')
 module.exports = {
 	name: 'owner',
 	description: 'Displays the owner of the bot',
