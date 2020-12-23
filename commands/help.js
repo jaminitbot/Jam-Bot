@@ -1,5 +1,6 @@
 const fs = require('fs')
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js')) // Go through all the files in the root of the commands folder
+const permission = require('../functions/permission')
 module.exports = {
 	name: 'help',
 	description: 'Displays a list of avaliable commands',
@@ -28,7 +29,7 @@ module.exports = {
 			const command = require(`../commands/${file}`)
 			if (command && command.name && command.description){
 				if (command.permissions){ // If the perms to run the command have been specified
-					if (message.member.hasPermission(command.permissions)){ // Check if they have the perm
+					if (permission.checkperm(message.member, command.permissions)){ // Check if they have the perm
 						addCommand = true // Show the command in the help text if they do
 					}
 				} else {
