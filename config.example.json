@@ -1,5 +1,6 @@
 {
     "settings": {
+        "owner": "ID",
         "token": "TOKEN",
         "database": {
             "databaseType": "sqlite",
