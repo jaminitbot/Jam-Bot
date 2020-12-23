@@ -5,6 +5,6 @@ module.exports = {
 	permissions: '',
 	usage: '!owner',
 	execute(client, message, args, db) {
-        message.reply(`The owner of the bot is: ${config.settings.owner}`)
+        message.reply(`The owner of the bot is: ${config.settings.ownername}`)
 	},
 };
