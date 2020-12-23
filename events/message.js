@@ -1,12 +1,17 @@
 
 module.exports = {
-	register(client, msg, db){
+	register(client, msg, db, config){
 		if (msg.author.bot) return
 		const message = String(msg.content).toLowerCase()
 		const guild = msg.guild
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
 			if (err) console.log(err)
-			let prefix = String(row.value)
+			if (row){
+				let prefix = String(row.value)
+			} else {
+				prefix = config.defaults.prefix
+			}
+			
 			const args = msg.content.slice(prefix.length).trim().split(/ +/)
 			const command = args.shift().toLowerCase()
 			if (message.startsWith(prefix)){

@@ -2,6 +2,7 @@ module.exports = {
 	name: 'purge',
 	description: 'Purges messages',
 	permissions: '',
+	usage: '',
 	execute(client, message, args, db) {
 	},
 };

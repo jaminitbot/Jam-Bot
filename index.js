@@ -31,7 +31,7 @@ if (!db){
 client.on('ready', () => {console.log('Logged in')})
 client.on('guildCreate', guild => {guildCreate.register(guild, db, config)})
 client.on('guildDelete', guild  => { guildDelete.register(guild, db)})
-client.on('message', msg => { message.register(client, msg, db) })
+client.on('message', msg => { message.register(client, msg, db, config) })
 client.on('messageDelete', msg => { messageDelete.register(client, msg, db) })
 
 // SIGINT STUFF
