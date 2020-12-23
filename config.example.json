@@ -2,6 +2,7 @@
     "settings": {
         "token": "TOKEN",
         "database": {
+            "databaseType": "sqlite",
             "databaseLocation": "database.db"
         }
     },
