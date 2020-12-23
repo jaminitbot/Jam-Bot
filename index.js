@@ -52,5 +52,10 @@ process.on('SIGINT', function () {
 	client.destroy()
 	process.exit()
 })
-
+client.on('ready', () => {
+	client.guilds.cache.forEach((guild) => {
+		console.log('Registering guild: ' + guild)
+		guildCreate.register(guild, db, config)
+	})
+})
 client.login(config.settings.token)
