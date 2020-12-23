@@ -23,7 +23,6 @@ module.exports = {
 			'title': 'Help',
 			'description': ''
 		}
-		embed.description += 'help: List avaliable commands or get usage on a specific command'
 		for (const file of commandFiles) {
 			let addCommand = false
 			const command = require(`../commands/${file}`)
