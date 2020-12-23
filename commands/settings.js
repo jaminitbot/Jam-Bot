@@ -1,6 +1,6 @@
 const prefix = require('./settings/prefix')
 const modLog = require('./settings/modlog')
-
+const suggestions = require('./settings/suggestions')
 module.exports = {
 	name: 'settings',
 	description: 'Configures settings',
@@ -8,9 +8,9 @@ module.exports = {
 	usage: '!settings',
 	execute(client, message, args, db,) {
 		if(!message.member.hasPermission(['MANAGE_SERVER'])) return message.channel.send('You don\'t have permission for that matey, you need the `Manage Server` permission!')
-		const embed = { // TODO: #4 Improve help text on settings
+		const embed = { // TODO: #4 Improve help text on settings, maybe itterrate over like help command use
 			'title': 'Settings',
-			'description': 'prefix: Sets the prefix for the bot\nmodlog: Various modlog commands',
+			'description': 'prefix: Sets the prefix for the bot\nmodlog: Various modlog commands\nSuggestions: Sets the suggestion channel',
 			'color': 7135759
 		}
 		const setting = args[0]
@@ -24,6 +24,9 @@ module.exports = {
 			return
 		case 'modlog':
 			modLog.execute(client, message, args, db)
+			return
+		case 'suggestions':
+			suggestions.execute(client, message, args, db)
 			return
 		default:
 			message.channel.send({ embed: embed })
