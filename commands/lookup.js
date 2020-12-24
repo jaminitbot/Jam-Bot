@@ -27,7 +27,8 @@ module.exports = {
                 "text": `Command issued by ${intiatedUser}`,
                 "icon_url": intiatedAvatar
             },
-            "timestamp": Date.now()
+            "timestamp": Date.now(),
+            "color": "#14904B"
         }
         message.channel.send({embed: embed})
 	},
