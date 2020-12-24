@@ -5,9 +5,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     </head>
-    <body><br>
+    <body class=".bg-light"><br>
         <div class="container">
             <h1>Jam-Bot</h1>
+            <div id="commands">
+                <h2>Commands</h2>
+                <p>Here's a list of all the commands the bot supports</p>
+                <h3>Moderation</h3>
+                <ul>
+                    <li><code>kick</code> - Kicks a specified user, usage: <code>!kick @user REASON</code></li>
+                    <li><code>ban</code> - Bans a specified user, usage: <code>!ban @user REASON</code></li>
+                    <li><code>lookup</code> - Displays information about a specifed user or group, usage: <code>!lookup @user</code></li>
+                    <li><code>purge</code> - Bulk deletes a certain number of messages, usage: <code>!purge 50</code></li>
+                    <li><code>settings</code> - Allows admins to configure settings, usage: <code>!settings</code></li>
+                </ul>
+                <h3>General Commands</h3>
+                <ul>
+                    <li><code>suggest</code> - Allows users to suggest things, usage: <code>!suggest Create a memes channel</code></li>
+                    <li><code>owner</code> - Displays the owner of the bot, usage: <code>!owner</code></li>
+                    <li><code>uptime</code> - Displays the current uptime of the bot, usage: <code>!uptime</code></li>
+                    <li><code>ping</code> - Displays the current latency of the bot, usage: <code>!ping</code></li>
+                    <li><code>help</code> - Displays help text for a certain command, usage: <code>!help ban</code></li>
+                </ul>
+            </div>
         </div>
     </body>
 </html>
