@@ -22,23 +22,8 @@ module.exports = {
 		const commandToFind = String(args[0]).toLowerCase()
 		let embed = {
 			'title': 'Help',
-			'description': ''
-		}
-		for (const file of commandFiles) {
-			let addCommand = false
-			const command = require(`../commands/${file}`)
-			if (command && command.name && command.description){
-				if (command.permissions){ // If the perms to run the command have been specified
-					if (permission.checkperm(message.member, command.permissions)){ // Check if they have the perm
-						addCommand = true // Show the command in the help text if they do
-					}
-				} else {
-					addCommand = true
-				}
-			}
-			if (addCommand){
-				embed.description += '\n' + command.name + ': ' + command.description
-			}
+			'description': 'You can view a list of commands [here](https://jam-bot-discord.github.io/Jam-Bot/)',
+			'colour': '8c34eb'
 		}
 		message.channel.send({embed: embed})
 	},
