@@ -15,6 +15,10 @@ module.exports = {
         const nickName = user.nickname || user.user.username
         const joinedDate = user.joinedAt
         const id = user.id
+        let roles = ""
+        user.roles.cache.forEach(role => {
+            roles = roles + role.name + ", "
+        })
         const intiatedUser = message.member.user.username + "#" + message.member.user.discriminator
         const intiatedAvatar = message.member.user.avatarURL()
         let embed = {
@@ -22,7 +26,7 @@ module.exports = {
                 name: userName,
                 icon_url: avatar
               },
-            "description": `Nickname: ${nickName}\nAccount Creation: ${createdAt}\nJoined on: ${joinedDate}\nIs Bot: ${isBot}\nID: ${id}`,
+            "description": `Nickname: ${nickName}\nAccount Creation: ${createdAt}\nJoined on: ${joinedDate}\nIs Bot: ${isBot}\nID: ${id}\nRoles: ${roles}`,
             "footer": {
                 "text": `Command issued by ${intiatedUser}`,
                 "icon_url": intiatedAvatar
