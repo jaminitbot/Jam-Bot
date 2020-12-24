@@ -4,6 +4,7 @@ module.exports = {
 	permissions: 'BAN_MEMBERS',
 	usage: 'ban @user',
 	execute(client, message, args, db) {
+		if (!args[0]) return message.reply('Usage: ' + this.usage)
 		if(!message.member.hasPermission(['BAN_MEMBERS'])) return message.reply('You do not have permission to perform this command!')
 		if(!message.guild.me.hasPermission(['BAN_MEMBERS', 'ADMINISTRATOR'])) return message.channel.send('I don\'t have permission to perform this command, check I can ban people!')
 		const memberToBan = message.mentions.members.first() || message.guild.members.cache.get(args[0])
