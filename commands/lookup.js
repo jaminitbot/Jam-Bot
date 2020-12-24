@@ -17,7 +17,7 @@ module.exports = {
         const id = user.id
         let roles = ""
         user.roles.cache.forEach(role => {
-            roles = `${roles} <@${role.id}>,`
+            roles = `${roles} ${role.name},`
         })
         const intiatedUser = message.member.user.username + "#" + message.member.user.discriminator
         const intiatedAvatar = message.member.user.avatarURL()
