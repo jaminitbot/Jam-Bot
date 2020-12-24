@@ -2,7 +2,7 @@ module.exports = {
 	name: 'kick',
 	description: 'Kicks a user',
 	permissions: 'KICK_MEMBERS',
-	usage: '!kick @user',
+	usage: 'kick @user',
 	execute(client, message, args, db) {
 		if(!message.member.hasPermission(['KICK_MEMBERS'])) return message.reply('You do not have permission to perform this command!')
 		if(!message.guild.me.hasPermission(['KICK_MEMBERS'])) return message.channel.send('I dont have permission to perform this command, make sure I can kick people!')

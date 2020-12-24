@@ -2,7 +2,7 @@ module.exports = {
 	name: 'purge',
 	description: 'Bulk deletes messages',
 	permissions: 'MANAGE_MESSAGES',
-	usage: '!purge 10',
+	usage: 'purge 10',
 	execute(client, message, args, db) {
 		if(!message.member.hasPermission(['MANAGE_MESSAGES'])) return message.reply('You do not have permission to perform this command!')
 		if(!message.guild.me.hasPermission(['MANAGE_MESSAGES'])) return message.channel.send('I dont have permission to perform this command, make sure I have the manage messages permission!')

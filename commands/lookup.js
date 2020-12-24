@@ -3,7 +3,7 @@ module.exports = {
 	name: 'lookup',
 	description: 'Allows you to lookup information about a user',
 	permissions: 'MANAGE_MESSAGES',
-	usage: '!lookup @user',
+	usage: 'lookup @user',
 	execute(client, message, args, db) {
         if (!permission.checkperm(message.member, ['MANAGE_MESSAGES'])) return message.reply('You don\'t have permission to run that command!')
         const user = message.mentions.members.first() || message.guild.members.cache.get(args[0])
