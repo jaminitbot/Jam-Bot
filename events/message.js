@@ -2,8 +2,8 @@
 module.exports = {
 	register(client, msg, db, config){
 		if (msg.author.bot) return
-		if (msg.channel == '790329640035287050'){ // Juan
-			if (!String(msg.content).toLowerCase == 'juan'){
+		if (msg.channel.id == '790329640035287050'){ // Juan
+			if (!(String(msg.content).toLowerCase().includes('juan'))){
 				return msg.delete()
 			}
 		}
