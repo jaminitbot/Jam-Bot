@@ -2,11 +2,6 @@
 module.exports = {
 	register(client, msg, db, config){
 		if (msg.author.bot) return
-		if (msg.channel.id == '790329640035287050'){ // Juan
-			if (!(String(msg.content).toLowerCase().includes('juan'))){
-				return msg.delete()
-			}
-		}
 		const message = String(msg.content).toLowerCase()
 		const guild = msg.guild
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
