@@ -3,6 +3,7 @@ module.exports = {
     description: 'Suggests sommat',
     usage: 'suggest Make a memes channel',
     execute(client, message, args, db) {
+        if (!args[0]) return message.reply('Usage: ' + this.usage)
         db.get('SELECT "value" FROM "' + message.guild + '" WHERE key="suggestionChannel"', (err, row) => { // Get channel
             if (!row) return message.channel.send('Looks like suggestions haven\'t been setup here yet!')
             channelid = row.value
