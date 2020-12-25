@@ -15,13 +15,14 @@ module.exports = {
                 return message.reply('That is not a valid user or role.')
             }
             const createdAt = role.createdAt
-            const mentionable = role.mentionable
+            const mentionable = String(role.mentionable).toUpperCase()
             const id = role.id
+            const position = role.position
             var embed = {
                 author: {
                     name: 'Role: ' + role.name,
                 },
-                "description": `Created at: ${createdAt}\nMentionable: ${mentionable}\nId: ${id}`,
+                "description": `Id: ${id}\nCreated at: ${createdAt}\nMentionable: ${mentionable}\nPosition: ${position}`,
                 "footer": {
                     "text": `Command issued by ${intiatedUser}`,
                     "icon_url": intiatedAvatar
@@ -32,7 +33,7 @@ module.exports = {
         } else { // We got a valid user
             const userName = user.user.username + "#" + user.user.discriminator
             const avatar = user.user.avatarURL() || user.user.defaultAvatarURL
-            const isBot = user.user.bot
+            const isBot = String(user.user.bot).toUpperCase()
             const createdAt = user.user.createdAt
             const nickName = user.nickname || user.user.username
             const joinedDate = user.joinedAt
