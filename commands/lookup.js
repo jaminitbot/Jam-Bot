@@ -2,11 +2,10 @@ const permission = require('../functions/permission')
 module.exports = {
 	name: 'lookup',
 	description: 'Allows you to lookup information about a user or role',
-	permissions: 'MANAGE_MESSAGES',
+	permissions: ['MANAGE_MESSAGES'],
 	usage: 'lookup @user',
 	execute(client, message, args, db) {
         if (!args[0]) return message.reply('Usage: ' + this.usage)
-        if (!permission.checkperm(message.member, ['MANAGE_MESSAGES'])) return message.reply('You don\'t have permission to run that command!')
         const user = message.mentions.members.first() || message.guild.members.cache.get(args[0])
         const intiatedUser = message.member.user.username + "#" + message.member.user.discriminator
         const intiatedAvatar = message.member.user.avatarURL()

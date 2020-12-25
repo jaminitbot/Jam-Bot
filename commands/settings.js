@@ -5,10 +5,9 @@ const permission = require('../functions/permission')
 module.exports = {
 	name: 'settings',
 	description: 'Configures settings',
-	permissions: 'MANAGE_GUILD',
+	permissions: ['MANAGE_GUILD'],
 	usage: 'settings',
 	execute(client, message, args, db,) {
-		if(!permission.checkperm(message.member, ['MANAGE_GUILD'])) return message.channel.send('You don\'t have permission for that matey, you need the `Manage Server` permission!')
 		const embed = { // TODO: #4 Improve help text on settings, maybe itterrate over like help command use
 			'title': 'Settings',
 			'description': 'prefix: Sets the prefix for the bot\nmodlog: Various modlog commands\nSuggestions: Sets the suggestion channel',

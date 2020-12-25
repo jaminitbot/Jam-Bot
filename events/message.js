@@ -1,4 +1,4 @@
-
+const permissions = require('../functions/permission')
 module.exports = {
 	register(client, msg, db, config){
 		if (msg.author.bot) return
@@ -17,6 +17,11 @@ module.exports = {
 			if (message.startsWith(prefix)){
 				if (!client.commands.has(command)) return // If the command isn't registered don't do anything, maybe error message here?
 				try {
+					if (client.commands.get(command).permissions){
+						if (!permissions.checkperm(msg.member, client.commands.get(command).permissions)){
+							return msg.reply('You don\'t have permission to run that command!')
+						}
+					}
 					client.commands.get(command).execute(client, msg, args, db)
 				} catch (error) {
 					console.error(error)
