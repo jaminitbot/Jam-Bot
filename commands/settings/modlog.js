@@ -1,25 +1,33 @@
 const modLogChannel = require('./modLog/modLogChannel')
 const logDeletes = require('./modLog/logDeletes')
+const fs = require('fs')
+function generateEmbed(embed, modLogFiles) {
+	for (const file of modLogFiles) {
+		const command = require(`./modLog/${file}`)
+		embed.description += `${command.name}: ${command.description}\n`
+	}
+	return embed
+}
 module.exports = {
+	name: 'modlog',
+	description: 'Various modlog related commands',
+	usage: 'settings modlog SETTING VALUE',
 	execute(client, message, args, db,) {
 		const embed = {
-			'title': 'Settings: Mod Log',
-			'description': 'modlogchannel: Allows you to set the channel for modlogs\nlogEverything (on/off): Logs everything\nlogDeletes (on/off): Whether to log message deletes'
+			'title': 'Settings: Mod Log - Usage',
+			'description': ''
 		}
+		const modLogFiles = fs.readdirSync('./commands/settings/modlog').filter(file => file.endsWith('.js'))
 		const subSetting = args[1]
 		if (!subSetting){
-			message.channel.send({embed: embed})
-			return
+			return message.channel.send({'embed': generateEmbed(embed, modLogFiles)})
 		}
-		switch(String(subSetting).toLowerCase()){
-		case 'modlogchannel':
-			modLogChannel.execute(client, message, args, db)
-			return
-		case 'logdeletes':
-			logDeletes.execute(client, message, args, db)
-			return
-		default:
-			message.channel.send({embed: embed})
+		for (const file of modLogFiles) {
+			const command = require(`./modLog/${file}`)
+			if (String(subSetting).toLowerCase() == command.name){
+				return command.execute(client, message, args, db)
+			}
 		}
+		return message.reply({'content': 'I couldn\'t find that sub-setting!', 'embed': generateEmbed(embed, modLogFiles)})
 	}
 }
