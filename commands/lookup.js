@@ -1,4 +1,3 @@
-const permission = require('../functions/permission')
 module.exports = {
 	name: 'lookup',
 	description: 'Allows you to lookup information about a user or role',

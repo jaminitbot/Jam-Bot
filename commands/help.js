@@ -1,6 +1,3 @@
-const fs = require('fs')
-const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js')) // Go through all the files in the root of the commands folder
-const permission = require('../functions/permission')
 const config = require('../config.json')
 module.exports = {
 	name: 'help',
@@ -34,7 +31,6 @@ module.exports = {
 				return message.channel.send({embed: embed})
 			}
 		}
-		const commandToFind = String(args[0]).toLowerCase()
 		let embed = {
 			'title': 'Help',
 			'description': `You can view a list of commands [here](https://jam-bot-discord.github.io/Jam-Bot/?prefix=${prefix})`,

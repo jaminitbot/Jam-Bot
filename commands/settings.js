@@ -1,8 +1,4 @@
 const fs = require('fs')
-const prefix = require('./settings/prefix')
-const modLog = require('./settings/modlog')
-const suggestions = require('./settings/suggestions')
-const permission = require('../functions/permission')
 function generateEmbed(embed, settingsFiles) {
 	for (const file of settingsFiles) {
 		const command = require(`./settings/${file}`)

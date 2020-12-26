@@ -1,5 +1,3 @@
-const modLogChannel = require('./modLog/modLogChannel')
-const logDeletes = require('./modLog/logDeletes')
 const fs = require('fs')
 function generateEmbed(embed, modLogFiles) {
 	for (const file of modLogFiles) {
