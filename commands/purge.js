@@ -1,3 +1,4 @@
+const config = require('../config.json')
 module.exports = {
 	name: 'purge',
 	description: 'Bulk deletes messages',
@@ -19,7 +20,7 @@ module.exports = {
 		}
 		message.channel.bulkDelete(deleteCount + 1).catch(error => {
 			console.error('Error when deleting messages: ' + error)
-			message.channel.send('Error when trying to delete messages, if this persists contact the bot owner :)') // TODO: Mention bot owner from config file
+			message.channel.send('Error when trying to delete messages, if this persists contact ' + config.settings.ownername)
 		})
 	},
 }
