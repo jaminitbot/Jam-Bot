@@ -15,20 +15,32 @@
                 <p>Here's a list of all the commands the bot supports</p>
                 <h3>Moderation</h3>
                 <ul>
-                    <li><code>kick</code> - Kicks a specified user, usage: <code><span class='prefix'></span>kick @user REASON</code></li>
-                    <li><code>ban</code> - Bans a specified user, usage: <code><span class='prefix'></span>ban @user REASON</code></li>
-                    <li><code>lookup</code> - Displays information about a specifed user or role, usage: <code><span class='prefix'></span>lookup @user</code></li>
-                    <li><code>purge</code> - Bulk deletes a certain number of messages, usage: <code><span class='prefix'></span>purge 50</code></li>
-                    <li><code>settings</code> - Allows admins to configure settings, usage: <code><span class='prefix'></span>settings</code></li>
+                    <li><code>kick</code> - Kicks a specified user, usage: <code><span class='prefix'>!</span>kick @user REASON</code></li>
+                    <li><code>ban</code> - Bans a specified user, usage: <code><span class='prefix'>!</span>ban @user REASON</code></li>
+                    <li><code>lookup</code> - Displays information about a specifed user or role, usage: <code><span class='prefix'>!</span>lookup @user</code></li>
+                    <li><code>purge</code> - Bulk deletes a certain number of messages, usage: <code><span class='prefix'>!</span>purge 50</code></li>
+                    <li><code>settings</code> - Allows admins to configure settings, usage: <code><span class='prefix'>!</span>settings</code></li>
                 </ul>
                 <h3>General Commands</h3>
                 <ul>
-                    <li><code>suggest</code> - Allows users to suggest things, usage: <code><span class='prefix'></span>suggest Create a memes channel</code></li>
-                    <li><code>owner</code> - Displays the owner of the bot, usage: <code><span class='prefix'></span>owner</code></li>
-                    <li><code>uptime</code> - Displays the current uptime of the bot, usage: <code><span class='prefix'></span>uptime</code></li>
-                    <li><code>ping</code> - Displays the current latency of the bot, usage: <code><span class='prefix'></span>ping</code></li>
-                    <li><code>help</code> - Displays help text for a certain command, usage: <code><span class='prefix'></span>help ban</code></li>
+                    <li><code>suggest</code> - Allows users to suggest things, usage: <code><span class='prefix'>!</span>suggest Create a memes channel</code></li>
+                    <li><code>owner</code> - Displays the owner of the bot, usage: <code><span class='prefix'>!</span>owner</code></li>
+                    <li><code>uptime</code> - Displays the current uptime of the bot, usage: <code><span class='prefix'>!</span>uptime</code></li>
+                    <li><code>ping</code> - Displays the current latency of the bot, usage: <code><span class='prefix'>!</span>ping</code></li>
+                    <li><code>help</code> - Displays help text for a certain command, usage: <code><span class='prefix'>!</span>help ban</code></li>
                 </ul>
+                <h3>Settings</h3>
+                <ul>
+                    <li><h4>Mod Log</h4></li>
+                    <ul>
+                        <li><code>channel</code> - Sets the modlog channel, usage: <code><span class='prefix'>!</span>settings modlog channel #ModLog</code></li>
+                        <li><code>logdeletes</code> - Whether the bot should log deletes to the modlog channel, usage: <code><span class='prefix'>!</span>settings modlog logdeletes on|off</code></li>
+                    </ul>
+                    <li><code>prefix</code> - Sets the bots prefix, usage: <code><span class='prefix'>!</span>settings prefix $</code></li>
+                    <li><code>suggestions</code> - Sets the suggestions channel, usage: <code><span class='prefix'>!</span>settings suggestions #suggestions</code></li>
+                </ul>
+                
+
             </div>
         </div>
         <script>
