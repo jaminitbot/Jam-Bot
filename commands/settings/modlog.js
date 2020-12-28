@@ -15,7 +15,7 @@ module.exports = {
 			'title': 'Settings: Mod Log - Usage',
 			'description': ''
 		}
-		const modLogFiles = fs.readdirSync('./commands/settings/modlog').filter(file => file.endsWith('.js'))
+		const modLogFiles = fs.readdirSync('./commands/settings/modLog').filter(file => file.endsWith('.js'))
 		const subSetting = args[1]
 		if (!subSetting){
 			return message.channel.send({'embed': generateEmbed(embed, modLogFiles)})
