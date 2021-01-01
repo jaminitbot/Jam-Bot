@@ -11,7 +11,7 @@ module.exports = {
         if (!user) { // No valid user, we'll check if its a role
             const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[0])
             if (!role) { // Nothing is found
-                return message.reply('That is not a valid user or role.')
+                return message.reply('That is not a valid user or role.\n' + this.usage)
             }
             const createdAt = role.createdAt
             const mentionable = String(role.mentionable).toUpperCase()
