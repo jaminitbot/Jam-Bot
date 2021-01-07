@@ -19,7 +19,7 @@ module.exports = {
 				try {
 					if (client.commands.get(command).permissions){
 						if (!permissions.checkperm(msg.member, client.commands.get(command).permissions)){
-							return msg.reply('You don\'t have permission to run that command!')
+							return msg.reply('Nice try.')
 						}
 					}
 					client.commands.get(command).execute(client, msg, args, db)
