@@ -1,9 +1,15 @@
+const config = require('../config.json')
 module.exports = {
+
 	name: 'shutdown',
 	description: 'STOPS THE BOT',
-	permissions: ['ADMINISTRATOR'],
 	usage: '!shutdown',
 	execute(client, message, args, db) {
-        process.exit()
+		if (config.settings.ownerid == message.author.id){
+			process.exit()
+		} else {
+			message.channel.send('Nice try.')
+		}
+        
 	},
 };
