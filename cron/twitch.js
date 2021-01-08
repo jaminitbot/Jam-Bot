@@ -20,7 +20,7 @@ module.exports = {
                 if (!channel) return
                 if (row) if (row.value == data.started_at) return
                 updateKey.execute(db, '779060204528074783', 'LiveTime', data.started_at)
-                channel.send('@everyone Honk is live streaming: ' + data.title + '\nhttps://twich.tv/honkserini')
+                channel.send(`@everyone ${data.display_name} is live streaming: ${data.title}\nhttps://twich.tv/honkserini`)
             })
         }
     }
