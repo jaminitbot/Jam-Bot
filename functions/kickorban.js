@@ -9,10 +9,12 @@ module.exports = {
 		let reason = args.splice(1).join(' ')
         if (banOrMute == 'ban'){
             memberToBan.ban(`${moderator}: ${reason}`, 1)
+                .then(message.reply(`${memberToBan} was ${banOrMute}ed with reason: ${reason}`))
+                .catch(message.reply('You can\'t kick someone with a higher role than me'))
         } else {
             memberToBan.kick(`${moderator}: ${reason}`)
+                .then(message.reply(`${memberToBan} was ${banOrMute}ed with reason: ${reason}`))
+                .catch(message.reply('You can\'t kick someone with a higher role than me'))
         }
-		
-		message.reply(`${memberToBan} was ${banOrMute}ed with reason: ${reason}`)
     }
 }
