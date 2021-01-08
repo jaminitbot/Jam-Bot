@@ -11,7 +11,6 @@ module.exports = {
 			} else {
 				prefix = config.defaults.prefix
 			}
-			
 			const args = msg.content.slice(prefix.length).trim().split(/ +/)
 			const command = args.shift().toLowerCase()
 			if (message.startsWith(prefix)){
