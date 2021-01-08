@@ -4,8 +4,9 @@ module.exports = {
 	name: 'shutdown',
 	description: 'STOPS THE BOT',
 	usage: '!shutdown',
-	execute(client, message, args, db) {
+	async execute(client, message, args, db) {
 		if (config.settings.ownerid == message.author.id){
+			await client.destroy()
 			return process.exit()
 		} else {
 			return message.channel.send(messages.getPermissionsMessage())
