@@ -1,3 +1,4 @@
+const kickOrBan = require('../functions/kickorban')
 module.exports = {
 	name: 'kick',
 	description: 'Kicks a user',
