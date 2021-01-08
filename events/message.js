@@ -1,4 +1,6 @@
 const permissions = require('../functions/permission')
+const random = require('random')
+const errorMessages = ['Nice try.', 'Not this time.', 'No.', 'No thanks.', 'Don\'t.', 'That ain\'t gonna work', 'No sorry.', 'Permissions say no.']
 module.exports = {
 	register(client, msg, db, config){
 		if (msg.author.bot) return
@@ -18,7 +20,7 @@ module.exports = {
 				try {
 					if (client.commands.get(command).permissions){
 						if (!permissions.checkperm(msg.member, client.commands.get(command).permissions)){
-							return msg.reply('Nice try.')
+							return msg.reply(errorMessages[random.int(min=0, max=errorMessages.length-1)])
 						}
 					}
 					client.commands.get(command).execute(client, msg, args, db)

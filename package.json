@@ -20,6 +20,7 @@
   "dependencies": {
     "bufferutil": "^4.0.3",
     "discord.js": "^12.5.1",
+    "random": "^2.2.0",
     "utf-8-validate": "^5.0.4"
   },
   "devDependencies": {
