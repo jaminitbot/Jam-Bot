@@ -18,7 +18,7 @@ module.exports = {
         if (sucessful) {
             message.reply(`${memberToBan} was ${banOrMute}ed with reason: ${reason}`)
         } else {
-            message.channel.send('You can\'t do that to someone who has a higher role than me!!')
+            message.channel.send('It may have worked, it may have not')
         }
     }
 }
