@@ -13,6 +13,6 @@ module.exports = {
             memberToBan.kick({reason: `${userName}: ${reason}`})
         }
 		
-		message.reply(`${memberToBan} was ${type}ed with reason: \`${reason}\``)
+		message.reply(`${memberToBan} was ${type}ed with reason: ${reason}`)
     }
 }
