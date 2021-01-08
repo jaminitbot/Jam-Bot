@@ -4,6 +4,8 @@ const fs = require('fs')
 const client = new Discord.Client()
 const config = require('./config.json')
 const dbScript = require('./functions/Db')
+const schedule = require('node-schedule');
+const twitch = require('./cron/twitch')
 
 // Registers all the commands in the commands folder
 // https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
@@ -54,5 +56,9 @@ process.on('SIGINT', function () {
 })
 client.on('ready', () => {
 	console.log('Logged in...')
+	schedule.scheduleJob('*/2 * * * * *', function(){
+		twitch.execute(client, db)
+	});
 })
+
 client.login(config.settings.token)
