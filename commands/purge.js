@@ -1,4 +1,4 @@
-const config = require('../config.json')
+const messages = require('../functions/messages')
 module.exports = {
 	name: 'purge',
 	description: 'Bulk deletes messages',
@@ -20,7 +20,7 @@ module.exports = {
 		}
 		message.channel.bulkDelete(deleteCount + 1).catch(error => {
 			console.error('Error when deleting messages: ' + error)
-			message.channel.send('Error when trying to delete messages, if this persists contact ' + config.settings.ownername)
+			message.channel.send(messages.getErrorMessage())
 		})
 	},
 }

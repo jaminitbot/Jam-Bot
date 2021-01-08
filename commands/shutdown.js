@@ -1,4 +1,5 @@
 const config = require('../config.json')
+const messages = require('../functions/messages')
 module.exports = {
 	name: 'shutdown',
 	description: 'STOPS THE BOT',
@@ -7,7 +8,7 @@ module.exports = {
 		if (config.settings.ownerid == message.author.id){
 			return process.exit()
 		} else {
-			return message.channel.send('Nice try.')
+			return message.channel.send(messages.getPermissionsMessage())
 		}
         
 	},
