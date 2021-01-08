@@ -8,9 +8,9 @@ module.exports = {
 		const userName = message.author.username + "#" + message.author.discriminator
 		let reason = args.splice(1).join(' ')
         if (type == 'ban'){
-            message.guild.member(memberToBan).ban(memberToBan, {reason: `${userName}: ${reason}`, days: 1})
+            memberToBan.ban({reason: `${userName}: ${reason}`, days: 1})
         } else {
-            message.guild.member(memberToBan).kick(memberToBan)
+            memberToBan.kick({reason: `${userName}: ${reason}`})
         }
 		
 		message.reply(`${memberToBan} was ${type}ed with reason: \`${reason}\``)
