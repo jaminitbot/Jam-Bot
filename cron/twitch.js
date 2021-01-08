@@ -10,7 +10,7 @@ module.exports = {
                 'Authorization': 'Bearer ' + config.settings.twitchApiSecret
             }
         })
-        const json = await response.json();
+        const json = await response.json()
         const data = json.data[0]
         if (data.is_live){
             db.get('SELECT "value" FROM "' + '779060204528074783' + '" WHERE key="LiveTime"', (err, row) => { // Get prefix
@@ -19,7 +19,7 @@ module.exports = {
                 if (!channel) return
                 if (row) if (row.value == data.started_at) return
                 updateKey.execute(db, '779060204528074783', 'LiveTime', data.started_at)
-                channel.send('@everyone honk, Honk is live streaming: ' + data.title + '\n<https://twich.tv/honkserini>')
+                channel.send('@everyone Honk is live streaming: ' + data.title + '\nhttps://twich.tv/honkserini')
             })
         }
     }
