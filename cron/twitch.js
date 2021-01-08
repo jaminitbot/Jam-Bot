@@ -10,6 +10,7 @@ module.exports = {
                 'Authorization': 'Bearer ' + config.settings.twitchApiSecret
             }
         })
+        console.log(json)
         const json = await response.json()
         const data = json.data[0]
         if (data.is_live){
