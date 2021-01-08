@@ -10,9 +10,10 @@ module.exports = {
                 'Authorization': 'Bearer ' + config.settings.twitchApiSecret
             }
         })
-        console.log(json)
+        
         const json = await response.json()
         const data = json.data[0]
+        console.log(json)
         if (data.is_live){
             db.get('SELECT "value" FROM "' + '779060204528074783' + '" WHERE key="LiveTime"', (err, row) => {
                 if (err) return
