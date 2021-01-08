@@ -6,15 +6,19 @@ module.exports = {
 		if (!memberToBan) return message.reply('You didn\'t mention a valid user in this server!')
 		if (message.author.id == memberToBan.id) return message.reply(`You can't ${banOrMute} yourself silly!`)
 		const moderator = message.author.username + "#" + message.author.discriminator
-		let reason = args.splice(1).join(' ')
+        let reason = args.splice(1).join(' ')
+        sucessful = true
         if (banOrMute == 'ban'){
             memberToBan.ban(`${moderator}: ${reason}`, 1)
-                .then(message.reply(`${memberToBan} was ${banOrMute}ed with reason: ${reason}`))
-                .catch(message.reply('You can\'t kick someone with a higher role than me'))
+                .catch(sucessful = false)
         } else {
             memberToBan.kick(`${moderator}: ${reason}`)
-                .then(message.reply(`${memberToBan} was ${banOrMute}ed with reason: ${reason}`))
-                .catch(message.reply('You can\'t kick someone with a higher role than me'))
+                .catch(sucessful = false)
+        }
+        if (sucessful) {
+            message.reply(`${memberToBan} was ${banOrMute}ed with reason: ${reason}`)
+        } else {
+            message.channel.send('You can\'t do that to someone who has a higher role than me!!')
         }
     }
 }
