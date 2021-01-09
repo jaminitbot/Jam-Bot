@@ -23,5 +23,8 @@ module.exports = {
                 }
             })
         })
+        if (!done) {
+            return message.channel.send('Couldn\'t find an image, try searching something else!')
+        }
 	},
 };
