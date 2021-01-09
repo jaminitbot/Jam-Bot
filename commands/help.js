@@ -12,7 +12,7 @@ module.exports = {
 				prefix = config.defaults.prefix
 			}
 		})
-		if (args[0]){
+		if (args[0]){ // User wants info on a particular command
 			const commandToFind = String(args[0]).toLowerCase()
 			if (commandToFind && !(commandToFind == ' ')){
 				try {
