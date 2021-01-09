@@ -6,23 +6,32 @@ module.exports = {
 	usage: 'image duck',
 	async execute(client, message, args, db) {
         if (!args[0]) return message.channel.send('You need to search for something')
-        let search = args.splice(0).join(' ')
+        if (typeof args[0] == 'number') {
+            var splitBy = 1
+        } else {
+            var splitBy = 0
+        }
+        let search = args.splice(splitBy).join(' ')
         let done = false
         const opts = {
             searchTerm: search,
             queryStringAddition: '&safe=active'
         }
-        messagething = 1
-        await gis(opts, function(error, results){
+        var urls = []
+        gis(opts, function(error, results){
             if (error) return
             results.forEach(element => {
                 if (isImage(element.url)){
-                    if (!done){
                         done = true
-                        messagething = message.channel.send(element.url)
-                    }
+                        urls.push(element.url)
+                        // message.channel.send(element.url)
                 }
             })
+            if (splitBy == 0) {
+                message.channel.send(urls[0] || 'No image found')
+            } else {
+                message.channel.send(urls[args[0]] || 'There isn\'t an image for position ' + args[0])
+            }
         })
-	},
-};
+	}
+}
