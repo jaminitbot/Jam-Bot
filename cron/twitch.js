@@ -1,9 +1,8 @@
-// https://api.twitch.tv/helix/streams?user_login=' + streamer.name
+// TODO: Make this a flag since everyone doesn't need it
 const fetch = require('node-fetch')
-const config = require('../config.json')
 const updateKey = require('../functions/updateKey')
 module.exports = {
-    async execute(client, db){
+    async execute(client, db, config){
         const response = await fetch('https://api.twitch.tv/helix/search/channels?query=honkserini', {
             headers: {
                 'CLIENT-ID': config.settings.twitchApiClientId,
@@ -18,7 +17,7 @@ module.exports = {
                 if (err) return
                 const channel = client.channels.cache.get('780071463473643550')
                 if (!channel) return
-                if (row) if (row.value == data.started_at) return
+                if (row) if (row.value == data.started_at) return // Stops us notifying more than once for one live
                 updateKey.execute(db, '779060204528074783', 'LiveTime', data.started_at)
                 channel.send(`@everyone ${data.display_name} is live streaming: ${data.title}\nhttps://twich.tv/honkserini`)
             })

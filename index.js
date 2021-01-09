@@ -3,8 +3,17 @@ const Discord = require('discord.js')
 const fs = require('fs')
 const client = new Discord.Client()
 const config = require('./config.json')
+const schedule = require('node-schedule')
+
+
+// Event imports
+const guildCreate = require('./events/guildCreate')
+const guildDelete = require('./events/guildDelete')
+const message = require('./events/message')
+const messageDelete = require('./events/messageDelete')
+
+// Misc Scripts
 const dbScript = require('./functions/Db')
-const schedule = require('node-schedule');
 const twitch = require('./cron/twitch')
 
 // Registers all the commands in the commands folder
@@ -16,11 +25,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command)
 }
 
-// Event requires
-const guildCreate = require('./events/guildCreate')
-const guildDelete = require('./events/guildDelete')
-const message = require('./events/message')
-const messageDelete = require('./events/messageDelete')
+
 
 // Database connections
 const db = dbScript.connect(config)
@@ -54,10 +59,11 @@ process.on('SIGINT', function () {
 	client.destroy()
 	process.exit()
 })
+
 client.on('ready', () => {
 	console.log('Logged in...')
-	schedule.scheduleJob('*/2 * * * * *', function(){
-		twitch.execute(client, db)
+	schedule.scheduleJob('*/2 * * * * *', function(){ // Twitch notifications
+		twitch.execute(client, db, config)
 	});
 })
 
