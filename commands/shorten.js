@@ -6,6 +6,6 @@ module.exports = {
 	async execute(client, message, args, db) {
         if (!args[0]) return message.channel.send('You need to specify a url')
         const data = await fetch('https://is.gd/create.php?format=json&url=' + encodeURIComponent(args[0])).then(response => response.json())
-        message.channel.send(data.shorturl || data.errormessage || 'Error getting short url')
+        message.channel.send('<' + (data.shorturl || data.errormessage || 'Error getting short url') + '>' )
 	},
 };
