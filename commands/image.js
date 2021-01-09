@@ -30,7 +30,7 @@ module.exports = {
             if (splitBy == 0) {
                 message.channel.send(urls[0] || 'No image found')
             } else {
-                message.channel.send(urls[args[0]] || 'There isn\'t an image for position ' + args[0])
+                message.channel.send(urls[args[0] -1] || 'There isn\'t an image for position ' + args[0])
             }
         })
 	}
