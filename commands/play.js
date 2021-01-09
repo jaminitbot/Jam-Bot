@@ -10,7 +10,7 @@ module.exports = {
                 message.reply('you got it!')
             });
             dispatcher.on('finish', () => {
-                connection.disconnect();
+                connection.disconnect()
             });
         } else {
             return message.reply('Join a voice channel to use that!')
