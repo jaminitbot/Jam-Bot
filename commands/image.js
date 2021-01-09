@@ -24,11 +24,5 @@ module.exports = {
                 }
             })
         })
-            .then(function(){
-                if (!done) {
-                    return message.channel.send('Couldn\'t find an image, try searching something else!')
-                }
-            })
-        
 	},
 };
