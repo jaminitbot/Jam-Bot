@@ -8,7 +8,11 @@ module.exports = {
         if (!args[0]) return message.channel.send('You need to search for something')
         let search = args.splice(0).join(' ')
         let done = false
-        gis(search, function(error, results){
+        const opts = {
+            searchTerm: search,
+            queryStringAddition: '&safe=active'
+        }
+        gis(opts, function(error, results){
             if (error) return
             results.forEach(element => {
                 if (isImage(element.url)){
