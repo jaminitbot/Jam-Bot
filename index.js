@@ -62,6 +62,7 @@ process.on('SIGINT', function () {
 
 client.on('ready', () => {
 	console.log('Logged in...')
+	client.user.setActivity('?help', { type: 'WATCHING' });
 	schedule.scheduleJob('*/2 * * * * *', function(){ // Twitch notifications
 		twitch.execute(client, db, config)
 	});
