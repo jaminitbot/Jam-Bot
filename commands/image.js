@@ -12,19 +12,23 @@ module.exports = {
             searchTerm: search,
             queryStringAddition: '&safe=active'
         }
-        gis(opts, function(error, results){
+        messagething = 1
+        await gis(opts, function(error, results){
             if (error) return
             results.forEach(element => {
                 if (isImage(element.url)){
                     if (!done){
                         done = true
-                        return message.channel.send(element.url)
+                        messagething = message.channel.send(element.url)
                     }
                 }
             })
         })
-        if (!done) {
-            return message.channel.send('Couldn\'t find an image, try searching something else!')
-        }
+            .then(function(){
+                if (!done) {
+                    return message.channel.send('Couldn\'t find an image, try searching something else!')
+                }
+            })
+        
 	},
 };
