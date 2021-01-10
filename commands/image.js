@@ -27,12 +27,10 @@ module.exports = {
                 }
             })
             if (splitBy == 0) { // Not specified image location
-                message.channel.send(urls[0] || 'No image found')
+                message.channel.send(urls[0] || 'No image found for your search')
             } else { // Get specific image
-                message.channel.send(urls[args[0] - 1] || 'There isn\'t an image for position ' + args[0])
+                message.channel.send(urls[args[0] - 1] || 'There isn\'t an image for position: ' + args[0])
             }
-            console.log(urls[0])
-            console.log(urls[1])
         })
 	}
 }
