@@ -15,11 +15,11 @@ module.exports = {
         if (data.is_live){
             db.get('SELECT "value" FROM "' + '779060204528074783' + '" WHERE key="LiveTime"', (err, row) => {
                 if (err) return
-                const channel = client.channels.cache.get('780071463473643550')
-                if (!channel) return
+                const notificationChannel = client.channels.cache.get('780071463473643550')
+                if (!notificationChannel) return
                 if (row) if (row.value == data.started_at) return // Stops us notifying more than once for one live
                 updateKey.execute(db, '779060204528074783', 'LiveTime', data.started_at)
-                channel.send(`@everyone ${data.display_name} is live streaming: ${data.title}\nhttps://twich.tv/honkserini`)
+                notificationChannel.send(`@everyone ${data.display_name} is live streaming: ${data.title}\nhttps://twich.tv/honkserini`)
             })
         }
     }
