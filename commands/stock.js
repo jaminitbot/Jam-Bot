@@ -8,7 +8,7 @@ module.exports = {
 	async execute(client, message, args, db) {
         if (!config.settings.pexelsApiKey) return
         if (!args[0]) return message.channel.send('Specify an image to search for')
-        let search = args.splice(0).join(' ')
+        let search = args.join(' ')
         const response = await fetch(`https://api.pexels.com/v1/search?query=${search}&per_page=100`, {
             headers: {
                 'Authorization': config.settings.pexelsApiKey

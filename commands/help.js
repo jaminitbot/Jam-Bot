@@ -30,11 +30,12 @@ module.exports = {
 				}
 				return message.channel.send({embed: embed})
 			}
-		}
-		let embed = {
-			'title': 'Help',
-			'description': `You can view a list of commands [here](https://jam-bot-discord.github.io/Jam-Bot/?prefix=${prefix})`,
-			'color': '0eacc4'
+		} else { // No command specified, show generic help text
+			let embed = {
+				'title': 'Help',
+				'description': `You can view a list of commands [here](https://jam-bot-discord.github.io/Jam-Bot/?prefix=${prefix})`,
+				'color': '0eacc4'
+			}
 		}
 		message.channel.send({embed: embed})
 	},

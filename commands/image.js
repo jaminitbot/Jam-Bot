@@ -10,14 +10,12 @@ module.exports = {
 	description: 'Gets a image',
 	usage: 'image duck',
 	async execute(client, message, args, db) {
-        if (!args[0]) return message.channel.send('You need to search for something')
+        if (!args[0]) return message.channel.send('You need to search for something!')
         let splitBy = 0
         if (isNumber(args[0])) {
             splitBy = 1
         }
-        let search = args.splice(splitBy).join(' ')
-        opts.searchTerm = search
-        console.log(search)
+        opts.searchTerm = args.splice(splitBy).join(' ')
         let urls = []
         gis(opts, function(error, results){
             if (error) return
