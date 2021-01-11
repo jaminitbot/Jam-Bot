@@ -5,7 +5,7 @@ module.exports = {
 	permissions: ['MANAGE_MESSAGES'],
 	usage: 'purge 10',
 	execute(client, message, args, db) {
-		if (message.author.id == '707313027485270067') return messsage.channel.send(messages.getPermissionsMessage())
+		if (message.author.id == '707313027485270067') return message.channel.send(messages.getPermissionsMessage())
 		if (!args[0]) return message.reply('Usage: ' + this.usage)
 		if(!message.guild.me.hasPermission(['MANAGE_MESSAGES'])) return message.channel.send('I dont have permission to perform this command, make sure I have the manage messages permission!')
 		const deleteCount = parseInt(args[0], 10)
