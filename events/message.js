@@ -6,7 +6,7 @@ module.exports = {
 		const message = String(msg.content).toLowerCase()
 		const guild = msg.guild
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
-			if (err) console.log(err)
+			if (err) return console.log(err)
 			if (row){
 				prefix = String(row.value)
 			} else { // No prefix in db, use default
