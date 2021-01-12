@@ -23,12 +23,11 @@ module.exports = {
 				const usage = command.usage
 				if (!usage) return message.channel.send('Command doesn\'t have a usage yet!')
 				const permissionsNeeded = command.permissions || 'None'
-				let embed = {
+				var embed = {
 					'title': prefix + commandToFind,
 					'description': `${command.description}\nUsage: ${prefix}${command.usage}\nPermissions needed to use: ${permissionsNeeded}`,
 					'color': '0eacc4'
 				}
-				return message.channel.send({embed: embed})
 			}
 		} else { // No command specified, show generic help text
 			var embed = {

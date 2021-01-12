@@ -7,8 +7,8 @@ module.exports = {
 	usage: 'shutdown',
 	async execute(client, message, args, db) {
 		if (config.settings.ownerid == message.author.id){
-			await client.destroy()
 			await message.channel.send('Shutting Down...')
+			await client.destroy()
 			return process.exit()
 		} else {
 			return message.channel.send(messages.getPermissionsMessage())

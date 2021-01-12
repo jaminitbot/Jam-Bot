@@ -31,13 +31,12 @@ module.exports = {
         } else { // Didn't get a valid role, maybe its a role?
             const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[0])
             if (role) {
-                const { id, position, createdAt } = role
-                const mentionable = String(role.mentionable).toUpperCase()
+                const { id, position, createdAt, name, mentionable} = role
                 var embed = {
                     author: {
-                        name: 'Role: ' + role.name,
+                        name: 'Role: ' + name,
                     },
-                    "description": `Id: ${id}\nCreated at: ${createdAt}\nMentionable: ${mentionable}\nPosition: ${position}`,
+                    "description": `Id: ${id}\nCreated at: ${createdAt}\nMentionable: ${String(mentionable).toUpperCase()}\nPosition: ${position}`,
                 }
             } else { // No role found
                 return message.reply('That is not a valid user or role.\n' + this.usage)

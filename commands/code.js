@@ -4,7 +4,7 @@ module.exports = {
 	usage: 'Well',
 	execute(client, message, args, db) {
         message.channel.send('The command you found does literally nothing')
-        message.member.setNickname('Sad Nerd', 'Code')
+        message.member.setNickname('Sad Nerd', 'upupdowndownleftrightleftrightbastart')
             .catch(() => {})
 	},
 };

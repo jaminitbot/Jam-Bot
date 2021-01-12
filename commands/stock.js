@@ -7,7 +7,7 @@ module.exports = {
 	usage: 'stock nature',
 	async execute(client, message, args, db) {
         if (!config.settings.pexelsApiKey) return
-        if (!args[0]) return message.channel.send('Specify an image to search for')
+        if (!args[0]) return message.reply('You need to specify what to search for!')
         let search = args.join(' ')
         const response = await fetch(`https://api.pexels.com/v1/search?query=${search}&per_page=100`, {
             headers: {

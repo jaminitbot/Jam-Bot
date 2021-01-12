@@ -9,8 +9,7 @@ module.exports = {
             channelid = row.value
             const channel = client.channels.cache.get(channelid)
             let suggestion = args.splice(1).join(' ')
-            if (!channel) return message.channel.send('Error finding channel, perhaps its being deleted')
-            message.delete()
+            if (!channel) return message.channel.send('Error finding suggestions channel, perhaps it\'s being deleted')
             let embed = {
                 'title': 'Suggestion by ' + message.author.tag,
                 'description': suggestion,
@@ -25,6 +24,7 @@ module.exports = {
                     .then(() => (message.react('❌')))
             })
             message.reply('Suggestion logged!')
+            message.delete()
         })
 
     },

@@ -10,7 +10,7 @@ module.exports = {
 	description: 'Gets a image',
 	usage: 'image duck',
 	async execute(client, message, args, db) {
-        if (!args[0]) return message.channel.send('You need to search for something!')
+        if (!args[0]) return message.reply('You need to specify what to search for!')
         let splitBy = 0
         if (isNumber(args[0])) {
             splitBy = 1
