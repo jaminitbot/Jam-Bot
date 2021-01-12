@@ -4,7 +4,11 @@ module.exports = {
 	description: 'Woof',
 	usage: 'dog',
 	async execute(client, message, args, db) {
-        const data = await fetch('https://dog.ceo/api/breeds/image/random').then(response => response.json());
+		if (args[0]){
+			var data = await fetch(`https://dog.ceo/api/breed/${args[0]}/images/random`).then(response => response.json());
+		} else {
+			var data = await fetch('https://dog.ceo/api/breeds/image/random').then(response => response.json())
+		}
         message.channel.send(data.message || 'Unable to get a doggy, the api\'s probably down')
 	},
 };
