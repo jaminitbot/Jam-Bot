@@ -6,7 +6,7 @@ module.exports = {
 	async execute(client, message, args, db) {
 		if (args[0]){
 			if (args[1]){
-				var data = await fetch(`https://dog.ceo/api/breed/${args[0]}/${args[1]}/images/random`).then(response => response.json())
+				var data = await fetch(`https://dog.ceo/api/breed/${args[1]}/${args[0]}/images/random`).then(response => response.json())
 			} else {
 				var data = await fetch(`https://dog.ceo/api/breed/${args[0]}/images/random`).then(response => response.json())
 			}
