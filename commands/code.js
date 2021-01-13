@@ -7,4 +7,4 @@ module.exports = {
         message.member.setNickname('Sad Nerd', 'upupdowndownleftrightleftrightbastart')
             .catch(() => {})
 	},
-};
+}

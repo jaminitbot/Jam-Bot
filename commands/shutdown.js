@@ -1,4 +1,4 @@
-const { MessageReaction } = require('discord.js');
+const { MessageReaction } = require('discord.js')
 const config = require('../config.json')
 const messages = require('../functions/messages')
 module.exports = {
@@ -15,4 +15,4 @@ module.exports = {
 		}
         
 	},
-};
+}

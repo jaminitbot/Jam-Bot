@@ -5,4 +5,4 @@ module.exports = {
 	usage: '',
 	execute(client, message, args, db) {
 	},
-};
+}

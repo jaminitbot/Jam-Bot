@@ -18,4 +18,4 @@ module.exports = {
         const image = json.photos[random.int(min=0, max=json.photos.length-1)].src.medium
         message.channel.send(image  || 'Unable to get a stock photo, the api\'s probably down')
 	},
-};
+}

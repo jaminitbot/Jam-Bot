@@ -1,6 +1,6 @@
 const gis = require('g-i-s')
 const isImage = require('is-image')
-const isNumber = require('is-number');
+const isNumber = require('is-number')
 let opts = {
     searchTerm: '',
     queryStringAddition: '&safe=active' // Enable safe search, better than nothing

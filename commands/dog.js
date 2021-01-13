@@ -16,4 +16,4 @@ module.exports = {
 		}
         message.channel.send(data.message || 'Unable to get a doggy, the api\'s probably down')
 	},
-};
+}

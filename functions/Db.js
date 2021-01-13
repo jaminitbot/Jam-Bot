@@ -30,9 +30,9 @@ module.exports = {
                 user     : database.user,
                 password : database.password,
                 database : database.database
-              });
+              })
               
-              connection.connect();
+              connection.connect()
               return connection
         }
         else {

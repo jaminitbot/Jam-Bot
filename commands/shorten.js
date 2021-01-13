@@ -8,4 +8,4 @@ module.exports = {
         const data = await fetch('https://is.gd/create.php?format=json&url=' + encodeURIComponent(args[0])).then(response => response.json())
         message.channel.send('<' + (data.shorturl || data.errormessage || 'Error getting short url') + '>' )
 	},
-};
+}
