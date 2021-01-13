@@ -12,7 +12,7 @@ const message = require('./events/message')
 const messageDelete = require('./events/messageDelete')
 
 // Misc Scripts
-const dbScript = require('./functions/Db')
+const dbScript = require('./functions/db')
 const twitch = require('./cron/twitch')
 
 // Registers all the commands in the commands folder

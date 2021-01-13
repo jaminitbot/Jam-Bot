@@ -1,5 +1,5 @@
 const fetch = require('node-fetch')
-const updateKey = require('../functions/updateKey')
+const database = require('../functions/db')
 module.exports = {
   async execute (client, db, config) {
     if (!config.settings.twitchApiClientId || !config.settings.twitchApiSecret) return
@@ -18,7 +18,7 @@ module.exports = {
         const notificationChannel = client.channels.cache.get('780071463473643550')
         if (!notificationChannel) return
         if (row) if (row.value == data.started_at) return // Stops us notifying more than once for one live
-        updateKey.execute(db, '779060204528074783', 'LiveTime', data.started_at)
+        database.updateKey(db, '779060204528074783', 'LiveTime', data.started_at)
         notificationChannel.send(`@everyone ${data.display_name} is live streaming: ${data.title}\nhttps://twich.tv/honkserini`)
       })
     }

@@ -1,4 +1,4 @@
-const updateKey = require('../../../functions/updateKey')
+const database = require('../../../functions/db')
 module.exports = {
   name: 'logdeletes',
   description: 'Turns logging deletes on or off',
