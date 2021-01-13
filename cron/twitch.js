@@ -1,4 +1,3 @@
-// TODO: Make this a flag since everyone doesn't need it
 const fetch = require('node-fetch')
 const updateKey = require('../functions/updateKey')
 module.exports = {
