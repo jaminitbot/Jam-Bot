@@ -7,16 +7,16 @@ module.exports = {
         if (!args[0]) return message.reply('Usage: ' + this.usage)
         // Basic info
         const user = message.mentions.members.first() || message.guild.members.cache.get(args[0])
-        const intiatedUser = message.member.user.username + "#" + message.member.user.discriminator
+        const intiatedUser = message.member.user.username + '#' + message.member.user.discriminator
         const intiatedAvatar = message.member.user.avatarURL()
         if (user) { // Valid user found, get info
-            const userName = user.user.username + "#" + user.user.discriminator
+            const userName = user.user.username + '#' + user.user.discriminator
             const avatar = user.user.avatarURL() || user.user.defaultAvatarURL
             const isBot = String(user.user.bot).toUpperCase()
             const createdAt = user.user.createdAt
             const nickName = user.nickname || user.user.username
             const { joinedDate, id } = user
-            let roles = ""
+            let roles = ''
             user.roles.cache.forEach(role => {
                 roles = `${roles} ${role.name},`
             })
@@ -25,7 +25,7 @@ module.exports = {
                     name: 'User: ' + userName,
                     icon_url: avatar
                 },
-                "description": `Nickname: ${nickName}\nAccount Creation: ${createdAt}\nJoined on: ${joinedDate}\nIs Bot: ${isBot}\nID: ${id}\nRoles: ${roles}`,
+                'description': `Nickname: ${nickName}\nAccount Creation: ${createdAt}\nJoined on: ${joinedDate}\nIs Bot: ${isBot}\nID: ${id}\nRoles: ${roles}`,
             }
 
         } else { // Didn't get a valid role, maybe its a role?
@@ -36,7 +36,7 @@ module.exports = {
                     author: {
                         name: 'Role: ' + name,
                     },
-                    "description": `Id: ${id}\nCreated at: ${createdAt}\nMentionable: ${String(mentionable).toUpperCase()}\nPosition: ${position}`,
+                    'description': `Id: ${id}\nCreated at: ${createdAt}\nMentionable: ${String(mentionable).toUpperCase()}\nPosition: ${position}`,
                 }
             } else { // No role found
                 return message.reply('That is not a valid user or role.\n' + this.usage)
@@ -45,12 +45,12 @@ module.exports = {
         }
         embed = {
             ...embed, // Concat previous bits of embed
-            "footer": {
-                "text": `Command issued by ${intiatedUser}`,
-                "icon_url": intiatedAvatar
+            'footer': {
+                'text': `Command issued by ${intiatedUser}`,
+                'icon_url': intiatedAvatar
             },
-            "color": "#14904B",
-            "timestamp": Date.now()
+            'color': '#14904B',
+            'timestamp': Date.now()
         }
         message.channel.send({ embed: embed })
     },

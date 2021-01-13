@@ -5,7 +5,7 @@ module.exports = {
 		const memberToBan = message.mentions.members.first() || message.guild.members.cache.get(args[0])
 		if (!memberToBan) return message.reply('You didn\'t mention a valid user in this server!')
 		if (message.author.id == memberToBan.id) return message.reply(`You can't ${banOrMute} yourself silly!`)
-		const moderator = message.author.username + "#" + message.author.discriminator
+		const moderator = message.author.username + '#' + message.author.discriminator
         let reason = args.splice(1).join(' ')
         sucessful = true
         if (banOrMute == 'ban'){
