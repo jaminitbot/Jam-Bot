@@ -4,7 +4,7 @@ const Discord = require('discord.js')
 const client = new Discord.Client()
 const config = require('../config.json')
 const guildCreate = require('../events/guildCreate')
-const dbScript = require('../functions/Db')
+const dbScript = require('../functions/db')
 const db = dbScript.connect(config)
 
 client.on('ready', () => {
