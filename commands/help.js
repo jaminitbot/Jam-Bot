@@ -26,16 +26,15 @@ module.exports = {
         var embed = {
           title: prefix + commandToFind,
           description: `${command.description}\nUsage: ${prefix}${command.usage}\nPermissions needed to use: ${permissionsNeeded}`,
-          color: '0eacc4'
         }
       }
     } else { // No command specified, show generic help text
       var embed = {
         title: 'Help',
         description: `You can view a list of commands [here](https://jam-bot-discord.github.io/Jam-Bot/?prefix=${prefix})`,
-        color: '0eacc4'
       }
-    }
+	}
+	embed.color = '0eacc4'
     message.channel.send({ embed: embed })
   }
 }

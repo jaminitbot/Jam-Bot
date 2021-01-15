@@ -4,7 +4,7 @@ module.exports = {
   description: 'Kicks a user',
   permissions: ['KICK_MEMBERS'],
   usage: 'kick @user',
-  execute (client, message, args, db) {
+  async execute (client, message, args, db) {
     kickOrBan.execute(message, args, 'kick')
   }
 }
