@@ -1,10 +1,7 @@
 const permissions = require('../functions/permission')
 const messages = require('../functions/messages')
-if (!process.platform === 'win32') {
-var Worker = require('webworker-threads').Worker
-}
 module.exports = {
-  register (client, msg, db, config) {
+  async register (client, msg, db, config) {
     if (msg.author.bot) return
     const message = String(msg.content).toLowerCase()
     const guild = msg.guild
@@ -25,11 +22,7 @@ module.exports = {
               return msg.channel.send(messages.getPermissionsMessage())
             }
 		  }
-		  if (!process.platform === 'win32') {
-		  	new Worker(client.commands.get(command).execute(client, msg, args, db))
-		  } else {
 			client.commands.get(command).execute(client, msg, args, db)
-		  }
         } catch (error) { // Error running command
           console.error(error)
           msg.reply(messages.getErrorMessage())
