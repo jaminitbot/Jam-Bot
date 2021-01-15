@@ -1,5 +1,6 @@
 const permissions = require('../functions/permission')
 const messages = require('../functions/messages')
+const { spawn } = require('child_process');
 module.exports = {
   register (client, msg, db, config) {
     if (msg.author.bot) return
@@ -22,7 +23,7 @@ module.exports = {
               return msg.channel.send(messages.getPermissionsMessage())
             }
           }
-          client.commands.get(command).execute(client, msg, args, db)
+          spawn(client.commands.get(command).execute(client, msg, args, db))
         } catch (error) { // Error running command
           console.error(error)
           msg.reply(messages.getErrorMessage())
