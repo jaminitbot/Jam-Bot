@@ -1,6 +1,8 @@
 const permissions = require('../functions/permission')
 const messages = require('../functions/messages')
-const { spawn } = require('child_process');
+if (!process.platform === 'win32') {
+var Worker = require('webworker-threads').Worker
+}
 module.exports = {
   register (client, msg, db, config) {
     if (msg.author.bot) return
@@ -22,8 +24,12 @@ module.exports = {
             if (!permissions.checkperm(msg.member, client.commands.get(command).permissions)) { // User doesn't have specified permissions to run command
               return msg.channel.send(messages.getPermissionsMessage())
             }
-          }
-          spawn(client.commands.get(command).execute(client, msg, args, db))
+		  }
+		  if (!process.platform === 'win32') {
+		  	new Worker(client.commands.get(command).execute(client, msg, args, db))
+		  } else {
+			client.commands.get(command).execute(client, msg, args, db)
+		  }
         } catch (error) { // Error running command
           console.error(error)
           msg.reply(messages.getErrorMessage())
