@@ -39,6 +39,6 @@
   "optionalDependencies": {
     "mysql": "mysqljs/mysql",
 	"sqlite3": "^5.0.0",
-	"webworker-threads": "^0.8.0"
+	"webworker-threads": "0.8.0"
   }
 }
