@@ -28,7 +28,7 @@ module.exports = {
 				if (splitBy == 0) { // Not specified image location
 					sent.edit(urls[0] || 'No image found for your search')
 				} else { // Get specific image
-					send.edit(urls[args[0] - 1] || 'There isn\'t an image for position: ' + args[0])
+					sent.edit(urls[args[0] - 1] || 'There isn\'t an image for position: ' + args[0])
 				}
 			})
 		})
