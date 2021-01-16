@@ -9,9 +9,9 @@ module.exports = {
     if (config.settings.ownerid == message.author.id) {
       await message.channel.send('Shutting Down...')
       await client.destroy()
-      return process.exit()
+      process.exit()
     } else {
-      return message.channel.send(messages.getPermissionsMessage())
+      message.channel.send(messages.getPermissionsMessage())
     }
   }
 }
