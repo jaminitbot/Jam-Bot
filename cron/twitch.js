@@ -6,7 +6,7 @@ module.exports = {
 		const response = await fetch('https://api.twitch.tv/helix/search/channels?query=honkserini', {
 			headers: {
 				'CLIENT-ID': config.settings.twitchApiClientId,
-				Authorization: 'Bearer ' + config.settings.twitchApiSecret
+				'Authorization': 'Bearer ' + config.settings.twitchApiSecret
 			}
 		})
 
