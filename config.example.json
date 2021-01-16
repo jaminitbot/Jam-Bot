@@ -3,10 +3,7 @@
         "ownerid": "ID",
         "ownername": "NAME",
         "token": "TOKEN",
-        "database": {
-            "databaseType": "sqlite",
-            "databaseLocation": "database.db"
-        }
+        "databaseLocation": "database.db"
     },
     "defaults": {
         "prefix": "!"
