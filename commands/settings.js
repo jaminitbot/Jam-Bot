@@ -12,7 +12,6 @@ module.exports = {
 	permissions: ['MANAGE_GUILD'],
 	usage: 'settings',
 	execute(client, message, args, db) {
-		if (message.author.id == '523963702245064725') return message.channel.send('No Jack.')
 		const embed = {
 			title: 'Settings - Usage',
 			description: '',
