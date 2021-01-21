@@ -3,7 +3,7 @@ const isImage = require('is-image')
 const isNumber = require('is-number')
 const searchOptions = {
 	searchTerm: '',
-	queryStringAddition: '' // Enable safe search, better than nothing filters most things
+	queryStringAddition: '&safe=active' // Enable safe search, better than nothing filters most things
 }
 module.exports = {
 	name: 'image',
