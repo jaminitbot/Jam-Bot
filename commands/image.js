@@ -6,7 +6,7 @@ const searchOptions = {
 	searchTerm: '',
 	queryStringAddition: '&safe=active' // Enable safe search, better than nothing filters most things
 }
-const blockList = fs.readFileSync('blocklist.txt').toString().split("\r\n")
+const blockList = fs.readFileSync('blocklist.txt').toString().split("\n")
 module.exports = {
 	name: 'image',
 	description: 'Gets a image',
