@@ -3,7 +3,7 @@ const isImage = require('is-image')
 const isNumber = require('is-number')
 const searchOptions = {
 	searchTerm: '',
-	queryStringAddition: '&safe=active' // Enable safe search, better than nothing filters most things
+	queryStringAddition: '' // Enable safe search, better than nothing filters most things
 }
 module.exports = {
 	name: 'image',
@@ -14,6 +14,9 @@ module.exports = {
 		message.channel.send(':mag_right: Finding image...').then(sent => {
 			let splitBy = 0
 			if (isNumber(args[0])) { // User wants to get a specific result
+				if (args[0] < 1){
+					return sent.edit('You can\'t get that position silly!')
+				}
 				splitBy = 1 // Make sure we don't include the pos in the search
 			}
 			searchOptions.searchTerm = args.splice(splitBy).join(' ')
