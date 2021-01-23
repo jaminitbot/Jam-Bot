@@ -7,6 +7,6 @@ module.exports = {
 		if (!args[0] || !args[1]) return message.reply('Usage: ' + this.usage)
 		message.guild.emojis.create(args[0], args[1])
 			.then(emoji => message.channel.send(`Created new emoji with name ${emoji.name}!`))
-			.catch(message.channel.send('Error making emoji!'))
+			.catch(console.error)
 	},
 }
