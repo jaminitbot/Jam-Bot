@@ -2,7 +2,7 @@ module.exports = {
 	name: 'addemoji',
 	description: 'Purges messages',
 	permissions: '',
-	usage: 'addemoji https://example.com/yes.jpg YESEMOTE',
+	usage: 'addemoji https://example.com/yes.jpg YesEmote',
 	execute(client, message, args, db) {
 		if (!args[0] || !args[1]) return message.reply('Usage: ' + this.usage)
 		message.guild.emojis.create(args[0], args[1])
