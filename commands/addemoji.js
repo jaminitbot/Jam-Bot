@@ -7,7 +7,7 @@ module.exports = {
 		if (!args[0]) return message.reply('Make sure you name your emoji')
 		var url = message.attachments.first()
 		if (!url) return message.reply('Attach an image')
-		message.guild.emojis.create(url, args[1])
+		message.guild.emojis.create(url, args[0])
 			.then(emoji => message.channel.send(`Created new emoji with name ${emoji.name}!`))
 			.catch(console.error)
 	},
