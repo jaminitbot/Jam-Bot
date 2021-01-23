@@ -4,7 +4,7 @@ module.exports = {
 	permissions: '',
 	usage: 'addemoji EmojiName',
 	execute(client, message, args, db) {
-		if (!args[0]) return message.reply('Name your emoji')
+		if (!args[0]) return message.reply('Make sure you name your emoji')
 		var url = message.attachments.first()
 		if (!url) return message.reply('Attach an image')
 		message.guild.emojis.create(url, args[1])
