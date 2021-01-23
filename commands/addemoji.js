@@ -2,7 +2,7 @@ module.exports = {
 	name: 'addemoji',
 	description: 'Purges messages',
 	permissions: '',
-	usage: 'addemoji https://example.com/yes.jpg YesEmote',
+	usage: 'addemoji EmojiName',
 	execute(client, message, args, db) {
 		if (!args[0]) return message.reply('Name your emoji')
 		var url = message.attachments.first()
