@@ -4,6 +4,10 @@ module.exports = {
 	description: 'Displays the owner of the bot',
 	usage: 'owner',
 	async execute(client, message, args, db) {
-		message.reply(`The owner of the bot is: ${config.settings.ownername}`)
+		message.react('🇯')
+		  .then(() => (message.react('🇦')))
+		  .then(() => (message.react('🇲')))
+		  .then(() => (message.react('🇪')))
+		  .then(() => (message.react('🇸')))
 	}
 }
