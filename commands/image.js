@@ -1,19 +1,16 @@
 const gis = require('g-i-s')
 const isImage = require('is-image')
 const isNumber = require('is-number')
-const fs = require('fs')
 const searchOptions = {
 	searchTerm: '',
 	queryStringAddition: '&safe=active' // Enable safe search, better than nothing filters most things
 }
-const blockList = fs.readFileSync('blocklist.txt').toString().split("\n")
 module.exports = {
 	name: 'image',
 	description: 'Gets a image',
 	usage: 'image duck',
 	async execute(client, message, args, db) {
 		if (!args[0]) return message.reply('You need to specify what to search for!')
-		let continueNow = true
 		message.channel.send(':mag_right: Finding image...').then(sent => {
 			let splitBy = 0
 			if (isNumber(args[0])) { // User wants to get a specific result
@@ -23,13 +20,6 @@ module.exports = {
 				splitBy = 1 // Make sure we don't include the pos in the search
 			}
 			const search = args.splice(splitBy).join(' ')
-			blockList.forEach(function (entry) {
-				if (search.includes(entry)) {
-					continueNow = false
-					return sent.edit('Naughty naughty, no no!')
-				}
-			})
-			if (continueNow) {
 				searchOptions.searchTerm = search
 				const validImageUrls = []
 				gis(searchOptions, function (error, results) {
@@ -45,7 +35,6 @@ module.exports = {
 						sent.edit(validImageUrls[args[0] - 1] || 'There isn\'t an image for position: ' + args[0])
 					}
 				})
-			}
 
 		})
 
