@@ -6,7 +6,7 @@ module.exports = {
 		if (!args[0]) return message.reply('you need to specify the name of your emoji!')
 		let url = message.attachments.first()
 		if (!url) return message.reply('you need to attach the image!')
-		message.guild.emojis.create(url.url, args[0])
+		message.guild.emojis.create(url.url, args[0], {reason: `Uploaded by: ${message.author.id}`})
 			.then(emoji =>{
 				message.channel.send(`The emoji "${emoji.name}" was created!`).then(sent => {
 					sent.react(emoji.identifier)
