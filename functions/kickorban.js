@@ -9,10 +9,10 @@ module.exports = {
     const reason = args.splice(1).join(' ')
     sucessful = true
     if (banOrMute == 'ban') {
-      memberToBan.ban(`${moderator}: ${reason}`, 1)
+      memberToBan.ban({reason: `${moderator}: ${reason}`, days: 1})
         .catch(sucessful = false)
     } else {
-      memberToBan.kick(`${moderator}: ${reason}`)
+      memberToBan.kick({reason: `${moderator}: ${reason}`, days: 1})
         .catch(sucessful = false)
     }
     if (sucessful) {
