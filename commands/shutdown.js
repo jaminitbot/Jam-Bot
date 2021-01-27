@@ -8,6 +8,7 @@ module.exports = {
 	async execute(client, message, args, db) {
 		if (config.settings.ownerid == message.author.id) {
 			await message.channel.send('Shutting Down...')
+			await message.react('👋')
 			await client.destroy()
 			process.exit()
 		} else {
