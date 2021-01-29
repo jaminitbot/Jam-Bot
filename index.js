@@ -32,6 +32,7 @@ if (!db) {
 	console.error('Error connecting to db')
 	process.exit(1)
 }
+
 // Events
 client.on('guildCreate', guild => { guildCreate.register(guild, db, config) })
 client.on('guildDelete', guild => { guildDelete.register(guild, db) })
