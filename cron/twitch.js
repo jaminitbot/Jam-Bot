@@ -18,7 +18,7 @@ module.exports = {
 				if (!notificationChannel) return
 				if (row) if (row.value == data.started_at) return // Stops us notifying more than once for one live
 				database.updateKey(db, '779060204528074783', 'LiveTime', data.started_at)
-				notificationChannel.send(`@everyone ${data.display_name} is live streaming: ${data.title}\nhttps://twich.tv/honkserini`)
+				notificationChannel.send(`@everyone ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/honkserini>`)
 			})
 		}
 	}
