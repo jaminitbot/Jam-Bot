@@ -3,13 +3,13 @@ const wrongPermissions = ['Nice try.', 'Not this time.', 'No.', 'No thanks.', 'D
 const errorMessages = ['that didn\'t work', 'try again later', 'oops, we messed up', 'I couldn\'t do that matey', 'something went wrong', 'Damn it, James messed up the code', 'James didn\'t code the command right,', 'uwu wooks wike we made a wittwe mistake, twy again watew']
 const jimp = ['stfu', 'no u', 'stfu dom', 'no jimp', 'no']
 module.exports = {
-  getErrorMessage () {
-    return errorMessages[random.int(min = 0, max = errorMessages.length - 1)]
-  },
-  getPermissionsMessage () {
-    return wrongPermissions[random.int(min = 0, max = wrongPermissions.length - 1)]
-  },
-  getJimpMessage(){
-	return jimp[random.int(min = 0, max = jimp.length - 1)]
-  }
+	getErrorMessage() {
+		return errorMessages[random.int(min = 0, max = errorMessages.length - 1)]
+	},
+	getPermissionsMessage() {
+		return wrongPermissions[random.int(min = 0, max = wrongPermissions.length - 1)]
+	},
+	getJimpMessage() {
+		return jimp[random.int(min = 0, max = jimp.length - 1)]
+	}
 }

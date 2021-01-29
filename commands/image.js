@@ -20,21 +20,21 @@ module.exports = {
 				splitBy = 1 // Make sure we don't include the pos in the search
 			}
 			const search = args.splice(splitBy).join(' ')
-				searchOptions.searchTerm = search
-				const validImageUrls = []
-				gis(searchOptions, function (error, results) {
-					if (error) return sent.edit('An error occured when getting your results :c')
-					results.forEach(element => {
-						if (isImage(element.url)) {
-							validImageUrls.push(element.url)
-						}
-					})
-					if (splitBy == 0) { // Not specified image result
-						sent.edit(validImageUrls[0] || 'No image found for your search')
-					} else { // Get specific image
-						sent.edit(validImageUrls[args[0] - 1] || 'There isn\'t an image for position: ' + args[0])
+			searchOptions.searchTerm = search
+			const validImageUrls = []
+			gis(searchOptions, function (error, results) {
+				if (error) return sent.edit('An error occured when getting your results :c')
+				results.forEach(element => {
+					if (isImage(element.url)) {
+						validImageUrls.push(element.url)
 					}
 				})
+				if (splitBy == 0) { // Not specified image result
+					sent.edit(validImageUrls[0] || 'No image found for your search')
+				} else { // Get specific image
+					sent.edit(validImageUrls[args[0] - 1] || 'There isn\'t an image for position: ' + args[0])
+				}
+			})
 
 		})
 

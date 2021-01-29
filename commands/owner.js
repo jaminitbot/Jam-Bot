@@ -5,9 +5,9 @@ module.exports = {
 	usage: 'owner',
 	async execute(client, message, args, db) {
 		message.react('🇯')
-		  .then(() => (message.react('🇦')))
-		  .then(() => (message.react('🇲')))
-		  .then(() => (message.react('🇪')))
-		  .then(() => (message.react('🇸')))
+			.then(() => (message.react('🇦')))
+			.then(() => (message.react('🇲')))
+			.then(() => (message.react('🇪')))
+			.then(() => (message.react('🇸')))
 	}
 }

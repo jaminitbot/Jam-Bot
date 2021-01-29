@@ -8,11 +8,11 @@ const dbScript = require('../functions/db')
 const db = dbScript.connect(config)
 
 client.on('ready', () => {
-  client.guilds.cache.forEach((guild) => {
-    console.log('Registering guild: ' + guild)
-    guildCreate.register(guild, db, config)
-  })
-  client.destroy()
+	client.guilds.cache.forEach((guild) => {
+		console.log('Registering guild: ' + guild)
+		guildCreate.register(guild, db, config)
+	})
+	client.destroy()
 })
 
 client.login(config.settings.token)
