@@ -47,7 +47,6 @@ if (process.platform === 'win32') {
 		process.emit('SIGINT')
 	})
 }
-
 process.on('SIGINT', function () {
 	// Shutdown stuff nicely
 	db.close()
@@ -56,6 +55,7 @@ process.on('SIGINT', function () {
 	process.exit()
 })
 
+// Intialisation
 client.on('ready', () => {
 	console.log('Logged in...')
 	client.user.setActivity('?help', { type: 'WATCHING' })
