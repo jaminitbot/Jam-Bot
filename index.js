@@ -32,7 +32,6 @@ if (!db) {
 	process.exit(1)
 }
 // Events
-client.on('ready', () => { console.log('Logged in') })
 client.on('guildCreate', guild => { guildCreate.register(guild, db, config) })
 client.on('guildDelete', guild => { guildDelete.register(guild, db) })
 client.on('message', msg => { message.register(client, msg, db, config) })
@@ -60,9 +59,11 @@ process.on('SIGINT', function () {
 client.on('ready', () => {
 	console.log('Logged in...')
 	client.user.setActivity('?help', { type: 'WATCHING' })
-	schedule.scheduleJob('*/2 * * * * *', function () { // Twitch notifications
-		twitch.execute(client, db, config)
-	})
+	if (config.settings.twitchApiClientId && config.settings.twitchApiSecret) { // Only if api tokens are present
+		schedule.scheduleJob('*/2 * * * * *', function () { // Twitch notifications
+			twitch.execute(client, db, config)
+		})
+	}
 })
 
 client.login(config.settings.token)

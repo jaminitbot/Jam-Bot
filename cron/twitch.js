@@ -2,7 +2,6 @@ const fetch = require('node-fetch')
 const database = require('../functions/db')
 module.exports = {
 	async execute(client, db, config) {
-		if (!config.settings.twitchApiClientId || !config.settings.twitchApiSecret) return
 		const response = await fetch('https://api.twitch.tv/helix/search/channels?query=honkserini', {
 			headers: {
 				'CLIENT-ID': config.settings.twitchApiClientId,
