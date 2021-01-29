@@ -38,6 +38,8 @@ client.on('guildDelete', guild => { guildDelete.register(guild, db) })
 client.on('message', msg => { message.register(client, msg, db, config) })
 client.on('messageDelete', msg => { messageDelete.register(client, msg, db) })
 client.on('guildMemberAdd', member => { guildMemberAdd.register(member) })
+client.on('error', error => { console.error(error) })
+client.on('invalidated', function() { process.emit('SIGINT') })
 
 // SIGINT STUFF
 if (process.platform === 'win32') {
