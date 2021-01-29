@@ -10,6 +10,7 @@ const guildCreate = require('./events/guildCreate')
 const guildDelete = require('./events/guildDelete')
 const message = require('./events/message')
 const messageDelete = require('./events/messageDelete')
+const guildMemberAdd = require('./events/guildMemberAdd')
 
 // Misc Scripts
 const dbScript = require('./functions/db')
@@ -36,6 +37,7 @@ client.on('guildCreate', guild => { guildCreate.register(guild, db, config) })
 client.on('guildDelete', guild => { guildDelete.register(guild, db) })
 client.on('message', msg => { message.register(client, msg, db, config) })
 client.on('messageDelete', msg => { messageDelete.register(client, msg, db) })
+client.on('guildMemberAdd', member => { guildMemberAdd.register(member) })
 
 // SIGINT STUFF
 if (process.platform === 'win32') {
