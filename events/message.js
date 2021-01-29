@@ -6,6 +6,7 @@ module.exports = {
 		const message = String(msg.content).toLowerCase()
 		const guild = msg.guild
 		if (message == 'stfu') return msg.channel.send('u stfu')
+		if (message.includes('jimp')) return msg.reply('stfu')
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
 			if (err) return console.log(err)
 			if (row) {
