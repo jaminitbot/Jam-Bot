@@ -8,8 +8,5 @@ module.exports = {
 	},
 	getPermissionsMessage() {
 		return wrongPermissions[random.int(min = 0, max = wrongPermissions.length - 1)]
-	},
-	getJimpMessage() {
-		return jimp[random.int(min = 0, max = jimp.length - 1)]
 	}
 }
