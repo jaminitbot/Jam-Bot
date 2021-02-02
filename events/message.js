@@ -20,6 +20,7 @@ module.exports = {
 				try {
 					if (client.commands.get(command).permissions) {
 						if (!permissions.checkperm(msg.member, client.commands.get(command).permissions)) { // User doesn't have specified permissions to run command
+							msg.react('❌')
 							return msg.channel.send(messages.getPermissionsMessage())
 						}
 					}
