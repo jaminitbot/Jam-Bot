@@ -1,6 +1,6 @@
 const image = require('./image')
 module.exports = {
-	name: 'frog',
+	name: 'forg',
 	description: 'Frog',
 	usage: 'frog',
 	execute(client, message, args, db) {
