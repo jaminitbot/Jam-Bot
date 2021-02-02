@@ -3,6 +3,7 @@ const messages = require('../functions/messages')
 
 module.exports = {
 	async register(client, msg, db, config) {
+		if (msg.author.bot) return
 		const message = String(msg.content).toLowerCase()
 		const guild = msg.guild
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
