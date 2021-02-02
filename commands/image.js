@@ -11,7 +11,7 @@ module.exports = {
 	usage: 'image duck',
 	async execute(client, message, args, db) {
 		if (!args[0]) return message.reply('You need to specify what to search for!')
-		message.reply(':mag_right: Finding image...').then(sent => {
+		message.channel.send(':mag_right: Finding image...').then(sent => {
 			let splitBy = 0
 			if (isNumber(args[0])) { // User wants to get a specific result
 				if (args[0] < 1) {
