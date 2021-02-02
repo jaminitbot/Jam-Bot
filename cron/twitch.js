@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const database = require('../functions/db')
+const messages = require('../functions/messages')
 module.exports = {
 	async execute(client, db, config) {
 		const response = await fetch('https://api.twitch.tv/helix/search/channels?query=honkserini', {
@@ -17,7 +18,7 @@ module.exports = {
 				if (!notificationChannel) return
 				if (row) if (row.value == data.started_at) return // Stops us notifying more than once for one live
 				database.updateKey(db, '779060204528074783', 'LiveTime', data.started_at)
-				notificationChannel.send(`@everyone ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/honkserini>`)
+				notificationChannel.send(`${messages.getHappyMessage()} @everyone ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/honkserini>`)
 			})
 		}
 	}
