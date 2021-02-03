@@ -22,7 +22,7 @@
 				<p>Here's a list of all the commands the bot supports.</p>
 				<div id="general">
 				<h3>General commands</h3>
-				<table class="table">
+				<table class="table" id="generalTable">
 					<thread>
 						<tr>
 							<th scope="col">Command</th>
@@ -81,7 +81,7 @@
 			</div>
 			<div id="image">
 				<h3>Image Commands</h3>
-				<table class="table">
+				<table class="table" id="imageTable">
 					<thread>
 						<tr>
 							<th scope="col">Command</th>
@@ -120,7 +120,7 @@
 			</div>
 			<div id="moderation">	
 				<h3>Moderation</h3>
-				<table class="table">
+				<table class="table" id="moderationTable">
 					<thread>
 						<tr>
 							<th scope="col">Command</th>
@@ -175,6 +175,33 @@
                 elements[i].innerHTML = prefix
             }
 		</script>
+		<script>
+		function sortTable(tableName) {
+			var table, rows, switching, i, x, y, shouldSwitch;
+			table = document.getElementById(tableName);
+			switching = true;
+			while (switching) {
+			  switching = false;
+			  rows = table.rows;
+			  for (i = 1; i < (rows.length - 1); i++) {
+				shouldSwitch = false;
+				x = rows[i].getElementsByTagName("TD")[0];
+				y = rows[i + 1].getElementsByTagName("TD")[0];
+				if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+				  shouldSwitch = true;
+				  break;
+				}
+			  }
+			  if (shouldSwitch) {
+				rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+				switching = true;
+			  }
+			}
+		  }
+		  sortTable('generalTable')
+		  sortTable('imageTable')
+		  sortTable('moderationTable')
+		  </script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     </body>
 </html>
