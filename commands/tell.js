@@ -2,7 +2,7 @@ const messages = require('../functions/messages')
 module.exports = {
 	name: 'tell',
 	description: 'Tells something, to someone',
-	usage: 'tell @user You are amazing',
+	usage: 'tell @user You are amazing :))',
 	execute(client, message, args, db) {
 		if (message.author.id == '707313027485270067') return message.channel.send(messages.getPermissionsMessage())
 		const user = message.mentions.members.first() || message.guild.members.cache.get(args[0])
