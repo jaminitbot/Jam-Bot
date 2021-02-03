@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+		<style>
+			p,h1,h2,h3,h4 {
+				font-family: 'Roboto', sans-serif;
+			}
+		</style>
+        <title>Jam-Bot</title>
+    </head>
+    <body class="bg-light text-dark"><br>
+        <div class="container shadow-lg"><br>
+            <h1>Jam-Bot</h1>
+            <div id="commands">
+				<h2>Command list</h2>
+                <noscript>This page works better with javascript!</noscript> 
+				<p>Here's a list of all the commands the bot supports.</p>
+				<div id="general">
+				<h3>General commands</h3>
+				<table class="table" id="generalTable">
+					<thread>
+						<tr>
+							<th scope="col">Command</th>
+							<th scope="col">Description</th>
+							<th scope="col">Usage</th>
+						</tr>
+						<tbody>
+							<tr>
+								<td>Suggest</td>
+								<td>Suggests something</td>
+								<td><code><span class="prefix">!</span>suggest Make a memes channel</code></td>
+							</tr>
+							<tr>
+								<td>Owner</td>
+								<td>Displays the bot owner</td>
+								<td><code><span class="prefix">!</span>owner</code></td>
+							</tr>
+							<tr>
+								<td>Uptime</td>
+								<td>Displays the bot's uptime</td>
+								<td><code><span class="prefix">!</span>uptime</code></td>
+							</tr>
+							<tr>
+								<td>Ping</td>
+								<td>Displays latency information</td>
+								<td><code><span class="prefix">!</span>ping</code></td>
+							</tr>
+							<tr>
+								<td>Help</td>
+								<td>Gets help on a specific command</td>
+								<td><code><span class="prefix">!</span>help ban</code></td>
+							</tr>
+							<tr>
+								<td>Shorten</td>
+								<td>Shortens a url</td>
+								<td><code><span class="prefix">!</span>shorten https://google.com</code></td>
+							</tr>
+							<tr>
+								<td>Add Emoji</td>
+								<td>Adds an emoji to the server</td>
+								<td><code><span class="prefix">!</span>addemoji blobWave</code></td>
+							</tr>
+							<tr>
+								<td>Cactus</td>
+								<td>Ouch</td>
+								<td><code><span class="prefix">!</span>cactus</code></td>
+							</tr>
+							<tr>
+								<td>Tell</td>
+								<td>Tells someone, something</td>
+								<td><code><span class="prefix">!</span>tell @dom You are bad</code></td>
+							</tr>
+						</tbody>	
+					</thread>
+				</table><br>
+			</div>
+			<div id="image">
+				<h3>Image Commands</h3>
+				<table class="table" id="imageTable">
+					<thread>
+						<tr>
+							<th scope="col">Command</th>
+							<th scope="col">Description</th>
+							<th scope="col">Usage</th>
+						</tr>
+						<tbody>
+							<tr>
+								<td>Cat</td>
+								<td>Purrrrr</td>
+								<td><code><span class="prefix">!</span>cat</code></td>
+							</tr>
+							<tr>
+								<td>Dog</td>
+								<td>Woof</td>
+								<td><code><span class="prefix">!</span>dog</code>, <code><span class="prefix">!</span>dog border terrier</code></td>
+							</tr>
+							<tr>
+								<td>Fox</td>
+								<td>Cute fox</td>
+								<td><code><span class="prefix">!</span>fox</code></td>
+							</tr>
+							<tr>
+								<td>Google Image Search</td>
+								<td>Searches the web for images</td>
+								<td><code><span class="prefix">!</span>image cute dogs</code>, <code><span class="prefix">!</span>image 5 cute dogs</code></td>
+							</tr>
+							<tr>
+								<td>Stock Image Search</td>
+								<td>Searches <a href="https://pexels.com" target="_blank">Pexels</a> for a random image</td>
+								<td><code><span class="prefix">!</span>stock nature</code></td>
+							</tr>
+						</tbody>	
+					</thread>
+				</table><br>
+			</div>
+			<div id="moderation">	
+				<h3>Moderation</h3>
+				<table class="table" id="moderationTable">
+					<thread>
+						<tr>
+							<th scope="col">Command</th>
+							<th scope="col">Description</th>
+							<th scope="col">Usage</th>
+						</tr>
+						<tbody>
+							<tr>
+								<td>Kick</td>
+								<td>Kicks a specified user</td>
+								<td><code><span class="prefix">!</span>kick @dom</code></td>
+							</tr>
+							<tr>
+								<td>Ban</td>
+								<td>Bans a specified user</td>
+								<td><code><span class="prefix">!</span>ban @dom</code></td>
+							</tr>
+							<tr>
+								<td>Lookup</td>
+								<td>Displays information about a specific user or role</td>
+								<td><code><span class="prefix">!</span>lookup @honk</code></td>
+							</tr>
+							<tr>
+								<td>Purge</td>
+								<td>Bulk deletes a specified number of messages in a channel</td>
+								<td><code><span class="prefix">!</span>purge 50</code></td>
+							</tr>
+							<tr>
+								<td>Settings</td>
+								<td>Configures the bot's settings</td>
+								<td><code><span class="prefix">!</span>settings modlog</code></td>
+							</tr>
+						</tbody>	
+					</thread>
+				</table>
+			</div>
+            </div><br>
+		</div><br>
+		<script>
+			function sortTable(tableName) {
+				var table, rows, switching, i, x, y, shouldSwitch;
+				table = document.getElementById(tableName);
+				switching = true;
+				while (switching) {
+				  switching = false;
+				  rows = table.rows;
+				  for (i = 1; i < (rows.length - 1); i++) {
+					shouldSwitch = false;
+					x = rows[i].getElementsByTagName("TD")[0];
+					y = rows[i + 1].getElementsByTagName("TD")[0];
+					if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+					  shouldSwitch = true;
+					  break;
+					}
+				  }
+				  if (shouldSwitch) {
+					rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+					switching = true;
+				  }
+				}
+			  }
+			  sortTable('generalTable')
+			  sortTable('imageTable')
+			  sortTable('moderationTable')
+			  </script>
+        <script>
+            function getParameterByName(name, url = window.location.href) {
+                name = name.replace(/[\[\]]/g, '\\$&')
+                var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                    results = regex.exec(url)
+                if (!results) return null
+                if (!results[2]) return ''
+                return decodeURIComponent(results[2].replace(/\+/g, ' '))
+            }
+            var elements = document.getElementsByClassName("prefix")
+            var prefix = getParameterByName('prefix')
+            if (!prefix) {prefix = '!'}
+            for(var i=0; i < elements.length; i++) {
+                elements[i].innerHTML = prefix
+            }
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    </body>
+</html>

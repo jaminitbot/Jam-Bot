@@ -31,7 +31,7 @@ module.exports = {
 		} else { // No command specified, show generic help text
 			var embed = {
 				title: 'Help',
-				description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/?prefix=${prefix})`,
+				description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/commandlist.html?prefix=${prefix})`,
 			}
 		}
 		embed.color = '0eacc4'
