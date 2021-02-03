@@ -2,11 +2,10 @@ const permissions = require('../functions/permission')
 const messages = require('../functions/messages')
 const bannedIds = ['']
 module.exports = {
-	async register(client, msg, db, config) {
-		if (msg.author.bot) return
-		if (bannedIds.includes(msg.author.id)) return
-		const message = String(msg.content).toLowerCase()
-		const guild = msg.guild
+	async register(client, message, db, config) {
+		if (message.author.bot) return
+		if (bannedIds.includes(message.author.id)) return
+		const guild = message.guild
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
 			if (err) return console.log(err)
 			if (row) {
@@ -14,21 +13,21 @@ module.exports = {
 			} else { // No prefix in db, use default
 				prefix = config.defaults.prefix
 			}
-			const args = msg.content.slice(prefix.length).trim().split(/ +/)
+			const args = message.content.slice(prefix.length).trim().split(/ +/)
 			const command = args.shift().toLowerCase()
-			if (message.startsWith(prefix)) {
+			if (message.content.startsWith(prefix)) {
 				if (!client.commands.has(command)) return // Doesn't have specified command
 				try {
 					if (client.commands.get(command).permissions) {
-						if (!permissions.checkperm(msg.member, client.commands.get(command).permissions)) { // User doesn't have specified permissions to run command
-							msg.react('❌')
-							return msg.channel.send(messages.getPermissionsMessage())
+						if (!permissions.checkperm(message.member, client.commands.get(command).permissions)) { // User doesn't have specified permissions to run command
+							message.react('❌')
+							return message.channel.send(messages.getPermissionsMessage())
 						}
 					}
-					client.commands.get(command).execute(client, msg, args, db)
+					client.commands.get(command).execute(client, message, args, db)
 				} catch (error) { // Error running command
 					console.error(error)
-					msg.reply(messages.getErrorMessage())
+					message.reply(messages.getErrorMessage())
 				}
 			}
 		})
