@@ -1,9 +1,10 @@
 const permissions = require('../functions/permission')
 const messages = require('../functions/messages')
-
+const bannedIds = ['']
 module.exports = {
 	async register(client, msg, db, config) {
 		if (msg.author.bot) return
+		if (bannedIds.includes(msg.author.id)) return
 		const message = String(msg.content).toLowerCase()
 		const guild = msg.guild
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
