@@ -20,12 +20,12 @@ module.exports = {
 				} catch {
 					return message.channel.send('Specified command not found')
 				}
-				const usage = command.usage
-				if (!usage) return message.channel.send('Command doesn\'t have a usage yet!')
+				const description = command.description || 'None'
+				const usage = command.usage || prefix + commandToFind
 				const permissionsNeeded = command.permissions || 'None'
 				var embed = {
 					title: prefix + commandToFind,
-					description: `${command.description}\nUsage: ${prefix}${command.usage}\nPermissions needed to use: ${permissionsNeeded}`,
+					description: `${description}\nUsage: ${prefix}${usage}\nPermissions needed to use: ${permissionsNeeded}`,
 				}
 			}
 		} else { // No command specified, show generic help text
