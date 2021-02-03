@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'invite',
-	description: 'Creates an invite for the channel',
+	description: 'Generates an invite URL for the current channel',
 	usage: 'invite',
 	execute(client, message, args, db) {
 		message.channel.createInvite({ maxAge: 0 })

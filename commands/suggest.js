@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'suggest',
-	description: 'Suggests sommat',
+	description: 'Suggests something',
 	usage: 'suggest Make a memes channel',
 	execute(client, message, args, db) {
 		if (!args[0]) return message.reply('Usage: ' + this.usage)

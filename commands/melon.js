@@ -1,7 +1,7 @@
 const image = require('./image')
 module.exports = {
 	name: 'melon',
-	description: 'Melon',
+	description: 'Watermelon',
 	usage: 'melon',
 	execute(client, message, args, db) {
 		let tempArgs = ['watermelon']

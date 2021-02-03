@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'upupdowndownleftrightleftrightbastart',
-	description: 'oooh',
+	description: 'It\'s a secret',
 	usage: 'Well',
 	execute(client, message, args, db) {
 		message.channel.send('The command you found does literally nothing, you sad nerd.')

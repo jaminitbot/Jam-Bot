@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 module.exports = {
 	name: 'shorten',
-	description: 'Shortens a url',
+	description: 'Shortens a URL',
 	usage: 'shorten https://google.com',
 	async execute(client, message, args, db) {
 		if (!args[0]) return message.channel.send('You need to specify a url')

@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 module.exports = {
 	name: 'dog',
-	description: 'Woof',
+	description: 'Gets a random dog picture, or a specific breed',
 	usage: 'dog',
 	async execute(client, message, args, db) {
 		if (args[0]) {

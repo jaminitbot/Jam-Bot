@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'ping',
-	description: 'Latency!',
+	description: 'Displays various latency information',
 	usage: 'ping',
 	async execute(client, message, args, db) {
 		message.react('🏓')

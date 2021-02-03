@@ -8,7 +8,7 @@ function generateEmbed(embed, settingsFiles) {
 }
 module.exports = {
 	name: 'settings',
-	description: 'Configures settings',
+	description: 'Configures the bot\'s settings',
 	permissions: ['MANAGE_GUILD'],
 	usage: 'settings',
 	execute(client, message, args, db) {

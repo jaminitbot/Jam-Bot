@@ -7,7 +7,7 @@ const searchOptions = {
 }
 module.exports = {
 	name: 'image',
-	description: 'Gets a image',
+	description: 'Searches google for an image',
 	usage: 'image duck',
 	async execute(client, message, args, db) {
 		if (!args[0]) return message.reply('You need to specify what to search for!')

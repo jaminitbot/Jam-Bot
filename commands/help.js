@@ -1,7 +1,7 @@
 const config = require('../config.json')
 module.exports = {
 	name: 'help',
-	description: 'Displays a list of avaliable commands',
+	description: 'Displays information on a specifc command',
 	usage: 'help command',
 	execute(client, message, args, db) {
 		db.get('SELECT "value" FROM "' + message.guild + '" WHERE key="prefix"', (err, row) => { // Get prefix

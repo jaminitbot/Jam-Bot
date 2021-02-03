@@ -3,7 +3,7 @@ const random = require('random')
 const fetch = require('node-fetch')
 module.exports = {
 	name: 'stock',
-	description: 'Gets a random stock image',
+	description: 'Gets a stock image',
 	usage: 'stock nature',
 	async execute(client, message, args, db) {
 		if (!config.settings.pexelsApiKey) return
