@@ -25,7 +25,7 @@ module.exports = {
 				const permissionsNeeded = command.permissions || 'None'
 				var embed = {
 					title: prefix + commandToFind,
-					description: `${description}\nUsage: ${prefix}${usage}\nPermissions needed to use: ${permissionsNeeded}`,
+					description: `${description}\nUsage: \`${prefix}${usage}\`\nPermissions needed to use: \`${permissionsNeeded}\``,
 				}
 			}
 		} else { // No command specified, show generic help text
