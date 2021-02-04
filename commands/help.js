@@ -12,14 +12,13 @@ module.exports = {
 				prefix = config.defaults.prefix
 			}
 		})
+		let embed = {
+			title: 'Help',
+			description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/commandlist.html?prefix=${prefix})`,
+		}
 		if (args[0]) { // User wants info on a particular command
 			const commandToFind = String(args[0]).toLowerCase()
-			let embed = {}
 			if (commandToFind && !(commandToFind == ' ')) {
-				embed = {
-					title: 'Help',
-					description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/commandlist.html?prefix=${prefix})`,
-				}
 				if (client.commands.has(commandToFind)) {
 					const command = client.commands.get(commandToFind)
 					const description = command.description || 'None'
