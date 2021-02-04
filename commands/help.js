@@ -14,8 +14,9 @@ module.exports = {
 		})
 		if (args[0]) { // User wants info on a particular command
 			const commandToFind = String(args[0]).toLowerCase()
+			let embed = {}
 			if (commandToFind && !(commandToFind == ' ')) {
-				var embed = {
+				embed = {
 					title: 'Help',
 					description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/commandlist.html?prefix=${prefix})`,
 				}
@@ -24,7 +25,7 @@ module.exports = {
 					const description = command.description || 'None'
 					const usage = command.usage || prefix + commandToFind
 					const permissionsNeeded = command.permissions || 'None'
-					var embed = {
+					embed = {
 						title: prefix + commandToFind,
 						description: `${description}\nUsage: \`${prefix}${usage}\`\nPermissions needed to use: \`${permissionsNeeded}\``,
 					}
