@@ -15,26 +15,26 @@ module.exports = {
 		if (args[0]) { // User wants info on a particular command
 			const commandToFind = String(args[0]).toLowerCase()
 			if (commandToFind && !(commandToFind == ' ')) {
-				try {
-					var command = require(`../commands/${commandToFind}`)
-				} catch {
-					return message.channel.send('Specified command not found')
-				}
-				const description = command.description || 'None'
-				const usage = command.usage || prefix + commandToFind
-				const permissionsNeeded = command.permissions || 'None'
 				var embed = {
-					title: prefix + commandToFind,
-					description: `${description}\nUsage: \`${prefix}${usage}\`\nPermissions needed to use: \`${permissionsNeeded}\``,
+					title: 'Help',
+					description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/commandlist.html?prefix=${prefix})`,
 				}
-			}
-		} else { // No command specified, show generic help text
-			var embed = {
-				title: 'Help',
-				description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/commandlist.html?prefix=${prefix})`,
+				if (client.commands.has(commandToFind)) {
+					const command = client.commands.get(commandToFind)
+					const description = command.description || 'None'
+					const usage = command.usage || prefix + commandToFind
+					const permissionsNeeded = command.permissions || 'None'
+					var embed = {
+						title: prefix + commandToFind,
+						description: `${description}\nUsage: \`${prefix}${usage}\`\nPermissions needed to use: \`${permissionsNeeded}\``,
+					}
+				} else {
+					var messageContent = 'Specifed command not found'
+				}
+
 			}
 		}
 		embed.color = '0eacc4'
-		message.channel.send({ embed: embed })
+		message.channel.send({ content: messageContent || '', embed: embed })
 	}
 }
