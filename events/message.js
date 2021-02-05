@@ -3,6 +3,7 @@ const messages = require('../functions/messages')
 const bannedIds = ['']
 module.exports = {
 	async register(client, message, db, config) {
+		if (!message.guild) return
 		if (message.author.bot) return
 		if (bannedIds.includes(message.author.id)) return
 		const guild = message.guild
