@@ -41,6 +41,9 @@ client.on('messageDelete', msg => { messageDelete.register(client, msg, db) })
 client.on('guildMemberAdd', member => { guildMemberAdd.register(member) })
 client.on('error', error => { console.error(error) })
 client.on('invalidated', function() { process.emit('SIGINT') })
+client.on('guildUnavailable',  guild => { console.error(`Guild ${guild.id} has gone unaviliable.`) })
+client.on('warn',  info => { console.log(info) })
+client.on('rateLimit',  rateLimitInfo => { console.error(`Rate limit hit. Triggered by ${rateLimitInfo.path}, timeout for ${rateLimitInfo.timeout}. Only ${rateLimitInfo.limit} can be made`) })
 
 // SIGINT STUFF
 if (process.platform === 'win32') {
