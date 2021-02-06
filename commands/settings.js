@@ -13,7 +13,6 @@ module.exports = {
 	permissions: ['MANAGE_GUILD'],
 	usage: 'settings',
 	execute(client, message, args, db) {
-		if (message.author.id == '707313027485270067') return message.channel.send(messages.getPermissionsMessage())
 		const embed = {
 			title: 'Settings - Usage',
 			description: '',
