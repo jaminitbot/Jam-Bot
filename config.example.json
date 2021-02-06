@@ -1,5 +1,6 @@
 {
     "settings": {
+		"gifyApiKey": "",
         "ownerid": "ID",
         "ownername": "NAME",
         "token": "TOKEN",
