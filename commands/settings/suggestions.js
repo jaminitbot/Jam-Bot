@@ -9,7 +9,7 @@ module.exports = {
     const channel = message.guild.channels.cache.get(channelInput)
     if (!channel) return message.channel.send('Not a valid channel!')
     database.updateKey(db, message.guild, 'suggestionChannel', channel)
-    message.channel.send('Set suggestion channel channel!')
+    message.channel.send('Set suggestion channel!')
     channel.send('Suggestions will be sent here!')
   }
 }
