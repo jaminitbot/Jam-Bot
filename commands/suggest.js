@@ -8,7 +8,7 @@ module.exports = {
 			if (!row) return message.channel.send('Looks like suggestions haven\'t been setup here yet!')
 			channelid = row.value
 			const channel = client.channels.cache.get(channelid)
-			const suggestion = args.splice(1).join(' ')
+			const suggestion = args.splice(0).join(' ')
 			if (!channel) return message.channel.send('Error finding suggestions channel, perhaps it\'s being deleted')
 			const embed = {
 				title: 'Suggestion by ' + message.author.tag,
