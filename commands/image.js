@@ -1,7 +1,7 @@
 const gis = require('g-i-s')
 const isImage = require('is-image')
 const isNumber = require('is-number')
-const searchOptions = {
+let searchOptions = {
 	searchTerm: '',
 }
 module.exports = {
@@ -10,7 +10,9 @@ module.exports = {
 	usage: 'image duck',
 	async execute(client, message, args, db) {
 		if (!args[0]) return message.reply('You need to specify what to search for!')
-		if (!String(message.channel.name).toLowerCase().includes('nsfw')) searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing filters most things
+		if (!String(message.channel.name).toLowerCase().includes('nsfw')) {
+			searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing filters most things
+		}
 		message.channel.send(':mag_right: Finding image...').then(sent => {
 			let splitBy = 0
 			if (isNumber(args[0])) { // User wants to get a specific result
