@@ -26,9 +26,9 @@ module.exports = {
 					},
 					description: `Nickname: ${nickName}\nAccount Creation: ${createdAt}\nJoined on: ${joinedDate}\nIs Bot: ${isBot}\nID: ${id}\nRoles: ${roles}`
 				}
-			} else { // Didn't get a valid role, maybe its a role?
+			} else { // Didn't get a valid user, maybe its a role?
 				const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[0])
-				if (role) {
+				if (role) { // Valid role
 					const { id, position, createdAt, name, mentionable } = role
 					var embed = {
 						author: {
@@ -36,11 +36,11 @@ module.exports = {
 						},
 						description: `Id: ${id}\nCreated at: ${createdAt}\nMentionable: ${String(mentionable).toUpperCase()}\nPosition: ${position}`
 					}
-				} else { // No role found
+				} else { // No role or user found
 					return sent.edit('That is not a valid user or role.\n' + this.usage)
 				}
 			}
-			const intiatedUser = message.member.user.username + '#' + message.member.user.discriminator
+			const intiatedUser = message.author.tag
 			const intiatedAvatar = message.member.user.avatarURL()
 			embed = {
 				...embed, // Concat previous bits of embed
