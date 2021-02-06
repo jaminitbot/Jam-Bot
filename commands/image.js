@@ -10,17 +10,17 @@ module.exports = {
 	usage: 'image duck',
 	async execute(client, message, args, db) {
 		if (!args[0]) return message.reply('You need to specify what to search for!')
-		if (!String(message.channel.name).toLowerCase().includes('nsfw')) {
+		if (!String(message.channel.name).toLowerCase().includes('nsfw')) { // Nsfw channels can bypass safe search
 			searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing filters most things
 		}
-		message.channel.send(':mag_right: Finding image...').then(sent => {
-			let splitBy = 0
-			if (isNumber(args[0])) { // User wants to get a specific result
-				if (args[0] < 1) {
-					return sent.edit('You can\'t get that position silly!')
-				}
-				splitBy = 1 // Make sure we don't include the pos in the search
+		let splitBy = 0
+		if (isNumber(args[0])) { // User wants to get a specific result
+			if (args[0] < 1) {
+				return message.reply('you can\'t get a position less than one silly!')
 			}
+			splitBy = 1 // Make sure we don't include the pos in the search
+		}
+		message.channel.send(':mag_right: Finding image...').then(sent => {
 			const search = args.splice(splitBy).join(' ')
 			searchOptions.searchTerm = search
 			const validImageUrls = []
