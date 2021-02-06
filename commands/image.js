@@ -32,7 +32,7 @@ module.exports = {
 					}
 				})
 				if (splitBy == 0) { // Not specified image result
-					sent.edit(validImageUrls[0] || 'No image found for your search')
+					sent.edit(validImageUrls[0] || 'No image found for your search.')
 				} else { // Get specific image
 					sent.edit(validImageUrls[args[0] - 1] || 'There isn\'t an image for position: ' + args[0])
 				}
