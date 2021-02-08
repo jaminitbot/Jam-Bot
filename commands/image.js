@@ -23,7 +23,7 @@ module.exports = {
 		message.channel.send(':mag_right: Finding image...').then(sent => {
 			const search = args.splice(splitBy).join(' ')
 			searchOptions.searchTerm = search
-			const validImageUrls = []
+			let validImageUrls = []
 			gis(searchOptions, function (error, results) {
 				if (error) return sent.edit('An error occured when getting your results :c')
 				results.forEach(element => {
