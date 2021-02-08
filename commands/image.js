@@ -1,11 +1,13 @@
 const gis = require('g-i-s')
 const isImage = require('is-image')
 const isNumber = require('is-number')
+const messages = require('../functions/messages')
 module.exports = {
 	name: 'image',
 	description: 'Searches google for an image',
 	usage: 'image duck',
 	async execute(client, message, args, db) {
+		if (message.author.id == '582305080200396811') return message.send(messages.getPermissionsMessage())
 		let searchOptions = {
 			searchTerm: '',
 		}
