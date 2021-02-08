@@ -1,6 +1,8 @@
+const config = require('../config.json')
 module.exports = {
 	register(client, message, db) {
 		if (message.author.bot) return
+		if (message.author.id == config.settings.ownerid) return
 		db.get('SELECT "value" FROM "' + message.guild + '" WHERE key="logDeletedMessages"', (err, row) => { // Checks whether we should log this
 			if (err) return
 			if (!row) return
