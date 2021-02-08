@@ -15,4 +15,4 @@ module.exports = {
 			member.roles.add(aRole)
 		}
 	}
-}z
+}
