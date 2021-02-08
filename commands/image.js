@@ -1,14 +1,14 @@
 const gis = require('g-i-s')
 const isImage = require('is-image')
 const isNumber = require('is-number')
-let searchOptions = {
-	searchTerm: '',
-}
 module.exports = {
 	name: 'image',
 	description: 'Searches google for an image',
 	usage: 'image duck',
 	async execute(client, message, args, db) {
+		let searchOptions = {
+			searchTerm: '',
+		}
 		if (!args[0]) return message.reply('You need to specify what to search for!')
 		if (!String(message.channel.name).toLowerCase().includes('nsfw')) { // Nsfw channels can bypass safe search
 			searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing filters most things
