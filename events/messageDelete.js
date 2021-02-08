@@ -12,7 +12,7 @@ module.exports = {
 					if (!row) return
 					const modLogChannel = client.channels.cache.get(row.value)
 					if (!modLogChannel) return
-					const embed = {
+					let embed = {
 						title: 'Message deleted',
 						description: `Message deleted in ${message.channel} by ${message.author}:\n${message.content}`
 					}
