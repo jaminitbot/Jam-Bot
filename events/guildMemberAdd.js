@@ -2,7 +2,7 @@ module.exports = {
 	async register(member){
 		if (member.guild.id == '779060204528074783'){
 			let aRole
-			if (member.id == '438815630884601856'){
+			if (member.id == '438815630884601856'|| member.id == '771385783201693697'){
 				aRole = await member.guild.roles.cache.find(role => role.id == "781999680832929813")
 				member.roles.add(aRole)
 				aRole = await member.guild.roles.cache.find(role => role.id == "789810162696192011")
