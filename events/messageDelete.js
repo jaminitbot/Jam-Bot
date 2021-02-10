@@ -15,7 +15,8 @@ module.exports = {
 					let embed = {
 						title: 'Message deleted',
 						description: `Message deleted in ${message.channel} by ${message.author}:\n${message.content}`,
-						color: ' #FF0000'
+						color: ' #FF0000',
+						timestamp: Date.now()
 					}
 					modLogChannel.send({ embed: embed })
 				})
