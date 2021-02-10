@@ -3,7 +3,7 @@ module.exports = {
 	name: 'tell',
 	description: 'Tells something, to someone',
 	usage: 'tell @user You are amazing :))',
-	execute(client, message, args, db) {
+	execute(client, message, args, db, logger) {
 		// if (message.author.id == '707313027485270067') return message.channel.send(messages.getPermissionsMessage())
 		const user = message.mentions.members.first() || message.guild.members.cache.get(args[0])
 		if (!user) return message.reply('you need to mention a valid person!')

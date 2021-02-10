@@ -6,7 +6,7 @@ module.exports = {
 	name: 'image',
 	description: 'Searches google for an image',
 	usage: 'image duck',
-	async execute(client, message, args, db) {
+	async execute(client, message, args, db, logger) {
 		// if (message.author.id == '582305080200396811') return message.channel.send(messages.getPermissionsMessage())
 		let searchOptions = {
 			searchTerm: '',

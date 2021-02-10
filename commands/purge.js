@@ -5,7 +5,7 @@ module.exports = {
 	description: 'Bulk deletes messages',
 	permissions: ['MANAGE_MESSAGES'],
 	usage: 'purge 10',
-	execute(client, message, args, db) {
+	execute(client, message, args, db, logger) {
 		if (message.author.id == '707313027485270067') return message.channel.send(messages.getPermissionsMessage()) // Dom
 		if (!args[0]) return message.reply('You need to specify how many messages to purge!')
 		if (!isNumber(args[0])) return message.reply('you need to specify a number!')
@@ -17,7 +17,7 @@ module.exports = {
 			return message.reply('You can\'t delete more than 99 messages in one go!')
 		}
 		message.channel.bulkDelete(deleteCount + 1).catch(error => {
-			console.error('Error when deleting messages: ' + error)
+			logger.error('Error when deleting messages: ' + error)
 			message.channel.send(messages.getErrorMessage())
 		})
 	}

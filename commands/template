@@ -3,6 +3,6 @@ module.exports = {
 	description: 'Purges messages',
 	permissions: '',
 	usage: '',
-	execute(client, message, args, db) {
+	execute(client, message, args, db, logger) {
 	},
 }

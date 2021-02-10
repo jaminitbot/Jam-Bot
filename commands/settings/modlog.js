@@ -10,7 +10,7 @@ module.exports = {
   name: 'modlog',
   description: 'Various modlog related commands',
   usage: 'settings modlog SETTING VALUE',
-  execute (client, message, args, db) {
+  execute (client, message, args, db, logger) {
     const embed = {
       title: 'Settings: Mod Log - Usage',
       description: ''
@@ -23,7 +23,7 @@ module.exports = {
     for (const file of modLogFiles) {
       const command = require(`./modLog/${file}`)
       if (String(subSetting).toLowerCase() == command.name) {
-        return command.execute(client, message, args, db)
+        return command.execute(client, message, args, db, logger)
       }
     }
     return message.reply({ content: 'I couldn\'t find that sub-setting!', embed: generateEmbed(embed, modLogFiles) })

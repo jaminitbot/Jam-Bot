@@ -5,7 +5,7 @@ module.exports = {
 	name: 'stock',
 	description: 'Gets a stock image',
 	usage: 'stock nature',
-	async execute(client, message, args, db) {
+	async execute(client, message, args, db, logger) {
 		if (!config.settings.pexelsApiKey) return
 		if (!args[0]) return message.reply('You need to specify what to search for!')
 		const sent = await message.channel.send(':mag_right: Finding image...')

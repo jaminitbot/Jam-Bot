@@ -10,7 +10,7 @@ module.exports = {
 		if (String(message.channel.name).includes('juan') && !(String(message.content) == 'juan')) message.delete()
 		const guild = message.guild
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
-			if (err) return console.log(err)
+			if (err) return logger.error(err)
 			if (row) {
 				prefix = String(row.value)
 			} else { // No prefix in db, use default
@@ -27,7 +27,7 @@ module.exports = {
 							return message.channel.send(messages.getPermissionsMessage())
 						}
 					}
-					client.commands.get(command).execute(client, message, args, db)
+					client.commands.get(command).execute(client, message, args, db, logger)
 				} catch (error) { // Error running command
 					logger.error('Command failed with error: ' + error)
 					message.reply(messages.getErrorMessage())

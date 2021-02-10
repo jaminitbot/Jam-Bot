@@ -5,7 +5,7 @@ module.exports = {
 	name: 'shutdown',
 	description: 'Gracefully shuts down the bot',
 	usage: 'shutdown',
-	async execute(client, message, args, db) {
+	async execute(client, message, args, db, logger) {
 		if (config.settings.ownerid == message.author.id) {
 			await message.channel.send('Shutting Down...')
 			await message.react('👋')

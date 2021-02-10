@@ -5,7 +5,7 @@ module.exports = {
 	name: 'gif',
 	description: 'Gets a gif from gify',
 	usage: 'gif dog',
-	async execute(client, message, args, db) {
+	async execute(client, message, args, db, logger) {
 		if (!config.settings.gifyApiKey) return
 		if (!args[0]) return message.reply('You need to specify what to search for!')
 		const sent = await message.channel.send(':mag_right: Finding gif...')

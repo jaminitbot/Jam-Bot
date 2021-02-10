@@ -12,7 +12,7 @@ module.exports = {
 	description: 'Configures the bot\'s settings',
 	permissions: ['MANAGE_GUILD'],
 	usage: 'settings',
-	execute(client, message, args, db) {
+	execute(client, message, args, db, logger) {
 		const embed = {
 			title: 'Settings - Usage',
 			description: '',
@@ -26,7 +26,7 @@ module.exports = {
 		for (const file of settingsFiles) {
 			const command = require(`./settings/${file}`)
 			if (String(setting).toLowerCase() == command.name) {
-				return command.execute(client, message, args, db)
+				return command.execute(client, message, args, db, logger)
 			}
 		}
 		return message.reply({ content: 'I couldn\'t find that setting!', embed: generateEmbed(embed, settingsFiles) })

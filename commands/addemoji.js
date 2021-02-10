@@ -2,7 +2,7 @@ module.exports = {
 	name: 'addemoji',
 	description: 'Adds an emoji to the server',
 	usage: 'addemoji EmojiName',
-	execute(client, message, args, db) {
+	execute(client, message, args, db, logger) {
 		if (!args[0]) return message.reply('you need to specify a name for your emoji!')
 		let url = message.attachments.first()
 		if (!url) return message.reply('you need to attach the image of the emoji!')
@@ -13,6 +13,6 @@ module.exports = {
 					message.react(emoji.identifier)
 				})
 			})
-			.catch(console.error)
+			.catch(logger.error)
 	},
 }

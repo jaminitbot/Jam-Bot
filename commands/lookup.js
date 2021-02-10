@@ -3,7 +3,7 @@ module.exports = {
 	description: 'Displays information about a specific user or role',
 	permissions: ['MANAGE_MESSAGES'],
 	usage: 'lookup @user|@role',
-	execute(client, message, args, db) {
+	execute(client, message, args, db, logger) {
 		if (!args[0]) return message.reply('Usage: ' + this.usage)
 		// Basic info
 		message.channel.send(':mag_right: Looking up...').then(sent => {

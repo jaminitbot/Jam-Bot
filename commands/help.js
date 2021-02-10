@@ -3,9 +3,9 @@ module.exports = {
 	name: 'help',
 	description: 'Displays information on a specifc command',
 	usage: 'help command',
-	execute(client, message, args, db) {
+	execute(client, message, args, db, logger) {
 		db.get('SELECT "value" FROM "' + message.guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
-			if (err) console.log(err)
+			if (err) logger.error(err)
 			if (row) {
 				prefix = String(row.value)
 			} else {
