@@ -14,7 +14,8 @@ module.exports = {
 					if (!modLogChannel) return
 					let embed = {
 						title: 'Message deleted',
-						description: `Message deleted in ${message.channel} by ${message.author}:\n${message.content}`
+						description: `Message deleted in ${message.channel} by ${message.author}:\n${message.content}`,
+						color: ' #FF0000'
 					}
 					modLogChannel.send({ embed: embed })
 				})
