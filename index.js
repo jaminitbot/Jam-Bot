@@ -4,7 +4,9 @@ const fs = require('fs')
 const client = new Discord.Client()
 const config = require('./config.json')
 const schedule = require('node-schedule')
+const { createLogger, format, transports } = require('winston');
 const winston = require('winston')
+const { combine, timestamp, label, printf } = format;
 
 // Event imports
 const guildCreate = require('./events/guildCreate')
@@ -18,19 +20,21 @@ const dbScript = require('./functions/db')
 const twitch = require('./cron/twitch')
 
 // Logging
+const loggingFormat = printf(({ level, message, label, timestamp }) => {
+	return `${timestamp} ${level}: ${message}`;
+  });
 const logger = winston.createLogger({
 	level: 'info',
-	format: winston.format.json(),
-	defaultMeta: { service: 'user-service' },
+	format: combine(
+		timestamp(),
+		loggingFormat
+	  ),
 	transports: [
-	  //
-	  // - Write all logs with level `error` and below to `error.log`
-	  // - Write all logs with level `info` and below to `combined.log`
-	  //
-	  new winston.transports.File({ filename: 'error.log', level: 'error' }),
-	  new winston.transports.File({ filename: 'combined.log' }),
+		new winston.transports.Console(),
+		new winston.transports.File({ filename: 'error.log', level: 'error' }),
+		new winston.transports.File({ filename: 'combined.log' }),
 	],
-  })
+})
 
 // Registers all the commands in the commands folder
 // https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
@@ -55,10 +59,10 @@ client.on('message', msg => { message.register(client, msg, db, config, logger) 
 client.on('messageDelete', msg => { messageDelete.register(client, msg, db) })
 client.on('guildMemberAdd', member => { guildMemberAdd.register(member) })
 client.on('error', error => { logger.error(error) })
-client.on('invalidated', function() { process.emit('SIGINT') })
-client.on('guildUnavailable',  guild => { logger.error(`Guild ${guild.id} has gone unaviliable.`) })
-client.on('warn',  info => { logger.warn(info) })
-client.on('rateLimit',  rateLimitInfo => { logger.error(`Rate limit hit. Triggered by ${rateLimitInfo.path}, timeout for ${rateLimitInfo.timeout}. Only ${rateLimitInfo.limit} can be made`) })
+client.on('invalidated', function () { process.emit('SIGINT') })
+client.on('guildUnavailable', guild => { logger.error(`Guild ${guild.id} has gone unaviliable.`) })
+client.on('warn', info => { logger.warn(info) })
+client.on('rateLimit', rateLimitInfo => { logger.error(`Rate limit hit. Triggered by ${rateLimitInfo.path}, timeout for ${rateLimitInfo.timeout}. Only ${rateLimitInfo.limit} can be made`) })
 
 // SIGINT STUFF
 if (process.platform === 'win32') {
@@ -80,7 +84,6 @@ process.on('SIGINT', function () {
 
 // Intialisation
 client.on('ready', () => {
-	console.log('Logged in')
 	logger.info('Logged in at ' + Date.now())
 	client.user.setActivity('?help', { type: 'WATCHING' })
 	if (config.settings.twitchApiClientId && config.settings.twitchApiSecret) { // Only if api tokens are present
