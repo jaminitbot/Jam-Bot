@@ -1,16 +1,16 @@
 module.exports = {
-	connect(config) {
+	connect(config, logger) {
 		try {
 			sqlite3 = require('sqlite3').verbose()
 		} catch (err) {
-			console.log('Error requiring sqlite, perhaps you haven\'t installed it')
-			console.error(err)
+			logger.error('Error requiring sqlite.')
+			logger.error(err)
 			return null
 		}
 		// Help me
 		const db = new sqlite3.cached.Database(config.settings.databaseLocation, (err) => {
 			if (err) return console.error(err.message)
-			console.log('Connected to the SQlite database')
+			logger.info('Connected to sqlite database')
 		})
 		return db
 	},

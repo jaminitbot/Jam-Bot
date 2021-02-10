@@ -3,7 +3,7 @@ const messages = require('../functions/messages')
 const random = require('random')
 const bannedIds = ['']
 module.exports = {
-	async register(client, message, db, config) {
+	async register(client, message, db, config, logger) {
 		if (!message.guild) return
 		if (message.author.bot) return
 		if (bannedIds.includes(message.author.id)) return
@@ -29,7 +29,7 @@ module.exports = {
 					}
 					client.commands.get(command).execute(client, message, args, db)
 				} catch (error) { // Error running command
-					console.error(error)
+					logger.error('Command failed with error: ' + error)
 					message.reply(messages.getErrorMessage())
 				}
 			}

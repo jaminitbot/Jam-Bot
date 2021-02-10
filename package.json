@@ -28,7 +28,8 @@
     "node-schedule": "^2.0.0",
     "random": "^2.2.0",
     "sqlite3": "^5.0.0",
-    "utf-8-validate": "^5.0.4"
+    "utf-8-validate": "^5.0.4",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "eslint": "^7.17.0"
