@@ -35,6 +35,9 @@ const logger = winston.createLogger({
 		new winston.transports.File({ filename: 'combined.log' }),
 	],
 })
+process.on('uncaughtException', function (err) {
+	logger.error(err.message)
+})
 
 // Registers all the commands in the commands folder
 // https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
