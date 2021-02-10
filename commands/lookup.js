@@ -14,7 +14,7 @@ module.exports = {
 				const isBot = String(user.user.bot).toUpperCase()
 				const createdAt = user.user.createdAt
 				const nickName = user.nickname || user.user.username
-				const { joinedDate, id } = user
+				const { id } = user
 				let roles = ''
 				user.roles.cache.forEach(role => {
 					roles = `${roles} ${role.name},`
@@ -24,7 +24,7 @@ module.exports = {
 						name: 'User: ' + userName,
 						icon_url: avatar
 					},
-					description: `Nickname: ${nickName}\nAccount Creation: ${createdAt}\nJoined on: ${joinedDate}\nIs Bot: ${isBot}\nID: ${id}\nRoles: ${roles}`
+					description: `Nickname: ${nickName}\nAccount Creation: ${createdAt}\nID: ${id}\nRoles: ${roles}`
 				}
 			} else { // Didn't get a valid user, maybe its a role?
 				const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[0])
