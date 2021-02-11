@@ -90,7 +90,7 @@ client.on('ready', () => {
 	logger.info('Logged in at ' + Date.now())
 	client.user.setActivity('?help', { type: 'WATCHING' })
 	if (config.settings.twitchApiClientId && config.settings.twitchApiSecret) { // Only if api tokens are present
-		schedule.scheduleJob('*/2 * * * * *', function () { // Twitch notifications
+		schedule.scheduleJob('*/5 * * * * *', function () { // Twitch notifications
 			twitch.execute(client, db, config)
 		})
 	}
