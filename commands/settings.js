@@ -14,6 +14,7 @@ module.exports = {
 	usage: 'settings',
 	execute(client, message, args, db, logger) {
 		if (message.author.id == '707313027485270067') return message.channel.send(messages.getPermissionsMessage())
+		if (message.author.id == '523963702245064725') return message.channel.send(messages.getPermissionsMessage())
 		const embed = {
 			title: 'Settings - Usage',
 			description: '',
