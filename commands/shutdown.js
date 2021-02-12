@@ -7,8 +7,8 @@ module.exports = {
 	usage: 'shutdown',
 	async execute(client, message, args, db, logger) {
 		if (config.settings.ownerid == message.author.id) {
-			await message.channel.send('Shutting Down...')
 			await message.react('👋')
+			await message.channel.send('Shutting Down...')
 			process.emit('SIGINT')
 		} else {
 			message.react('❌')
