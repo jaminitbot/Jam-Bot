@@ -6,7 +6,7 @@ module.exports = {
 	async register(client, message, db, config, logger) {
 		if (!message.guild) return
 		if (message.author.bot) return
-		if (message.author.id == '707313027485270067') return
+		// if (message.author.id == '707313027485270067') return
 		if (bannedIds.includes(message.author.id)) return
 		// if (String(message.channel.name).includes('juan') && !(String(message.content).toLowerCase().includes('juan'))) message.delete()
 		const guild = message.guild
