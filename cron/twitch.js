@@ -33,7 +33,7 @@ module.exports = {
 
 					}
 				}
-			} else {
+			} else { // We haven't notified for this live
 				database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTime', data.started_at) // Put the time of live in db
 				const sentMessage = await notificationChannel.send(`${messages.getHappyMessage()} @everyone ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Notify for the live
 				database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveMessageId', sentMessage.id) // Put the notification message id in db
