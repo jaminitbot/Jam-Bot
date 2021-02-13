@@ -15,7 +15,6 @@ module.exports = {
 		return db
 	},
 	updateKey(db, guild, key, value) {
-		console.log(`Updating ${key} with value: ${value}`)
 		db.run('UPDATE "' + guild + '" SET \'value\' = \'' + value + '\' WHERE key=\'' + key + '\'', (err) => {
 			if (err) return console.error('Error updating: ' + err.message)
 			db.get('SELECT "value" FROM "' + guild + '" WHERE key="' + key + '"', (err, row) => {
