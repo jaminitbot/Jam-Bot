@@ -13,27 +13,31 @@ module.exports = {
 		})
 		const json = await response.json()
 		const data = json.data[0]
-		if (data.is_live) {
-			let LiveTime = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTime"')
+		if (data.is_live) { // Checks if broadcaster is live
 			const notificationChannel = client.channels.cache.get(config.settings.twitchNotificationsChannel)
 			if (!notificationChannel) return
-			if (LiveTime.value == data.started_at) {
+			let LiveTime = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTime"')
+			if (LiveTime.value == data.started_at) { // Checks if we have already notified for this live
 				let LiveTitle = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTitle"')
-				if (!LiveTitle) return
-				if (md5(data.title) == LiveTitle.value) {
-					return
-				} else {
-					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title))
-					let MessageId = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveMessageId"')
-					if (!MessageId) return
-					let messageToUpdate = await notificationChannel.messages.fetch(MessageId.value)
-					messageToUpdate.edit(`${messages.getHappyMessage()} @everyone ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`)
-					return
+				if (LiveTitle) {
+					if (md5(data.title) == LiveTitle.value) { // If the title in the message and title of stream is the same, do nothing
+						return
+					} else { // If not
+						database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title)) // Put the new title in the db
+						let MessageId = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveMessageId"') // Get the message id of the notiication we sent
+						if (MessageId) {
+							let messageToUpdate = await notificationChannel.messages.fetch(MessageId.value) // Get the message object
+							messageToUpdate.edit(`${messages.getHappyMessage()} @everyone ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Edit the notification message with the new title
+							return
+						}
+
+					}
 				}
+			} else {
+				database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTime', data.started_at) // Put the time of live in db
+				const sentMessage = await notificationChannel.send(`${messages.getHappyMessage()} @everyone ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Notify for the live
+				database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveMessageId', sentMessage.id) // Put the notification message id in db
 			}
-			database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTime', data.started_at)
-			const sentMessage = await notificationChannel.send(`${messages.getHappyMessage()} @everyone ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`)
-			database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveMessageId', sentMessage.id)
 		}
 	}
 }
