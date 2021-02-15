@@ -5,6 +5,7 @@ const md5 = require('md5')
 module.exports = {
 	async execute(client, db, config) {
 		if (!config.settings.twitchApiClientId || !config.settings.twitchApiSecret) return
+		if (!config.settings.twitchNotificationsChannel || !config.settings.twitchNotificationsGuild) return
 		const response = await fetch('https://api.twitch.tv/helix/search/channels?query=' + config.settings.twitchNotificationsUsername, {
 			headers: {
 				'CLIENT-ID': config.settings.twitchApiClientId,
