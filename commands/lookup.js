@@ -37,7 +37,7 @@ module.exports = {
 						description: `Id: ${id}\nCreated at: ${createdAt}\nMentionable: ${String(mentionable).toUpperCase()}\nPosition: ${position}`
 					}
 				} else { // No role or user found
-					return sent.edit('That is not a valid user or role.\n' + this.usage)
+					return sent.edit('That is not a valid user or role.')
 				}
 			}
 			const intiatedUser = message.author.tag
