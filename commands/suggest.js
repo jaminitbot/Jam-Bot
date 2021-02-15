@@ -11,12 +11,14 @@ module.exports = {
 			if (!channel) return message.channel.send('Error finding suggestions channel, perhaps it\'s being deleted')
 			message.delete()
 			const embed = {
-				title: 'Suggestion by ' + message.author.tag,
+				title: 'Suggestion',
 				description: suggestion,
 				color: 65511,
-				thumbnail: {
-					url: message.author.displayAvatarURL()
-				}
+				footer: {
+					text: `Suggestion by ${message.author.tag}`,
+					icon_url: message.author.displayAvatarURL()
+				},
+				timestamp: Date.now()
 			}
 			const suggestmessage = channel.send({ embed: embed })
 			suggestmessage.then((message) => {
