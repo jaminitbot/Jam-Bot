@@ -15,7 +15,7 @@ module.exports = {
 			timestamp: Date.now()
 		}
 		const sent = await message.channel.send({embed: embed})
-		sent.react('✅')
-			.then(() => (sent.react('❌')))
+		await sent.react('✅')
+		sent.react('❌')
 	},
 }
