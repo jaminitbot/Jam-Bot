@@ -20,6 +20,7 @@
   "homepage": "https://github.com/jamesatjaminit/AllInOneDiscordBot#readme",
   "dependencies": {
     "bufferutil": "^4.0.3",
+    "delay": "^5.0.0",
     "discord.js": "^12.5.1",
     "g-i-s": "^2.1.6",
     "is-image": "^3.0.0",

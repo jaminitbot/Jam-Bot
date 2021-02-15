@@ -1,3 +1,4 @@
+const delay = require('delay')
 module.exports = {
 	name: 'poll',
 	description: 'Creates a poll',
@@ -16,6 +17,7 @@ module.exports = {
 		}
 		const sent = await message.channel.send({embed: embed})
 		await sent.react('✅')
+		await delay(1100);
 		sent.react('❌')
 	},
 }
