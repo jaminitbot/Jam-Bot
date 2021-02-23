@@ -5,6 +5,6 @@ module.exports = {
 	usage: 'eval 1+1',
 	execute(client, message, args, db, logger) {
 		if (!message.author.id == config.settings.ownerid) return
-		message.channel.send(eval(args.splice(0).join(' ')))
+		message.channel.send(String(eval(args.splice(0).join(' '))))
 	},
 }
