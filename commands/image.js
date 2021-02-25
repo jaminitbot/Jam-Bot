@@ -7,6 +7,12 @@ module.exports = {
 	description: 'Searches google for an image',
 	usage: 'image duck',
 	async execute(client, message, args, db, logger) {
+		let type
+		if (String(message).includes('gif')) {
+			type = 'gif'
+		} else {
+			type = 'image'
+		}
 		// if (message.author.id == '582305080200396811') return message.channel.send(messages.getPermissionsMessage())
 		let searchOptions = {
 			searchTerm: '',
@@ -22,7 +28,7 @@ module.exports = {
 			}
 			splitBy = 1 // Make sure we don't include the pos in the search
 		}
-		message.channel.send(':mag_right: Finding image...').then(sent => {
+		message.channel.send(`:mag_right: Finding ${type}...`).then(sent => {
 			const search = args.splice(splitBy).join(' ')
 			searchOptions.searchTerm = search
 			let validImageUrls = []
@@ -34,9 +40,9 @@ module.exports = {
 					}
 				})
 				if (splitBy == 0) { // Not specified image result
-					sent.edit(validImageUrls[0] || 'No image found for your search.')
+					sent.edit(validImageUrls[0] || `No ${type} found for your search.`)
 				} else { // Get specific image
-					sent.edit(validImageUrls[args[0] - 1] || 'There isn\'t an image for position: ' + args[0])
+					sent.edit(validImageUrls[args[0] - 1] || `There isn\'t an ${type} for position: ` + args[0])
 				}
 			})
 
