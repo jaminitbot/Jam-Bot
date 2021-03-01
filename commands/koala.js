@@ -4,7 +4,7 @@ module.exports = {
 	description: 'Koala',
 	usage: 'koala',
 	async execute(client, message, args, db, logger) {
-		const { file } = await fetch('https://some-random-api.ml/img/koala').then(response => response.json())
+		const { link } = await fetch('https://some-random-api.ml/img/koala').then(response => response.json())
 		message.channel.send(link || 'Unable to get a koala, the api\'s probably down')
 	}
 }
