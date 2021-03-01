@@ -28,7 +28,7 @@
     "md5": "^2.3.0",
     "node-fetch": "^2.6.1",
     "node-schedule": "^2.0.0",
-    "random": "^2.2.0",
+    "random": "^3.0.0",
     "sqlite3": "^5.0.0",
     "utf-8-validate": "^5.0.4",
     "winston": "^3.3.3"
