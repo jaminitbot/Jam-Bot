@@ -35,7 +35,7 @@ module.exports = {
 				} else { // If not
 					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title)) // Put the new title in the db
 					let MessageId = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveMessageId"') // Get the message id of the notiication we sent
-					console.log('Message id: ' + String(MessageId.id))
+					console.log('Message id: ' + String(MessageId.value))
 					if (MessageId) {
 						console.log('MESSAGE ID WE HAVE')
 						let messageToUpdate = await notificationChannel.messages.fetch(MessageId.value) // Get the message object
