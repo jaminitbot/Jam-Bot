@@ -2,6 +2,7 @@ const fetch = require('node-fetch')
 const database = require('../functions/db')
 const messages = require('../functions/messages')
 const md5 = require('md5')
+const message = require('../events/message')
 module.exports = {
 	async execute(client, db, config, logger) {
 		if (!config.settings.twitchApiClientId || !config.settings.twitchApiSecret) return
@@ -34,6 +35,7 @@ module.exports = {
 				} else { // If not
 					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title)) // Put the new title in the db
 					let MessageId = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveMessageId"') // Get the message id of the notiication we sent
+					logger.log('Message id: ' MessageId)
 					if (MessageId) {
 						logger.log('MESSAGE ID WE HAVE')
 						let messageToUpdate = await notificationChannel.messages.fetch(MessageId.value) // Get the message object
