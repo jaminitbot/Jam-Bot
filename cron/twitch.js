@@ -20,7 +20,7 @@ module.exports = {
 			let LiveTime = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTime"')
 			if (LiveTime.value == data.started_at) { // Checks if we have already notified for this live
 				let LiveTitle = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTitle"')
-				if (!LiveTitle.value) return database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title))
+				if (!LiveTitle) return database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title))
 					// NOTE: hash because we don't want the title to contain SQL escaping characters
 					// md5 because it's fast and will work fine in this case
 					if (md5(data.title) == LiveTitle.value) { // If the title in the message and title of stream is the same, do nothing
