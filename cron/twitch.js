@@ -24,7 +24,7 @@ module.exports = {
 					// NOTE: hash because we don't want the title to contain SQL escaping characters
 					// md5 because it's fast and will work fine in this case
 					if (md5(data.title) == LiveTitle.value) { // If the title in the message and title of stream is the same, do nothing
-						return
+						return console.log('Same')
 					} else { // If not
 						database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title)) // Put the new title in the db
 						let MessageId = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveMessageId"') // Get the message id of the notiication we sent
