@@ -20,9 +20,9 @@ module.exports = {
 			if (!notificationChannel) return
 			let LiveTime = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTime"')
 			if (LiveTime.value == data.started_at) { // Checks if we have already notified for this live
-				let LiveTitle = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTitle"')
+				LiveTitle = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTitle"')
 				if (!LiveTitle) {
-					logger.warn('No live title')
+					logger.log('No live title')
 					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title))
 				}
 				// NOTE: hash because we don't want the title to contain SQL escaping characters
