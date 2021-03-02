@@ -20,7 +20,6 @@ module.exports = {
 			let LiveTime = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTime"')
 			if (LiveTime.value == data.started_at) { // Checks if we have already notified for this live
 				let LiveTitle = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTitle"')
-				if (LiveTitle) {
 					// NOTE: hash because we don't want the title to contain SQL escaping characters
 					// md5 because it's fast and will work fine in this case
 					if (md5(data.title) == LiveTitle.value) { // If the title in the message and title of stream is the same, do nothing
@@ -35,7 +34,6 @@ module.exports = {
 						}
 
 					}
-				}
 			} else { // We haven't notified for this live
 				database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTime', data.started_at) // Put the time of live in db so we don't notify twice
 				const sentMessage = await notificationChannel.send(`${messages.getHappyMessage()} @Live ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Notify for the live in the right channel
