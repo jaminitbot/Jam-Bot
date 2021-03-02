@@ -22,22 +22,16 @@ module.exports = {
 			if (LiveTime.value == data.started_at) { // Checks if we have already notified for this live
 				LiveTitle = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTitle"')
 				if (!LiveTitle) {
-					logger.info('No live title')
 					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title))
 				}
 				// NOTE: hash because we don't want the title to contain SQL escaping characters
 				// md5 because it's fast and will work fine in this case
 				if (md5(data.title) == LiveTitle.value) { // If the title in the message and title of stream is the same, do nothing
-					logger.info('Title is same as db')
-					logger.info('Stream title: ' + md5(data.title))
-					logger.info('Stream title in DB: ' + LiveTitle.value)
 					return 
 				} else { // If not
 					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title)) // Put the new title in the db
 					let MessageId = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveMessageId"') // Get the message id of the notiication we sent
-					console.log('Message id: ' + String(MessageId.value))
 					if (MessageId) {
-						console.log('MESSAGE ID WE HAVE')
 						let messageToUpdate = await notificationChannel.messages.fetch(MessageId.value) // Get the message object
 						await messageToUpdate.edit(`${messages.getHappyMessage()} \<@&814796307402457148> ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Edit the notification message with the new title
 						return
