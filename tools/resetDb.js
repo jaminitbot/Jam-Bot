@@ -19,4 +19,5 @@ const logger = winston.createLogger({
 	],
 })
 const db = dbScript.connect(config, logger)
-dbScript.updateKey(db, '779060204528074783', 'LiveTime', 'NONE')
+// dbScript.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTime', 'NONE')
+dbScript.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', 'NONE')
