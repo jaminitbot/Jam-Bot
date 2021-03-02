@@ -35,6 +35,7 @@ module.exports = {
 					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title)) // Put the new title in the db
 					let MessageId = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveMessageId"') // Get the message id of the notiication we sent
 					if (MessageId) {
+						logger.log('MESSAGE ID WE HAVE')
 						let messageToUpdate = await notificationChannel.messages.fetch(MessageId.value) // Get the message object
 						await messageToUpdate.edit(`${messages.getHappyMessage()} \<@&814796307402457148> ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Edit the notification message with the new title
 						return
