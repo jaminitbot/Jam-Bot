@@ -36,7 +36,7 @@ module.exports = {
 					let MessageId = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveMessageId"') // Get the message id of the notiication we sent
 					if (MessageId) {
 						let messageToUpdate = await notificationChannel.messages.fetch(MessageId.value) // Get the message object
-						messageToUpdate.edit(`${messages.getHappyMessage()} \<@&814796307402457148> ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Edit the notification message with the new title
+						await messageToUpdate.edit(`${messages.getHappyMessage()} \<@&814796307402457148> ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Edit the notification message with the new title
 						return
 					}
 
