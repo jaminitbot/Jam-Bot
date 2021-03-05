@@ -11,5 +11,4 @@ A discord bot designed to be easy to setup, but full of features.
 ## TODO:
 
 * Implement more commands - Started
-* Add multiple database support https://github.com/jamesatjaminit/AllInOneDiscordBot/issues/8
 * Possible web interface? - Possible
