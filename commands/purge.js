@@ -16,7 +16,7 @@ module.exports = {
 		} else if (deleteCount > 99) { // Discord api doesn't let us do more than 100
 			return message.reply('You can\'t delete more than 99 messages in one go!')
 		}
-		message.channel.bulkDelete(deleteCount + 1).catch(error => {
+		message.channel.bulkDelete(deleteCount + 1).catch(error => { // Delete +1 since we need to delete the intiating command as well
 			logger.error('Error when deleting messages: ' + error)
 			message.channel.send(messages.getErrorMessage())
 		})

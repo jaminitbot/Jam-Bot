@@ -1,3 +1,4 @@
+// Don't ask why this is a thing, waffle wanted it
 module.exports = {
 	name: 'cactus',
 	description: 'Ouch',

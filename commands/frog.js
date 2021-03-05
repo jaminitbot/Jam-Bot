@@ -4,7 +4,7 @@ module.exports = {
 	description: 'Frog',
 	usage: 'frog',
 	execute(client, message, args, db, logger) {
-		let tempArgs = ['frog']
+		let tempArgs = [random.int(min=1, max=25), 'frog']
 		image.execute(client, message, tempArgs, db)
 	},
 }

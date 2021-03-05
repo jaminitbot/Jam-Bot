@@ -1,3 +1,4 @@
+const messages = require('../functions/messages')
 module.exports = {
 	name: 'addemoji',
 	description: 'Adds an emoji to the server',
@@ -14,5 +15,6 @@ module.exports = {
 				})
 			})
 			.catch(logger.error)
+			.catch(message.channel.send(messages.getErrorMessage()))
 	},
 }
