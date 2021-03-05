@@ -1,4 +1,3 @@
-const moment = require('moment');
 module.exports = {
 	name: 'uptime',
 	description: 'Displays the bot\'s current uptime',
