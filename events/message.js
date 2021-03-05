@@ -8,7 +8,7 @@ module.exports = {
 		if (message.author.bot) return
 		// if (message.author.id == '707313027485270067') return
 		if (bannedIds.includes(message.author.id)) return
-		// if (String(message.channel.name).includes('juan') && !(String(message.content).toLowerCase().includes('juan'))) message.delete()
+		if (String(message.channel.name).includes('juan') && !(message.author.id == '523963702245064725')) message.delete()
 		const guild = message.guild
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
 			if (err) return logger.error(err)
