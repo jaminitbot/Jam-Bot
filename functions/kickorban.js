@@ -11,15 +11,20 @@ module.exports = {
 		sucessful = true
 		if (kickOrBan == 'ban') {
 			memberToBan.ban({ reason: `${moderator}: ${reason}`, days: 1 })
-				.catch(sucessful = false)
+				.then(member => {
+					message.channel.send(`Poof, ${member} got ${kickOrBan}ed!`);
+				})
+				.catch(() => {
+					return message.channel.send(`Sorry, you can't ${kickOrBan} this member`);
+				});
 		} else {
 			memberToBan.kick({ reason: `${moderator}: ${reason}`, days: 1 })
-				.catch(sucessful = false)
-		}
-		if (sucessful) {
-			message.reply(`${memberToBan} was ${kickOrBan}ed with reason: ${reason}`)
-		} else {
-			message.channel.send('It may have worked, it may have not')
+				.then(member => {
+					message.channel.send(`Poof, ${member} got ${kickOrBan}ed!`);
+				})
+				.catch(() => {
+					return message.channel.send(`Sorry, you can't ${kickOrBan} this member`);
+				});
 		}
 	}
 }
