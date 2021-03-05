@@ -6,7 +6,7 @@ module.exports = {
 	permissions: ['MANAGE_MESSAGES'],
 	usage: 'purge 10',
 	execute(client, message, args, db, logger) {
-		if (message.author.id == '707313027485270067') return message.channel.send(messages.getPermissionsMessage()) // Dom
+		if (message.author.id == '707313027485270067') return message.channel.send(messages.getInvalidPermissionsMessage()) // Dom
 		if (!args[0]) return message.reply('You need to specify how many messages to purge!')
 		if (!isNumber(args[0])) return message.reply('you need to specify a number!')
 		if (!message.guild.me.hasPermission(['MANAGE_MESSAGES'])) return message.channel.send('I don\'t have permission to perform this command, make sure I have the manage messages permission!')

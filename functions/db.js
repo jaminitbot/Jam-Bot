@@ -7,7 +7,6 @@ module.exports = {
 			logger.error(err)
 			return null
 		}
-		// Help me
 		const db = new sqlite3.cached.Database(config.settings.databaseLocation, (err) => {
 			if (err) return logger.error(err.message)
 			logger.info('Connected to sqlite database')

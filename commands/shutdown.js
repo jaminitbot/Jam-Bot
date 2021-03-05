@@ -12,7 +12,7 @@ module.exports = {
 			process.emit('SIGINT')
 		} else {
 			message.react('❌')
-			message.channel.send(messages.getPermissionsMessage())
+			message.channel.send(messages.getInvalidPermissionsMessage())
 		}
 	}
 }

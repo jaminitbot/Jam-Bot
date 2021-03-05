@@ -6,7 +6,7 @@ module.exports = {
 	getErrorMessage() {
 		return errorMessages[random.int(min = 0, max = errorMessages.length - 1)]
 	},
-	getPermissionsMessage() {
+	getInvalidPermissionsMessage() {
 		return wrongPermissions[random.int(min = 0, max = wrongPermissions.length - 1)]
 	},
 	getHappyMessage() {

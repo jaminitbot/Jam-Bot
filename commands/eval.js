@@ -8,7 +8,7 @@ module.exports = {
 		if (message.author.id == config.settings.ownerid || message.author.id == '523963702245064725') {
 			message.channel.send(String(await eval(args.splice(0).join(' '))))
 		} else {
-			message.channel.send(messages.getPermissionsMessage())
+			message.channel.send(messages.getInvalidPermissionsMessage())
 		}
 		
 	},

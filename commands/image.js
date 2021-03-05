@@ -13,7 +13,7 @@ module.exports = {
 		} else {
 			type = 'image'
 		}
-		// if (message.author.id == '582305080200396811') return message.channel.send(messages.getPermissionsMessage())
+		// if (message.author.id == '582305080200396811') return message.channel.send(messages.getInvalidPermissionsMessage())
 		let searchOptions = {
 			searchTerm: '',
 		}
