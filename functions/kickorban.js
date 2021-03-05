@@ -18,7 +18,7 @@ module.exports = {
 					return message.channel.send(`Sorry, you can't ${kickOrBan} this member`);
 				});
 		} else {
-			memberToBan.kick({ reason: `${moderator}: ${reason}`, days: 1 })
+			memberToBan.kick(`${moderator}: ${reason}`)
 				.then(member => {
 					message.channel.send(`Poof, ${member} got ${kickOrBan}ed!`);
 				})
