@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 const database = require('../functions/db')
 const messages = require('../functions/messages')
-const md5 = require('md5')
+const sha1 = require('sha1')
 const message = require('../events/message')
 module.exports = {
 	async execute(client, db, config, logger) {
@@ -22,14 +22,13 @@ module.exports = {
 			if (LiveTime.value == data.started_at) { // Checks if we have already notified for this live
 				LiveTitle = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTitle"')
 				if (!LiveTitle) {
-					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title))
+					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', sha1(data.title))
 				}
 				// NOTE: hash because we don't want the title to contain SQL escaping characters
-				// md5 because it's fast and will work fine in this case
-				if (md5(data.title) == LiveTitle.value) { // If the title in the message and title of stream is the same, do nothing
+				if (sha1(data.title) == LiveTitle.value) { // If the title in the message and title of stream is the same, do nothing
 					return 
 				} else { // If not
-					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', md5(data.title)) // Put the new title in the db
+					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', sha1(data.title)) // Put the new title in the db
 					let MessageId = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveMessageId"') // Get the message id of the notiication we sent
 					if (MessageId) {
 						let messageToUpdate = await notificationChannel.messages.fetch(MessageId.value) // Get the message object
