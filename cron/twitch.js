@@ -33,9 +33,7 @@ module.exports = {
 					if (MessageId) {
 						let messageToUpdate = await notificationChannel.messages.fetch(MessageId.value) // Get the message object
 						await messageToUpdate.edit(`${messages.getHappyMessage()} <@&814796307402457148> ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Edit the notification message with the new title
-						return
 					}
-
 				}
 			} else { // We haven't notified for this live
 				database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTime', data.started_at) // Put the time of live in db so we don't notify twice
