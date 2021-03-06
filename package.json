@@ -22,6 +22,7 @@
     "bufferutil": "^4.0.3",
     "delay": "^5.0.0",
     "discord.js": "^12.5.1",
+    "erlpack": "github:discord/erlpack",
     "g-i-s": "^2.1.6",
     "is-image": "^3.0.0",
     "is-number": "^7.0.0",
@@ -31,7 +32,8 @@
     "random": "^3.0.3",
     "sqlite3": "^5.0.0",
     "utf-8-validate": "^5.0.4",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
     "eslint": "^7.17.0"
