@@ -1,23 +1,22 @@
 {
-  "name": "allinonediscordbot",
+  "name": "jambot",
   "version": "1.0.0",
-  "description": "A discord bot for everything",
+  "description": "Jammy bot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "lint": "yarn run eslint . --fix",
     "fixDb": "node tools/fixDatabase.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jamesatjaminit/AllInOneDiscordBot.git"
+    "url": "git+https://github.com/jamesatjaminit/Jam-Bot.git"
   },
   "author": "James Cook",
-  "license": "ISC",
+  "license": "AllRightsReserved",
   "bugs": {
-    "url": "https://github.com/jamesatjaminit/AllInOneDiscordBot/issues"
+    "url": "https://github.com/jamesatjaminit/Jam-Bot/issues"
   },
-  "homepage": "https://github.com/jamesatjaminit/AllInOneDiscordBot#readme",
+  "homepage": "https://github.com/jamesatjaminit/Jam-Bot#readme",
   "dependencies": {
     "delay": "^5.0.0",
     "discord.js": "^12.5.1",
