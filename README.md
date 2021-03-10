@@ -3,11 +3,11 @@
 A discord bot designed to be easy to setup, but full of features.
 ## Installation:
 
-1) `git clone https://github.com/jamesatjaminit/AllInOneDiscordBot`
-2) `cd AllInOneDiscordBot`
+1) `git clone https://github.com/jamesatjaminit/Jam-Bot`
+2) `cd Jam-Bot`
 3) `yarn` or `npm i`
 4) Copy `config.example.json` to `config.json` and fill out
-5) `node index.js`
+5) `npm run start`
 ## TODO:
 
 * Implement more commands - Started
