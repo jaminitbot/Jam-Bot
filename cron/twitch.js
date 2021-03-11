@@ -17,6 +17,7 @@ module.exports = {
 		const data = json.data[0]
 		if (data.is_live) { // Checks if broadcaster is live
 			const notificationChannel = client.channels.cache.get(config.settings.twitchNotificationsChannel)
+			let notificationMessageContent = `<@&814796307402457148> ${messages.getHappyMessage()} ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`
 			if (!notificationChannel) return
 			let LiveTime = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTime"')
 			if (LiveTime.value == data.started_at) { // Checks if we have already notified for this live
@@ -32,12 +33,12 @@ module.exports = {
 					let MessageId = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveMessageId"') // Get the message id of the notiication we sent
 					if (MessageId) {
 						let messageToUpdate = await notificationChannel.messages.fetch(MessageId.value) // Get the message object
-						await messageToUpdate.edit(`<@&814796307402457148> ${messages.getHappyMessage()} ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Edit the notification message with the new title
+						await messageToUpdate.edit(notificationMessageContent) // Edit the notification message with the new title
 					}
 				}
 			} else { // We haven't notified for this live
 				database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTime', data.started_at) // Put the time of live in db so we don't notify twice
-				const sentMessage = await notificationChannel.send(`<@&814796307402457148> ${messages.getHappyMessage()} ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`) // Notify for the live in the right channel
+				const sentMessage = await notificationChannel.send(notificationMessageContent) // Notify for the live in the right channel
 				database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
 			}
 		}
