@@ -14,6 +14,7 @@ const guildDelete = require('./events/guildDelete')
 const message = require('./events/message')
 const messageDelete = require('./events/messageDelete')
 const guildMemberAdd = require('./events/guildMemberAdd')
+const interactionCreate = require('./events/interactionCreate')
 
 // Misc Scripts
 const dbScript = require('./functions/db')
@@ -66,7 +67,7 @@ client.on('invalidated', function () { process.emit('SIGINT') })
 client.on('guildUnavailable', guild => { logger.error(`Guild ${guild.id} has gone unaviliable.`) })
 client.on('warn', info => { logger.warn(info) })
 client.on('rateLimit', rateLimitInfo => { logger.error(`Rate limit hit. Triggered by ${rateLimitInfo.path}, timeout for ${rateLimitInfo.timeout}. Only ${rateLimitInfo.limit} can be made`) })
-
+client.ws.on('INTERACTION_CREATE', async interaction => { interactionCreate.register(client, db, config, interaction) })
 // SIGINT STUFF
 if (process.platform === 'win32') {
 	const rl = require('readline').createInterface({
