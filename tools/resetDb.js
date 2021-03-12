@@ -5,13 +5,13 @@ const winston = require('winston')
 const { combine, timestamp, label, printf } = format;
 const loggingFormat = printf(({ level, message, label, timestamp }) => {
 	return `${timestamp} ${level}: ${message}`;
-  });
+});
 const logger = winston.createLogger({
 	level: 'info',
 	format: combine(
 		timestamp(),
 		loggingFormat
-	  ),
+	),
 	transports: [
 		new winston.transports.Console(),
 		new winston.transports.File({ filename: 'error.log', level: 'error' }),

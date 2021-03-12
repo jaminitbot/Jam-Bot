@@ -21,7 +21,7 @@ module.exports = {
 			if (!notificationChannel) return
 			let LiveTime = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTime"')
 			if (LiveTime.value == data.started_at) { // Checks if we have already notified for this live
-				LiveTitle = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTitle"')
+				let LiveTitle = await database.get(db, 'SELECT "value" FROM "' + config.settings.twitchNotificationsGuild + '" WHERE key="LiveTitle"')
 				if (!LiveTitle) {
 					database.updateKey(db, config.settings.twitchNotificationsGuild, 'LiveTitle', sha1(data.title))
 				}

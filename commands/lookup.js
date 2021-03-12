@@ -7,6 +7,7 @@ module.exports = {
 		if (!args[0]) return message.reply('Usage: ' + this.usage)
 		// Basic info
 		message.channel.send(':mag_right: Looking up...').then(sent => {
+			let embed
 			const user = message.mentions.members.first() || message.guild.members.cache.get(args[0])
 			if (user) { // Valid user found, get info
 				const userName = user.user.username + '#' + user.user.discriminator
@@ -19,7 +20,7 @@ module.exports = {
 				user.roles.cache.forEach(role => {
 					roles = `${roles} ${role.name},`
 				})
-				var embed = {
+				embed = {
 					author: {
 						name: 'User: ' + userName,
 						icon_url: avatar
@@ -30,7 +31,7 @@ module.exports = {
 				const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[0])
 				if (role) { // Valid role
 					const { id, position, createdAt, name, mentionable } = role
-					var embed = {
+					embed = {
 						author: {
 							name: 'Role: ' + name
 						},

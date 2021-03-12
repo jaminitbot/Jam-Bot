@@ -1,5 +1,6 @@
 module.exports = {
 	connect(config, logger) {
+		let sqlite3
 		try {
 			sqlite3 = require('sqlite3').verbose()
 		} catch (err) {

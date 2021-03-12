@@ -4,6 +4,7 @@ module.exports = {
 	description: 'Displays information on a specifc command',
 	usage: 'help command',
 	execute(client, message, args, db, logger) {
+		let prefix
 		db.get('SELECT "value" FROM "' + message.guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
 			if (err) logger.error(err)
 			if (row) {
@@ -16,7 +17,9 @@ module.exports = {
 			title: 'Help',
 			description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/commandlist.html?prefix=${prefix})`,
 		}
+		let messageContent
 		if (args[0]) { // User wants info on a particular command
+			
 			const commandToFind = String(args[0]).toLowerCase()
 			if (commandToFind && !(commandToFind == ' ')) {
 				if (client.commands.has(commandToFind)) {
@@ -29,7 +32,7 @@ module.exports = {
 						description: `${description}\nUsage: \`${prefix}${usage}\`\nPermissions needed to use: \`${permissionsNeeded}\``,
 					}
 				} else {
-					var messageContent = 'Specifed command not found'
+					messageContent = 'Specifed command not found'
 				}
 
 			}

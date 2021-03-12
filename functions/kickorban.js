@@ -8,7 +8,7 @@ module.exports = {
 		if (message.author.id == memberToBan.id) return message.reply(`You can't ${kickOrBan} yourself silly!`)
 		const moderator = message.author.username + '#' + message.author.discriminator
 		const reason = args.splice(1).join(' ')
-		sucessful = true
+		let sucessful = true
 		if (kickOrBan == 'ban') {
 			memberToBan.ban({ reason: `${moderator}: ${reason}`, days: 1 })
 				.then(member => {

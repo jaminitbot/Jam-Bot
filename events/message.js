@@ -10,6 +10,7 @@ module.exports = {
 		// if (String(message.channel.name).includes('juan') && (message.author.id == '523963702245064725')) message.delete()
 		const guild = message.guild
 		db.get('SELECT "value" FROM "' + guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
+			let prefix
 			if (err) return logger.error(err)
 			if (row) {
 				prefix = String(row.value)

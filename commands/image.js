@@ -37,7 +37,7 @@ module.exports = {
 					}
 				})
 				if (splitBy == 1) { // Get specific image at position
-					sent.edit(validImageUrls[args[0] - 1] || `There isn\'t an ${type} for position: ` + args[0])
+					sent.edit(validImageUrls[args[0] - 1] || `There isn't an ${type} for position: ` + args[0])
 				} else {
 					sent.edit(validImageUrls[0] || `No ${type} found for your search.`)
 					

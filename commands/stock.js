@@ -16,7 +16,7 @@ module.exports = {
 			}
 		})
 		const json = await response.json()
-		const image = json.photos[random.int(min = 0, max = json.photos.length - 1)].src.medium
+		const image = json.photos[random.int(min = 0, max = json.photos.length - 1)].src.medium // eslint-disable-line no-undef
 		sent.edit(image || 'Unable to get a stock photo, the api\'s probably down')
 	}
 }
