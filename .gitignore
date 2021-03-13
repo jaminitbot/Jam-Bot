@@ -116,3 +116,4 @@ config.json
 yarn.lock
 .vs/
 package-lock.json
+build/
