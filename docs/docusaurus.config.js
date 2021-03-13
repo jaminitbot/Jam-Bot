@@ -85,14 +85,14 @@ module.exports = {
 				docs: {
 					sidebarPath: require.resolve('./sidebars.js'),
 					// Please change this to your repo.
-					editUrl:
-						'https://github.com/jamesatjaminit/jam-bot/edit/main/docs/',
+					//editUrl:
+						//'https://github.com/jamesatjaminit/jam-bot/edit/main/docs/',
 				},
 				blog: {
 					showReadingTime: false,
 					// Please change this to your repo.
-					editUrl:
-						'https://github.com/jamesatjaminit/jam-bot/edit/main/docs/blog/',
+					//editUrl:
+						//'https://github.com/jamesatjaminit/jam-bot/edit/main/docs/blog/',
 				},
 				theme: {
 					customCss: require.resolve('./src/css/custom.css'),
