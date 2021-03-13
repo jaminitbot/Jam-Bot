@@ -19,7 +19,7 @@ module.exports = {
 	},
 	async get(db, guild, key) {
 			let tempValue = await db.get(guild)
-			if (tempValue) tempValue = ['']
+			if (!tempValue) tempValue = ['']
 			return tempValue[key]
 	}
 }
