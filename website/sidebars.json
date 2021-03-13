@@ -1,5 +1,5 @@
 {
   "docs": {
-    "Commands": ["basics", "image"]
+    "Commands": ["basics", "image", "moderation", "settings"]
   }
 }

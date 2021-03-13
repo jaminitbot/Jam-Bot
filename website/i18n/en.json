@@ -3,7 +3,7 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "A website for testing",
+    "tagline": "A discord bot for you",
     "docs": {
       "basics": {
         "title": "Basic Commands",
@@ -12,6 +12,14 @@
       "image": {
         "title": "Image Commands",
         "sidebar_label": "Images"
+      },
+      "moderation": {
+        "title": "Moderation Commands",
+        "sidebar_label": "Moderation"
+      },
+      "settings": {
+        "title": "Bot Settings",
+        "sidebar_label": "Settings"
       }
     },
     "links": {
