@@ -56,7 +56,7 @@ if (!db) {
 }
 
 // Events
-client.on('guildCreate', guild => { guildCreate.register(guild, db, config) })
+client.on('guildCreate', guild => { guildCreate.register(guild, db, config, logger) })
 client.on('guildDelete', guild => { guildDelete.register(guild, db) })
 client.on('message', msg => { message.register(client, msg, db, config, logger) })
 client.on('messageDelete', msg => { messageDelete.register(client, msg, db) })

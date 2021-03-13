@@ -22,7 +22,7 @@ module.exports = {
 			type = 'image'
 		}
 		let searchOptions = {}
-		if (!String(message.channel.name).toLowerCase().includes('nsfw')) { // Nsfw channels can bypass safe search
+		if (!String(message.channel.nsfw)) { // Nsfw channels can bypass safe search
 			searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing, filters most things
 		}
 		message.channel.send(`:mag_right: Finding ${type}...`).then(sent => {
