@@ -1,41 +1,24 @@
 module.exports = {
 	connect(config, logger) {
-		let sqlite3
+		let Keyv
 		try {
-			sqlite3 = require('sqlite3').verbose()
+			Keyv = require('keyv');
 		} catch (err) {
-			logger.error('Error requiring sqlite.')
+			logger.error('Error requiring keyv.')
 			logger.error(err)
 			return null
 		}
-		const db = new sqlite3.cached.Database(config.settings.databaseLocation, (err) => {
-			if (err) return logger.error(err.message)
-			logger.info('Connected to sqlite database')
-		})
+		const db = new Keyv(config.settings.databaseLocation)
 		return db
 	},
-	updateKey(db, guild, key, value) {
-		db.run('UPDATE "' + guild + '" SET \'value\' = \'' + value + '\' WHERE key=\'' + key + '\'', (err) => {
-			if (err) return console.error('Error updating: ' + err.message)
-			db.get('SELECT "value" FROM "' + guild + '" WHERE key="' + key + '"', (err, row) => {
-				if (err) return console.error(err.message)
-				if (!row) {
-					db.run('INSERT INTO "' + guild + '" (key, value) VALUES (\'' + key + '\', \'' + value + '\')', (err) => {
-						if (err) return console.error(err.message)
-					})
-				}
-			})
-			if (err) return console.error(err.message)
-		})
+	async updateKey(db, guild, key, value) {
+		let tempValue = await db.get(guild)
+		tempValue[key] = value
+		await db.set(guild, tempValue)
+		return true
 	},
-	get(db, query, params) {
-		return new Promise(function(resolve, reject) {
-			db.get(query, params, function(err, row)  {
-				if(err) reject("Read error: " + err.message)
-				else {
-					resolve(row)
-				}
-			})
-		}) 
+	async get(db, guild, key) {
+			let tempValue = await db.get(guild)
+			return tempValue[key]
 	}
 }

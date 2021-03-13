@@ -1,25 +1,19 @@
 const config = require('../config.json')
+const database = require('../functions/db')
 module.exports = {
 	name: 'help',
 	description: 'Displays information on a specifc command',
 	usage: 'help command',
 	execute(client, message, args, db, logger) {
-		let prefix
-		db.get('SELECT "value" FROM "' + message.guild + '" WHERE key="prefix"', (err, row) => { // Get prefix
-			if (err) logger.error(err)
-			if (row) {
-				prefix = String(row.value)
-			} else {
-				prefix = config.defaults.prefix
-			}
-		})
+		let prefix = database.get(db, message.guild, 'prefix')
+		if (!prefix) prefix = config.defaults.prefix
 		let embed = {
 			title: 'Help',
 			description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/docs/)`,
 		}
 		let messageContent
 		if (args[0]) { // User wants info on a particular command
-			
+
 			const commandToFind = String(args[0]).toLowerCase()
 			if (commandToFind && !(commandToFind == ' ')) {
 				if (client.commands.has(commandToFind)) {

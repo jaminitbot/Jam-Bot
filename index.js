@@ -79,7 +79,6 @@ if (process.platform === 'win32') {
 }
 process.on('SIGINT', function () {
 	// Shutdown stuff nicely
-	db.close()
 	logger.info('Recieved SIGINT, gracefully shutting down.')
 	client.destroy()
 	process.exit()
