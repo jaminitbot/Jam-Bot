@@ -15,7 +15,7 @@ module.exports = {
 		})
 		let embed = {
 			title: 'Help',
-			description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/commandlist.html?prefix=${prefix})`,
+			description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/docs/basics`,
 		}
 		let messageContent
 		if (args[0]) { // User wants info on a particular command
