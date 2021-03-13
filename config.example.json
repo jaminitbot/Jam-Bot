@@ -3,13 +3,16 @@
 		"twitchNotificationsChannel": "",
 		"twitchNotificationsUsername": "",
 		"twitchNotificationsGuild": "",
+		"pexelsApiKey": "",
 		"gifyApiKey": "",
-        "ownerid": "ID",
-        "ownername": "NAME",
-        "token": "TOKEN",
-        "databaseLocation": "database.db"
+        "twitchApiSecret": "",
+        "twitchApiClientId": "",
+        "ownerid": "",
+        "ownername": "",
+        "token": "",
+        "databaseLocation": "sqlite://database.db"
     },
     "defaults": {
-        "prefix": "!"
+        "prefix": "?"
     }
 }
