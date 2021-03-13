@@ -15,7 +15,7 @@ module.exports = {
 			title: 'Jam Bot',
 			logo: {
 				alt: 'Logo',
-				src: 'img/logo.svg',
+				src: 'img/JamBotWithoutBackground.png',
 			},
 			items: [
 				{
