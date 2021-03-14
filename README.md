@@ -1,5 +1,5 @@
 # Jam-Bot
-[![Deploy Docs](https://github.com/jamesatjaminit/Jam-Bot/actions/workflows/docs.yml/badge.svg)](https://github.com/jamesatjaminit/Jam-Bot/actions/workflows/docs.yml)
+[![Deploy Docs](https://github.com/jamesatjaminit/Jam-Bot/actions/workflows/docs.yml/badge.svg)](https://github.com/jamesatjaminit/Jam-Bot/actions/workflows/docs.yml) 
 A discord bot designed to be easy to setup, but full of features.
 ## Installation:
 
