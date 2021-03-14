@@ -29,6 +29,8 @@ jobs:
           cd docs
           npm i
           npm run build
+          cd build
+          echo jambot.jaminit.co.uk > CNAME
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
