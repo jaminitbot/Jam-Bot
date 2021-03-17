@@ -88,11 +88,11 @@ process.on('SIGINT', function () {
 client.on('ready', () => {
 	logger.info('Logged in at ' + Date.now())
 	client.user.setActivity('?help', { type: 'WATCHING' })
-	if (config.settings.twitchApiClientId && config.settings.twitchApiSecret) { // Only if api tokens are present
-		schedule.scheduleJob('*/5 * * * * *', function () { // Twitch notifications
-			twitch.execute(client, db, config, logger)
-		})
-	}
+	// if (config.settings.twitchApiClientId && config.settings.twitchApiSecret) { // Only if api tokens are present
+	// 	schedule.scheduleJob('*/5 * * * * *', function () { // Twitch notifications
+	// 		twitch.execute(client, db, config, logger)
+	// 	})
+	// }
 })
 
 client.login(config.settings.token)
