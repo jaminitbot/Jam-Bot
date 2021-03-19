@@ -4,7 +4,7 @@ const fs = require('fs')
 const client = new Discord.Client()
 const config = require('./config.json')
 const schedule = require('node-schedule')
-const { createLogger, format, transports } = require('winston');
+const { createLogger, format, transports } = require('winston')
 const winston = require('winston')
 const { combine, timestamp, label, printf } = format;
 
