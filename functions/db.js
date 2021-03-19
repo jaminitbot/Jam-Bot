@@ -8,7 +8,7 @@ module.exports = {
 			logger.error(err)
 			return null
 		}
-		const db = new Keyv(config.settings.databaseLocation)
+		const db = new Keyv(process.env.DATABASE_URL || config.settings.databaseLocation)
 		return db
 	},
 	async updateKey(db, guild, key, value) {

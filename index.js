@@ -17,13 +17,13 @@ const guildMemberAdd = require('./events/guildMemberAdd')
 
 // Misc Scripts
 const dbScript = require('./functions/db')
-const twitch = require('./cron/twitch')
+// const twitch = require('./cron/twitch')
 
 // Logging
 const loggingFormat = printf(({ level, message, label, timestamp }) => {
 	return `${timestamp} ${level}: ${message}`;
 });
-const logger = winston.createLogger({
+const logger = createLogger({
 	level: 'info',
 	format: combine(
 		timestamp(),
@@ -35,9 +35,9 @@ const logger = winston.createLogger({
 		new winston.transports.File({ filename: 'combined.log' }),
 	],
 })
-// process.on('uncaughtException', function (err) {
-// 	logger.error(err.message)
-// })
+process.on('uncaughtException', function (err) {
+	logger.error(err.message)
+})
 
 // Registers all the commands in the commands folder
 // https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
@@ -52,6 +52,7 @@ for (const file of commandFiles) {
 const db = dbScript.connect(config, logger)
 
 if (!db) {
+	logger.error('DB not found')
 	process.exit(1)
 }
 
