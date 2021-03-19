@@ -15,4 +15,4 @@ client.on('ready', () => {
 	client.destroy()
 })
 
-client.login(config.settings.token)
+client.login(process.env.token)

@@ -7,7 +7,10 @@ const schedule = require('node-schedule')
 const { createLogger, format, transports } = require('winston')
 const winston = require('winston')
 const { combine, timestamp, label, printf } = format;
-
+let dotenv
+if (process.env.NODE_ENV !== 'production') {
+	dotenv = require('dotenv').config()
+}
 // Event imports
 const guildCreate = require('./events/guildCreate')
 const guildDelete = require('./events/guildDelete')
@@ -89,11 +92,11 @@ process.on('SIGINT', function () {
 client.on('ready', () => {
 	logger.info('Logged in at ' + Date.now())
 	client.user.setActivity('?help', { type: 'WATCHING' })
-	// if (config.settings.twitchApiClientId && config.settings.twitchApiSecret) { // Only if api tokens are present
+	// if (process.env.twitchApiClientId && process.env.twitchApiSecret) { // Only if api tokens are present
 	// 	schedule.scheduleJob('*/5 * * * * *', function () { // Twitch notifications
 	// 		twitch.execute(client, db, config, logger)
 	// 	})
 	// }
 })
 
-client.login(config.settings.token)
+client.login(process.env.token)
