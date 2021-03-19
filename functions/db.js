@@ -8,7 +8,7 @@ module.exports = {
 			logger.error(err)
 			return null
 		}
-		const db = new Keyv(process.env.DATABASE_URL)
+		const db = new Keyv(process.env.DATABASE_URL || process.env.DATABASE_URL.MONGO_URL)
 		return db
 	},
 	async updateKey(db, guild, key, value) {
