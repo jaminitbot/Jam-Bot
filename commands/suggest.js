@@ -3,9 +3,9 @@ module.exports = {
 	name: 'suggest',
 	description: 'Suggests something',
 	usage: 'suggest Make a memes channel',
-	execute(client, message, args, db, logger) {
+	async execute(client, message, args, db, logger) {
 		if (!args[0]) return message.reply('You need to specify what to suggest!')
-		let suggestionChannel = database.get(db, message.guild, 'suggestionChannel')
+		let suggestionChannel = await database.get(db, message.guild, 'suggestionChannel')
 		if (!suggestionChannel) return message.channel.send('Looks like suggestions haven\'t been setup here yet!')
 		const channel = client.channels.cache.get(suggestionChannel)
 		const suggestion = args.splice(0).join(' ')
