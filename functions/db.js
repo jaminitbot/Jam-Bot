@@ -22,7 +22,6 @@ module.exports = {
 	async get(db, guild, key) {
 			let tempValue = await db.get(guild.id)
 			if (!tempValue) tempValue = {}
-			console.log(`${key}: ${tempValue[key]}`)
 			return tempValue[key]
 	}
 }

@@ -1,4 +1,5 @@
 const database = require('../functions/db')
+const delay = require('delay')
 module.exports = {
 	name: 'suggest',
 	description: 'Suggests something',
@@ -11,8 +12,12 @@ module.exports = {
 		const suggestion = args.splice(0).join(' ')
 		if (!channel) return message.channel.send('Error finding suggestions channel, perhaps it\'s being deleted')
 		message.delete()
+		let suggestionCount = await database.get(db, message.guild, 'suggestionCount')
+		if (!suggestionCount) suggestionCount = 0
+		suggestionCount = parseInt(suggestionCount)
+		database.updateKey(db, message.guild, 'suggestionCount', suggestionCount + 1)
 		const embed = {
-			title: 'Suggestion',
+			title: `Suggestion #${suggestionCount + 1}`,
 			description: suggestion,
 			color: 65511,
 			footer: {
@@ -21,11 +26,10 @@ module.exports = {
 			},
 			timestamp: Date.now()
 		}
-		const suggestmessage = channel.send({ embed: embed })
-		suggestmessage.then((message) => {
-			message.react('✅')
-				.then(() => (message.react('❌')))
-		})
+		const suggestmessage = await channel.send({ embed: embed })
 		message.reply('Suggestion logged!')
+		await suggestmessage.react('✅')
+		await delay(1050)
+		await suggestmessage.react('❌')
 	}
 }
