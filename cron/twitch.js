@@ -41,6 +41,7 @@ module.exports = {
 			} else { // We haven't notified for this live
 				db.updateKey(process.env.twitchNotificationsGuild, 'LiveTime', data.started_at) // Put the time of live in db so we don't notify twice
 				const sentMessage = await notificationChannel.send(notificationMessageContent) // Notify for the live in the right channel
+				if (sentMessage.channel.type == sentMessage.crosspost() == 'news') sentMessage.crosspost()
 				db.updateKey(process.env.twitchNotificationsGuild, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
 			}
 		}
