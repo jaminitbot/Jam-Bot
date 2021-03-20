@@ -14,14 +14,16 @@ module.exports = {
 	async updateKey(db, guild, key, value) {
 		let tempValue
 		tempValue = await db.get(guild)
-		if (!tempValue) tempValue = ['']
+		console.log(tempValue)
+		if (!tempValue) tempValue = {}
 		tempValue[key] = value
+		console.log(tempValue)
 		await db.set(guild, tempValue)
 		return true
 	},
 	async get(db, guild, key) {
 			let tempValue = await db.get(guild)
-			if (!tempValue) tempValue = ['']
+			if (!tempValue) tempValue = {}
 			return tempValue[key]
 	}
 }
