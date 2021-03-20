@@ -14,10 +14,8 @@ module.exports = {
 	async updateKey(db, guild, key, value) {
 		let tempValue
 		tempValue = await db.get(guild)
-		console.log(tempValue)
 		if (!tempValue) tempValue = {}
 		tempValue[key] = value
-		console.log(tempValue)
 		await db.set(guild, tempValue)
 		return true
 	},
