@@ -20,7 +20,7 @@ const guildMemberAdd = require('./events/guildMemberAdd')
 
 // Misc Scripts
 const dbScript = require('./functions/db')
-// const twitch = require('./cron/twitch')
+const twitch = require('./cron/twitch')
 
 // Logging
 const loggingFormat = printf(({ level, message, label, timestamp }) => {
@@ -92,11 +92,11 @@ process.on('SIGINT', function () {
 client.on('ready', () => {
 	logger.info('Logged in at ' + Date.now())
 	client.user.setActivity('?help', { type: 'WATCHING' })
-	// if (process.env.twitchApiClientId && process.env.twitchApiSecret) { // Only if api tokens are present
-	// 	schedule.scheduleJob('*/5 * * * * *', function () { // Twitch notifications
-	// 		twitch.execute(client, db, config, logger)
-	// 	})
-	// }
+	if (process.env.twitchApiClientId && process.env.twitchApiSecret) { // Only if api tokens are present
+		schedule.scheduleJob('*/5 * * * * *', function () { // Twitch notifications
+			twitch.execute(client, db, config, logger)
+		})
+	}
 })
 
 client.login(process.env.token)
