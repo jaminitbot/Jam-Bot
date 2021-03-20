@@ -1,27 +1,39 @@
 module.exports = {
-	connect(config, logger) {
+	connect(logger) {
 		let Keyv
 		try {
-			Keyv = require('keyv');
+			Keyv = require('keyv')
 		} catch (err) {
 			logger.error('Error requiring keyv.')
 			logger.error(err)
 			return null
 		}
-		const db = new Keyv(process.env.MONGO_URL || process.env.DATABASE_URL)
-		return db
+		this.db = new Keyv(process.env.MONGO_URL || process.env.DATABASE_URL)
+		if (!this.db) return null
+		this.dbCache = new Keyv()
+		return require('./db')
 	},
-	async updateKey(db, guild, key, value) {
+	async updateKey(guild, key, value) {
+		if (process.env.DEBUG) console.log(`Updating ${key} to ${value}`)
 		let tempValue
-		tempValue = await db.get(guild.id)
+		tempValue = await this.db.get(guild.id)
 		if (!tempValue) tempValue = {}
 		tempValue[key] = value
-		await db.set(guild.id, tempValue)
+		await this.db.set(guild.id, tempValue)
+		await this.dbCache.set(guild.id, tempValue)
 		return true
 	},
-	async get(db, guild, key) {
-			let tempValue = await db.get(guild.id)
-			if (!tempValue) tempValue = {}
-			return tempValue[key]
+	async get(guild, key) {
+		const cacheValue = await this.dbCache.get(guild.id)
+		if (cacheValue && cacheValue[key]) {
+			if (process.env.DEBUG) console.log(`Got ${key} from cache with value ${cacheValue[key]}`)
+			return cacheValue[key] // If found in cache, return it
+		}
+		let tempValue = await this.db.get(guild.id) // Key isn't in cache, get it from db
+		if (!tempValue) tempValue = {} // Guild hasn't got any keys yet
+		if (!tempValue[key]) return null // Key doesn't exist
+		this.dbCache.set(guild.id, tempValue) // Put the key into the cache
+		if (process.env.DEBUG) console.log(`Got ${key} from db with value ${tempValue[key]}`)
+		return tempValue[key] // Return the value from db
 	}
 }

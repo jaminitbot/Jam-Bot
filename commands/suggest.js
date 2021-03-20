@@ -1,4 +1,4 @@
-const database = require('../functions/db')
+
 const delay = require('delay')
 module.exports = {
 	name: 'suggest',
@@ -6,16 +6,16 @@ module.exports = {
 	usage: 'suggest Make a memes channel',
 	async execute(client, message, args, db, logger) {
 		if (!args[0]) return message.reply('You need to specify what to suggest!')
-		let suggestionChannel = await database.get(db, message.guild, 'suggestionChannel')
+		let suggestionChannel = await db.get(message.guild, 'suggestionChannel')
 		if (!suggestionChannel) return message.channel.send('Looks like suggestions haven\'t been setup here yet!')
 		const channel = client.channels.cache.get(suggestionChannel)
 		const suggestion = args.splice(0).join(' ')
 		if (!channel) return message.channel.send('Error finding suggestions channel, perhaps it\'s being deleted')
 		message.delete()
-		let suggestionCount = await database.get(db, message.guild, 'suggestionCount')
+		let suggestionCount = await db.get(message.guild, 'suggestionCount')
 		if (!suggestionCount) suggestionCount = 0
 		suggestionCount = parseInt(suggestionCount)
-		database.updateKey(db, message.guild, 'suggestionCount', suggestionCount + 1)
+		db.updateKey(message.guild, 'suggestionCount', suggestionCount + 1)
 		const embed = {
 			title: `Suggestion #${suggestionCount + 1}`,
 			description: suggestion,

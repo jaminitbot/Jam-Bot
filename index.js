@@ -52,8 +52,7 @@ for (const file of commandFiles) {
 }
 
 // Database connections
-const db = dbScript.connect(config, logger)
-
+const db = dbScript.connect(logger)
 if (!db) {
 	logger.error('DB not found')
 	process.exit(1)

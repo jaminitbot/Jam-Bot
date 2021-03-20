@@ -1,4 +1,3 @@
-const database = require('../../../functions/db')
 module.exports = {
 	name: 'channel',
 	description: 'Sets the modlog channel',
@@ -8,7 +7,7 @@ module.exports = {
 		const channelInput = args[2].slice(2, -1)
 		const channel = client.channels.cache.get(channelInput)
 		if (!channel) return message.channel.send('Not a valid channel!')
-		database.updateKey(db, message.guild, 'modLogChannel', channel)
+		db.updateKey(message.guild, 'modLogChannel', channel)
 		message.channel.send('Set modlog channel!')
 		channel.send('Modlogs will be sent here!')
 	}

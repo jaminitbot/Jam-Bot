@@ -1,4 +1,3 @@
-const database = require('../../../functions/db')
 module.exports = {
   name: 'logdeletes',
   description: 'Turns logging deletes on or off',
@@ -8,7 +7,7 @@ module.exports = {
     if (!toggle || !toggle == 'on' || !toggle == 'off') {
       return message.channel.send('You need to specify whether you want to toggle logging deletes \'on\' or \'off\'\n' + this.usage)
     }
-    database.updateKey(db, message.guild, 'logDeletedMessages', toggle)
+    db.updateKey(message.guild, 'logDeletedMessages', toggle)
     message.channel.send(`Turned logging deletes ${toggle}`)
   }
 }

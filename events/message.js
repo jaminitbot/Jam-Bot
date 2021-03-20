@@ -2,15 +2,14 @@ const permissions = require('../functions/permission')
 const messages = require('../functions/messages')
 const random = require('random')
 const bannedIds = ['']
-const database = require('../functions/db')
+
 module.exports = {
 	async register(client, message, db, config, logger) {
 		if (!message.guild) return
 		if (message.author.bot) return
 		if (bannedIds.includes(message.author.id)) return
-		// if (String(message.channel.name).includes('juan') && (message.author.id == '523963702245064725')) message.delete()
 		const guild = message.guild
-		let prefix = await database.get(db, guild, 'prefix')
+		let prefix = await db.get(guild, 'prefix')
 		if (!prefix) prefix = config.defaults.prefix
 		const args = message.content.slice(prefix.length).trim().split(/ +/)
 		const command = args.shift().toLowerCase()

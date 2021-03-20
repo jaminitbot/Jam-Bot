@@ -1,11 +1,11 @@
 const config = require('../config.json')
-const database = require('../functions/db')
+
 module.exports = {
 	name: 'help',
 	description: 'Displays information on a specifc command',
 	usage: 'help command',
 	execute(client, message, args, db, logger) {
-		let prefix = database.get(db, message.guild, 'prefix')
+		let prefix = db.get(message.guild, 'prefix')
 		if (!prefix) prefix = config.defaults.prefix
 		let embed = {
 			title: 'Help',
