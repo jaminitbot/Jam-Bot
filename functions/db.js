@@ -24,16 +24,16 @@ module.exports = {
 		return true
 	},
 	async get(guild, key) {
-		const cacheValue = await this.dbCache.get(guild.id)
+		let cacheValue = await this.dbCache.get(guild.id)
 		if (cacheValue && cacheValue[key]) {
-			if (process.env.DEBUG) console.log(`Got ${key} from cache with value ${cacheValue[key]}`)
+			if (process.env.DEBUG) console.log(`Got ${key} from CACHE with value: ${cacheValue[key]}`)
 			return cacheValue[key] // If found in cache, return it
 		}
 		let tempValue = await this.db.get(guild.id) // Key isn't in cache, get it from db
 		if (!tempValue) tempValue = {} // Guild hasn't got any keys yet
 		if (!tempValue[key]) return null // Key doesn't exist
 		this.dbCache.set(guild.id, tempValue) // Put the key into the cache
-		if (process.env.DEBUG) console.log(`Got ${key} from db with value ${tempValue[key]}`)
+		if (process.env.DEBUG) console.log(`Got ${key} from DB with value: ${tempValue[key]}`)
 		return tempValue[key] // Return the value from db
 	}
 }
