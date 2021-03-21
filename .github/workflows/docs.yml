@@ -37,4 +37,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/build
           cname: jambot.jaminit.co.uk
-          commit_message: 'Deploy Docs: ${GITHUB_SHA}'
