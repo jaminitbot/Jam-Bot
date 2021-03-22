@@ -9,7 +9,7 @@ module.exports = {
 		let TimeDate = new Date(Date.now() - client.uptime)
 		let embed = {
 			title: 'Debug Information',
-			description: `Roundtrip: ${sent.createdTimestamp - message.createdTimestamp}ms\nAPI: ${Math.round(client.ws.ping)}ms\nRevision: ${process.env.GIT_REV}\nUptime: ${TimeDate.toString()}`
+			description: `Roundtrip: ${sent.createdTimestamp - message.createdTimestamp}ms\nAPI: ${Math.round(client.ws.ping)}ms\nRevision: ${process.env.GIT_REV}\nUptime: ${TimeDate.toString()}\nReady: ${client.readyAt}`
 		}
 		sent.edit({embed:embed})
 	},
