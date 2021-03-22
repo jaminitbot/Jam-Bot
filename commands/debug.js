@@ -16,6 +16,6 @@ module.exports = {
 			},
 			timestamp: Date.now()
 		}
-		sent.edit({embed:embed})
+		sent.edit({content: '', embed:embed})
 	},
 }
