@@ -7,7 +7,7 @@ sidebar_label: Settings
 Allows you to configure basic bot settings  
 Base usage: `?settings`
 ### Prefix
-Changes the bot's prefix from the default (`?`)
+Changes the bot's prefix from the default (`?`)  
 Usage: `?settings prefix $`
 ### Sugggestions
 Allows you to set the channel where the suggestions command goes to  
