@@ -1,15 +1,14 @@
 const config = require('../config.json')
 
 module.exports = {
-	register(client, message, db) {
+	async register(client, message, db) {
 		if (message.author.bot) return
-		if (message.author.id == config.settings.ownerid) return
-		let logDeletes = db.get(message.guild, 'logDeletedMessages')
-		if (!logDeletes) return
-		if (logDeletes == 'on') {
-			let modLogChannnel = db.get(message.guild, 'modLogChannel')
+		// if (message.author.id == config.settings.ownerid) return
+		let logDeletes = await db.get(message.guild, 'logDeletedMessages')
+		if (logDeletes) {
+			let modLogChannnel = await db.get(message.guild, 'modLogChannel')
 			if (!modLogChannnel) return
-			const modLogChannel = client.channels.cache.get(modLogChannnel)
+			const modLogChannel = await client.channels.cache.get(modLogChannnel)
 			if (!modLogChannel) return
 			let embed = {
 				title: 'Message deleted',

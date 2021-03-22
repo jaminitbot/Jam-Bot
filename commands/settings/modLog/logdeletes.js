@@ -7,7 +7,11 @@ module.exports = {
     if (!toggle || !toggle == 'on' || !toggle == 'off') {
       return message.channel.send('You need to specify whether you want to toggle logging deletes \'on\' or \'off\'\n' + this.usage)
     }
-    db.updateKey(message.guild, 'logDeletedMessages', toggle)
+	if (toggle == 'on') {
+		db.updateKey(message.guild, 'logDeletedMessages', true)
+	} else {
+		db.updateKey(message.guild, 'logDeletedMessages', false)
+	}
     message.channel.send(`Turned logging deletes ${toggle}`)
   }
 }

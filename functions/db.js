@@ -31,7 +31,10 @@ module.exports = {
 		}
 		let tempValue = await this.db.get(guild.id) // Key isn't in cache, get it from db
 		if (!tempValue) tempValue = {} // Guild hasn't got any keys yet
-		if (!tempValue[key]) return null // Key doesn't exist
+		if (!tempValue[key]) {
+			console.log(`Requested ${key} was ${tempValue[key]}`)
+			return null // Key doesn't exist
+		}
 		this.dbCache.set(guild.id, tempValue) // Put the key into the cache
 		if (process.env.DEBUG) console.log(`Got ${key} from DB with value: ${tempValue[key]}`)
 		return tempValue[key] // Return the value from db
