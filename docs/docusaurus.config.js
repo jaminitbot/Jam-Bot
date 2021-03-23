@@ -105,7 +105,7 @@ module.exports = {
 					showReadingTime: false,
 					// Please change this to your repo.
 					editUrl:
-						'https://github.com/jamesatjaminit/Jam-Bot/edit/main/docs/blog/',
+						'https://github.com/jamesatjaminit/Jam-Bot/edit/main/docs/',
 				},
 				theme: {
 					customCss: require.resolve('./src/css/custom.css'),
