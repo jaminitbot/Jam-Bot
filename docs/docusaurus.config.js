@@ -24,7 +24,16 @@ module.exports = {
 					label: 'Docs',
 					position: 'left',
 				},
-				{ to: 'blog', label: 'Blog', position: 'left' },
+				{ 
+					to: 'blog', 
+					label: 'Blog', 
+					position: 'left' 
+				},
+				{ 
+					to: 'status', 
+					label: 'Status', 
+					position: 'left' 
+				},
 				{
 					href: 'https://github.com/jamesatjaminit/jam-bot',
 					label: 'GitHub',
@@ -36,11 +45,15 @@ module.exports = {
 			style: 'dark',
 			links: [
 				{
-					title: 'Docs',
+					title: 'Links',
 					items: [
 						{
 							label: 'Main Documentation',
 							to: 'docs/',
+						},
+						{
+							label: 'Status',
+							to: 'status/',
 						},
 						// {
 						//   label: 'Second Doc',
