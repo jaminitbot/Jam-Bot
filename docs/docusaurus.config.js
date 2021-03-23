@@ -5,7 +5,7 @@ module.exports = {
 	tagline: 'A feature rich discord bot',
 	url: 'https://jambot.jaminit.co.uk',
 	baseUrl: '/',
-	onBrokenLinks: 'throw',
+	onBrokenLinks: 'warn',
 	onBrokenMarkdownLinks: 'warn',
 	favicon: 'img/favicon.ico',
 	organizationName: 'jamesatjaminit', // Usually your GitHub org/user name.
