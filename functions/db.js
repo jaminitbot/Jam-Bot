@@ -8,7 +8,7 @@ module.exports = {
 			logger.error(err)
 			return null
 		}
-		this.db = new Keyv(process.env.MONGO_URL || process.env.DATABASE_URL)
+		this.db = new Keyv(process.env.DATABASE_URL)
 		if (!this.db) return null
 		this.dbCache = new Keyv()
 		return require('./db')
