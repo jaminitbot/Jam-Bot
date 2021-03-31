@@ -1,4 +1,3 @@
-const config = require('../config.json')
 const random = require('random')
 const fetch = require('node-fetch')
 module.exports = {
