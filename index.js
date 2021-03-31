@@ -7,10 +7,10 @@ const schedule = require('node-schedule')
 const { createLogger, format, transports } = require('winston')
 const winston = require('winston')
 const { combine, timestamp, label, printf } = format;
-let dotenv
 if (process.env.NODE_ENV !== 'production') {
-	dotenv = require('dotenv').config()
+	let dotenv = require('dotenv').config()
 }
+
 // Event imports
 const guildCreate = require('./events/guildCreate')
 const guildDelete = require('./events/guildDelete')
@@ -25,7 +25,7 @@ const twitch = require('./cron/twitch')
 // Logging
 const loggingFormat = printf(({ level, message, label, timestamp }) => {
 	return `${timestamp} ${level}: ${message}`;
-});
+})
 const logger = createLogger({
 	level: 'info',
 	format: combine(
