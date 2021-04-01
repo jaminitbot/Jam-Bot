@@ -14,7 +14,9 @@ module.exports = {
 					message.react(emoji.identifier)
 				})
 			})
-			.catch(logger.error)
-			.catch(message.channel.send(messages.getErrorMessage()))
+			.catch(error => {
+				logger.error(error)
+				message.channel.send(messages.getErrorMessage())
+			})
 	},
 }
