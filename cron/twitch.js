@@ -16,7 +16,7 @@ module.exports = {
 		const json = await response.json()
 		const data = json.data[0]
 		let fakeGuild
-		fakeGuild.id = fakeGuild
+		fakeGuild.id = process.env.twitchNotificationsGuild
 		if (data.is_live) { // Checks if broadcaster is live
 			if (process.env.DEBUG) console.log('Twitch channel is live')
 			const notificationChannel = client.channels.cache.get(process.env.twitchNotificationsChannel)
