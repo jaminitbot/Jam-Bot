@@ -5,7 +5,7 @@ const message = require('../events/message')
 module.exports = {
 	async execute(client, db, config, logger) {
 		if (!process.env.twitchApiClientId || !process.env.twitchApiSecret) return
-		if (!process.env.twitchNotificationsChannel || !fakeGuild) return
+		if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsGuild) return
 		if (process.env.DEBUG) console.log('Checking if Twitch channel is live')
 		const response = await fetch('https://api.twitch.tv/helix/search/channels?query=' + process.env.twitchNotificationsUsername, {
 			headers: {
