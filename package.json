@@ -38,7 +38,6 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.3",
-    "erlpack": "^0.1.3",
     "libsodium-wrappers": "^0.7.9",
     "utf-8-validate": "^5.0.4",
     "zlib-sync": "^0.1.7"
