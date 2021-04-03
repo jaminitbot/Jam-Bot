@@ -12,7 +12,7 @@ module.exports = {
 		if (kickOrBan == 'ban') {
 			memberToBan.ban({ reason: `${moderator}: ${reason}`, days: 1 })
 				.then(member => {
-					message.channel.send(`Poof, ${member} got ${kickOrBan}ed!`);
+					message.channel.send(`Poof, ${member} got the ${kickOrBan}!`);
 				})
 				.catch(() => {
 					return message.channel.send(`Sorry, you can't ${kickOrBan} this member`);
@@ -20,7 +20,7 @@ module.exports = {
 		} else {
 			memberToBan.kick(`${moderator}: ${reason}`)
 				.then(member => {
-					message.channel.send(`Poof, ${member} got ${kickOrBan}ed!`);
+					message.channel.send(`Poof, ${member} got the ${kickOrBan}!`);
 				})
 				.catch(() => {
 					return message.channel.send(`Sorry, you can't ${kickOrBan} this member`);
