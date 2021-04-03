@@ -12,7 +12,7 @@
     "url": "git+https://github.com/jamesatjaminit/Jam-Bot.git"
   },
   "author": "James Cook",
-  "license": "AllRightsReserved",
+  "license": "MPL-2.0",
   "bugs": {
     "url": "https://github.com/jamesatjaminit/Jam-Bot/issues"
   },
@@ -38,7 +38,8 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.3",
-    "libsodium-wrappers": "^0.7.9",
+    "erlpack": "discord/erlpack",
+    "sodium": "^3.0.2",
     "utf-8-validate": "^5.0.4",
     "zlib-sync": "^0.1.7"
   }
