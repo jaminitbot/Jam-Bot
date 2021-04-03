@@ -20,7 +20,7 @@ module.exports = {
 					const command = client.commands.get(commandToFind)
 					const description = command.description || 'None'
 					const usage = command.usage || prefix + commandToFind
-					const permissionsNeeded = command.permissions || 'None'
+					const permissionsNeeded = command.permissions.tostring() || 'None'
 					embed = {
 						title: prefix + commandToFind,
 						description: `${description}\nUsage: \`${prefix}${usage}\`\nPermissions needed to use: \`${permissionsNeeded}\``,
