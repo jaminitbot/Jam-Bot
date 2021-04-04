@@ -2,11 +2,17 @@ const permissions = require('../functions/permission')
 const messages = require('../functions/messages')
 const random = require('random')
 const bannedIds = ['']
-
+const Discord = require('discord.js')
 module.exports = {
 	async register(client, message, db, config, logger) {
-		if (!message.guild) return
 		if (message.author.bot) return
+		if(message.channel.type === 'dm'){
+			let embed = new Discord.RichEmbed()
+			.setAuthor(message.author.tag, message.author.displayAvatarURL)
+			.setColor('#FAA')
+			.setDescription(message.content)
+			client.channels.get(process.env.DmChannel).send(embed)
+		}
 		if (bannedIds.includes(message.author.id)) return
 		const guild = message.guild
 		let prefix = await db.get(guild, 'prefix')
