@@ -7,11 +7,16 @@ module.exports = {
 	async register(client, message, db, config, logger) {
 		if (message.author.bot) return
 		if(message.channel.type === 'dm'){
-			let embed = new Discord.RichEmbed()
-			.setAuthor(message.author.tag, message.author.displayAvatarURL)
-			.setColor('#FAA')
-			.setDescription(message.content)
-			client.channels.get(process.env.DmChannel).send(embed)
+			let embed = {
+				"description": message.content,
+				"color": '#20BE9D',
+				"author": {
+					"name": message.author.tag,
+					"icon_url": message.author.avatarURL() || message.author.defaultAvatarURL
+				}
+			}
+			client.channels.cache.get(process.env.DmChannel).send({embed: embed})
+			return
 		}
 		if (bannedIds.includes(message.author.id)) return
 		const guild = message.guild
