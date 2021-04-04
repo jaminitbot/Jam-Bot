@@ -11,6 +11,7 @@ module.exports = {
 			Partnered: ${guild.partnered}
 			Verified: ${guild.verified}`,
 			"color": '#20BE9D',
+			timestamp: Date.now()
 		}
 	},
 	register(guild, db, config, logger) {
