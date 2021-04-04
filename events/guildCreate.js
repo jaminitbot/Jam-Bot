@@ -1,5 +1,19 @@
 module.exports = {
+	generateGuildInfoEmbed(guild){
+		return {
+			title: "Joined guild",
+			description: `Guild Name: ${guild.name}
+			Guild Id: ${guild.id}
+			Created At: ${guild.createdAt}
+			Description: ${guild.description}
+			Owner: ${guild.owner.user.tag}, ${guild.owner.id}
+			Members: ${guild.memberCount}
+			Partnered: ${guild.partnered}
+			Verified: ${guild.verified}`,
+			"color": '#20BE9D',
+		}
+	},
 	register(guild, db, config, logger) {
-		logger.log('Hey Hey Hey, we joined: ' + guild.id)
+		guild.client.channels.cache.get(process.env.GuildLogChannel).send({embed: this.generateGuildInfoEmbed(guild)})
 	}
 }
