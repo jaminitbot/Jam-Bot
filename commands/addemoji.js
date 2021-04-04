@@ -7,7 +7,7 @@ module.exports = {
 		if (!args[0]) return message.reply('you need to specify a name for your emoji!')
 		let url = message.attachments.first()
 		if (!url) return message.reply('you need to attach the image of the emoji!')
-		message.guild.emojis.create(url.url, args[0], { reason: `Uploaded by: ${message.author}, ${message.author.id}` })
+		message.guild.emojis.create(url.url, args[0], { reason: `Uploaded by: ${message.author.tag}, ${message.author.id}` })
 			.then(emoji => {
 				message.channel.send(`The emoji "${emoji.name}" was created!`).then(sent => {
 					sent.react(emoji.identifier)
@@ -16,7 +16,7 @@ module.exports = {
 			})
 			.catch(error => {
 				logger.error(error)
-				message.channel.send(messages.getErrorMessage())
+				message.channel.send('Whoops, there was an error uploading your image, a likely cause of this is that the image is too big!')
 			})
 	},
 }

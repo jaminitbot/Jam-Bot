@@ -7,8 +7,6 @@ module.exports = {
 				member.roles.add(aRole)
 				aRole = await member.guild.roles.cache.find(role => role.id == "789810162696192011")
 				member.roles.add(aRole)
-				aRole = await member.guild.roles.cache.find(role => role.id == "808039423916245042")
-				member.roles.add(aRole)
 			} else {
 				aRole = await member.guild.roles.cache.find(role => role.id == "791381859878961202")
 				member.roles.add(aRole)
