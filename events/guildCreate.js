@@ -10,7 +10,7 @@ module.exports = {
 			Members: ${guild.memberCount}
 			Partnered: ${guild.partnered}
 			Verified: ${guild.verified}`,
-			"color": '#20BE9D',
+			color: '#20BE9D',
 			timestamp: Date.now()
 		}
 	},
