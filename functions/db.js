@@ -1,16 +1,18 @@
 module.exports = {
 	connect(logger) {
 		let Keyv
+		let NodeCache
 		try {
 			Keyv = require('keyv')
+			NodeCache = require( "node-cache" );
 		} catch (err) {
-			logger.error('Error requiring keyv.')
+			logger.error('Error requiring keyv or node-cache')
 			logger.error(err)
 			return null
 		}
 		this.db = new Keyv(process.env.DATABASE_URL)
 		if (!this.db) return null
-		this.dbCache = new Keyv()
+		this.dbCache = new NodeCache( { stdTTL: 300, checkperiod: 60 } );
 		return require('./db')
 	},
 	async updateKey(guild, key, value) {

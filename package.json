@@ -27,6 +27,7 @@
     "is-image": "^3.0.0",
     "is-number": "^7.0.0",
     "keyv": "^4.0.3",
+    "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
     "node-schedule": "^2.0.0",
     "random": "^3.0.3",
