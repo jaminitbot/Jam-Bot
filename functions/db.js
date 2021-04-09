@@ -12,7 +12,7 @@ module.exports = {
 		}
 		this.db = new Keyv(process.env.DATABASE_URL)
 		if (!this.db) return null
-		this.dbCache = new NodeCache( { stdTTL: 300, checkperiod: 60 } );
+		this.dbCache = new NodeCache( { stdTTL: 300, checkperiod: 60 } )
 		return require('./db')
 	},
 	async updateKey(guild, key, value) {
