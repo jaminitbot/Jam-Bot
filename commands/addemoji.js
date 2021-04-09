@@ -16,7 +16,7 @@ module.exports = {
 			})
 			.catch(error => {
 				logger.error(error)
-				message.channel.reply('uwu senpai, loowks like youwr image is a liwttle too big!')
+				message.reply('uwu senpai, loowks like youwr image is a liwttle too big!')
 			})
 	},
 }
