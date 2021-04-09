@@ -109,6 +109,5 @@ dist
 
 # My stuff
 database.db
-yarn.lock
 build/
 .env
