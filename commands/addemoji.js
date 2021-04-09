@@ -16,7 +16,7 @@ module.exports = {
 			})
 			.catch(error => {
 				logger.error(error)
-				message.channel.send('Whoops, there was an error uploading your image, a likely cause of this is that the image is too big!')
+				message.channel.reply('uwu senpai, loowks like youwr image is a liwttle too big!')
 			})
 	},
 }
