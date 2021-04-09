@@ -1763,6 +1763,7 @@ erlpack@discord/erlpack:
     keyv: ^4.0.3
     node-cache: ^5.1.2
     node-fetch: ^2.6.1
+    node-gyp: ^8.0.0
     node-schedule: ^2.0.0
     random: ^3.0.3
     sha1: ^1.1.1
@@ -2284,7 +2285,7 @@ erlpack@discord/erlpack:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:latest":
+"node-gyp@npm:^8.0.0, node-gyp@npm:latest":
   version: 8.0.0
   resolution: "node-gyp@npm:8.0.0"
   dependencies:
