@@ -4,7 +4,7 @@ module.exports = {
 	description: 'Say',
 	usage: 'say #general Hiiii',
 	execute(client, message, args, db, logger) {
-		if (!message.author.id == config.settings.ownerid) return
+		if (!(message.author.id == config.settings.ownerid)) return
 		message.delete()
 		const channel = message.mentions.channels.first() || client.channel.cache.get(args[0])
 		if (!channel) return message.reply('you need to specify a valid channel')
