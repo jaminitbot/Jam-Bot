@@ -1,8 +1,6 @@
 const permissions = require('../functions/permission')
 const messages = require('../functions/messages')
-const random = require('random')
 const bannedIds = ['']
-const Discord = require('discord.js')
 module.exports = {
 	async register(client, message, db, config, logger) {
 		if (message.author.bot) return
