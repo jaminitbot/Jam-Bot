@@ -1667,9 +1667,9 @@ qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
 
-random@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/random/-/random-3.0.3.tgz#5929021da0f8e308bc9fe15e030bef568e83f5db"
+random@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/random/-/random-3.0.5.tgz#068e2287ae7b8f54398c4b12e9ffb3997cfec183"
   dependencies:
     seedrandom "^3.0.5"
 
