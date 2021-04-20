@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
-        "fixDb": "node tools/fixDatabase.js"
+        "fixDb": "node tools/fixDatabase.js",
+        "prepare": "husky install"
     },
     "repository": {
         "type": "git",
@@ -39,6 +40,8 @@
     "devDependencies": {
         "@keyv/sqlite": "^2.0.2",
         "eslint": "^7.24.0",
+        "husky": ">=6",
+        "lint-staged": ">=10",
         "prettier": "^2.2.1"
     },
     "optionalDependencies": {
@@ -48,5 +51,9 @@
         "sodium": "^3.0.2",
         "utf-8-validate": "^5.0.4",
         "zlib-sync": "^0.1.7"
+    },
+    "lint-staged": {
+        "*.js": "eslint --cache --fix",
+        "*.{js,css,md}": "prettier --write"
     }
 }
