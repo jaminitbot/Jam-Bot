@@ -6,7 +6,7 @@ module.exports = {
 	async execute(client, db, config, logger) {
 		if (!process.env.twitchApiClientId || !process.env.twitchApiSecret) return
 		if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsGuild) return
-		if (process.env.DEBUG) console.log('Checking if Twitch channel is live')
+		if (process.env.NODE_ENV !== 'production') console.log('Checking if Twitch channel is live')
 		const response = await fetch('https://api.twitch.tv/helix/search/channels?query=' + process.env.twitchNotificationsUsername, {
 			headers: {
 				'CLIENT-ID': process.env.twitchApiClientId,
@@ -18,7 +18,7 @@ module.exports = {
 		let fakeGuild = {}
 		fakeGuild.id = process.env.twitchNotificationsGuild
 		if (data.is_live) { // Checks if broadcaster is live
-			if (process.env.DEBUG) console.log('Twitch channel is live')
+			if (process.env.NODE_ENV !== 'production') console.log('Twitch channel is live')
 			const notificationChannel = client.channels.cache.get(process.env.twitchNotificationsChannel)
 			let notificationMessageContent = `<@&814796307402457148> ${messages.getHappyMessage()} ${data.display_name} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login}>`
 			if (!notificationChannel) return
@@ -32,7 +32,7 @@ module.exports = {
 				if (sha1(data.title) == LiveTitle) { // If the title in the message and title of stream is the same, do nothing
 					return 
 				} else { // If not
-					if (process.env.DEBUG) console.log('Title has changed, updating')
+					if (process.env.NODE_ENV !== 'production') console.log('Title has changed, updating')
 					db.updateKey(fakeGuild, 'LiveTitle', sha1(data.title)) // Put the new title in the db
 					let MessageId = await db.get(fakeGuild, 'LiveMessageId') // Get the message id of the notiication we sent
 					if (MessageId) {

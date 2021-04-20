@@ -16,7 +16,7 @@ module.exports = {
 		return require('./db')
 	},
 	async updateKey(guild, key, value) {
-		if (process.env.DEBUG) console.log(`Updating ${key} to ${value}`)
+		if (process.env.NODE_ENV !== 'production') console.log(`Updating ${key} to ${value}`)
 		let tempValue
 		tempValue = await this.db.get(guild.id)
 		if (!tempValue) tempValue = {}
@@ -28,7 +28,7 @@ module.exports = {
 	async get(guild, key) {
 		let cacheValue = await this.dbCache.get(guild.id)
 		if (cacheValue && cacheValue[key]) {
-			if (process.env.DEBUG) console.log(`Got ${key} from CACHE with value: ${cacheValue[key]}`)
+			if (process.env.NODE_ENV !== 'production') console.log(`Got ${key} from CACHE with value: ${cacheValue[key]}`)
 			return cacheValue[key] // If found in cache, return it
 		}
 		let tempValue = await this.db.get(guild.id) // Key isn't in cache, get it from db
@@ -38,7 +38,7 @@ module.exports = {
 			return null // Key doesn't exist
 		}
 		this.dbCache.set(guild.id, tempValue) // Put the key into the cache
-		if (process.env.DEBUG) console.log(`Got ${key} from DB with value: ${tempValue[key]}`)
+		if (process.env.NODE_ENV !== 'production') console.log(`Got ${key} from DB with value: ${tempValue[key]}`)
 		return tempValue[key] // Return the value from db
 	}
 }
