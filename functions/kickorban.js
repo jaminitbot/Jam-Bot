@@ -25,7 +25,6 @@ module.exports = {
         const moderator =
             message.author.username + '#' + message.author.discriminator
         const reason = args.splice(1).join(' ')
-        let sucessful = true
         if (kickOrBan == 'ban') {
             memberToBan
                 .ban({ reason: `${moderator}: ${reason}`, days: 1 })
