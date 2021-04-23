@@ -16,7 +16,6 @@ const wrongPermissions = [
     'Why did you even try that.',
     'Did you really just do that?',
     'Try again when you have permissions',
-    'Noob',
     'Ha, you really thought that would work.',
     'Really?',
     "You'd never be allowed to do that.",
@@ -28,14 +27,13 @@ const wrongPermissions = [
     'Not today.',
     'Imagine thinking that would work',
     "Silly, that's not working with your lame permissions :)",
-    'Your permissions do not match the required permissions',
     'Stop trying...',
     'Ha, no.',
     'I-',
 ]
 const errorMessages = ["Whoops, that did't work", 'Something went wrong']
 const happyMessages = [
-    'PogChamp',
+    'PogChamp,',
     ':partying_face:',
     ':red_circle:',
     'Honk,',
