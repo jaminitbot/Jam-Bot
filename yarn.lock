@@ -2022,9 +2022,10 @@ qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
 
-random@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/random/-/random-3.0.5.tgz#068e2287ae7b8f54398c4b12e9ffb3997cfec183"
+random@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/random/-/random-3.0.6.tgz#c918e9498dee461affde72986c79ac4d9ef486cf"
+  integrity sha512-B53pp/8eFBxULg6sfQgjjmy3vZ2CWVt0Nk4OgkSpvmAf3VXfcEUgGASbNWbXiTiExWe8hCIf5HlddNHzrte9jg==
   dependencies:
     seedrandom "^3.0.5"
 
