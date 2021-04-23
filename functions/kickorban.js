@@ -1,13 +1,7 @@
 module.exports = {
     execute(message, args, kickOrBan) {
         if (!args[0]) return message.reply(`usage: ${kickOrBan} @person reason`)
-        if (
-            !message.guild.me.hasPermission([
-                'BAN_MEMBERS',
-                'ADMINISTRATOR',
-                'KICK_MEMBERS',
-            ])
-        )
+        if (!message.guild.me.hasPermission(['BAN_MEMBERS', 'KICK_MEMBERS']))
             return message.channel.send(
                 `I don't have permission to perform this command, check I can ${kickOrBan} people!`
             )

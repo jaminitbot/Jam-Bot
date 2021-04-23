@@ -4,15 +4,9 @@ module.exports = {
     permissions: ['BAN_MEMBERS'],
     usage: 'unban @test',
     async execute(client, message, args, db, logger) {
-        if (
-            !message.guild.me.hasPermission([
-                'BAN_MEMBERS',
-                'ADMINISTRATOR',
-                'KICK_MEMBERS',
-            ])
-        )
+        if (!message.guild.me.hasPermission(['BAN_MEMBERS', 'KICK_MEMBERS']))
             return message.channel.send(
-                `I don't have permission to perform this command, check I can BAN people!`
+                `I don't have permission to perform this command, check I can KICK/BAN people!`
             )
         const memberToUnBan =
             message.mentions.members.first() ||
