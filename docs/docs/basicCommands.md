@@ -12,6 +12,9 @@ NOTE: Make sure to attach the emoji to the same message
 ## Help
 Displays help on a particular command  
 Usage: `?help ban`
+## Invite
+Generates an invite for the current channel  
+Usage: `?invite`
 ## Owner
 Displays the bot owner  
 Usage: `?owner`
