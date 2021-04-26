@@ -39,7 +39,7 @@
     },
     "devDependencies": {
         "@keyv/sqlite": "^2.0.2",
-        "eslint": "^7.24.0",
+        "eslint": "^7.25.0",
         "lint-staged": ">=10",
         "prettier": "^2.2.1"
     },
