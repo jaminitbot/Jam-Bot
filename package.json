@@ -6,7 +6,6 @@
     "scripts": {
         "start": "node index.js",
         "fixDb": "node tools/fixDatabase.js",
-        "prepare": "husky install"
     },
     "repository": {
         "type": "git",
