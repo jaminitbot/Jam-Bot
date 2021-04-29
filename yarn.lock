@@ -145,7 +145,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keyv/sqlite@npm:^2.0.2":
+"@keyv/sqlite@npm:2.0.2":
   version: 2.0.2
   resolution: "@keyv/sqlite@npm:2.0.2"
   dependencies:
@@ -1138,7 +1138,7 @@ erlpack@discord/erlpack:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.25.0":
+"eslint@npm:7.25.0":
   version: 7.25.0
   resolution: "eslint@npm:7.25.0"
   dependencies:
@@ -1691,7 +1691,7 @@ erlpack@discord/erlpack:
   languageName: node
   linkType: hard
 
-"husky@npm:>=6":
+"husky@npm:6.0.0":
   version: 6.0.0
   resolution: "husky@npm:6.0.0"
   bin:
@@ -1982,24 +1982,24 @@ erlpack@discord/erlpack:
     "@discordjs/opus": ^0.5.0
     "@keyv/mongo": ^1.1.0
     "@keyv/mysql": ^1.1.4
-    "@keyv/sqlite": ^2.0.2
+    "@keyv/sqlite": 2.0.2
     bufferutil: ^4.0.3
     delay: ^5.0.0
     discord.js: ^12.5.1
     dotenv: ^8.2.0
     erlpack: discord/erlpack
-    eslint: ^7.25.0
+    eslint: 7.25.0
     g-i-s: ^2.1.6
-    husky: ">=6"
+    husky: 6.0.0
     is-image: ^3.0.0
     is-number: ^7.0.0
     keyv: ^4.0.3
-    lint-staged: ">=10"
+    lint-staged: 10.5.4
     node-cache: ^5.1.2
     node-fetch: ^2.6.1
     node-gyp: ^8.0.0
     node-schedule: ^2.0.0
-    prettier: ^2.2.1
+    prettier: 2.2.1
     random: ^3.0.6
     sha1: ^1.1.1
     sodium: ^3.0.2
@@ -2143,7 +2143,7 @@ erlpack@discord/erlpack:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:>=10":
+"lint-staged@npm:10.5.4":
   version: 10.5.4
   resolution: "lint-staged@npm:10.5.4"
   dependencies:
@@ -3005,7 +3005,7 @@ erlpack@discord/erlpack:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.2.1":
+"prettier@npm:2.2.1":
   version: 2.2.1
   resolution: "prettier@npm:2.2.1"
   bin:
