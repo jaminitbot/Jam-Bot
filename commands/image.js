@@ -20,12 +20,14 @@ module.exports = {
             splitBy = 1 // Make sure we don't include the position in the search
         }
         let type
+        //#region Janky Gif Code
         if (args[args.length - 1] == 'gif') {
             // Gif commands also uses google image search, update wording accordingly
             type = 'gif'
         } else {
             type = 'image'
         }
+        //#endregion
         let searchOptions = {}
         if (!String(message.channel.nsfw)) {
             // Nsfw channels can bypass safe search
