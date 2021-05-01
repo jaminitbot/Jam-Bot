@@ -38,11 +38,11 @@
         "ytdl-core": "^4.5.0"
     },
     "devDependencies": {
-        "@keyv/sqlite": "^2.0.2",
-        "eslint": "^7.25.0",
-        "husky": ">=6",
-        "lint-staged": ">=10",
-        "prettier": "^2.2.1"
+        "@keyv/sqlite": "2.0.2",
+        "eslint": "7.25.0",
+        "husky": "6.0.0",
+        "lint-staged": "10.5.4",
+        "prettier": "2.2.1"
     },
     "optionalDependencies": {
         "@keyv/mongo": "^1.1.0",
