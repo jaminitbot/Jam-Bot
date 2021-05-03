@@ -1,3 +1,4 @@
+const config = require('../config.json')
 module.exports = {
     execute(message, args, kickOrBan) {
         if (!args[0]) return message.reply(`usage: ${kickOrBan} @person reason`)
@@ -8,7 +9,7 @@ module.exports = {
         const memberToBan =
             message.mentions.members.first() ||
             message.guild.members.cache.get(args[0])
-        if (memberToBan.id == '685199695228043371')
+        if (memberToBan.id == config.settings.ownerid)
             return message.channel.send('Ha no, no kick kick')
         if (!memberToBan)
             return message.reply(
