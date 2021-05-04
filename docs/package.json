@@ -14,13 +14,8 @@
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@docusaurus/core": "2.0.0-alpha.74",
     "@docusaurus/preset-classic": "2.0.0-alpha.74",
-=======
-    "@docusaurus/core": "2.0.0-alpha.75",
-    "@docusaurus/preset-classic": "2.0.0-alpha.75",
->>>>>>> c6b129a71a2d8b213c4626d2c7444d006bc2acab
     "@mdx-js/react": "1.6.22",
     "clsx": "1.1.1",
     "docusaurus-lunr-search": "2.1.12",
