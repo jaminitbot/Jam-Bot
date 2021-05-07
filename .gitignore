@@ -111,3 +111,4 @@ dist
 database.db
 build/
 .env
+.vercel
