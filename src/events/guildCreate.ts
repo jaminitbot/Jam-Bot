@@ -14,7 +14,7 @@ module.exports = {
             timestamp: Date.now(),
         }
     },
-    register(guild, db, config, logger) {
+    register(guild, db, logger) {
         guild.client.channels.cache
             .get(process.env.GuildLogChannel)
             .send({ embed: this.generateGuildInfoEmbed(guild) })

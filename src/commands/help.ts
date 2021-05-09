@@ -1,5 +1,3 @@
-const config = require('../config.json')
-
 module.exports = {
     name: 'help',
     description: 'Displays information on a specifc command',
@@ -15,7 +13,7 @@ module.exports = {
             const commandToFind = String(args[0]).toLowerCase()
             if (commandToFind && !(commandToFind == ' ')) {
                 let prefix = db.get(message.guild, 'prefix')
-                if (!prefix) prefix = config.defaults.prefixs
+                if (!prefix) prefix = process.env.DEFAULTPREFIX
                 if (client.commands.has(commandToFind)) {
                     const command = client.commands.get(commandToFind)
                     const description = command.description || 'None'

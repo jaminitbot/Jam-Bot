@@ -6,7 +6,7 @@ module.exports = {
     name: 'image',
     description: 'Searches google for an image',
     usage: 'image duck',
-    async execute(client, message, args, db, logger) {
+    async execute(client, message, args, db, logger?) {
         if (!args[0])
             return message.reply('you need to specify what to search for!')
         let splitBy = 0

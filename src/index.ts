@@ -2,7 +2,6 @@
 const Discord = require('discord.js')
 const fs = require('fs')
 const client = new Discord.Client()
-const config = require('./config.json')
 const schedule = require('node-schedule')
 const { createLogger, format, transports } = require('winston')
 const winston = require('winston')
@@ -60,13 +59,13 @@ if (!db) {
 
 // Events
 client.on('guildCreate', (guild) => {
-    guildCreate.register(guild, db, config, logger)
+    guildCreate.register(guild, db, logger)
 })
 client.on('guildDelete', (guild) => {
     guildDelete.register(guild, db)
 })
 client.on('message', (msg) => {
-    message.register(client, msg, db, config, logger)
+    message.register(client, msg, db, logger)
 })
 client.on('messageDelete', (msg) => {
     messageDelete.register(client, msg, db)
@@ -120,7 +119,7 @@ client.on('ready', () => {
         // Only if api tokens are present
         schedule.scheduleJob('*/5 * * * * *', function () {
             // Twitch notifications
-            twitch.execute(client, db, config, logger)
+            twitch.execute(client, db, logger)
         })
     }
 })

@@ -2,8 +2,9 @@ const fetch = require('node-fetch')
 const messages = require('../functions/messages')
 const sha1 = require('sha1')
 const message = require('../events/message')
+export {}
 module.exports = {
-    async execute(client, db, config, logger) {
+    async execute(client, db, logger) {
         if (!process.env.twitchApiClientId || !process.env.twitchApiSecret)
             return
         if (

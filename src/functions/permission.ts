@@ -1,9 +1,8 @@
-const config = require('../config.json')
 module.exports = {
     checkperm(member, permissions) {
         if (
             member.hasPermission(permissions) ||
-            member.id == config.settings.ownerid
+            member.id == process.env.OWNERID
         ) {
             return true
         }

@@ -109,6 +109,6 @@ dist
 
 # My stuff
 database.db
-build/
+docs/build/*
 .env
-.vercel
+built/*
