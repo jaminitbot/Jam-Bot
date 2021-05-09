@@ -6,6 +6,7 @@ function generateEmbed(embed, modLogFiles) {
     }
     return embed
 }
+export {}
 module.exports = {
     name: 'modlog',
     description: 'Various modlog related commands',
