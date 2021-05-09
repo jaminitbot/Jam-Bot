@@ -1,12 +1,11 @@
 const { MessageReaction } = require('discord.js')
-const config = require('../config.json')
 const messages = require('../functions/messages')
 module.exports = {
     name: 'shutdown',
     description: 'Gracefully shuts down the bot',
     usage: 'shutdown',
     async execute(client, message, args, db, logger) {
-        if (config.settings.ownerid == message.author.id) {
+        if (message.author.id == process.env.OWNERID) {
             await message.react('👋')
             await message.channel.send('Shutting Down...')
             process.emit('SIGINT')

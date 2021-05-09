@@ -1,10 +1,9 @@
-const config = require('../config.json')
 module.exports = {
     name: 'say',
     description: 'Say',
     usage: 'say #general Hiiii',
     execute(client, message, args, db, logger) {
-        if (!(message.author.id == config.settings.ownerid)) return
+        if (message.author.id !== process.env.OWNERID) return
         message.delete()
         const channel =
             message.mentions.channels.first() ||
