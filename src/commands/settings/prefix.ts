@@ -8,7 +8,7 @@ module.exports = {
             return message.channel.send(
                 'You need to specify a prefix!\n' + this.usage
             )
-        db.updateKey(message.guild, 'prefix', prefix)
+        db.updateKey(message.guild.id, 'prefix', prefix)
         message.channel.send("Updated prefix to '" + prefix + "'")
     },
 }

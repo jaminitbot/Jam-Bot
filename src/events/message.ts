@@ -22,7 +22,7 @@ module.exports = {
         }
         if (bannedIds.includes(message.author.id)) return
         const guild = message.guild
-        let prefix = await db.get(guild, 'prefix')
+        let prefix = await db.get(guild.id, 'prefix')
         if (!prefix) prefix = process.env.DEFAULTPREFIX
         const args = message.content.slice(prefix.length).trim().split(/ +/)
         const command = args.shift().toLowerCase()

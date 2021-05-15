@@ -12,7 +12,7 @@ module.exports = {
             // User wants info on a particular command
             const commandToFind = String(args[0]).toLowerCase()
             if (commandToFind && !(commandToFind == ' ')) {
-                let prefix = db.get(message.guild, 'prefix')
+                let prefix = db.get(message.guild.id, 'prefix')
                 if (!prefix) prefix = process.env.DEFAULTPREFIX
                 if (client.commands.has(commandToFind)) {
                     const command = client.commands.get(commandToFind)

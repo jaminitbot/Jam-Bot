@@ -8,7 +8,7 @@ module.exports = {
         const channelInput = args[2].slice(2, -1)
         const channel = client.channels.cache.get(channelInput)
         if (!channel) return message.channel.send('Not a valid channel!')
-        db.updateKey(message.guild, 'modLogChannel', channel.id)
+        db.updateKey(message.guild.id, 'modLogChannel', channel.id)
         message.channel.send('Set modlog channel!')
         channel.send('Modlogs will be sent here!')
     },

@@ -6,7 +6,10 @@ module.exports = {
     async execute(client, message, args, db, logger) {
         if (!args[0])
             return message.reply('You need to specify what to suggest!')
-        let suggestionChannel = await db.get(message.guild, 'suggestionChannel')
+        let suggestionChannel = await db.get(
+            message.guild.id,
+            'suggestionChannel'
+        )
         if (!suggestionChannel)
             return message.channel.send(
                 "Looks like suggestions haven't been setup here yet!"
@@ -18,10 +21,10 @@ module.exports = {
                 "Error finding suggestions channel, perhaps it's being deleted"
             )
         message.delete()
-        let suggestionCount = await db.get(message.guild, 'suggestionCount')
+        let suggestionCount = await db.get(message.guild.id, 'suggestionCount')
         if (!suggestionCount) suggestionCount = 0
         suggestionCount = parseInt(suggestionCount)
-        db.updateKey(message.guild, 'suggestionCount', suggestionCount + 1)
+        db.updateKey(message.guild.id, 'suggestionCount', suggestionCount + 1)
         const embed = {
             title: `Suggestion #${suggestionCount + 1}`,
             description: suggestion,

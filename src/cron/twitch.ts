@@ -26,8 +26,7 @@ module.exports = {
         )
         const json = await response.json()
         const data = json.data[0]
-        let fakeGuild = {}
-        fakeGuild.id = process.env.twitchNotificationsGuild
+        let guildId = process.env.twitchNotificationsGuild
         if (data.is_live) {
             // Checks if broadcaster is live
             if (process.env.NODE_ENV !== 'production')
@@ -41,12 +40,12 @@ module.exports = {
                 data.broadcaster_login
             }>`
             if (!notificationChannel) return
-            let LiveTime = await db.get(fakeGuild, 'LiveTime')
+            let LiveTime = await db.get(guildId, 'LiveTime')
             if (LiveTime == data.started_at) {
                 // Checks if we have already notified for this live
-                let LiveTitle = await db.get(fakeGuild, 'LiveTitle')
+                let LiveTitle = await db.get(guildId, 'LiveTitle')
                 if (!LiveTitle) {
-                    db.updateKey(fakeGuild, 'LiveTitle', sha1(data.title))
+                    db.updateKey(guildId, 'LiveTitle', sha1(data.title))
                 }
                 // NOTE: hash because we don't want the title to contain SQL escaping characters
                 if (sha1(data.title) == LiveTitle) {
@@ -56,8 +55,8 @@ module.exports = {
                     // If not
                     if (process.env.NODE_ENV !== 'production')
                         console.log('Title has changed, updating')
-                    db.updateKey(fakeGuild, 'LiveTitle', sha1(data.title)) // Put the new title in the db
-                    let MessageId = await db.get(fakeGuild, 'LiveMessageId') // Get the message id of the notiication we sent
+                    db.updateKey(guildId, 'LiveTitle', sha1(data.title)) // Put the new title in the db
+                    let MessageId = await db.get(guildId, 'LiveMessageId') // Get the message id of the notiication we sent
                     if (MessageId) {
                         let messageToUpdate = await notificationChannel.messages.fetch(
                             MessageId
@@ -67,7 +66,7 @@ module.exports = {
                 }
             } else {
                 // We haven't notified for this live
-                db.updateKey(fakeGuild, 'LiveTime', data.started_at) // Put the time of live in db so we don't notify twice
+                db.updateKey(guildId, 'LiveTime', data.started_at) // Put the time of live in db so we don't notify twice
                 const sentMessage = await notificationChannel.send(
                     notificationMessageContent
                 ) // Notify for the live in the right channel
@@ -76,7 +75,7 @@ module.exports = {
                     'news'
                 )
                     sentMessage.crosspost()
-                db.updateKey(fakeGuild, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
+                db.updateKey(guildId, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
             }
         }
     },

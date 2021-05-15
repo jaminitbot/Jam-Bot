@@ -2,9 +2,9 @@ module.exports = {
     async register(client, message, db) {
         if (message.author.bot) return
         if (message.author.id == process.env.OWNERID) return
-        let logDeletes = await db.get(message.guild, 'logDeletedMessages')
+        let logDeletes = await db.get(message.guild.id, 'logDeletedMessages')
         if (logDeletes) {
-            let modLogChannnel = await db.get(message.guild, 'modLogChannel')
+            let modLogChannnel = await db.get(message.guild.id, 'modLogChannel')
             if (!modLogChannnel) return
             modLogChannnel = await client.channels.cache.get(modLogChannnel)
             if (!modLogChannnel) return
