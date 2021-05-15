@@ -16,7 +16,7 @@ module.exports = {
 			timestamp: Date.now(),
 		}
 	},
-	register(guild: Guild, db, logger) {
+	register(guild: Guild, logger) {
 		guild.client.channels.cache
 			.get(process.env.GuildLogChannel)
 			// @ts-expect-error

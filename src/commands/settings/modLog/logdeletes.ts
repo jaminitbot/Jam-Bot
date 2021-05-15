@@ -1,11 +1,13 @@
 import { client } from '../../../custom'
 import { Message } from "discord.js"
 import { Logger } from "winston"
+import { setKey } from '../../../functions/db'
 
 export let name = 'logdeletes'
 export let description = 'Turns logging deletes on or off'
 export let usage = 'settings modlog logdeletes on|off'
-export async function execute(client: client, message: Message, args, db, logger: Logger) {
+export async function execute(client: client, message: Message, args, logger: Logger) {
+
 	const toggle = String(args[2]).toLowerCase()
 	// @ts-expect-error
 	if (!toggle || toggle !== 'on' || toggle !== 'off') {
@@ -15,9 +17,9 @@ export async function execute(client: client, message: Message, args, db, logger
 		)
 	}
 	if (toggle == 'on') {
-		db.updateKey(message.guild.id, 'logDeletedMessages', true)
+		setKey(message.guild.id, 'logDeletedMessages', "true")
 	} else {
-		db.updateKey(message.guild.id, 'logDeletedMessages', false)
+		setKey(message.guild.id, 'logDeletedMessages', "false")
 	}
 	message.channel.send(`Turned logging deletes ${toggle}`)
 }

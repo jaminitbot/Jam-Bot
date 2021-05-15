@@ -16,7 +16,8 @@ export let name = 'settings'
 export let description: "Configures the bot's settings"
 export let permissions: ['MANAGE_GUILD']
 export let usage: 'settings'
-export function execute(client: client, message: Message, args, db, logger: Logger) {
+export function execute(client: client, message: Message, args, logger: Logger) {
+
 	if (message.author.id == '707313027485270067')
 		return message.channel.send(messages.getInvalidPermissionsMessage())
 	const embed = {
@@ -37,7 +38,7 @@ export function execute(client: client, message: Message, args, db, logger: Logg
 	for (const file of settingsFiles) {
 		const command = require(`./settings/${file}`)
 		if (String(setting).toLowerCase() == command.name) {
-			return command.execute(client, message, args, db, logger)
+			return command.execute(client, message, args, logger)
 		}
 	}
 	return message.reply({

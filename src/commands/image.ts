@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-
+import { client } from '../custom'
 import { Logger } from "winston"
 const gis = require('g-i-s')
 const isImage = require('is-image')
@@ -9,7 +9,7 @@ const messages = require('../functions/messages')
 export const name = 'image'
 export const description = 'Searches google for an image'
 export const usage = 'image duck'
-export async function execute(client, message, args, db, logger) {
+export async function execute(client: client, message: Message, args, logger: Logger) {
 	if (!args[0])
 		return message.reply('you need to specify what to search for!')
 	let splitBy = 0
@@ -32,7 +32,8 @@ export async function execute(client, message, args, db, logger) {
 	}
 	//#endregion
 	let searchOptions = {}
-	if (!String(message.channel.nsfw)) {
+	// @ts-ignore
+	if (!(message.channel.nsfw)) {
 		// Nsfw channels can bypass safe search
 		// @ts-expect-error
 		searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing, filters most things

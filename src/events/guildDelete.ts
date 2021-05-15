@@ -1,7 +1,7 @@
 import { Guild } from "discord.js"
 
 module.exports = {
-	register(guild: Guild, db) {
+	register(guild: Guild) {
 		guild.client.channels.cache
 			.get(process.env.GuildLogChannel)
 			// @ts-expect-error

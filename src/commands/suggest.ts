@@ -1,15 +1,18 @@
 import { Message, TextChannel } from "discord.js"
 import { client } from '../custom'
 import { Logger } from "winston"
+import { setKey, getKey } from '../functions/db'
+
 const delay = require('delay')
 
 export const name = 'suggest'
 export const description = 'Suggests something'
 export const usage = 'suggest Make a memes channel'
-export async function execute(client: client, message: Message, args, db, logger: Logger) {
+export async function execute(client: client, message: Message, args, logger: Logger) {
+
 	if (!args[0])
 		return message.reply('You need to specify what to suggest!')
-	let suggestionChannel = await db.get(
+	let suggestionChannel = await getKey(
 		message.guild.id,
 		'suggestionChannel'
 	)
@@ -25,10 +28,10 @@ export async function execute(client: client, message: Message, args, db, logger
 		)
 	const suggestion = args.splice(0).join(' ')
 	message.delete()
-	let suggestionCount = await db.get(message.guild.id, 'suggestionCount')
+	let suggestionCount = await getKey(message.guild.id, 'suggestionCount')
 	if (!suggestionCount) suggestionCount = 0
 	suggestionCount = parseInt(suggestionCount)
-	db.updateKey(message.guild.id, 'suggestionCount', suggestionCount + 1)
+	setKey(message.guild.id, 'suggestionCount', suggestionCount + 1)
 	const embed = {
 		title: `Suggestion #${suggestionCount + 1}`,
 		description: suggestion,

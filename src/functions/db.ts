@@ -1,4 +1,3 @@
-
 export function connect(logger) {
 	return new Promise((resolve, reject) => {
 		let MongoClient
@@ -20,7 +19,7 @@ export function connect(logger) {
 		resolve(require('./db'))
 	})
 }
-export async function updateKey(guildIdInput: number, key: string, value: object) {
+export async function setKey(guildIdInput: string, key: string, value: string) {
 	let db = this.db
 	if (process.env.NODE_ENV !== 'production')
 		console.log(`Updating ${key} to ${value}`)
@@ -37,7 +36,7 @@ export async function updateKey(guildIdInput: number, key: string, value: object
 	await this.dbCache.set(guildIdInput, tempValue)
 	return true
 }
-export async function get(guildIdInput: number, key: string) {
+export async function getKey(guildIdInput: string, key: string) {
 	let db = this.db
 	let cacheValue = await this.dbCache.get(guildIdInput)
 	if (cacheValue && cacheValue[key]) {

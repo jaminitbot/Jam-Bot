@@ -2,10 +2,11 @@ import { client } from '../custom'
 import { Logger } from 'winston'
 import fetch from 'node-fetch'
 import { TextChannel } from 'discord.js'
+import { getKey, setKey } from '../functions/db'
 const messages = require('../functions/messages')
 const sha1 = require('sha1')
 
-export async function execute(client: client, db, logger: Logger) {
+export async function execute(client: client, logger: Logger) {
 	console.log('Hi from twitch')
 	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret)
 		return
@@ -41,12 +42,12 @@ export async function execute(client: client, db, logger: Logger) {
 			} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login
 			}>`
 		if (!notificationChannel) return
-		let LiveTime = await db.get(guildId, 'LiveTime')
+		let LiveTime = await getKey(guildId, 'LiveTime')
 		if (LiveTime == data.started_at) {
 			// Checks if we have already notified for this live
-			let LiveTitle = await db.get(guildId, 'LiveTitle')
+			let LiveTitle = await getKey(guildId, 'LiveTitle')
 			if (!LiveTitle) {
-				db.updateKey(guildId, 'LiveTitle', sha1(data.title))
+				setKey(guildId, 'LiveTitle', sha1(data.title))
 			}
 			// NOTE: hash because we don't want the title to contain SQL escaping characters
 			if (sha1(data.title) == LiveTitle) {
@@ -56,8 +57,8 @@ export async function execute(client: client, db, logger: Logger) {
 				// If not
 				if (process.env.NODE_ENV !== 'production')
 					console.log('Title has changed, updating')
-				db.updateKey(guildId, 'LiveTitle', sha1(data.title)) // Put the new title in the db
-				let MessageId = await db.get(guildId, 'LiveMessageId') // Get the message id of the notiication we sent
+				setKey(guildId, 'LiveTitle', sha1(data.title)) // Put the new title in the db
+				let MessageId = await getKey(guildId, 'LiveMessageId') // Get the message id of the notiication we sent
 				if (MessageId) {
 					let messageToUpdate = await notificationChannel.messages.fetch(
 						MessageId
@@ -67,14 +68,14 @@ export async function execute(client: client, db, logger: Logger) {
 			}
 		} else {
 			// We haven't notified for this live
-			db.updateKey(guildId, 'LiveTime', data.started_at) // Put the time of live in db so we don't notify twice
+			setKey(guildId, 'LiveTime', data.started_at) // Put the time of live in db so we don't notify twice
 			const sentMessage = await notificationChannel.send(
 				notificationMessageContent
 			) // Notify for the live in the right channel
 			if (sentMessage.channel.type == 'news') {
 				sentMessage.crosspost()
 			}
-			db.updateKey(guildId, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
+			setKey(guildId, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
 		}
 	}
 }

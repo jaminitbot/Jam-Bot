@@ -7,7 +7,8 @@ import fetch from 'node-fetch'
 export const name = 'stock'
 export const description = 'Gets a stock image'
 export const usage = 'stock nature'
-export async function execute(client: client, message: Message, args, db, logger: Logger) {
+export async function execute(client: client, message: Message, args, logger: Logger) {
+
 	if (!process.env.pexelsApiKey) return
 	if (!args[0])
 		return message.reply('You need to specify what to search for!')

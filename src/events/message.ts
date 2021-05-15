@@ -1,8 +1,9 @@
 import { checkperm } from '../functions/util'
+import { getKey } from '../functions/db'
 const messages = require('../functions/messages')
 const bannedIds = ['']
 
-export async function register(client, message, db, logger) {
+export async function register(client, message, logger) {
 	if (message.author.bot) return
 	if (message.channel.type === 'dm') {
 		let embed = {
@@ -22,7 +23,7 @@ export async function register(client, message, db, logger) {
 	}
 	if (bannedIds.includes(message.author.id)) return
 	const guild = message.guild
-	let prefix = await db.get(guild.id, 'prefix')
+	let prefix = await getKey(guild.id, 'prefix')
 	if (!prefix) prefix = process.env.DEFAULTPREFIX
 	const args = message.content.slice(prefix.length).trim().split(/ +/)
 	const command = args.shift().toLowerCase()
@@ -45,7 +46,7 @@ export async function register(client, message, db, logger) {
 			}
 			client.commands
 				.get(command)
-				.execute(client, message, args, db, logger)
+				.execute(client, message, args, logger)
 		} catch (error) {
 			// Error running command
 			logger.error('Command failed with error: ' + error)

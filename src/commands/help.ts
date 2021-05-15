@@ -1,10 +1,13 @@
 import { Message } from "discord.js"
 import { Logger } from "winston"
 import { client } from '../custom'
+import { getKey } from '../functions/db'
+
 export const name = 'help'
 export const description = 'Displays information on a specifc command'
 export const usage = 'help command'
-export function execute(client: client, message: Message, args, db, logger: Logger) {
+export async function execute(client: client, message: Message, args, logger: Logger) {
+
 	let embed: object = {
 		title: 'Help',
 		description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/docs/)`,
@@ -14,7 +17,7 @@ export function execute(client: client, message: Message, args, db, logger: Logg
 		// User wants info on a particular command
 		const commandToFind = String(args[0]).toLowerCase()
 		if (commandToFind && !(commandToFind == ' ')) {
-			let prefix = db.get(message.guild.id, 'prefix')
+			let prefix = await getKey(message.guild.id, 'prefix')
 			if (!prefix) prefix = process.env.DEFAULTPREFIX
 			if (client.commands.has(commandToFind)) {
 				const command = client.commands.get(commandToFind)

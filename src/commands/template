@@ -6,6 +6,7 @@ export const name = 'purge'
 export const description: 'Purges messages'
 export const permissions: ''
 export const usage: ''
-export function execute(client: client, message: Message, args, db, logger: Logger) {
+export function execute(client: client, message: Message, args, logger: Logger) {
+
 
 }

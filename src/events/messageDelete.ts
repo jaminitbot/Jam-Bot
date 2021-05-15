@@ -1,13 +1,14 @@
 import { Message } from "discord.js"
 import { client } from '../custom'
+import { getKey } from '../functions/db'
 
 module.exports = {
-	async register(client: client, message: Message, db) {
+	async register(client: client, message: Message) {
 		if (message.author.bot) return
 		if (message.author.id == process.env.OWNERID) return
-		let logDeletes = await db.get(message.guild.id, 'logDeletedMessages')
+		let logDeletes = await getKey(message.guild.id, 'logDeletedMessages')
 		if (logDeletes) {
-			let modLogChannnel = await db.get(message.guild.id, 'modLogChannel')
+			let modLogChannnel = await getKey(message.guild.id, 'modLogChannel')
 			if (!modLogChannnel) return
 			modLogChannnel = await client.channels.cache.get(modLogChannnel)
 			if (!modLogChannnel) return

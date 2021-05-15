@@ -13,7 +13,8 @@ function generateEmbed(embed, modLogFiles) {
 export let name = 'modlog'
 export let description = 'Various modlog related commands'
 export let usage = 'settings modlog SETTING VALUE'
-export function execute(client: client, message: Message, args, db, logger: Logger) {
+export function execute(client: client, message: Message, args, logger: Logger) {
+
 	const embed = {
 		title: 'Settings: Mod Log - Usage',
 		description: '',
@@ -30,7 +31,7 @@ export function execute(client: client, message: Message, args, db, logger: Logg
 	for (const file of modLogFiles) {
 		const command = require(`./modLog/${file}`)
 		if (String(subSetting).toLowerCase() == command.name) {
-			return command.execute(client, message, args, db, logger)
+			return command.execute(client, message, args, logger)
 		}
 	}
 	return message.reply({

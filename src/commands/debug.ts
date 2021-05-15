@@ -6,7 +6,8 @@ export const name = 'debug'
 export const description = 'Displays debug information'
 export const permissions = ['ADMINISTRATOR']
 export const usage = 'debug'
-export async function execute(client: client, message: Message, args, db, logger: Logger) {
+export async function execute(client: client, message: Message, args, logger: Logger) {
+
 	const sent = await message.channel.send('Loading...')
 	let TimeDate = new Date(Date.now() - client.uptime)
 	let embed = {

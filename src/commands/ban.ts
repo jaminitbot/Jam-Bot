@@ -7,6 +7,7 @@ export let name = 'ban'
 export let description = 'Bans a user from the server'
 export let permissions = ['BAN_MEMBERS']
 export let usage = 'ban @user'
-export function execute(client: client, message: Message, args, db, logger: Logger) {
+export function execute(client: client, message: Message, args, logger: Logger) {
+
 	KickOrBan(message, args, 'ban')
 }

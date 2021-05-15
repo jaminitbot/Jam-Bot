@@ -62,16 +62,16 @@ async function initBot() {
 
 	// Events
 	client.on('guildCreate', (guild) => {
-		guildCreate.register(guild, db, logger)
+		guildCreate.register(guild, logger)
 	})
 	client.on('guildDelete', (guild) => {
-		guildDelete.register(guild, db)
+		guildDelete.register(guild)
 	})
 	client.on('message', (msg) => {
-		message.register(client, msg, db, logger)
+		message.register(client, msg, logger)
 	})
 	client.on('messageDelete', (msg) => {
-		messageDelete.register(client, msg, db)
+		messageDelete.register(client, msg)
 	})
 	client.on('guildMemberAdd', (member) => {
 		guildMemberAdd.register(member)

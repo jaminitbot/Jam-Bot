@@ -6,7 +6,8 @@ import fetch from 'node-fetch'
 export let name = 'birb'
 export let description = 'Churp'
 export let usage = 'birb'
-export async function execute(client: client, message: Message, args, db, logger: Logger) {
+export async function execute(client: client, message: Message, args, logger: Logger) {
+
 	const { link } = await fetch(
 		'https://some-random-api.ml/img/birb'
 	).then((response) => response.json())

@@ -5,7 +5,8 @@ import { Logger } from "winston"
 export const name = 'say'
 export const description = 'Say'
 export const usage = 'say #general Hiiii'
-export function execute(client: client, message: Message, args, db, logger: Logger) {
+export function execute(client: client, message: Message, args, logger: Logger) {
+
 	if (message.author.id !== process.env.OWNERID) return
 	message.delete()
 	// @ts-expect-error
