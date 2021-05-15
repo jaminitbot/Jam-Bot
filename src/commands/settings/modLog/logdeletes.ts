@@ -9,11 +9,9 @@ export let usage = 'settings modlog logdeletes on|off'
 export async function execute(client: client, message: Message, args, logger: Logger) {
 
 	const toggle = String(args[2]).toLowerCase()
-	// @ts-expect-error
-	if (!toggle || toggle !== 'on' || toggle !== 'off') {
+	if (!toggle || !(toggle == 'on' || toggle == 'off')) {
 		return message.channel.send(
-			"You need to specify whether you want to toggle logging deletes 'on' or 'off'\n" +
-			this.usage
+			"You need to specify whether you want to toggle logging deletes 'on' or 'off'\n"
 		)
 	}
 	if (toggle == 'on') {
