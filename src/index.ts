@@ -17,7 +17,6 @@ async function initBot() {
 	const message = require('./events/message')
 	const messageDelete = require('./events/messageDelete')
 	const guildMemberAdd = require('./events/guildMemberAdd')
-	const voiceStateUpdate = require('./events/voiceStateUpdate')
 
 	// Misc Scripts
 	const dbScript = require('./functions/db')
@@ -94,9 +93,6 @@ async function initBot() {
 		logger.error(
 			`Rate limit hit. Triggered by ${rateLimitInfo.path}, timeout for ${rateLimitInfo.timeout}. Only ${rateLimitInfo.limit} can be made`
 		)
-	})
-	client.on('voiceStateUpdate', (oldState, newState) => {
-		voiceStateUpdate.register(client, oldState, newState)
 	})
 
 	// SIGINT STUFF
