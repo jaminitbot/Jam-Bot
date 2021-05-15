@@ -13,7 +13,7 @@ module.exports = {
             }
             const databaseUrl = process.env.MONGO_URL
             MongoClient.connect(databaseUrl, (error, client) => {
-                const db = client.db('jamBotTest')
+                const db = client.db(process.env.DBNAME)
                 try {
                     db.createCollection('guilds')
                 } catch {
