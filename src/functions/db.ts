@@ -39,7 +39,6 @@ export async function setKey(guildIdInput: string, key: string, value: string) {
 	tempValue[key] = value
 	let dbObject = { guildId: guildIdInput, value: tempValue }
 	db.replaceOne({ guildId: guildIdInput }, dbObject, { upsert: true })
-	// await this.db.set(guild.id, tempValue)
 	await this.dbCache.set(guildIdInput, tempValue)
 	return true
 }
