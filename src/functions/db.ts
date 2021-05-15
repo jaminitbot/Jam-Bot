@@ -19,6 +19,11 @@ export function connect(logger) {
 		resolve(require('./db'))
 	})
 }
+/**
+ * @param guildIdInput Guild identifier
+ * @param key The database key to set
+ * @param value The value of the key to set
+*/
 export async function setKey(guildIdInput: string, key: string, value: string) {
 	let db = this.db
 	if (process.env.NODE_ENV !== 'production')
