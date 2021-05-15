@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "start": "cd built && node index.js",
-        "build": "yarn run tsc",
+        "startProd": "yarn run build && yarn run start",
+        "postinstall": "yarn run tsc",
         "prepare": "husky install"
     },
     "repository": {
