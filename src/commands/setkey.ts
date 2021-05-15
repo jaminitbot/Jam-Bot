@@ -7,8 +7,10 @@ export const description = 'Sets a db key'
 export const usage = 'setkey blah test'
 export async function execute(client: client, message: Message, args, db, logger: Logger) {
 	if (!(message.author.id == process.env.OWNERID)) return
-	if (!args[0]) return message.reply('You need to specify a key to get')
-	message.channel.send(
-		(await db.get(message.guild.id, args[0])) || 'null'
-	)
+	const result: boolean = await db.set(message.guild.id, args[0], args[1])
+	if (result) {
+		message.channel.send(`Successfully set ${args[0]} to ${args[1]}`)
+	} else {
+		message.channel.send('Oops, that didn\'t work!')
+	}
 }
