@@ -40,17 +40,28 @@ const happyMessages = [
 	'YAY!',
 	'Hurray!',
 ]
-
+/**
+ * 
+ * @returns String
+ */
 export function getErrorMessage() {
 	return errorMessages[
 		random.int(0, errorMessages.length - 1)
 	]
 }
+/**
+ * 
+ * @returns String
+ */
 export function getInvalidPermissionsMessage() {
 	return wrongPermissions[
 		random.int(0, wrongPermissions.length - 1)
 	]
 }
+/**
+ * 
+ * @returns String
+ */
 export function getHappyMessage() {
 	return happyMessages[
 		random.int(0, happyMessages.length - 1)

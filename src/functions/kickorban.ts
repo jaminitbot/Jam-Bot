@@ -1,5 +1,11 @@
 import { Message } from "discord.js"
-
+/**
+ * 
+ * @param message Message object of intiating command
+ * @param args Command arguments
+ * @param kickOrBan kick or ban
+ * @returns Nothing
+ */
 export default function execute(message: Message, args: Array<string>, kickOrBan: string) {
 	if (!args[0]) return message.reply(`usage: ${kickOrBan} @person reason`)
 	if (!message.guild.me.hasPermission(['BAN_MEMBERS', 'KICK_MEMBERS']))

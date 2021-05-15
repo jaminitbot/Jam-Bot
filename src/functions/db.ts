@@ -19,10 +19,12 @@ export function connect(logger) {
 		resolve(require('./db'))
 	})
 }
+
 /**
- * @param guildIdInput Guild identifier
- * @param key The database key to set
+ * @param guildIdInput The guild identifier
+ * @param key The database key to update in the database
  * @param value The value of the key to set
+ * @returns Boolean
 */
 export async function setKey(guildIdInput: string, key: string, value: string) {
 	let db = this.db
@@ -41,6 +43,11 @@ export async function setKey(guildIdInput: string, key: string, value: string) {
 	await this.dbCache.set(guildIdInput, tempValue)
 	return true
 }
+/**
+ * @param guildIdInput The guild identifier
+ * @param key The key to get from the database
+ * @returns String
+*/
 export async function getKey(guildIdInput: string, key: string) {
 	let db = this.db
 	let cacheValue = await this.dbCache.get(guildIdInput)

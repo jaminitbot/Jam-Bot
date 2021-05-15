@@ -1,9 +1,12 @@
 import { checkperm } from '../functions/util'
 import { getKey } from '../functions/db'
+import { client } from '../custom'
+import { Message } from 'discord.js'
+import { Logger } from 'winston'
 const messages = require('../functions/messages')
 const bannedIds = ['']
 
-export async function register(client, message, logger) {
+export async function register(client: client, message: Message, logger: Logger) {
 	if (message.author.bot) return
 	if (message.channel.type === 'dm') {
 		let embed = {
@@ -18,6 +21,7 @@ export async function register(client, message, logger) {
 		}
 		client.channels.cache
 			.get(process.env.DmChannel)
+			// @ts-expect-error
 			.send({ embed: embed })
 		return
 	}
