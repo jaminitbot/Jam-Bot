@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
 module.exports = {
     name: 'fox',
     description: 'Fox',

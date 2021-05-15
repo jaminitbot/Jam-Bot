@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
 module.exports = {
     name: 'dog',
     description: 'Gets a random dog picture, or a specific breed',

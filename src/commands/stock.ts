@@ -1,5 +1,6 @@
 const random = require('random')
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
+export {}
 module.exports = {
     name: 'stock',
     description: 'Gets a stock image',
@@ -18,10 +19,9 @@ module.exports = {
                 },
             }
         )
-        const json = await response.json()
-        const image =
-            json.photos[random.int((min = 0), (max = json.photos.length - 1))]
-                .src.medium // eslint-disable-line no-undef
+		const json = await response.json()
+		// @ts-expect-error
+        const image =json.photos[random.int((min = 0), (max = json.photos.length - 1))].src.medium // eslint-disable-line no-undef
         sent.edit(
             image || "Unable to get a stock photo, the api's probably down"
         )

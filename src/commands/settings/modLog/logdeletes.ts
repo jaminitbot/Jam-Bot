@@ -3,7 +3,8 @@ module.exports = {
     description: 'Turns logging deletes on or off',
     usage: 'settings modlog logdeletes on|off',
     async execute(client, message, args, db, logger) {
-        const toggle = String(args[2]).toLowerCase()
+		const toggle = String(args[2]).toLowerCase()
+		// @ts-expect-error
         if (!toggle || toggle !== 'on' || toggle !== 'off') {
             return message.channel.send(
                 "You need to specify whether you want to toggle logging deletes 'on' or 'off'\n" +

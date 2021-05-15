@@ -1,5 +1,6 @@
 const messages = require('../functions/messages')
 const isNumber = require('is-number')
+export {}
 module.exports = {
     name: 'purge',
     description: 'Bulk deletes messages',

@@ -1,4 +1,5 @@
 const messages = require('../functions/messages')
+export {}
 module.exports = {
     name: 'tell',
     description: 'Tells something, to someone',

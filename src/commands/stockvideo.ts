@@ -1,6 +1,7 @@
 const random = require('random')
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
 const { MessageAttachment } = require('discord.js')
+export {}
 module.exports = {
     name: 'stockvideo',
     description: 'Gets a stock video',
@@ -20,9 +21,8 @@ module.exports = {
             }
         )
         const json = await response.json()
-        const video =
-            json.videos[random.int((min = 0), (max = json.videos.length - 1))]
-                .video_files[0].link // eslint-disable-line no-undef
+        // @ts-expect-error
+        const video = json.videos[random.int((min = 0), (max = json.videos.length - 1))].video_files[0].link // eslint-disable-line no-undef
         sent.edit(
             video || "Unable to get a stock video, the api's probably down"
         )

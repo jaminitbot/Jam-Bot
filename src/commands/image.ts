@@ -2,6 +2,7 @@ const gis = require('g-i-s')
 const isImage = require('is-image')
 const isNumber = require('is-number')
 const messages = require('../functions/messages')
+export {}
 module.exports = {
     name: 'image',
     description: 'Searches google for an image',
@@ -31,10 +32,12 @@ module.exports = {
         let searchOptions = {}
         if (!String(message.channel.nsfw)) {
             // Nsfw channels can bypass safe search
+			// @ts-expect-error
             searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing, filters most things
         }
         message.channel.send(`:mag_right: Finding ${type}...`).then((sent) => {
-            const search = args.splice(splitBy).join(' ')
+			const search = args.splice(splitBy).join(' ')
+			// @ts-expect-error
             searchOptions.searchTerm = search
             let validImageUrls = []
             gis(searchOptions, function (error, results) {

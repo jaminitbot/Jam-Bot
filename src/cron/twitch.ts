@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
 const messages = require('../functions/messages')
 const sha1 = require('sha1')
 const message = require('../events/message')
@@ -70,11 +70,9 @@ module.exports = {
                 const sentMessage = await notificationChannel.send(
                     notificationMessageContent
                 ) // Notify for the live in the right channel
-                if (
-                    (sentMessage.channel.type == sentMessage.crosspost()) ==
-                    'news'
-                )
+                if (sentMessage.channel.type == 'news') {
                     sentMessage.crosspost()
+                }
                 db.updateKey(guildId, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
             }
         }

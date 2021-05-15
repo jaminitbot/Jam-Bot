@@ -1,4 +1,5 @@
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
+export {}
 module.exports = {
     name: 'shorten',
     description: 'Shortens a URL',

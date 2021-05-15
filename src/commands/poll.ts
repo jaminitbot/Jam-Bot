@@ -1,4 +1,5 @@
 const delay = require('delay')
+export {}
 module.exports = {
     name: 'poll',
     description: 'Creates a poll',

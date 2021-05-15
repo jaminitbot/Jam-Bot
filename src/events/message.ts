@@ -1,6 +1,7 @@
 const permissions = require('../functions/permission')
 const messages = require('../functions/messages')
 const bannedIds = ['']
+export {}
 module.exports = {
     async register(client, message, db, logger) {
         if (message.author.bot) return

@@ -82,6 +82,7 @@ async function initBot() {
         logger.error(error)
     })
     client.on('invalidated', function () {
+        // @ts-ignore
         process.emit('SIGINT')
     })
     client.on('guildUnavailable', (guild) => {
@@ -106,6 +107,7 @@ async function initBot() {
             output: process.stdout,
         })
         rl.on('SIGINT', function () {
+            // @ts-ignore
             process.emit('SIGINT')
         })
     }
