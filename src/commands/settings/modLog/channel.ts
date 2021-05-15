@@ -1,15 +1,20 @@
-module.exports = {
-    name: 'channel',
-    description: 'Sets the modlog channel',
-    usage: 'settings modlog channel #modlog',
-    execute(client, message, args, db, logger) {
-        if (!args[2])
-            return message.channel.send('You need to specify a channel!')
-        const channelInput = args[2].slice(2, -1)
-        const channel = client.channels.cache.get(channelInput)
-        if (!channel) return message.channel.send('Not a valid channel!')
-        db.updateKey(message.guild.id, 'modLogChannel', channel.id)
-        message.channel.send('Set modlog channel!')
-        channel.send('Modlogs will be sent here!')
-    },
+import { Message, TextChannel } from "discord.js"
+import { Logger } from "winston"
+import { client } from '../../../custom'
+
+export let name = 'channel'
+export let description = 'Sets the modlog channel'
+export let usage = 'settings modlog channel #modlog'
+export function execute(client: client, message: Message, args: Array<string>, db, logger: Logger) {
+	if (!args[2])
+		return message.channel.send('You need to specify a channel!')
+	const channelInput = args[2].slice(2, -1)
+	// @ts-expect-error
+	const channel: TextChannel = client.channels.cache.get(channelInput)
+	// @ts-expect-error
+	if (!channel || !(channel.type == 'news' || channel.type == 'text')) return message.channel.send('Not a valid channel!')
+	db.updateKey(message.guild.id, 'modLogChannel', channel.id)
+	message.channel.send('Set modlog channel!')
+	channel.send('Modlogs will be sent here!')
+
 }

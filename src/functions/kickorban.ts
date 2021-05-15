@@ -1,5 +1,6 @@
+import { Message } from "discord.js"
 
-export default function execute(message, args, kickOrBan) {
+export default function execute(message: Message, args: Array<string>, kickOrBan: string) {
 	if (!args[0]) return message.reply(`usage: ${kickOrBan} @person reason`)
 	if (!message.guild.me.hasPermission(['BAN_MEMBERS', 'KICK_MEMBERS']))
 		return message.channel.send(

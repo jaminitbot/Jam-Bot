@@ -1,8 +1,11 @@
+import { client } from '../custom'
+import { Logger } from 'winston'
 import fetch from 'node-fetch'
+import { TextChannel } from 'discord.js'
 const messages = require('../functions/messages')
 const sha1 = require('sha1')
 
-export async function execute(client, db, logger) {
+export async function execute(client: client, db, logger: Logger) {
 	console.log('Hi from twitch')
 	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret)
 		return
@@ -30,7 +33,8 @@ export async function execute(client, db, logger) {
 		// Checks if broadcaster is live
 		if (process.env.NODE_ENV !== 'production')
 			console.log('Twitch channel is live')
-		const notificationChannel = client.channels.cache.get(
+		// @ts-expect-error
+		const notificationChannel: TextChannel = client.channels.cache.get(
 			process.env.twitchNotificationsChannel
 		)
 		let notificationMessageContent = `<@&814796307402457148> ${messages.getHappyMessage()} ${data.display_name

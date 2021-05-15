@@ -14,12 +14,6 @@ export function connect(logger) {
 		const databaseUrl = process.env.MONGO_URL
 		MongoClient.connect(databaseUrl, (error, client) => {
 			const db = client.db(process.env.DBNAME)
-			try {
-				db.createCollection('guilds')
-			} catch {
-				{
-				}
-			}
 			this.db = db.collection('guilds')
 			this.dbCache = new NodeCache({ stdTTL: 300, checkperiod: 60 })
 		})

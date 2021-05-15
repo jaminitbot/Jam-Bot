@@ -1,8 +1,11 @@
-module.exports = {
-	name: 'purge',
-	description: 'Purges messages',
-	permissions: '',
-	usage: '',
-	execute(client, message, args, db, logger) {
-	},
+import { Message } from "discord.js"
+
+import { Logger } from "winston"
+
+export const name = 'purge'
+export const description: 'Purges messages'
+export const permissions: ''
+export const usage: ''
+export function execute(client: client, message: Message, args, db, logger: Logger) {
+
 }

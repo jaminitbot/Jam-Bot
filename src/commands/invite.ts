@@ -1,11 +1,14 @@
-module.exports = {
-    name: 'invite',
-    description: 'Generates an invite URL for the current channel',
-    usage: 'invite',
-    execute(client, message, args, db, logger) {
-        message.channel
-            .createInvite({ maxAge: 0 })
-            .then((invite) => message.reply('Invite link: ' + invite.url))
-            .catch(logger.error)
-    },
+import { Message } from "discord.js"
+import { client } from '../custom'
+import { Logger } from "winston"
+export const name = 'invite'
+export const description = 'Generates an invite URL for the current channel'
+export const usage = 'invite'
+export function execute(client: client, message: Message, args, db, logger: Logger) {
+	if (message.channel.type == 'news' || message.channel.type == 'text') {
+		message.channel
+			.createInvite({ maxAge: 0 })
+			.then((invite) => message.reply('Invite link: ' + invite.url))
+			.catch(logger.error)
+	}
 }
