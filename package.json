@@ -20,11 +20,6 @@
     "homepage": "https://github.com/jamesatjaminit/Jam-Bot#readme",
     "dependencies": {
         "@discordjs/opus": "^0.5.0",
-<<<<<<< HEAD
-=======
-        "@keyv/mysql": "^1.1.4",
-        "@types/node": "^15.0.3",
->>>>>>> 6fe8706b3038a1a7bf8a476685a4fd63e4b3a436
         "delay": "^5.0.0",
         "discord.js": "^12.5.1",
         "dotenv": "^9.0.2",
