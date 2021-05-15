@@ -3,10 +3,9 @@ import { client } from '../custom'
 import { Logger } from "winston"
 
 export const name = 'purge'
-export const description: 'Purges messages'
-export const permissions: ''
-export const usage: ''
-export function execute(client: client, message: Message, args, logger: Logger) {
-
+export const description = 'Purges messages'
+export const permissions = ''
+export const usage = ''
+export function execute(client: client, message: Message, args: Array<String>, logger: Logger) {
 
 }

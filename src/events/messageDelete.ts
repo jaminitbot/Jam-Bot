@@ -13,9 +13,16 @@ module.exports = {
 			if (!modLogChannnel) return
 			modLogChannnel = await client.channels.cache.get(modLogChannnel)
 			if (!modLogChannnel) return
+			let urls: String = ''
+			if (message.attachments) {
+				message.attachments.each(attachment => {
+					urls += '\n' + attachment.url
+				})
+			}
+
 			let embed = {
 				title: 'Message deleted',
-				description: `Message deleted in <#${message.channel.id}> by <@${message.author.id}>:\n\`\`\`${message.content || 'NULL'}\`\`\``,
+				description: `Message deleted in <#${message.channel.id}> by <@${message.author.id}>:\n\`\`\`${message.content || 'NULL'}\`\`\`Attachments:${urls || 'NONE'}`,
 				color: ' #FF0000',
 				timestamp: Date.now(),
 			}
