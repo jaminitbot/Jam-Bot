@@ -9,7 +9,7 @@ Base usage: `?settings`
 ### Prefix
 Changes the bot's prefix from the default (`?`)  
 Usage: `?settings prefix $`
-### Sugggestions
+### Suggestions
 Allows you to set the channel where the suggestions command goes to  
 Usage: `?settings suggestions #suggestion-log`
 ### Modlog
