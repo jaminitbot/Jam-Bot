@@ -41,7 +41,5 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		text: `Intiated by ${message.author.tag}`,
 		icon_url: message.author.displayAvatarURL(),
 	}
-	// @ts-expect-error
-	embed.timestamp = Date.now()
 	message.channel.send({ content: messageContent || '', embed: embed })
 }
