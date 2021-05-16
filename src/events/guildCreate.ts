@@ -16,7 +16,7 @@ export function generateGuildInfoEmbed(guild: Guild) {
 		timestamp: Date.now(),
 	}
 }
-export function register(guild: Guild, logger) {
+export default function register(guild: Guild, logger) {
 	guild.client.channels.cache
 		.get(process.env.GuildLogChannel)
 		// @ts-expect-error

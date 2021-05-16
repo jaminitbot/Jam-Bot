@@ -60,7 +60,7 @@ async function initBot() {
 
 	// Events
 	client.on('guildCreate', (guild) => {
-		guildCreate(guild)
+		guildCreate(guild, logger)
 	})
 	client.on('guildDelete', (guild) => {
 		guildDelete(guild)
