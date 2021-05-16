@@ -3,9 +3,9 @@ import { client } from '../custom'
 import { Logger } from "winston"
 import snipe from '../functions/snipe'
 export const name = 'snipe'
-export const description = 'Snipes messages'
+export const description = 'Snipes deleted and edited messages'
 export const permissions = ''
-export const usage = ''
+export const usage = 'snipe (deletes|edits)'
 function generateDeleteEmbed(snipes, message: Message, embed: MessageEmbed) {
 	let field = ''
 	snipes.forEach(element => {
@@ -42,7 +42,7 @@ function generateEditsEmbed(snipes, message: Message, embed: MessageEmbed) {
 }
 export async function execute(client: client, message: Message, args: Array<String>, logger: Logger) {
 	// @ts-expect-error
-	let snipes: Array = snipe(message.channel)
+	let snipes: Array = snipe()
 	let embed = new MessageEmbed()
 	let newEmbed
 	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL())
@@ -57,7 +57,5 @@ export async function execute(client: client, message: Message, args: Array<Stri
 		embed.setTitle('Message deletes in the last 10s')
 		newEmbed = generateDeleteEmbed(snipes, message, embed)
 	}
-
 	message.channel.send({ embed: newEmbed })
-
 }

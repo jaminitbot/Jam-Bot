@@ -25,7 +25,11 @@ export async function inputSnipe(message: Message, oldMessage, type) {
 	buffer.set(id, messageObject)
 	setTimeout(() => buffer.delete(id), 10000)
 }
-export default function snipe(channel: TextChannel) {
+/**
+ * 
+ * @returns Array of sniped messages
+ */
+export default function snipe() {
 	let snipes = Array.from(buffer.values())
 	return snipes
 }
