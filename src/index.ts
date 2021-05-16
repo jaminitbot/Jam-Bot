@@ -17,6 +17,7 @@ async function initBot() {
 	const message = require('./events/message')
 	const messageDelete = require('./events/messageDelete')
 	const guildMemberAdd = require('./events/guildMemberAdd')
+	const messageUpdate = require('./events/messageUpdate')
 
 	// Misc Scripts
 	const dbScript = require('./functions/db')
@@ -72,6 +73,9 @@ async function initBot() {
 	})
 	client.on('messageDelete', (msg) => {
 		messageDelete.register(client, msg)
+	})
+	client.on('messageUpdate', (oldMessage, newMessage) => {
+		messageUpdate.register(client, oldMessage, newMessage)
 	})
 	client.on('guildMemberAdd', (member) => {
 		guildMemberAdd.register(member)

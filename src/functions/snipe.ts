@@ -1,10 +1,22 @@
 import { Message, TextChannel } from "discord.js"
 
 const buffer = new Map<number, object>()
-export async function inputSnipe(message: Message, type) {
+/**
+ * 
+ * @param message The message
+ * @param oldMessage Old message (incase of message edits)
+ * @param type Delete or edit
+ */
+export async function inputSnipe(message: Message, oldMessage, type) {
+	if (!oldMessage) {
+		oldMessage = {
+			content: null
+		}
+	}
 	let messageObject = {
 		channel: message.channel.id,
-		content: message.content || null,
+		oldMessage: oldMessage.content || 'NONE',
+		content: message.content || 'NONE',
 		user: message.author,
 		attachments: message.attachments.first() || null,
 		type: type

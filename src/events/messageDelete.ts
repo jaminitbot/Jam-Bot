@@ -7,7 +7,7 @@ module.exports = {
 		if (!(message.channel.type == 'news' || message.channel.type == 'text')) return
 		if (message.author.bot) return
 		if (message.author.id == process.env.OWNERID) return
-		inputSnipe(message, 'delete')
+		inputSnipe(message, null, 'delete')
 		//#region Delete log code
 		let logDeletes = await getKey(message.guild.id, 'logDeletedMessages')
 		if (logDeletes == 'true') {
