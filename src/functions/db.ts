@@ -71,3 +71,10 @@ export async function getKey(guildIdInput: string, key: string) {
 		console.log(`Got ${key} from DB with value: ${tempValue[key]}`)
 	return tempValue[key] // Return the value from db
 }
+/**
+ * 
+ * @returns Mongo collection
+ */
+export function returnRawDb() {
+	return this.db
+}

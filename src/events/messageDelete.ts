@@ -1,12 +1,14 @@
 import { Message } from "discord.js"
 import { client } from '../custom'
 import { getKey } from '../functions/db'
-
+import { inputSnipe } from '../functions/snipe'
 module.exports = {
 	async register(client: client, message: Message) {
 		if (!(message.channel.type == 'news' || message.channel.type == 'text')) return
 		if (message.author.bot) return
 		if (message.author.id == process.env.OWNERID) return
+		inputSnipe(message, 'delete')
+		//#region Delete log code
 		let logDeletes = await getKey(message.guild.id, 'logDeletedMessages')
 		if (logDeletes) {
 			let modLogChannnel = await getKey(message.guild.id, 'modLogChannel')
@@ -28,5 +30,6 @@ module.exports = {
 			}
 			modLogChannnel.send({ embed: embed })
 		}
+		//#endregion
 	},
 }
