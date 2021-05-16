@@ -30,6 +30,9 @@ For usage see [settings](settings)
 ## Shorten
 Shortens a url using [is.gd](https://is.gd)  
 Usage: `?shorten https://jaminit.co.uk`
+## Snipe
+Shows deleted messages in the last 10s for the channel  
+Usage: `?snipe`
 ## Suggest
 Creates a new suggestion  
 Usage: `?suggest Make a memes channel`
