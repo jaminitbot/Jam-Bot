@@ -40,7 +40,7 @@ function generateEditsEmbed(snipes, message: Message, embed: MessageEmbed) {
 	embed.addField('Message Edits', field || 'NONE', false)
 	return embed
 }
-export function execute(client: client, message: Message, args: Array<String>, logger: Logger) {
+export async function execute(client: client, message: Message, args: Array<String>, logger: Logger) {
 	// @ts-expect-error
 	let snipes: Array = snipe(message.channel)
 	let embed = new MessageEmbed()
@@ -58,5 +58,6 @@ export function execute(client: client, message: Message, args: Array<String>, l
 		newEmbed = generateDeleteEmbed(snipes, message, embed)
 	}
 
-	message.channel.send({ embed: newEmbed })
+	let sentMessage = await message.channel.send({ embed: newEmbed })
+	setTimeout(() => sentMessage.delete(), 15000)
 }
