@@ -8,7 +8,6 @@ export const name = 'wombat'
 export const description = 'Wombat'
 export const usage = 'Wombat'
 export function execute(client: client, message: Message, args, logger: Logger) {
-
-	let tempArgs = [random.int(1, 25), 'wombat'] // eslint-disable-line no-undef
+	let tempArgs = [random.int(1, 25), 'wombat']
 	image.execute(client, message, tempArgs)
 }
