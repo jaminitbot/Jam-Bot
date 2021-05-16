@@ -56,6 +56,9 @@ export async function execute(client: client, message: Message, args: Array<Stri
 	} else if ((args[0].toLowerCase() == 'delete') || (args[0].toLowerCase() == 'deletes')) {
 		embed.setTitle('Message deletes in the last 10s')
 		newEmbed = generateDeleteEmbed(snipes, message, embed)
+	} else {
+		message.reply('that isn\'t a valid option')
+		return
 	}
 	let sentMessage = await message.channel.send({ embed: newEmbed })
 	setTimeout(() => sentMessage.edit({ content: 'Automatically deleted snipes after 10s', embed: null }), 10000)
