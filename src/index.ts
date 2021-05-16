@@ -1,28 +1,28 @@
 // Mr imports
+const Discord = require('discord.js')
+const fs = require('fs')
+const client = new Discord.Client()
+const schedule = require('node-schedule')
+const { createLogger, format, transports } = require('winston')
+const winston = require('winston')
+const { combine, timestamp, label, printf } = format
+
+// Event Imports
+import guildCreate from './events/guildCreate'
+import guildDelete from './events/guildDelete'
+import messageEvent from './events/message'
+import messageUpdate from './events/messageUpdate'
+import messageDelete from './events/messageDelete'
+import guildMemberAdd from './events/guildMemberAdd'
+
+// Misc Scripts
+import twitch from './cron/twitch'
+
+import { connect } from './functions/db'
 async function initBot() {
-	const Discord = require('discord.js')
-	const fs = require('fs')
-	const client = new Discord.Client()
-	const schedule = require('node-schedule')
-	const { createLogger, format, transports } = require('winston')
-	const winston = require('winston')
-	const { combine, timestamp, label, printf } = format
 	if (process.env.NODE_ENV !== 'production') {
 		let dotenv = require('dotenv').config()
 	}
-
-	// Event imports
-	const guildCreate = require('./events/guildCreate')
-	const guildDelete = require('./events/guildDelete')
-	const message = require('./events/message')
-	const messageDelete = require('./events/messageDelete')
-	const guildMemberAdd = require('./events/guildMemberAdd')
-	const messageUpdate = require('./events/messageUpdate')
-
-	// Misc Scripts
-	const dbScript = require('./functions/db')
-	const twitch = require('./cron/twitch')
-
 	// Logging
 	const loggingFormat = printf(({ level, message, label, timestamp }) => {
 		return `${timestamp} ${level}: ${message}`
@@ -39,9 +39,6 @@ async function initBot() {
 			new winston.transports.File({ filename: 'combined.log' }),
 		],
 	})
-	// process.on('uncaughtException', function (err) {
-	//     logger.error(err.message)
-	// })
 
 	// Registers all the commands in the commands folder
 	// https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
@@ -55,7 +52,7 @@ async function initBot() {
 	}
 
 	// Database connections
-	const db = await dbScript.connect(logger)
+	const db = await connect(logger)
 	if (!db) {
 		logger.error('DB not found')
 		process.exit(1)
@@ -63,22 +60,22 @@ async function initBot() {
 
 	// Events
 	client.on('guildCreate', (guild) => {
-		guildCreate.register(guild, logger)
+		guildCreate(guild)
 	})
 	client.on('guildDelete', (guild) => {
-		guildDelete.register(guild)
+		guildDelete(guild)
 	})
 	client.on('message', (msg) => {
-		message.register(client, msg, logger)
+		messageEvent(client, msg, logger)
 	})
 	client.on('messageDelete', (msg) => {
-		messageDelete.register(client, msg)
+		messageDelete(client, msg)
 	})
 	client.on('messageUpdate', (oldMessage, newMessage) => {
-		messageUpdate.register(client, oldMessage, newMessage)
+		messageUpdate(oldMessage, newMessage)
 	})
 	client.on('guildMemberAdd', (member) => {
-		guildMemberAdd.register(member)
+		guildMemberAdd(member)
 	})
 	client.on('error', (error) => {
 		logger.error(error)
@@ -125,7 +122,7 @@ async function initBot() {
 			// Only if api tokens are present
 			schedule.scheduleJob('*/5 * * * * *', function () {
 				// Twitch notifications
-				twitch.execute(client, db, logger)
+				twitch(client, logger)
 			})
 		}
 	})

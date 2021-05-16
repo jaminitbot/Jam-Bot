@@ -1,7 +1,7 @@
 import { GuildMember } from "discord.js"
 
 
-export async function register(member: GuildMember) {
+export default async function register(member: GuildMember) {
 	if (member.guild.id == '779060204528074783') {
 		let aRole
 		if (

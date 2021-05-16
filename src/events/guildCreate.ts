@@ -1,7 +1,7 @@
 import { Guild } from "discord.js"
 
 
-export function generateGuildInfoEmbed(guild: Guild) {
+export default function generateGuildInfoEmbed(guild: Guild) {
 	return {
 		title: 'Joined guild',
 		description: `Guild Name: ${guild.name}

@@ -6,7 +6,7 @@ import { getKey, setKey } from '../functions/db'
 const messages = require('../functions/messages')
 const sha1 = require('sha1')
 
-export async function execute(client: client, logger: Logger) {
+export default async function execute(client: client, logger: Logger) {
 	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret)
 		return
 	if (

@@ -6,7 +6,7 @@ import { Logger } from 'winston'
 const messages = require('../functions/messages')
 const bannedIds = ['']
 
-export async function register(client: client, message: Message, logger: Logger) {
+export default async function register(client: client, message: Message, logger: Logger) {
 	if (message.author.bot) return
 	if (message.channel.type === 'dm') {
 		let embed = {
