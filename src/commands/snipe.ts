@@ -59,5 +59,10 @@ export async function execute(client: client, message: Message, args: Array<Stri
 	}
 
 	let sentMessage = await message.channel.send({ embed: newEmbed })
-	setTimeout(() => sentMessage.edit({ content: 'Sniped messages were here', embed: null }), 10000)
+	try {
+		setTimeout(() => sentMessage.edit({ content: 'Sniped messages were here', embed: null }), 10000)
+	} catch (err) {
+		{ }
+	}
+
 }
