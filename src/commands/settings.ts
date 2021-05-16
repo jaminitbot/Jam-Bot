@@ -11,15 +11,11 @@ function generateEmbed(embed, settingsFiles) {
 	}
 	return embed
 }
-
-export let name = 'settings'
-export let description: "Configures the bot's settings"
-export let permissions: ['MANAGE_GUILD']
-export let usage: 'settings'
+export const name = 'settings'
+export const description = "Configures the bot's settings"
+export const permissions = ['MANAGE_GUILD']
+export const usage = 'settings'
 export function execute(client: client, message: Message, args, logger: Logger) {
-
-	if (message.author.id == '707313027485270067')
-		return message.channel.send(messages.getInvalidPermissionsMessage())
 	const embed = {
 		title: 'Settings - Usage',
 		description: '',
