@@ -10,7 +10,7 @@ module.exports = {
 		inputSnipe(message, 'delete')
 		//#region Delete log code
 		let logDeletes = await getKey(message.guild.id, 'logDeletedMessages')
-		if (logDeletes) {
+		if (logDeletes == 'true') {
 			let modLogChannnel = await getKey(message.guild.id, 'modLogChannel')
 			if (!modLogChannnel) return
 			modLogChannnel = await client.channels.cache.get(modLogChannnel)
