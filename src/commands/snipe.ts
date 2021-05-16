@@ -58,11 +58,6 @@ export async function execute(client: client, message: Message, args: Array<Stri
 		newEmbed = generateDeleteEmbed(snipes, message, embed)
 	}
 
-	let sentMessage = await message.channel.send({ embed: newEmbed })
-	try {
-		setTimeout(() => sentMessage.edit({ content: 'Sniped messages were here', embed: null }), 10000)
-	} catch (err) {
-		{ }
-	}
+	message.channel.send({ embed: newEmbed })
 
 }
