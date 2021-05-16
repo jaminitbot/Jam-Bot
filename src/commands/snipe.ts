@@ -61,5 +61,5 @@ export async function execute(client: client, message: Message, args: Array<Stri
 		return
 	}
 	let sentMessage = await message.channel.send({ embed: newEmbed })
-	setTimeout(() => sentMessage.edit({ content: `Automatically deleted snipes after ${snipeLifetime}s`, embed: null }), snipeLifetime)
+	setTimeout(() => sentMessage.edit({ content: `Automatically deleted snipes after ${snipeLifetime}s`, embed: null }), snipeLifetime * 1000)
 }
