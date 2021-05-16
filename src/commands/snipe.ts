@@ -10,7 +10,7 @@ export function execute(client: client, message: Message, args: Array<String>, l
 	// @ts-expect-error
 	let snipes: Array = snipe(message.channel)
 	let embed = {
-		title: '**Deleted messages in the last 20s**',
+		title: '**Deleted messages in the last 10s**',
 		description: '',
 		footer: {
 			text: `Sniped by ${message.author.tag}`,
