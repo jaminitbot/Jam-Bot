@@ -1,7 +1,7 @@
 import { Message } from "discord.js"
 import { client } from '../custom'
 import { Logger } from "winston"
-const guildEvent = require('../events/guildCreate')
+import { generateGuildInfoEmbed } from '../events/guildCreate'
 
 export const name = 'guild'
 export const description = 'Gets guild info'
@@ -11,7 +11,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 	if (message.author.id == process.env.OWNERID) {
 		if (!args[0]) return message.reply('you need to specify a guild id')
 		message.channel.send({
-			embed: guildEvent.generateGuildInfoEmbed(
+			embed: generateGuildInfoEmbed(
 				client.guilds.cache.get(args[0])
 			),
 		})
