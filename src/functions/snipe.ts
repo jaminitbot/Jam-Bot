@@ -1,5 +1,5 @@
 import { Message, TextChannel } from "discord.js"
-
+export const snipeLifetime = 20
 const buffer = new Map<number, object>()
 /**
  * 
@@ -23,13 +23,13 @@ export async function inputSnipe(message: Message, oldMessage, type) {
 	}
 	let id = Math.random()
 	buffer.set(id, messageObject)
-	setTimeout(() => buffer.delete(id), 10000)
+	setTimeout(() => buffer.delete(id), snipeLifetime * 1000)
 }
 /**
  * 
  * @returns Array of sniped messages
  */
-export default function snipe() {
+export function snipe() {
 	let snipes = Array.from(buffer.values())
 	return snipes
 }

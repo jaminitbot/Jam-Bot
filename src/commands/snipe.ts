@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from "discord.js"
 import { client } from '../custom'
 import { Logger } from "winston"
-import snipe from '../functions/snipe'
+import { snipe, snipeLifetime } from '../functions/snipe'
 export const name = 'snipe'
 export const description = 'Snipes deleted and edited messages'
 export const permissions = ''
@@ -48,18 +48,18 @@ export async function execute(client: client, message: Message, args: Array<Stri
 	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL())
 	embed.setTimestamp(Date.now())
 	if (!args[0]) { // Both edits and deletes
-		embed.setTitle('Message edits and deletes in the last 10s')
+		embed.setTitle(`Message edits and deletes in the last ${snipeLifetime}s`)
 		newEmbed = generateEditsEmbed(snipes, message, generateDeleteEmbed(snipes, message, embed))
 	} else if ((args[0].toLowerCase() == 'edit') || (args[0].toLowerCase() == 'edits')) {
-		embed.setTitle('Message edits in the last 10s')
+		embed.setTitle(`Message edits in the last ${snipeLifetime}s`)
 		newEmbed = generateEditsEmbed(snipes, message, embed)
 	} else if ((args[0].toLowerCase() == 'delete') || (args[0].toLowerCase() == 'deletes')) {
-		embed.setTitle('Message deletes in the last 10s')
+		embed.setTitle(`Message deletes in the last ${snipeLifetime}s`)
 		newEmbed = generateDeleteEmbed(snipes, message, embed)
 	} else {
 		message.reply('that isn\'t a valid option')
 		return
 	}
 	let sentMessage = await message.channel.send({ embed: newEmbed })
-	setTimeout(() => sentMessage.edit({ content: 'Automatically deleted snipes after 10s', embed: null }), 10000)
+	setTimeout(() => sentMessage.edit({ content: `Automatically deleted snipes after ${snipeLifetime}s`, embed: null }), snipeLifetime)
 }
