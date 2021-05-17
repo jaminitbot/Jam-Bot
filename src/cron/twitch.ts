@@ -5,6 +5,7 @@ import { TextChannel } from 'discord.js'
 import { getKey, setKey } from '../functions/db'
 const messages = require('../functions/messages')
 import sha1 = require('sha1')
+import { homedir } from 'os'
 
 export default async function execute(client: client, logger: Logger) {
 	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret)
@@ -16,7 +17,7 @@ export default async function execute(client: client, logger: Logger) {
 		return
 	if (process.env.NODE_ENV !== 'production')
 		console.log('Checking if Twitch channel is live')
-	const response = await fetch(
+	let response = await fetch(
 		'https://api.twitch.tv/helix/search/channels?query=' +
 		process.env.twitchNotificationsUsername,
 		{
@@ -26,7 +27,7 @@ export default async function execute(client: client, logger: Logger) {
 			},
 		}
 	)
-	const json = await response.json()
+	let json = await response.json()
 	const data = json.data[0]
 	let guildId = process.env.twitchNotificationsGuild
 	if (data.is_live) {
@@ -38,8 +39,31 @@ export default async function execute(client: client, logger: Logger) {
 			process.env.twitchNotificationsChannel
 		)
 		let notificationMessageContent = `<@&814796307402457148> ${messages.getHappyMessage()} ${data.display_name
-			} is live streaming: ${data.title}\n<https://www.twitch.tv/${data.broadcaster_login
-			}>`
+			} is live streaming!`
+		let time = new Date()
+		let embed = {
+			"title": `https://twitch.tv/${data.display_name}`,
+			"url": `https://twitch.tv/${data.display_name}`,
+			"color": 6570404,
+			"footer": {
+				"text": `Last updated at: ${time.getUTCHours()}:${time.getUTCMinutes()} UTC`
+			},
+			"author": {
+				"name": `${data.display_name} is streaming!`
+			},
+			"fields": [
+				{
+					"name": "Playing",
+					"value": data.game_name,
+					"inline": true
+				},
+				{
+					"name": "Started at (UTC)",
+					"value": data.started_at,
+					"inline": true
+				}
+			]
+		}
 		if (!notificationChannel) return
 		let LiveTime = await getKey(guildId, 'LiveTime')
 		if (LiveTime == data.started_at) {
@@ -62,14 +86,14 @@ export default async function execute(client: client, logger: Logger) {
 					let messageToUpdate = await notificationChannel.messages.fetch(
 						MessageId
 					) // Get the message object
-					await messageToUpdate.edit(notificationMessageContent) // Edit the notification message with the new title
+					await messageToUpdate.edit({ content: notificationMessageContent, embed: embed }) // Edit the notification message with the new title
 				}
 			}
 		} else {
 			// We haven't notified for this live
 			setKey(guildId, 'LiveTime', data.started_at) // Put the time of live in db so we don't notify twice
 			const sentMessage = await notificationChannel.send(
-				notificationMessageContent
+				{ content: notificationMessageContent, embed: embed }
 			) // Notify for the live in the right channel
 			if (sentMessage.channel.type == 'news') {
 				sentMessage.crosspost()
