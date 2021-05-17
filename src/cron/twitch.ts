@@ -4,7 +4,7 @@ import fetch from 'node-fetch'
 import { TextChannel } from 'discord.js'
 import { getKey, setKey } from '../functions/db'
 const messages = require('../functions/messages')
-const sha1 = require('sha1')
+import sha1 = require('sha1')
 
 export default async function execute(client: client, logger: Logger) {
 	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret)
