@@ -81,6 +81,13 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.3.0.tgz#d6fed7d6bc6854306da3dea1af9f874b00783e26"
   integrity sha512-8/bnjSZD86ZfpBsDlCIkNXIvm+h6wi9g7IqL+kmFkQ+Wvu3JrasgLElfiPgoo8V8vVfnEi0QVS12gbl94h9YsQ==
 
+"@types/sha1@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@types/sha1/-/sha1-1.1.2.tgz#e4a101952a6a1ea341431b5107894c8b0e0fcaa7"
+  integrity sha512-qL23ImGRNLvDvLXL6EmE41QTAaBfwGgSOfxmytyOwfFSF0xj7BnhhHff8lcv6DpLWt2I5q+LLQ6iIKL+zev9mw==
+  dependencies:
+    "@types/node" "*"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
