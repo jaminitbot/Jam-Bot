@@ -43,6 +43,7 @@ export default async function execute(client: client, logger: Logger) {
 		let embed = {
 			"title": `https://twitch.tv/${data.display_name}`,
 			"url": `https://twitch.tv/${data.display_name}`,
+			"description": data.title,
 			"color": 6570404,
 			"footer": {
 				"text": `Last updated at: ${time.getUTCHours()}:${time.getUTCMinutes()} UTC`
