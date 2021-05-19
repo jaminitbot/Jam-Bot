@@ -5,7 +5,6 @@ import { TextChannel } from 'discord.js'
 import { getKey, setKey } from '../functions/db'
 const messages = require('../functions/messages')
 import sha1 = require('sha1')
-import { homedir } from 'os'
 
 export default async function execute(client: client, logger: Logger) {
 	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret)
@@ -68,19 +67,20 @@ export default async function execute(client: client, logger: Logger) {
 		let LiveTime = await getKey(guildId, 'LiveTime')
 		if (LiveTime == data.started_at) {
 			// Checks if we have already notified for this live
-			let LiveTitle = await getKey(guildId, 'LiveTitle')
-			if (!LiveTitle) {
-				setKey(guildId, 'LiveTitle', sha1(data.title))
+			let savedLiveIdentifier = await getKey(guildId, 'LiveIdentifier')
+			let newLiveIdentifier = sha1(data.title + data.game_name)
+			if (!savedLiveIdentifier) {
+				setKey(guildId, 'LiveIdentifier', newLiveIdentifier)
 			}
 			// NOTE: hash because we don't want the title to contain SQL escaping characters
-			if (sha1(data.title) == LiveTitle) {
+			if (newLiveIdentifier == savedLiveIdentifier) {
 				// If the title in the message and title of stream is the same, do nothing
 				return
 			} else {
 				// If not
 				if (process.env.NODE_ENV !== 'production')
-					console.log('Title has changed, updating')
-				setKey(guildId, 'LiveTitle', sha1(data.title)) // Put the new title in the db
+					console.log('Stream info has changed, updating')
+				setKey(guildId, 'LiveIdentifier', newLiveIdentifier) // Put the new title in the db
 				let MessageId = await getKey(guildId, 'LiveMessageId') // Get the message id of the notiication we sent
 				if (MessageId) {
 					let messageToUpdate = await notificationChannel.messages.fetch(
