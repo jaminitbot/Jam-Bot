@@ -6,6 +6,7 @@ const schedule = require('node-schedule')
 const { createLogger, format, transports } = require('winston')
 const winston = require('winston')
 const { combine, timestamp, label, printf } = format
+import { stopBot } from './functions/util'
 
 // Event Imports
 import guildCreate from './events/guildCreate'
@@ -16,9 +17,9 @@ import messageDelete from './events/messageDelete'
 import guildMemberAdd from './events/guildMemberAdd'
 
 // Misc Scripts
-import twitch from './cron/twitch'
+import sendTwitchNotifs from './cron/twitch'
 
-import { connect } from './functions/db'
+import { connect, returnRawDb } from './functions/db'
 async function initBot() {
 	if (process.env.NODE_ENV !== 'production') {
 		let dotenv = require('dotenv').config()
@@ -110,8 +111,7 @@ async function initBot() {
 	process.on('SIGINT', function () {
 		// Shutdown stuff nicely
 		logger.info('Recieved SIGINT, gracefully shutting down.')
-		client.destroy()
-		process.exit()
+		stopBot(client, returnRawDb())
 	})
 
 	// Intialisation
@@ -122,7 +122,7 @@ async function initBot() {
 			// Only if api tokens are present
 			schedule.scheduleJob('*/5 * * * * *', function () {
 				// Twitch notifications
-				twitch(client, logger)
+				sendTwitchNotifs(client, logger)
 			})
 		}
 	})

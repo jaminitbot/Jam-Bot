@@ -16,11 +16,12 @@ export function connect(logger) {
 			return null
 		}
 		const databaseUrl = process.env.MONGO_URL
-		MongoClient.connect(databaseUrl, (error, client) => {
+		const mongoClient = MongoClient.connect(databaseUrl, (error, client) => {
 			const db = client.db(process.env.DBNAME)
 			this.db = db.collection('guilds')
 			this.dbCache = new NodeCache({ stdTTL: 300, checkperiod: 60 })
 		})
+		this.rawDb = mongoClient
 		resolve(require('./db'))
 	})
 }
@@ -81,5 +82,5 @@ export async function getKey(guildIdInput: string, key: string) {
  * @returns Mongo collection
  */
 export function returnRawDb() {
-	return this.db
+	return this.rawDb
 }

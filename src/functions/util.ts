@@ -1,4 +1,6 @@
 import { GuildMember, PermissionString } from "discord.js"
+import { MongoClient } from "mongodb"
+import { client } from "../custom"
 /**
  * 
  * @param member Guild member to check
@@ -13,4 +15,19 @@ export function checkperm(member: GuildMember, permissions: Array<PermissionStri
 		return true
 	}
 	return false
+}
+/**
+ * 
+ * @param client Discordjs Client
+ * @param mongoClient Mongo db client
+ * @param stopCode Process exit code, default 0
+ */
+export function stopBot(client: client, mongoClient: MongoClient, stopCode: number = 0) {
+	if (client) {
+		client.destroy()
+	}
+	if (mongoClient) {
+		mongoClient.close()
+	}
+	process.exit(stopCode)
 }
