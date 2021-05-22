@@ -23,11 +23,15 @@ export function checkperm(member: GuildMember, permissions: Array<PermissionStri
  * @param stopCode Process exit code, default 0
  */
 export function stopBot(client: client, mongoClient: MongoClient, stopCode: number = 0) {
-	if (client) {
-		client.destroy()
+	try {
+		if (client) {
+			client.destroy()
+		}
+		if (mongoClient) {
+			mongoClient.close()
+		}
+		process.exit(stopCode)
+	} catch {
+		process.exit()
 	}
-	if (mongoClient) {
-		mongoClient.close()
-	}
-	process.exit(stopCode)
 }

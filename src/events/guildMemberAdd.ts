@@ -4,6 +4,12 @@ import { GuildMember } from "discord.js"
 export default async function register(member: GuildMember) {
 	if (member.guild.id == '779060204528074783') {
 		let aRole
+		if (member.id == '230460974400929793') {
+			aRole = await member.guild.roles.cache.find(
+				(role) => role.id == '845735724899893299'
+			)
+			member.roles.add(aRole)
+		}
 		if (
 			member.id == '438815630884601856' ||
 			member.id == '265933873358045185' ||
