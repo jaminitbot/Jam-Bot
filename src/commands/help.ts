@@ -7,7 +7,6 @@ export const name = 'help'
 export const description = 'Displays information on a specifc command'
 export const usage = 'help command'
 export async function execute(client: client, message: Message, args, logger: Logger) {
-
 	let embed: object = {
 		title: 'Help',
 		description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/docs/)`,

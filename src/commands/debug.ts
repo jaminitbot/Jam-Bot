@@ -7,11 +7,11 @@ export const description = 'Displays debug information'
 export const permissions = ['ADMINISTRATOR']
 export const usage = 'debug'
 export async function execute(client: client, message: Message, args, logger: Logger) {
-	const sent = await message.channel.send('Loading...')
+	const sentMessage = await message.channel.send('Loading...')
 	let TimeDate = new Date(Date.now() - client.uptime)
 	let embed = {
 		title: 'Debug Information',
-		description: `Roundtrip: \`${sent.createdTimestamp - message.createdTimestamp}ms\`
+		description: `Roundtrip: \`${sentMessage.createdTimestamp - message.createdTimestamp}ms\`
 		API: \`${client.ws.ping}ms\`
 		Revision: \`${process.env.GIT_REV || 'N/A'}\`
 		Up since: \`${TimeDate.toString()}\`
@@ -22,5 +22,5 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		},
 		timestamp: Date.now(),
 	}
-	sent.edit({ content: '', embed: embed })
+	sentMessage.edit({ content: '', embed: embed })
 }

@@ -7,7 +7,6 @@ export const name = 'setkey'
 export const description = 'Sets a db key'
 export const usage = 'setkey blah test'
 export async function execute(client: client, message: Message, args, logger: Logger) {
-
 	if (!(message.author.id == process.env.OWNERID)) return
 	const result: boolean = await setKey(message.guild.id, args[0], args[1])
 	if (result) {

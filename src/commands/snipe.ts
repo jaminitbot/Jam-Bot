@@ -41,8 +41,7 @@ function generateEditsEmbed(snipes, message: Message, embed: MessageEmbed) {
 	return embed
 }
 export async function execute(client: client, message: Message, args: Array<String>, logger: Logger) {
-	// @ts-expect-error
-	let snipes: Array = snipe()
+	let snipes = snipe()
 	let embed = new MessageEmbed()
 	let newEmbed
 	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL())

@@ -1,6 +1,5 @@
 import { Guild } from "discord.js"
 
-
 export function generateGuildInfoEmbed(guild: Guild) {
 	return {
 		title: 'Joined guild',

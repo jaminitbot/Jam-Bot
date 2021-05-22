@@ -9,7 +9,6 @@ export const description = 'Bulk deletes messages'
 export const permissions = ['MANAGE_MESSAGES']
 export const usage = 'purge 10'
 export function execute(client: client, message: Message, args, logger: Logger) {
-
 	if (!(message.channel.type == 'news' || message.channel.type == 'text')) return
 	if (!args[0])
 		return message.reply(

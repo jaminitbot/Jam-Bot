@@ -22,13 +22,13 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		}
 		splitBy = 1 // Make sure we don't include the position in the search
 	}
-	let type
+	let imageType: String
 	//#region Janky Gif Code
 	if (args[args.length - 1] == 'gif') {
 		// Gif commands also uses google image search, update wording accordingly
-		type = 'gif'
+		imageType = 'gif'
 	} else {
-		type = 'image'
+		imageType = 'image'
 	}
 	//#endregion
 	let searchOptions = {}
@@ -38,7 +38,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		// @ts-expect-error
 		searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing, filters most things
 	}
-	message.channel.send(`:mag_right: Finding ${type}...`).then((sent) => {
+	message.channel.send(`:mag_right: Finding ${imageType}...`).then((sent) => {
 		const search = args.splice(splitBy).join(' ')
 		// @ts-expect-error
 		searchOptions.searchTerm = search
@@ -57,11 +57,11 @@ export async function execute(client: client, message: Message, args, logger: Lo
 				// Get specific image at position
 				sent.edit(
 					validImageUrls[args[0] - 1] ||
-					`There isn't an ${type} for position: ` + args[0]
+					`There isn't an ${imageType} for position: ` + args[0]
 				)
 			} else {
 				sent.edit(
-					validImageUrls[0] || `No ${type} found for your search.`
+					validImageUrls[0] || `No ${imageType} found for your search.`
 				)
 			}
 		})

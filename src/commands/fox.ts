@@ -7,7 +7,6 @@ export const name = 'fox'
 export const description = 'Fox'
 export const usage = 'fox'
 export async function execute(client: client, message: Message, args, logger: Logger) {
-
 	const { image } = await fetch(
 		'https://randomfox.ca/floof/'
 	).then((response) => response.json())

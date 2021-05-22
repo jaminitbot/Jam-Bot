@@ -3,7 +3,6 @@ import { client } from '../custom'
 import { Logger } from "winston"
 
 const fs = require('fs')
-const messages = require('../functions/messages')
 function generateEmbed(embed, settingsFiles) {
 	for (const file of settingsFiles) {
 		const command = require(`./settings/${file}`)

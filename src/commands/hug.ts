@@ -8,7 +8,6 @@ export const name = 'hug'
 export const description = 'HUGGSS'
 export const usage = 'hug'
 export async function execute(client: client, message: Message, args, logger: Logger) {
-
 	const { link } = await fetch(
 		'https://some-random-api.ml/animu/hug'
 	).then((response) => response.json())
