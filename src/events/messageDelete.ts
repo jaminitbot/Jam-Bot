@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { client } from '../custom'
+import { client } from '../customDefinitions'
 import { getKey } from '../functions/db'
 import { inputSnipe } from '../functions/snipe'
 

@@ -1,4 +1,4 @@
-import { client } from '../../../custom'
+import { client } from '../../../customDefinitions'
 import { Message } from "discord.js"
 import { Logger } from "winston"
 import { setKey } from '../../../functions/db'

@@ -1,4 +1,4 @@
-import { client } from '../custom'
+import { client } from '../customDefinitions'
 import { Logger } from 'winston'
 import fetch from 'node-fetch'
 import { TextChannel } from 'discord.js'

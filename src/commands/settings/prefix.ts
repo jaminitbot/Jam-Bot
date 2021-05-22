@@ -1,6 +1,6 @@
 import { Message } from "discord.js"
 import { Logger } from "winston"
-import { client } from '../../custom'
+import { client } from '../../customDefinitions'
 import { setKey } from '../../functions/db'
 
 export let name = 'prefix'

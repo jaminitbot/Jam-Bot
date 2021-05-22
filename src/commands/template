@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { client } from '../custom'
+import { client } from '../customDefinitions.ts'
 import { Logger } from "winston"
 
 export const name = 'purge'

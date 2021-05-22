@@ -1,6 +1,6 @@
 import { checkperm } from '../functions/util'
 import { getKey } from '../functions/db'
-import { client } from '../custom'
+import { client } from '../customDefinitions'
 import { Message } from 'discord.js'
 import { Logger } from 'winston'
 const messages = require('../functions/messages')

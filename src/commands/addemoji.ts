@@ -1,6 +1,6 @@
 import { Message } from "discord.js"
 import { Logger } from "winston"
-import { client } from '../custom'
+import { client } from '../customDefinitions'
 
 export let name = 'addemoji'
 export let description = 'Adds an emoji to the server'

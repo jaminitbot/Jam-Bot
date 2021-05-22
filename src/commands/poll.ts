@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { client } from '../custom'
+import { client } from '../customDefinitions'
 import { Logger } from "winston"
 const delay = require('delay')
 

@@ -1,5 +1,5 @@
 import { Message, MessageEmbed } from "discord.js"
-import { client } from '../custom'
+import { client } from '../customDefinitions'
 import { Logger } from "winston"
 import { snipe, snipeLifetime } from '../functions/snipe'
 export const name = 'snipe'
