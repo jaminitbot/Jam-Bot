@@ -2,9 +2,9 @@ import { Message } from "discord.js"
 import { client } from '../customDefinitions'
 import { Logger } from "winston"
 
-export let name = 'ping'
-export let description = 'Displays various latency information'
-export let usage = 'ping'
+export const name = 'ping'
+export const description = 'Displays various latency information'
+export const usage = 'ping'
 export async function execute(client: client, message: Message, args, logger: Logger) {
 	message.react('🏓')
 	const sent = await message.channel.send('Pong! 🏓')

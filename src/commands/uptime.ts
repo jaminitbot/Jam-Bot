@@ -6,7 +6,7 @@ export const name = 'uptime'
 export const description = "Displays the bot's current uptime"
 export const usage = 'uptime'
 export function execute(client: client, message: Message, args, logger: Logger) {
-	let TimeDate = new Date(Date.now() - client.uptime)
+	const TimeDate = new Date(Date.now() - client.uptime)
 	message.channel.send(
 		'The bot has been up since: ' + TimeDate.toString()
 	)

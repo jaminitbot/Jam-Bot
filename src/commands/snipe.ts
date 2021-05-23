@@ -40,9 +40,9 @@ function generateEditsEmbed(snipes, message: Message, embed: MessageEmbed) {
 	embed.addField('Message Edits', field || 'NONE', false)
 	return embed
 }
-export async function execute(client: client, message: Message, args: Array<String>, logger: Logger) {
-	let snipes = snipe()
-	let embed = new MessageEmbed()
+export async function execute(client: client, message: Message, args: Array<string>, logger: Logger) {
+	const snipes = snipe()
+	const embed = new MessageEmbed()
 	let newEmbed
 	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL())
 	embed.setTimestamp(Date.now())
@@ -59,6 +59,6 @@ export async function execute(client: client, message: Message, args: Array<Stri
 		message.reply('that isn\'t a valid option')
 		return
 	}
-	let sentMessage = await message.channel.send({ embed: newEmbed })
+	const sentMessage = await message.channel.send({ embed: newEmbed })
 	setTimeout(() => sentMessage.edit({ content: `Automatically deleted snipes after ${snipeLifetime}s`, embed: null }), snipeLifetime * 1000)
 }

@@ -13,7 +13,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		)
 	message.delete()
 	const text = args.splice(0).join(' ')
-	let embed = {
+	const embed = {
 		description: text,
 		footer: {
 			text: `A poll by ${message.author.tag}`,

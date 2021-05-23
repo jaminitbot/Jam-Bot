@@ -7,7 +7,7 @@ import { client } from "../customDefinitions"
  * @param permissions Permissions required
  * @returns Boolean
  */
-export function checkperm(member: GuildMember, permissions: Array<PermissionString>) {
+export function checkperm(member: GuildMember, permissions: Array<PermissionString>): boolean {
 	if (
 		member.hasPermission(permissions) ||
 		member.id == process.env.OWNERID
@@ -22,7 +22,7 @@ export function checkperm(member: GuildMember, permissions: Array<PermissionStri
  * @param mongoClient Mongo db client
  * @param stopCode Process exit code, default 0
  */
-export function stopBot(client: client, mongoClient: MongoClient, stopCode: number = 0) {
+export function stopBot(client: client, mongoClient: MongoClient, stopCode = 0): undefined {
 	try {
 		if (client) {
 			client.destroy()

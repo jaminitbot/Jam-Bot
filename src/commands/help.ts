@@ -7,7 +7,7 @@ export const name = 'help'
 export const description = 'Displays information on a specifc command'
 export const usage = 'help command'
 export async function execute(client: client, message: Message, args, logger: Logger) {
-	let embed: object = {
+	let embed: Record<string, unknown> = {
 		title: 'Help',
 		description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/docs/)`,
 	}
@@ -33,9 +33,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 			}
 		}
 	}
-	// @ts-expect-error
 	embed.color = '0eacc4'
-	// @ts-expect-error
 	embed.footer = {
 		text: `Intiated by ${message.author.tag}`,
 		icon_url: message.author.displayAvatarURL(),

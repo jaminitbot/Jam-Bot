@@ -8,8 +8,8 @@ export const permissions = ['ADMINISTRATOR']
 export const usage = 'debug'
 export async function execute(client: client, message: Message, args, logger: Logger) {
 	const sentMessage = await message.channel.send('Loading...')
-	let TimeDate = new Date(Date.now() - client.uptime)
-	let embed = {
+	const TimeDate = new Date(Date.now() - client.uptime)
+	const embed = {
 		title: 'Debug Information',
 		description: `Roundtrip: \`${sentMessage.createdTimestamp - message.createdTimestamp}ms\`
 		API: \`${client.ws.ping}ms\`

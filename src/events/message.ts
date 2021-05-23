@@ -9,7 +9,7 @@ const bannedIds = ['']
 export default async function register(client: client, message: Message, logger: Logger) {
 	if (message.author.bot) return
 	if (message.channel.type === 'dm') {
-		let embed = {
+		const embed = {
 			description: message.content,
 			color: '#20BE9D',
 			author: {

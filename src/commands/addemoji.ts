@@ -8,7 +8,7 @@ export const usage = 'addemoji EmojiName'
 export function execute(client: client, message: Message, args, logger: Logger) {
 	if (!args[0])
 		return message.reply('you need to specify a name for your emoji!')
-	let url = message.attachments.first()
+	const url = message.attachments.first()
 	if (!url)
 		return message.reply('you need to attach the image of the emoji!')
 	message.guild.emojis

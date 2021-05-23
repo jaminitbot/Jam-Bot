@@ -9,6 +9,6 @@ export const description = 'Frog'
 export const usage = 'frog'
 export function execute(client: client, message: Message, args, logger: Logger) {
 
-	let tempArgs = [random.int(1, 25), 'frog'] // eslint-disable-line no-undef
+	const tempArgs = [random.int(1, 25), 'frog'] // eslint-disable-line no-undef
 	image.execute(client, message, tempArgs)
 }

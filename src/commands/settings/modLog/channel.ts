@@ -3,9 +3,9 @@ import { Logger } from "winston"
 import { client } from '../../../customDefinitions'
 import { setKey } from '../../../functions/db'
 
-export let name = 'channel'
-export let description = 'Sets the modlog channel'
-export let usage = 'settings modlog channel #modlog'
+export const name = 'channel'
+export const description = 'Sets the modlog channel'
+export const usage = 'settings modlog channel #modlog'
 export function execute(client: client, message: Message, args: Array<string>, logger: Logger) {
 	if (!args[2])
 		return message.channel.send('You need to specify a channel!')

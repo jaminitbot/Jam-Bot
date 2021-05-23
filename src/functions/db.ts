@@ -33,7 +33,7 @@ export function connect(logger) {
  * @returns Boolean
 */
 export async function setKey(guildIdInput: string, key: string, value: string) {
-	let db = this.db
+	const db = this.db
 	if (process.env.NODE_ENV !== 'production')
 		console.log(`Updating ${key} to ${value}`)
 	let guildDbObject = await db.findOne({ guildId: guildIdInput }) // Find the guild in db
@@ -43,7 +43,7 @@ export async function setKey(guildIdInput: string, key: string, value: string) {
 		guildDbObject = guildDbObject.value // Keys and values are stored in the value object
 	}
 	guildDbObject[key] = value // Set the key to the new value
-	let dbObject = { guildId: guildIdInput, value: guildDbObject } // Make the mongo object
+	const dbObject = { guildId: guildIdInput, value: guildDbObject } // Make the mongo object
 	db.replaceOne({ guildId: guildIdInput }, dbObject, { upsert: true }) // Save to DB
 	await this.dbCache.set(guildIdInput, guildDbObject) // Set in cache as well
 	return true
@@ -54,8 +54,8 @@ export async function setKey(guildIdInput: string, key: string, value: string) {
  * @returns String
 */
 export async function getKey(guildIdInput: string, key: string) {
-	let db = this.db
-	let cacheValue = await this.dbCache.get(guildIdInput) // Check if guild is already in cache
+	const db = this.db
+	const cacheValue = await this.dbCache.get(guildIdInput) // Check if guild is already in cache
 	if (cacheValue && cacheValue[key]) {
 		if (process.env.NODE_ENV !== 'production')
 			console.log(

@@ -3,9 +3,9 @@ import { Logger } from "winston"
 import { client } from '../../customDefinitions'
 import { setKey } from '../../functions/db'
 
-export let name = 'suggestions'
-export let description = 'Sets the channel for suggestions'
-export let usage = 'settings suggestions #suggestions'
+export const name = 'suggestions'
+export const description = 'Sets the channel for suggestions'
+export const usage = 'settings suggestions #suggestions'
 export function execute(client: client, message: Message, args, logger: Logger) {
 
 	const channelInput = args[1].slice(2, -1)

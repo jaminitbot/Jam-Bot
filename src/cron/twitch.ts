@@ -10,7 +10,7 @@ export default async function execute(client: client, logger: Logger) {
 	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret) return
 	if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsGuild) return
 	if (process.env.NODE_ENV !== 'production') console.log('Checking if Twitch channel is live')
-	let response = await fetch(
+	const response = await fetch(
 		'https://api.twitch.tv/helix/search/channels?query=' +
 		process.env.twitchNotificationsUsername,
 		{
@@ -20,16 +20,16 @@ export default async function execute(client: client, logger: Logger) {
 			},
 		}
 	)
-	let json = await response.json()
+	const json = await response.json()
 	const liveInfo = json.data[0]
-	let guildId = process.env.twitchNotificationsGuild
+	const guildId = process.env.twitchNotificationsGuild
 	if (liveInfo.is_live) {
 		// Checks if broadcaster is live
 		if (process.env.NODE_ENV !== 'production') console.log('Twitch channel is live')
 		const notificationChannel = client.channels.cache.get(process.env.twitchNotificationsChannel)
-		let notificationMessageContent = `<@&814796307402457148> ${messages.getHappyMessage()} ${liveInfo.display_name} is live streaming!`
-		let time = new Date()
-		let embed = {
+		const notificationMessageContent = `<@&814796307402457148> ${messages.getHappyMessage()} ${liveInfo.display_name} is live streaming!`
+		const time = new Date()
+		const embed = {
 			"title": `https://twitch.tv/${liveInfo.display_name}`,
 			"url": `https://twitch.tv/${liveInfo.display_name}`,
 			"description": liveInfo.title,
@@ -54,11 +54,11 @@ export default async function execute(client: client, logger: Logger) {
 			]
 		}
 		if (!notificationChannel) return
-		let LiveTime = await getKey(guildId, 'LiveTime')
+		const LiveTime = await getKey(guildId, 'LiveTime')
 		if (LiveTime == liveInfo.started_at) {
 			// Checks if we have already notified for this live
-			let savedLiveIdentifier = await getKey(guildId, 'LiveIdentifier')
-			let newLiveIdentifier = sha1(liveInfo.title + liveInfo.game_name)
+			const savedLiveIdentifier = await getKey(guildId, 'LiveIdentifier')
+			const newLiveIdentifier = sha1(liveInfo.title + liveInfo.game_name)
 			if (!savedLiveIdentifier) {
 				setKey(guildId, 'LiveIdentifier', newLiveIdentifier)
 			}
@@ -70,10 +70,10 @@ export default async function execute(client: client, logger: Logger) {
 				// If not
 				if (process.env.NODE_ENV !== 'production') console.log('Stream info has changed, updating')
 				setKey(guildId, 'LiveIdentifier', newLiveIdentifier) // Put the new title in the db
-				let MessageId = await getKey(guildId, 'LiveMessageId') // Get the message id of the notiication we sent
+				const MessageId = await getKey(guildId, 'LiveMessageId') // Get the message id of the notiication we sent
 				if (MessageId) {
 					// @ts-expect-error
-					let messageToUpdate = await notificationChannel.messages.fetch(MessageId) // Get the message object
+					const messageToUpdate = await notificationChannel.messages.fetch(MessageId) // Get the message object
 					await messageToUpdate.edit({ content: notificationMessageContent, embed: embed }) // Edit the notification message with the new title
 				}
 			}

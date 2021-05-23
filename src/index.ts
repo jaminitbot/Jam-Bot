@@ -22,7 +22,7 @@ import { connect, returnRawDb } from './functions/db'
 
 async function initBot() {
 	if (process.env.NODE_ENV !== 'production') {
-		let dotenv = require('dotenv').config()
+		const dotenv = require('dotenv').config()
 	}
 
 	// Logging
@@ -83,7 +83,7 @@ async function initBot() {
 		logger.error(error)
 	})
 	client.on('invalidated', function () {
-		// @ts-ignore
+		// @ts-expect-error
 		process.emit('SIGINT')
 	})
 	client.on('guildUnavailable', (guild) => {

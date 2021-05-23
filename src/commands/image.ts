@@ -22,7 +22,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		}
 		splitBy = 1 // Make sure we don't include the position in the search
 	}
-	let imageType: String
+	let imageType: string
 	//#region Janky Gif Code
 	if (args[args.length - 1] == 'gif') {
 		// Gif commands also uses google image search, update wording accordingly
@@ -31,7 +31,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		imageType = 'image'
 	}
 	//#endregion
-	let searchOptions = {}
+	const searchOptions = {}
 	// @ts-ignore
 	if (!(message.channel.nsfw)) {
 		// Nsfw channels can bypass safe search
@@ -42,7 +42,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		const search = args.splice(splitBy).join(' ')
 		// @ts-expect-error
 		searchOptions.searchTerm = search
-		let validImageUrls = []
+		const validImageUrls = []
 		gis(searchOptions, function (error, results) {
 			if (error)
 				return sent.edit(

@@ -10,9 +10,9 @@ function generateEmbed(embed, modLogFiles) {
 	return embed
 }
 
-export let name = 'modlog'
-export let description = 'Various modlog related commands'
-export let usage = 'settings modlog SETTING VALUE'
+export const name = 'modlog'
+export const description = 'Various modlog related commands'
+export const usage = 'settings modlog SETTING VALUE'
 export function execute(client: client, message: Message, args, logger: Logger) {
 
 	const embed = {

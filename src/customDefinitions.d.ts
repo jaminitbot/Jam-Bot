@@ -1,13 +1,14 @@
 import { Client, Collection, PermissionString } from "discord.js"
 
 export interface CollectionCommand {
-	name: String,
-	description: String,
+	name: string,
+	description: string,
 	permissions: Array<PermissionString>
-	usage: String
+	usage: string
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	execute: Function
 
 }
 export interface client extends Client {
-	commands: Collection<Object, CollectionCommand>
+	commands: Collection<unknown, CollectionCommand>
 }

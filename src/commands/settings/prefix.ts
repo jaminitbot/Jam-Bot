@@ -3,9 +3,9 @@ import { Logger } from "winston"
 import { client } from '../../customDefinitions'
 import { setKey } from '../../functions/db'
 
-export let name = 'prefix'
-export let description = 'Sets the bot prefix'
-export let usage = 'settings prefix $'
+export const name = 'prefix'
+export const description = 'Sets the bot prefix'
+export const usage = 'settings prefix $'
 export function execute(client: client, message: Message, args, logger: Logger) {
 
 	const prefix = args[1]

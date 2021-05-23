@@ -3,9 +3,9 @@ import { Message } from "discord.js"
 import { Logger } from "winston"
 import { setKey } from '../../../functions/db'
 
-export let name = 'logdeletes'
-export let description = 'Turns logging deletes on or off'
-export let usage = 'settings modlog logdeletes on|off'
+export const name = 'logdeletes'
+export const description = 'Turns logging deletes on or off'
+export const usage = 'settings modlog logdeletes on|off'
 export async function execute(client: client, message: Message, args, logger: Logger) {
 
 	const toggle = String(args[2]).toLowerCase()

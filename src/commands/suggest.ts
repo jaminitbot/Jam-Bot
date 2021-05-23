@@ -12,7 +12,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 
 	if (!args[0])
 		return message.reply('You need to specify what to suggest!')
-	let suggestionChannel = await getKey(
+	const suggestionChannel = await getKey(
 		message.guild.id,
 		'suggestionChannel'
 	)
