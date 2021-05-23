@@ -2,11 +2,10 @@ import { Message } from "discord.js"
 import { Logger } from "winston"
 import { client } from '../customDefinitions'
 
-export let name = 'addemoji'
-export let description = 'Adds an emoji to the server'
-export let usage = 'addemoji EmojiName'
+export const name = 'addemoji'
+export const description = 'Adds an emoji to the server'
+export const usage = 'addemoji EmojiName'
 export function execute(client: client, message: Message, args, logger: Logger) {
-
 	if (!args[0])
 		return message.reply('you need to specify a name for your emoji!')
 	let url = message.attachments.first()

@@ -1,4 +1,4 @@
-import { Message } from "discord.js"
+import { Message, Role } from "discord.js"
 import { client } from '../customDefinitions'
 import { Logger } from "winston"
 
@@ -37,7 +37,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 			}
 		} else {
 			// Didn't get a valid user, maybe its a role?
-			const role =
+			const role: Role =
 				message.mentions.roles.first() ||
 				message.guild.roles.cache.get(args[0])
 			if (role) {
@@ -67,6 +67,6 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 			color: '#14904B',
 			timestamp: Date.now(),
 		}
-		sent.edit({ embed: embed })
+		sent.edit({ 'embed': embed })
 	})
 }

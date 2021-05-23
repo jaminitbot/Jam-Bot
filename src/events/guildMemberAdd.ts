@@ -1,11 +1,11 @@
-import { GuildMember } from "discord.js"
+import { GuildMember, Role } from "discord.js"
 
 
 export default async function register(member: GuildMember) {
 	if (member.guild.id == '779060204528074783') {
-		let aRole
+		let aRole: Role
 		if (member.id == '230460974400929793') {
-			aRole = await member.guild.roles.cache.find(
+			aRole = member.guild.roles.cache.find(
 				(role) => role.id == '845735724899893299'
 			)
 			member.roles.add(aRole)
@@ -16,16 +16,16 @@ export default async function register(member: GuildMember) {
 			member.id == '724842710221193217' ||
 			member.id == '312272690473992202'
 		) {
-			aRole = await member.guild.roles.cache.find(
+			aRole = member.guild.roles.cache.find(
 				(role) => role.id == '781999680832929813'
 			)
 			member.roles.add(aRole)
-			aRole = await member.guild.roles.cache.find(
+			aRole = member.guild.roles.cache.find(
 				(role) => role.id == '789810162696192011'
 			)
 			member.roles.add(aRole)
 		} else {
-			aRole = await member.guild.roles.cache.find(
+			aRole = member.guild.roles.cache.find(
 				(role) => role.id == '791381859878961202'
 			)
 			member.roles.add(aRole)

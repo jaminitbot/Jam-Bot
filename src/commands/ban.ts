@@ -8,6 +8,5 @@ export const description = 'Bans a user from the server'
 export const permissions = ['BAN_MEMBERS']
 export const usage = 'ban @user'
 export function execute(client: client, message: Message, args, logger: Logger) {
-
 	KickOrBan(message, args, 'ban')
 }

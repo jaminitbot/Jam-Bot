@@ -36,16 +36,16 @@ export async function setKey(guildIdInput: string, key: string, value: string) {
 	let db = this.db
 	if (process.env.NODE_ENV !== 'production')
 		console.log(`Updating ${key} to ${value}`)
-	let tempValue = await db.findOne({ guildId: guildIdInput }) // Find the guild in db
-	if (!tempValue) { // If it doesn't exist, make a blank object
-		tempValue = {}
+	let guildDbObject = await db.findOne({ guildId: guildIdInput }) // Find the guild in db
+	if (!guildDbObject) { // If it doesn't exist, make a blank object
+		guildDbObject = {}
 	} else {
-		tempValue = tempValue.value // Keys and values are stored in the value object
+		guildDbObject = guildDbObject.value // Keys and values are stored in the value object
 	}
-	tempValue[key] = value // Set the key to the new value
-	let dbObject = { guildId: guildIdInput, value: tempValue } // Make the mongo object
+	guildDbObject[key] = value // Set the key to the new value
+	let dbObject = { guildId: guildIdInput, value: guildDbObject } // Make the mongo object
 	db.replaceOne({ guildId: guildIdInput }, dbObject, { upsert: true }) // Save to DB
-	await this.dbCache.set(guildIdInput, tempValue) // Set in cache as well
+	await this.dbCache.set(guildIdInput, guildDbObject) // Set in cache as well
 	return true
 }
 /**
@@ -63,23 +63,23 @@ export async function getKey(guildIdInput: string, key: string) {
 			)
 		return cacheValue[key] // If found in cache, return it
 	}
-	let tempValue = await db.findOne( // Find guild in mongo db
+	let guildDbObject = await db.findOne( // Find guild in mongo db
 		{ guildId: guildIdInput },
 		{ projection: { _id: 0 } }
 	)
-	if (!tempValue) return null // If no guild object is found, return nothing
-	tempValue = tempValue.value
-	if (!tempValue[key]) {
+	if (!guildDbObject) return null // If no guild object is found, return nothing
+	guildDbObject = guildDbObject.value
+	if (!guildDbObject[key]) {
 		return null // Key doesn't exist
 	}
-	this.dbCache.set(guildIdInput, tempValue) // Put the key into the cache
+	this.dbCache.set(guildIdInput, guildDbObject) // Put the key into the cache
 	if (process.env.NODE_ENV !== 'production')
-		console.log(`Got ${key} from DB with value: ${tempValue[key]}`)
-	return tempValue[key] // Return the value from db
+		console.log(`Got ${key} from DB with value: ${guildDbObject[key]}`)
+	return guildDbObject[key] // Return the value from db
 }
 /**
  * 
- * @returns Mongo collection
+ * @returns Mongo database
  */
 export function returnRawDb() {
 	return this.rawDb
