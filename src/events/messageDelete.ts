@@ -11,10 +11,10 @@ export default async function register(client: client, message: Message) {
 	//#region Delete log code
 	const logDeletes = await getKey(message.guild.id, 'logDeletedMessages')
 	if (logDeletes == 'true') {
-		let modLogChannnel = await getKey(message.guild.id, 'modLogChannel')
-		if (!modLogChannnel) return
-		modLogChannnel = await client.channels.cache.get(modLogChannnel)
-		if (!modLogChannnel) return
+		const modLogChannnelId = await getKey(message.guild.id, 'modLogChannel')
+		if (!modLogChannnelId) return
+		const modLogChannnel = client.channels.cache.get(modLogChannnelId)
+		if (!modLogChannnel || !((modLogChannnel.type == 'text') || modLogChannnel.type == 'news')) return
 		let urls = ''
 		if (message.attachments) {
 			message.attachments.each(attachment => {
@@ -28,6 +28,7 @@ export default async function register(client: client, message: Message) {
 			color: ' #FF0000',
 			timestamp: Date.now(),
 		}
+		// @ts-expect-error
 		modLogChannnel.send({ embed: embed })
 	}
 	//#endregion

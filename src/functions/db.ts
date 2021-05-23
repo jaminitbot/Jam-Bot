@@ -1,3 +1,5 @@
+import { MongoClient } from "mongodb"
+
 /**
  * 
  * @param logger Winston Logger
@@ -53,7 +55,9 @@ export async function setKey(guildIdInput: string, key: string, value: string) {
  * @param key The key to get from the database
  * @returns String
 */
-export async function getKey(guildIdInput: string, key: string) {
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getKey(guildIdInput: string, key: string): Promise<any> {
 	const db = this.db
 	const cacheValue = await this.dbCache.get(guildIdInput) // Check if guild is already in cache
 	if (cacheValue && cacheValue[key]) {
@@ -81,6 +85,6 @@ export async function getKey(guildIdInput: string, key: string) {
  * 
  * @returns Mongo database
  */
-export function returnRawDb() {
+export function returnRawDb(): MongoClient {
 	return this.rawDb
 }

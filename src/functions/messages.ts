@@ -44,7 +44,7 @@ const happyMessages = [
  * 
  * @returns String
  */
-export function getErrorMessage() {
+export function getErrorMessage(): string {
 	return errorMessages[
 		random.int(0, errorMessages.length - 1)
 	]
@@ -53,7 +53,7 @@ export function getErrorMessage() {
  * 
  * @returns String
  */
-export function getInvalidPermissionsMessage() {
+export function getInvalidPermissionsMessage(): string {
 	return wrongPermissions[
 		random.int(0, wrongPermissions.length - 1)
 	]
@@ -62,7 +62,7 @@ export function getInvalidPermissionsMessage() {
  * 
  * @returns String
  */
-export function getHappyMessage() {
+export function getHappyMessage(): string {
 	return happyMessages[
 		random.int(0, happyMessages.length - 1)
 	]

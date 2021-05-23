@@ -1,19 +1,29 @@
-import { Message, TextChannel } from "discord.js"
+import { Message, MessageAttachment, TextChannel, User } from "discord.js"
 export const snipeLifetime = 20
-const buffer = new Map<number, Record<string, unknown>>()
+
+interface messageSniped {
+	channel: string,
+	oldMessage: string,
+	content: string,
+	user: User,
+	attachments: MessageAttachment,
+	type: string
+}
+const buffer = new Map<number, messageSniped>()
 /**
  * 
  * @param message The message
  * @param oldMessage Old message (incase of message edits)
  * @param type Delete or edit
  */
-export async function inputSnipe(message: Message, oldMessage, type) {
+export async function inputSnipe(message: Message, oldMessage: Message, type: string) {
 	if (!oldMessage) {
+		// @ts-expect-error
 		oldMessage = {
 			content: null
 		}
 	}
-	const messageObject = {
+	const messageObject: messageSniped = {
 		channel: message.channel.id,
 		oldMessage: oldMessage.content || 'NONE',
 		content: message.content || 'NONE',
@@ -29,7 +39,7 @@ export async function inputSnipe(message: Message, oldMessage, type) {
  * 
  * @returns Array of sniped messages
  */
-export function snipe() {
+export function snipe(): Array<messageSniped> {
 	const snipes = Array.from(buffer.values())
 	return snipes
 }
