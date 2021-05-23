@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "cd built && node index.js",
-        "startProd": "yarn run build && yarn run start"
+        "startProd": "yarn tsc && yarn run start"
     },
     "repository": {
         "type": "git",
