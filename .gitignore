@@ -108,7 +108,15 @@ dist
 .yarn/build-state.yml
 
 # My stuff
-database.db
 docs/build/*
 .env
 built/*
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
