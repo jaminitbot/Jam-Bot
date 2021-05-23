@@ -22,5 +22,5 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		},
 		timestamp: Date.now(),
 	}
-	sentMessage.edit({ content: '', embed: embed })
+	sentMessage.edit({ content: null, embed: embed })
 }

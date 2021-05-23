@@ -67,6 +67,6 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 			color: '#14904B',
 			timestamp: Date.now(),
 		}
-		sent.edit({ 'embed': embed })
+		sent.edit({ 'content': null, 'embed': embed })
 	})
 }
