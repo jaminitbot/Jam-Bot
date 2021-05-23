@@ -18,12 +18,13 @@ import guildMemberAdd from './events/guildMemberAdd'
 
 // Misc Scripts
 import sendTwitchNotifs from './cron/twitch'
-
 import { connect, returnRawDb } from './functions/db'
+
 async function initBot() {
 	if (process.env.NODE_ENV !== 'production') {
 		let dotenv = require('dotenv').config()
 	}
+
 	// Logging
 	const loggingFormat = printf(({ level, message, label, timestamp }) => {
 		return `${timestamp} ${level}: ${message}`
