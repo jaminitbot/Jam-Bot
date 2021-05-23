@@ -10,7 +10,7 @@ export default async function register(client: client, message: Message) {
 	inputSnipe(message, null, 'delete')
 	//#region Delete log code
 	const logDeletes = await getKey(message.guild.id, 'logDeletedMessages')
-	if (logDeletes == 'true') {
+	if (logDeletes) {
 		const modLogChannnelId = await getKey(message.guild.id, 'modLogChannel')
 		if (!modLogChannnelId) return
 		const modLogChannnel = client.channels.cache.get(modLogChannnelId)

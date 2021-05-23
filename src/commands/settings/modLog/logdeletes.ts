@@ -15,9 +15,9 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		)
 	}
 	if (toggle == 'on') {
-		setKey(message.guild.id, 'logDeletedMessages', "true")
+		setKey(message.guild.id, 'logDeletedMessages', true)
 	} else {
-		setKey(message.guild.id, 'logDeletedMessages', "false")
+		setKey(message.guild.id, 'logDeletedMessages', false)
 	}
 	message.channel.send(`Turned logging deletes ${toggle}`)
 }

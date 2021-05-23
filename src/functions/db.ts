@@ -34,7 +34,7 @@ export function connect(logger) {
  * @param value The value of the key to set
  * @returns Boolean
 */
-export async function setKey(guildIdInput: string, key: string, value: string) {
+export async function setKey(guildIdInput: string, key: string, value: unknown) {
 	const db = this.db
 	if (process.env.NODE_ENV !== 'production')
 		console.log(`Updating ${key} to ${value}`)
