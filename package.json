@@ -20,12 +20,12 @@
     "dependencies": {
         "@discordjs/opus": "^0.5.0",
         "delay": "^5.0.0",
-        "discord.js": "^12.5.1",
+        "discord.js": "^12.5.3",
         "dotenv": "^10.0.0",
         "g-i-s": "^2.1.6",
         "is-image": "^3.0.0",
         "is-number": "^7.0.0",
-        "mongodb": "^3.6.7",
+        "mongodb": "^3.6.8",
         "node-cache": "^5.1.2",
         "node-fetch": "^2.6.1",
         "node-schedule": "^2.0.0",
@@ -34,8 +34,8 @@
         "winston": "^3.3.3"
     },
     "devDependencies": {
-        "@types/mongodb": "^3.6.15",
-        "@types/node": "^15.3.1",
+        "@types/mongodb": "^3.6.16",
+        "@types/node": "^15.6.1",
         "@types/node-fetch": "^2.5.10",
         "@types/sha1": "^1.1.2",
         "@typescript-eslint/eslint-plugin": "latest",
@@ -45,7 +45,7 @@
     },
     "optionalDependencies": {
         "bufferutil": "^4.0.3",
-        "erlpack": "discord/erlpack",
+        "erlpack": "github:discord/erlpack",
         "sodium": "^3.0.2",
         "utf-8-validate": "^5.0.5",
         "zlib-sync": "^0.1.7"
