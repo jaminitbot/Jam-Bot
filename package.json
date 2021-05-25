@@ -7,7 +7,7 @@
         "start": "cd built && node index.js",
         "build": "yarn tsc",
         "preinstall": "curl -f https://get.pnpm.io/v6.js | node - add --global pnpm@6",
-        "install": "pnpm install"
+        "install": "pnpm install --ignore-scripts"
     },
     "repository": {
         "type": "git",
@@ -40,8 +40,8 @@
         "@types/node": "^15.6.1",
         "@types/node-fetch": "^2.5.10",
         "@types/sha1": "^1.1.2",
-        "@typescript-eslint/eslint-plugin": "latest",
-        "@typescript-eslint/parser": "latest",
+        "@typescript-eslint/eslint-plugin": "^4.25.0",
+        "@typescript-eslint/parser": "^4.25.0",
         "eslint": "^7.27.0",
         "typescript": "^4.2.4"
     },
