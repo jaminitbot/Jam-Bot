@@ -25,8 +25,8 @@ export async function inputSnipe(message: Message, oldMessage: Message, type: st
 	}
 	const messageObject: messageSniped = {
 		channel: message.channel.id,
-		oldMessage: oldMessage.content || 'NONE',
-		content: message.content || 'NONE',
+		oldMessage: oldMessage.content ?? 'Message had no content',
+		content: message.content ?? 'Message had no content',
 		user: message.author,
 		attachments: message.attachments.first() || null,
 		type: type

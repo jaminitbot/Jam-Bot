@@ -13,7 +13,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		title: 'Debug Information',
 		description: `Roundtrip: \`${sentMessage.createdTimestamp - message.createdTimestamp}ms\`
 		API: \`${client.ws.ping}ms\`
-		Revision: \`${process.env.GIT_REV || 'N/A'}\`
+		Revision: \`${process.env.GIT_REV ?? 'N/A'}\`
 		Up since: \`${TimeDate.toString()}\`
 		Guild ID: \`${message.guild.id}\``,
 		footer: {
