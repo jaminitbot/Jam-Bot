@@ -1,14 +1,14 @@
 import { checkperm } from '../functions/util'
 import { getKey } from '../functions/db'
 import { client } from '../customDefinitions'
-import { Message } from 'discord.js'
+import { Channel, Message } from 'discord.js'
 import { Logger } from 'winston'
 const messages = require('../functions/messages')
 const bannedIds = ['']
 
 export default async function register(client: client, message: Message, logger: Logger) {
 	if (message.author.bot) return
-	if (message.channel.type === 'dm') {
+	if (message.channel.type === 'dm') { // Bot has been dmed
 		const embed = {
 			description: message.content,
 			color: '#20BE9D',
@@ -19,10 +19,12 @@ export default async function register(client: client, message: Message, logger:
 					message.author.defaultAvatarURL,
 			},
 		}
-		client.channels.cache
-			.get(process.env.DmChannel)
+		const dmChannel: Channel = client.channels.cache.get(process.env.DmChannel)
+		if (!dmChannel) return
+		if (dmChannel.type == 'text' || dmChannel.type == 'news') {
 			// @ts-expect-error
-			.send({ embed: embed })
+			dmChannel.send({ embed: embed })
+		}
 		return
 	}
 	if (bannedIds.includes(message.author.id)) return
