@@ -1904,6 +1904,7 @@ __metadata:
     g-i-s: ^2.1.6
     is-image: ^3.0.0
     is-number: ^7.0.0
+    libsodium-wrappers: ^0.7.9
     mongodb: ^3.6.8
     node-cache: ^5.1.2
     node-fetch: ^2.6.1
@@ -1911,7 +1912,6 @@ __metadata:
     node-schedule: ^2.0.0
     random: ^3.0.6
     sha1: ^1.1.1
-    sodium: ^3.0.2
     typescript: ^4.2.4
     utf-8-validate: ^5.0.5
     winston: ^3.3.3
@@ -1921,7 +1921,7 @@ __metadata:
       optional: true
     erlpack:
       optional: true
-    sodium:
+    libsodium-wrappers:
       optional: true
     utf-8-validate:
       optional: true
@@ -2017,6 +2017,22 @@ __metadata:
     prelude-ls: ^1.2.1
     type-check: ~0.4.0
   checksum: 2f6ddfb0b956f2cb6b1608253a62b0c30e7392dd3c7b4cf284dfe2889b44d8385eaa81597646e253752c312a960ccb5e4d596968e476d5f6614f4ca60e5218e9
+  languageName: node
+  linkType: hard
+
+"libsodium-wrappers@npm:^0.7.9":
+  version: 0.7.9
+  resolution: "libsodium-wrappers@npm:0.7.9"
+  dependencies:
+    libsodium: ^0.7.0
+  checksum: cf87d39cc7bcac1720e0d83fd52991a8ba2b2e4fb0c5c34ff0abae9fa46256ea7121a16b0158c473a3e0a6bbf8a61aa9266f0f60d61e0a06762c9c9588f78830
+  languageName: node
+  linkType: hard
+
+"libsodium@npm:^0.7.0":
+  version: 0.7.9
+  resolution: "libsodium@npm:0.7.9"
+  checksum: fc5f9d09830fd5049448e8a59593bfcb9149e805d67c3c19629aeae75dbfb86ff5af4d6cb5268934c6f636ca6ee4855ae288bb31555d3b4af627c649a31bab05
   languageName: node
   linkType: hard
 
@@ -2311,7 +2327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-addon-api@npm:*, node-addon-api@npm:^3.1.0":
+"node-addon-api@npm:^3.1.0":
   version: 3.2.0
   resolution: "node-addon-api@npm:3.2.0"
   dependencies:
@@ -2907,15 +2923,6 @@ __metadata:
     ip: ^1.1.5
     smart-buffer: ^4.1.0
   checksum: 9a5735cf9be6f756006b4c5ed23f17c15ffbfc0afb04b5d1b49516b7a27818c807a6a5b5419a65a140a1964149ec9ebb6cd8f0e06d7c60282912204d781371db
-  languageName: node
-  linkType: hard
-
-"sodium@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "sodium@npm:3.0.2"
-  dependencies:
-    node-addon-api: "*"
-  checksum: 4d10589f80a7bca89bcb9411bbe9512e924215d95eb452adaec35a38a0d1244007b83c5e3e6c2202ffb4a4cecc881fffd0f1edaa2947482b8a46ac30d9318ff3
   languageName: node
   linkType: hard
 
