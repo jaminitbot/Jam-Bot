@@ -1910,7 +1910,6 @@ __metadata:
     node-fetch: ^2.6.1
     node-gyp: ^8.0.0
     node-schedule: ^2.0.0
-    random: ^3.0.6
     sha1: ^1.1.1
     typescript: ^4.3.2
     utf-8-validate: ^5.0.5
@@ -2649,15 +2648,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"random@npm:^3.0.6":
-  version: 3.0.6
-  resolution: "random@npm:3.0.6"
-  dependencies:
-    seedrandom: ^3.0.5
-  checksum: 3e900ebadafda77e6e321180e1f813a08adbed35dcc0d283fea4d73ddd82eaabd5aa1c26ce251d6e7e3205650ae5d9210a82be058b03e4607eb3ae53adb8798b
-  languageName: node
-  linkType: hard
-
 "readable-stream@npm:^2.0.6, readable-stream@npm:^2.3.5, readable-stream@npm:^2.3.7":
   version: 2.3.7
   resolution: "readable-stream@npm:2.3.7"
@@ -2794,13 +2784,6 @@ __metadata:
   dependencies:
     sparse-bitfield: ^3.0.3
   checksum: 4fdc0b70fb5e523f977de405e12cca111f1f10dd68a0cfae0ca52c1a7919a94d1556598ba2d35f447655c3b32879846c77f9274c90806f6673248ae3cea6ee43
-  languageName: node
-  linkType: hard
-
-"seedrandom@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "seedrandom@npm:3.0.5"
-  checksum: 728b56bc3bc1b9ddeabd381e449b51cb31bdc0aa86e27fcd0190cea8c44613d5bcb2f6bb63ed79f78180cbe791c20b8ec31a9627f7b7fc7f476fd2bdb7e2da9f
   languageName: node
   linkType: hard
 

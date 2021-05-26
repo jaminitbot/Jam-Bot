@@ -9,6 +9,7 @@ export interface CollectionCommand {
 	execute: Function
 
 }
+
 export interface client extends Client {
 	commands: Collection<unknown, CollectionCommand>
 }

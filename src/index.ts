@@ -127,7 +127,6 @@ async function initBot() {
 			})
 		}
 	})
-
 	client.login(process.env.token)
 }
 
