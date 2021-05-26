@@ -1,4 +1,4 @@
-import { Message, TextChannel } from "discord.js"
+import { Message, MessageEmbed, TextChannel } from "discord.js"
 import { client } from '../customDefinitions'
 import { Logger } from "winston"
 import { setKey, getKey } from '../functions/db'
@@ -9,7 +9,6 @@ export const name = 'suggest'
 export const description = 'Suggests something'
 export const usage = 'suggest Make a memes channel'
 export async function execute(client: client, message: Message, args, logger: Logger) {
-
 	if (!args[0])
 		return message.reply('You need to specify what to suggest!')
 	const suggestionChannel = await getKey(
@@ -32,17 +31,13 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	if (!suggestionCount) suggestionCount = 0
 	suggestionCount = parseInt(suggestionCount)
 	setKey(message.guild.id, 'suggestionCount', suggestionCount + 1)
-	const embed = {
-		title: `Suggestion #${suggestionCount + 1}`,
-		description: suggestion,
-		color: 65511,
-		footer: {
-			text: `Suggestion by ${message.author.tag}`,
-			icon_url: message.author.displayAvatarURL(),
-		},
-		timestamp: Date.now(),
-	}
-	const suggestmessage = await channel.send({ embed: embed })
+	const embed = new MessageEmbed
+	embed.setTitle(`Suggestion #${suggestionCount + 1}`)
+	embed.setDescription(suggestion)
+	embed.setColor('65511')
+	embed.setFooter('Suggestion by ' + message.author.tag, message.author.displayAvatarURL())
+	embed.setTimestamp(Date.now())
+	const suggestmessage = await channel.send(embed)
 	message.reply('Suggestion logged!')
 	await suggestmessage.react('✅')
 	await delay(1050)
