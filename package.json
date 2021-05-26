@@ -5,9 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "cd built && node index.js",
-        "build": "pnpm tsc",
-        "preinstall": "curl -f https://get.pnpm.io/v6.js | node - add --global pnpm@6",
-        "install": "pnpm config set store-dir ~/.pnpm-store && pnpm install --ignore-scripts"
+        "build": "yarn tsc"
     },
     "repository": {
         "type": "git",
