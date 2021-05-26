@@ -1,4 +1,4 @@
-import { Message } from "discord.js"
+import { Message, MessageEmbed } from "discord.js"
 import { Logger } from "winston"
 import { client } from '../customDefinitions'
 import { getKey } from '../functions/db'
@@ -7,11 +7,7 @@ export const name = 'help'
 export const description = 'Displays information on a specifc command'
 export const usage = 'help command'
 export async function execute(client: client, message: Message, args, logger: Logger) {
-	let embed: Record<string, unknown> = {
-		title: 'Help',
-		description: `You can view a list of commands [here](https://jambot.jaminit.co.uk/docs/)`,
-	}
-	let messageContent
+	const embed = new MessageEmbed
 	if (args[0]) {
 		// User wants info on a particular command
 		const commandToFind = String(args[0]).toLowerCase()
@@ -19,24 +15,26 @@ export async function execute(client: client, message: Message, args, logger: Lo
 			let prefix = await getKey(message.guild.id, 'prefix')
 			if (!prefix) prefix = process.env.DEFAULTPREFIX
 			if (client.commands.has(commandToFind)) {
+				embed.setTitle(prefix + commandToFind)
 				const command = client.commands.get(commandToFind)
-				const description = command.description || 'None'
-				const usage = command.usage || prefix + commandToFind
-				const permissionsNeeded =
-					command.permissions.toString() || 'None'
-				embed = {
-					title: prefix + commandToFind,
-					description: `${description}\nUsage: \`${prefix}${usage}\`\nPermissions needed to use: \`${permissionsNeeded}\``,
+				const description = command.description ?? 'None'
+				const usage = command.usage ? prefix + command.usage : prefix + commandToFind
+				embed.addField('Description', description, true)
+				embed.addField('Usage', usage, true)
+				if (command.permissions) {
+					const permissionsNeeded = command.permissions.toString()
+					embed.addField('Permissions', permissionsNeeded, true)
 				}
 			} else {
-				messageContent = 'Specifed command not found'
+				return message.channel.send('Specified command not found :(')
 			}
 		}
+	} else {
+		// Generic help command
+		embed.setTitle('Help')
+		embed.setDescription('You can view a list of commands [here](https://jambot.jaminit.co.uk/docs/)')
 	}
-	embed.color = '0eacc4'
-	embed.footer = {
-		text: `Intiated by ${message.author.tag}`,
-		icon_url: message.author.displayAvatarURL(),
-	}
-	message.channel.send({ content: messageContent || '', embed: embed })
+	embed.setColor('0eacc4')
+	embed.setFooter(`Intiated by ${message.author.tag}`, message.author.displayAvatarURL())
+	message.channel.send(embed)
 }
