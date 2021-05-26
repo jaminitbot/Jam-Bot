@@ -15,7 +15,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 			let prefix = await getKey(message.guild.id, 'prefix')
 			if (!prefix) prefix = process.env.DEFAULTPREFIX
 			if (client.commands.has(commandToFind)) {
-				embed.setTitle(prefix + commandToFind)
+				embed.setTitle('Help: ' + prefix + commandToFind)
 				const command = client.commands.get(commandToFind)
 				const description = command.description ?? 'None'
 				const usage = command.usage ? prefix + command.usage : prefix + commandToFind
@@ -35,6 +35,5 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		embed.setDescription('You can view a list of commands [here](https://jambot.jaminit.co.uk/docs/)')
 	}
 	embed.setColor('0eacc4')
-	embed.setFooter(`Intiated by ${message.author.tag}`, message.author.displayAvatarURL())
 	message.channel.send(embed)
 }

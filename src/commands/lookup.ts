@@ -1,4 +1,4 @@
-import { Message, Role } from "discord.js"
+import { Message, MessageEmbed, Role } from "discord.js"
 import { client } from '../customDefinitions'
 import { Logger } from "winston"
 
@@ -10,7 +10,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 	if (!args[0]) return message.reply('Usage: ' + this.usage)
 	// Basic info
 	message.channel.send(':mag_right: Looking up...').then((sent) => {
-		let embed
+		const embed = new MessageEmbed
 		const user =
 			message.mentions.members.first() ||
 			message.guild.members.cache.get(args[0])
@@ -28,13 +28,13 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 			user.roles.cache.forEach((role) => {
 				roles = `${roles} ${role.name},`
 			})
-			embed = {
-				author: {
-					name: 'User: ' + userName,
-					icon_url: avatar,
-				},
-				description: `Nickname: ${nickName}\nAccount Creation: ${createdAt}\nID: ${id}\nRoles: ${roles}`,
-			}
+			embed.addField('Nickname', nickName, true)
+			embed.addField('Account Creation', createdAt, true)
+			embed.addField('Id', id, true)
+			embed.addField('Bot', isBot, true)
+			embed.addField('Roles', roles, true)
+			embed.setAuthor('User: ' + userName, avatar)
+
 		} else {
 			// Didn't get a valid user, maybe its a role?
 			const role: Role =
@@ -43,14 +43,11 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 			if (role) {
 				// Valid role
 				const { id, position, createdAt, name, mentionable } = role
-				embed = {
-					author: {
-						name: 'Role: ' + name,
-					},
-					description: `Id: ${id}\nCreated at: ${createdAt}\nMentionable: ${String(
-						mentionable
-					).toUpperCase()}\nPosition: ${position}`,
-				}
+				embed.addField('ID', id, true)
+				embed.addField('Mentionable', String(mentionable), true)
+				embed.addField('Position', position, true)
+				embed.addField('Created At', createdAt, true)
+				embed.setTitle('Role: ' + name)
 			} else {
 				// No role or user found
 				return sent.edit('That is not a valid user or role.')
@@ -58,15 +55,9 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 		}
 		const intiatedUser = message.author.tag
 		const intiatedAvatar = message.member.user.avatarURL()
-		embed = {
-			...embed, // Concat previous bits of embed
-			footer: {
-				text: `Command issued by ${intiatedUser}`,
-				icon_url: intiatedAvatar,
-			},
-			color: '#14904B',
-			timestamp: Date.now(),
-		}
+		embed.setFooter('Command issued by ' + intiatedUser, intiatedAvatar)
+		embed.setColor('#14904B')
+		embed.setTimestamp(Date.now())
 		sent.edit({ 'content': null, 'embed': embed })
 	})
 }
