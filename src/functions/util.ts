@@ -35,3 +35,14 @@ export function stopBot(client: client, mongoClient: MongoClient, stopCode = 0):
 		process.exit()
 	}
 }
+/**
+ * 
+ * @param min Minium number (inclusive)
+ * @param max Maximum number (inclusive)
+ * @returns Random number 
+ */
+export function randomInt(min: number, max: number) {
+	min = Math.ceil(min)
+	max = Math.floor(max)
+	return Math.floor(Math.random() * (max - min + 1) + min) //The maximum is inclusive and the minimum is inclusive
+}

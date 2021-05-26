@@ -2,6 +2,7 @@ import { Message } from "discord.js"
 import { client } from '../customDefinitions'
 import { Logger } from "winston"
 import fetch from 'node-fetch'
+import { randomInt } from '../functions/util'
 
 export const name = 'stockvideo'
 export const description = 'Gets a stock video'
@@ -21,7 +22,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		}
 	)
 	const json = await response.json()
-	const video = json.videos[Math.floor(Math.random() * (json.videos.length - 1))].video_files[0].link // eslint-disable-line no-undef
+	const video = json.videos[Math.floor(randomInt(0, json.videos.length - 1))].video_files[0].link // eslint-disable-line no-undef
 	sent.edit(
 		video || "Unable to get a stock video, the api's probably down"
 	)

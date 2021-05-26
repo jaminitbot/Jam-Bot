@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import { randomInt } from '../functions/util'
 const wrongPermissions = [
 	'Nice try.',
 	'Not this time.',
@@ -45,7 +46,7 @@ const happyMessages = [
  */
 export function getErrorMessage(): string {
 	return errorMessages[
-		Math.floor(Math.random() * (errorMessages.length - 1))
+		randomInt(0, errorMessages.length - 1)
 	]
 }
 /**
@@ -54,7 +55,7 @@ export function getErrorMessage(): string {
  */
 export function getInvalidPermissionsMessage(): string {
 	return wrongPermissions[
-		Math.floor(Math.random() * (wrongPermissions.length - 1))
+		randomInt(0, wrongPermissions.length - 1)
 	]
 }
 /**
@@ -63,6 +64,6 @@ export function getInvalidPermissionsMessage(): string {
  */
 export function getHappyMessage(): string {
 	return happyMessages[
-		Math.floor(Math.random() * (happyMessages.length - 1))
+		randomInt(0, happyMessages.length - 1)
 	]
 }

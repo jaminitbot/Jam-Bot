@@ -2,6 +2,7 @@ import { Message } from "discord.js"
 import { client } from '../customDefinitions'
 import { Logger } from "winston"
 import fetch from 'node-fetch'
+import { randomInt } from '../functions/util'
 
 export const name = 'stock'
 export const description = 'Gets a stock image'
@@ -21,8 +22,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		}
 	)
 	const json = await response.json()
-	// Math.floor(Math.random() * 25)
-	const image = json.photos[Math.floor(Math.random()) * (json.photos.length - 1)].src.medium // eslint-disable-line no-undef
+	const image = json.photos[randomInt(0, json.photos.length - 1)].src.medium // eslint-disable-line no-undef
 	sent.edit(
 		image || "Unable to get a stock photo, the api's probably down"
 	)
