@@ -34,6 +34,9 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	const embed = new MessageEmbed
 	embed.setTitle(`Suggestion #${suggestionCount + 1}`)
 	embed.setDescription(suggestion)
+	if (message.attachments.first()) {
+		embed.setImage(message.attachments.first().url)
+	}
 	embed.setColor('65511')
 	embed.setFooter('Suggestion by ' + message.author.tag, message.author.displayAvatarURL())
 	embed.setTimestamp(Date.now())
