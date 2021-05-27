@@ -33,7 +33,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	setKey(message.guild.id, 'suggestionCount', suggestionCount + 1)
 	const embed = new MessageEmbed
 	embed.setTitle(`Suggestion #${suggestionCount + 1}`)
-	embed.setDescription(suggestion)
+	embed.addField('Description', suggestion)
 	if (message.attachments.first()) {
 		embed.setImage(message.attachments.first().url)
 	}
