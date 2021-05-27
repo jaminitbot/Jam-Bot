@@ -61,7 +61,7 @@ export default async function execute(client: client, logger: Logger) {
 				if (MessageId) {
 					// @ts-expect-error
 					const messageToUpdate = await notificationChannel.messages.fetch(MessageId) // Get the message object
-					await messageToUpdate.edit(embed) // Edit the notification message with the new title
+					await messageToUpdate.edit({ content: notificationMessageContent, embed: embed }) // Edit the notification message with the new title
 				}
 			}
 		} else {
