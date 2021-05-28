@@ -34,6 +34,6 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		embed.setTitle('Help')
 		embed.setDescription('You can view a list of commands [here](https://jambot.jaminit.co.uk/docs/)')
 	}
-	embed.setColor('0eacc4')
+	embed.setColor('#439A86')
 	message.channel.send(embed)
 }

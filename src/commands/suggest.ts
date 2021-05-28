@@ -37,7 +37,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	if (message.attachments.first()) {
 		embed.setImage(message.attachments.first().url)
 	}
-	embed.setColor('65511')
+	embed.setColor('#E9D985')
 	embed.setFooter('Suggestion by ' + message.author.tag, message.author.displayAvatarURL())
 	embed.setTimestamp(Date.now())
 	const suggestmessage = await channel.send(embed)

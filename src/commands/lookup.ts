@@ -56,7 +56,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 		const intiatedUser = message.author.tag
 		const intiatedAvatar = message.member.user.avatarURL()
 		embed.setFooter('Command issued by ' + intiatedUser, intiatedAvatar)
-		embed.setColor('#14904B')
+		embed.setColor('#007991')
 		embed.setTimestamp(Date.now())
 		sent.edit({ 'content': null, 'embed': embed })
 	})

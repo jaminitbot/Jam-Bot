@@ -59,6 +59,7 @@ export async function execute(client: client, message: Message, args: Array<stri
 		message.reply('that isn\'t a valid option')
 		return
 	}
+	newEmbed.setColor('#BCD8C1')
 	const sentMessage = await message.channel.send({ embed: newEmbed })
 	setTimeout(() => sentMessage.edit({ content: `Automatically deleted snipes after ${snipeLifetime}s`, embed: null }), snipeLifetime * 1000)
 }
