@@ -1,7 +1,7 @@
 import { client } from '../customDefinitions'
 import { Logger } from 'winston'
 import fetch from 'node-fetch'
-import { MessageEmbed, TextChannel } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 import { getKey, setKey } from '../functions/db'
 const messages = require('../functions/messages')
 import sha1 = require('sha1')
@@ -45,11 +45,10 @@ export default async function execute(client: client, logger: Logger) {
 		if (LiveTime == startedAt) {
 			// Checks if we have already notified for this live
 			const savedLiveIdentifier = await getKey(guildId, 'LiveIdentifier')
-			const newLiveIdentifier = sha1(liveTitle + playingGame)
+			const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
 			if (!savedLiveIdentifier) {
 				setKey(guildId, 'LiveIdentifier', newLiveIdentifier)
 			}
-			// NOTE: hash because we don't want the title to contain SQL escaping characters
 			if (newLiveIdentifier == savedLiveIdentifier) {
 				// If the title in the message and title of stream is the same, do nothing
 				return
