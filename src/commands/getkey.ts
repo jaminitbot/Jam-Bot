@@ -12,7 +12,6 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	let guild
 	let key
 	if (!isNumber(args[0]) && !args[1]) { // Getting key without guild input
-		console.log('Yes')
 		guild = message.guild.id // Use current guild
 		key = args[0]
 	} else if (isNumber(args[0]) && !args[1]) { // Guild ID inputted but no key to get
