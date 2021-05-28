@@ -5,7 +5,7 @@ import { setKey } from '../functions/db'
 
 export const name = 'setkey'
 export const description = 'Sets a db key'
-export const usage = 'setkey blah test'
+export const usage = 'setkey 46435456789132 blah test'
 export async function execute(client: client, message: Message, args, logger: Logger) {
 	if (message.author.id !== process.env.OWNERID) return
 	if (!args[0]) return message.reply('You need to specify a guild ID')
