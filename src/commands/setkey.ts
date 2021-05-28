@@ -26,7 +26,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	const result: boolean = await setKey(guild, key, value)
 	if (result) {
 		const embed = new MessageEmbed
-		embed.setTitle('SetKet')
+		embed.setTitle('SetKey')
 		embed.setDescription('Successfully set key')
 		embed.addField('Guild', guild, true)
 		embed.addField('Key', key, true)

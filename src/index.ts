@@ -1,3 +1,4 @@
+process.chdir(__dirname)
 // Mr imports
 const Discord = require('discord.js')
 const fs = require('fs')
@@ -20,7 +21,7 @@ import guildMemberAdd from './events/guildMemberAdd'
 import sendTwitchNotifs from './cron/twitch'
 import { connect, returnRawDb } from './functions/db'
 
-async function initBot() {
+(async function () {
 	if (process.env.NODE_ENV !== 'production') {
 		const dotenv = require('dotenv').config()
 	}
@@ -128,6 +129,4 @@ async function initBot() {
 		}
 	})
 	client.login(process.env.token)
-}
-
-initBot()
+}())
