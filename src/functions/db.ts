@@ -23,7 +23,7 @@ export function connect(logger) {
 			this.db = db.collection('guilds')
 			this.dbCache = new NodeCache({ stdTTL: 300, checkperiod: 60 })
 		})
-		this.rawDb = mongoClient
+		this.rawClient = mongoClient
 		resolve(require('./db'))
 	})
 }
@@ -85,6 +85,6 @@ export async function getKey(guildIdInput: string, key: string): Promise<any> {
  * 
  * @returns Mongo database
  */
-export function returnRawDb(): MongoClient {
-	return this.rawDb
+export function returnRawClient(): MongoClient {
+	return this.rawClient
 }

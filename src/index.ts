@@ -19,7 +19,7 @@ import guildMemberAdd from './events/guildMemberAdd'
 
 // Misc Scripts
 import sendTwitchNotifs from './cron/twitch'
-import { connect, returnRawDb } from './functions/db'
+import { connect, returnRawClient } from './functions/db'
 
 (async function () {
 	if (process.env.NODE_ENV !== 'production') {
@@ -113,7 +113,7 @@ import { connect, returnRawDb } from './functions/db'
 	process.on('SIGINT', function () {
 		// Shutdown stuff nicely
 		logger.info('Recieved SIGINT, gracefully shutting down.')
-		stopBot(client, returnRawDb())
+		stopBot(client, returnRawClient())
 	})
 
 	// Intialisation
