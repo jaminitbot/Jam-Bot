@@ -13,7 +13,7 @@ export default async function register(client: client, message: Message) {
 	if (logDeletes) {
 		const modLogChannnelId = await getKey(message.guild.id, 'modLogChannel')
 		if (!modLogChannnelId) return
-		const modLogChannnel = client.channels.cache.get(modLogChannnelId)
+		const modLogChannnel = await client.channels.fetch(modLogChannnelId)
 		if (!modLogChannnel || !((modLogChannnel.type == 'text') || modLogChannnel.type == 'news')) return
 		let urls = ''
 		if (message.attachments) {

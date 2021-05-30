@@ -15,9 +15,8 @@ export function generateGuildInfoEmbed(guild: Guild): Record<string, unknown> {
 		timestamp: Date.now(),
 	}
 }
-export default function register(guild: Guild, logger) {
-	guild.client.channels.cache
-		.get(process.env.GuildLogChannel)
+export default async function register(guild: Guild, logger) {
+	await guild.client.channels.fetch(process.env.GuildLogChannel)
 		// @ts-expect-error
 		.send({ embed: this.generateGuildInfoEmbed(guild) })
 }

@@ -10,18 +10,12 @@ export default async function register(member: GuildMember) {
 			member.id == '724842710221193217' ||
 			member.id == '312272690473992202'
 		) {
-			aRole = member.guild.roles.cache.find(
-				(role) => role.id == '781999680832929813'
-			)
+			aRole = await member.guild.roles.fetch('781999680832929813')
 			member.roles.add(aRole)
-			aRole = member.guild.roles.cache.find(
-				(role) => role.id == '789810162696192011'
-			)
+			aRole = await member.guild.roles.fetch('789810162696192011')
 			member.roles.add(aRole)
 		} else {
-			aRole = member.guild.roles.cache.find(
-				(role) => role.id == '791381859878961202'
-			)
+			aRole = await member.guild.roles.fetch('791381859878961202')
 			member.roles.add(aRole)
 		}
 	}

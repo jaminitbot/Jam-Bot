@@ -26,7 +26,7 @@ export default async function execute(client: client, logger: Logger) {
 	if (liveInfo.is_live) {
 		// Checks if broadcaster is live
 		if (process.env.NODE_ENV !== 'production') console.log('Twitch channel is live')
-		const notificationChannel = client.channels.cache.get(process.env.twitchNotificationsChannel)
+		const notificationChannel = await client.channels.fetch(process.env.twitchNotificationsChannel)
 		if (!notificationChannel) return
 		const notificationMessageContent = process.env.TWITCH_ROLE_ID ? `<@&${process.env.TWITCH_ROLE_ID}>` : null
 		const liveTitle = liveInfo.title ?? 'N/A'

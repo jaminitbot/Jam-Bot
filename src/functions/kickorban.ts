@@ -5,16 +5,21 @@ import { Message } from "discord.js"
  * @param args Command arguments
  * @param kickOrBan kick or ban
  */
-export default function execute(message: Message, args: Array<string>, kickOrBan: string) {
+export default async function execute(message: Message, args: Array<string>, kickOrBan: string) {
 	if (!args[0]) return message.reply(`usage: ${kickOrBan} @person reason`)
 	if (!message.guild.me.hasPermission(['BAN_MEMBERS', 'KICK_MEMBERS']))
 		return message.channel.send(`I don't have permission to perform this command, check I can ${kickOrBan} people!`)
 	const memberToBan =
 		message.mentions.members.first() ||
-		message.guild.members.cache.get(args[0])
-	if (memberToBan.id == process.env.OWNERID) return message.channel.send('Ha no, no kick kick')
+		await message.guild.members.fetch(args[0])
 	if (!memberToBan) return message.reply("You didn't mention a valid user in this server!")
+	if (memberToBan.id == process.env.OWNERID) return message.channel.send('Ha no, no kick kick')
 	if (message.author.id == memberToBan.id) return message.reply(`You can't ${kickOrBan} yourself silly!`)
+	const authorRolePosition = message.member.roles.highest.position
+	const targetUserPostion = memberToBan.roles.highest.position
+	if (authorRolePosition < targetUserPostion) {
+		return message.reply('You cannot ban someone who has a higher role than you!')
+	}
 	const moderator = message.author.tag
 	const reason = args.splice(1).join(' ') || 'Not Specified'
 	if (kickOrBan == 'ban') {

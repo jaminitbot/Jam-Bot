@@ -6,14 +6,14 @@ export const name = 'lookup'
 export const description = 'Displays information about a specific user or role'
 export const permissions = ['MANAGE_MESSAGES']
 export const usage = 'lookup @user|@role'
-export function execute(client: client, message: Message, args, logger: Logger) {
+export async function execute(client: client, message: Message, args, logger: Logger) {
 	if (!args[0]) return message.reply('Usage: ' + this.usage)
 	// Basic info
-	message.channel.send(':mag_right: Looking up...').then((sent) => {
+	message.channel.send(':mag_right: Looking up...').then(async (sent) => {
 		const embed = new MessageEmbed
 		const user =
 			message.mentions.members.first() ||
-			message.guild.members.cache.get(args[0])
+			await message.guild.members.fetch(args[0])
 		if (user) {
 			// Valid user found, get info
 			const userName =
@@ -39,7 +39,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 			// Didn't get a valid user, maybe its a role?
 			const role: Role =
 				message.mentions.roles.first() ||
-				message.guild.roles.cache.get(args[0])
+				await message.guild.roles.fetch(args[0])
 			if (role) {
 				// Valid role
 				const { id, position, createdAt, name, mentionable } = role

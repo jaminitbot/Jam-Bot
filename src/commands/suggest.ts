@@ -20,7 +20,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 			"Looks like suggestions haven't been setup here yet!"
 		)
 	// @ts-expect-error
-	const channel: TextChannel = client.channels.cache.get(suggestionChannel)
+	const channel: TextChannel = await client.channels.fetch(suggestionChannel)
 	if (!channel)
 		return message.channel.send(
 			"Error finding suggestions channel, perhaps it's being deleted"

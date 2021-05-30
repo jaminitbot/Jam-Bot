@@ -6,7 +6,7 @@ import { setKey } from '../../functions/db'
 export const name = 'suggestions'
 export const description = 'Sets the channel for suggestions'
 export const usage = 'settings suggestions #suggestions'
-export function execute(client: client, message: Message, args, logger: Logger) {
+export async function execute(client: client, message: Message, args, logger: Logger) {
 
 	const channelInput = args[1].slice(2, -1)
 	if (!channelInput)
@@ -14,7 +14,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 			'You need to specify a channel!\n' + this.usage
 		)
 	// @ts-expect-error
-	const channel: TextChannel = message.guild.channels.cache.get(channelInput)
+	const channel: TextChannel = await message.guild.channels.fetch(channelInput)
 	if (!(channel.type == 'text' || channel.type == 'news')) return
 	if (!channel) return message.channel.send('Not a valid channel!')
 	setKey(message.guild.id, 'suggestionChannel', channel.id)

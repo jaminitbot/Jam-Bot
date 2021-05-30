@@ -19,7 +19,7 @@ export default async function register(client: client, message: Message, logger:
 					message.author.defaultAvatarURL,
 			},
 		}
-		const dmChannel: Channel = client.channels.cache.get(process.env.DmChannel)
+		const dmChannel: Channel = await client.channels.fetch(process.env.DmChannel)
 		if (!dmChannel) return
 		if (dmChannel.type == 'text' || dmChannel.type == 'news') {
 			// @ts-expect-error
