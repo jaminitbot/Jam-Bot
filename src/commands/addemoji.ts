@@ -1,3 +1,4 @@
+import { Emoji } from "discord.js"
 import { Message } from "discord.js"
 import { Logger } from "winston"
 import { client } from '../customDefinitions'
@@ -15,7 +16,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 		.create(url.url, args[0], {
 			reason: `Uploaded by: ${message.author.tag}, ${message.author.id}`,
 		})
-		.then((emoji) => {
+		.then((emoji: Emoji) => {
 			message.channel
 				.send(`The emoji "${emoji.name}" was created!`)
 				.then((sent) => {
