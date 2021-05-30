@@ -15,6 +15,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	embed.addField('API Latency', `${client.ws.ping}ms`, true)
 	embed.addField('Uptime', uptimeDate.toString(), true)
 	embed.addField('Guild', message.guild.id, true)
+	embed.addField('Revison', process.env.GIT_REV, true)
 	embed.setFooter(`Intiated by ${message.author.tag}`, message.author.displayAvatarURL())
 	embed.setTimestamp(Date.now())
 	embed.setColor('#222E50')
