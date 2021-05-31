@@ -1,4 +1,4 @@
-import { Message } from "discord.js"
+import { Message, MessageEmbed } from "discord.js"
 import { client } from '../customDefinitions'
 import { Logger } from "winston"
 const delay = require('delay')
@@ -13,15 +13,12 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		)
 	message.delete()
 	const text = args.splice(0).join(' ')
-	const embed = {
-		description: text,
-		footer: {
-			text: `A poll by ${message.author.tag}`,
-			icon_url: message.member.user.avatarURL(),
-		},
-		timestamp: Date.now(),
-	}
-	const sent = await message.channel.send({ embed: embed })
+	const embed = new MessageEmbed
+	embed.setDescription(text)
+	embed.setFooter(`A poll by ${message.author.tag}`, message.member.user.avatarURL())
+	embed.setTimestamp(Date.now())
+	embed.setColor('#167C6A')
+	const sent = await message.channel.send(embed)
 	await sent.react('✅')
 	await delay(1100)
 	sent.react('❌')
