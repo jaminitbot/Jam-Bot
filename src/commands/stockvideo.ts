@@ -23,7 +23,5 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	)
 	const json = await response.json()
 	const video = json.videos[Math.floor(randomInt(0, json.videos.length - 1))].video_files[0].link // eslint-disable-line no-undef
-	sent.edit(
-		video || "Unable to get a stock video, the api's probably down"
-	)
+	sent.edit(video || 'Unable to get a stock video, the api\'s probably down')
 }

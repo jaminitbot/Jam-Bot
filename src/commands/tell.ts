@@ -14,7 +14,5 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		return message.reply('you need to say something to tell them')
 	message.delete()
 	const thingToSay = args.splice(1).join(' ')
-	message.channel.send(`${thingToSay}, <@${user.id}>`, {
-		allowedMentions: { parse: ['users'] },
-	})
+	message.channel.send(`${thingToSay}, <@${user.id}>`, { allowedMentions: { parse: ['users'] }, })
 }

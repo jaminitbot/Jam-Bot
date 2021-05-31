@@ -8,6 +8,7 @@ const bannedIds = ['']
 
 export default async function register(client: client, message: Message, logger: Logger) {
 	if (message.author.bot) return
+	//#region Dm code
 	if (message.channel.type === 'dm') { // Bot has been dmed
 		const embed = {
 			description: message.content,
@@ -27,9 +28,9 @@ export default async function register(client: client, message: Message, logger:
 		}
 		return
 	}
+	//#endregion
 	if (bannedIds.includes(message.author.id)) return
-	const guild = message.guild
-	let prefix = await getKey(guild.id, 'prefix')
+	let prefix = await getKey(message.guild.id, 'prefix')
 	if (!prefix) prefix = process.env.DEFAULTPREFIX
 	const args = message.content.slice(prefix.length).trim().split(/ +/)
 	const command = args.shift().toLowerCase()
@@ -37,17 +38,10 @@ export default async function register(client: client, message: Message, logger:
 		if (!client.commands.has(command)) return // Doesn't have specified command
 		try {
 			if (client.commands.get(command).permissions) {
-				if (
-					!checkperm(
-						message.member,
-						client.commands.get(command).permissions
-					)
-				) {
+				if (!checkperm(message.member, client.commands.get(command).permissions)) {
 					// User doesn't have specified permissions to run command
 					message.react('❌')
-					return message.channel.send(
-						messages.getInvalidPermissionsMessage()
-					)
+					return message.channel.send(messages.getInvalidPermissionsMessage())
 				}
 			}
 			client.commands
