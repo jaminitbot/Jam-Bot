@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from "discord.js"
 import { client } from '../customDefinitions'
 import { Logger } from "winston"
-import { snipe, snipeLifetime } from '../functions/snipe'
+import { returnSnipedMessages, snipeLifetime } from '../functions/snipe'
 export const name = 'snipe'
 export const description = 'Snipes deleted and edited messages'
 export const permissions = ''
@@ -41,7 +41,7 @@ function generateEditsEmbed(snipes, message: Message, embed: MessageEmbed) {
 	return embed
 }
 export async function execute(client: client, message: Message, args: Array<string>, logger: Logger) {
-	const snipes = snipe()
+	const snipes = returnSnipedMessages()
 	const embed = new MessageEmbed()
 	let newEmbed
 	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL())

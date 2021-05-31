@@ -21,10 +21,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		)
 	// @ts-expect-error
 	const channel: TextChannel = await client.channels.fetch(suggestionChannel)
-	if (!channel)
-		return message.channel.send(
-			"Error finding suggestions channel, perhaps it's being deleted"
-		)
+	if (!channel) return message.channel.send('Error finding suggestions channel, perhaps it\'s being deleted')
 	const suggestion = args.splice(0).join(' ')
 	message.delete()
 	let suggestionCount = await getKey(message.guild.id, 'suggestionCount')

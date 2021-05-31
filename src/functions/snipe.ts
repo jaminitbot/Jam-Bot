@@ -39,7 +39,7 @@ export async function inputSnipe(message: Message, oldMessage: Message, type: st
  * 
  * @returns Array of sniped messages
  */
-export function snipe(): Array<messageSniped> {
+export function returnSnipedMessages(): Array<messageSniped> {
 	const snipes = Array.from(buffer.values())
 	return snipes
 }

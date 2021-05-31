@@ -23,7 +23,5 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	)
 	const json = await response.json()
 	const image = json.photos[randomInt(0, json.photos.length - 1)].src.medium // eslint-disable-line no-undef
-	sent.edit(
-		image || "Unable to get a stock photo, the api's probably down"
-	)
+	sent.edit(image || 'Unable to get a stock photo, the api\'s probably down')
 }
