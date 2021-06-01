@@ -68,9 +68,7 @@ export default async function execute(client: client, logger: Logger) {
 			setKey(guildId, 'LiveTime', startedAt) // Put the time of live in db so we don't notify twice
 			// @ts-expect-error
 			const sentMessage = await notificationChannel.send({ content: notificationMessageContent, embed: embed }) // Notify for the live in the right channel
-			if (sentMessage.channel.type == 'news') {
-				sentMessage.crosspost()
-			}
+			if (sentMessage.channel.type == 'news') sentMessage.crosspost()
 			setKey(guildId, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
 		}
 	}

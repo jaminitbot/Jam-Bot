@@ -15,7 +15,7 @@ export function connect(logger) {
 		} catch (err) {
 			logger.error('Error requiring mongodb or node-cache')
 			logger.error(err)
-			return null
+			reject('Error requiring mongodb or node-cache')
 		}
 		const databaseUrl = process.env.MONGO_URL
 		const mongoClient = MongoClient.connect(databaseUrl, (error, client) => {

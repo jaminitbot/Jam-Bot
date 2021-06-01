@@ -9,9 +9,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	if (message.author.id !== process.env.OWNERID) return
 	message.delete()
 	// @ts-expect-error
-	const channel: TextChannel =
-		message.mentions.channels.first() ||
-		await client.channels.fetch(args[0])
+	const channel: TextChannel = message.mentions.channels.first() || await client.channels.fetch(args[0])
 	if (!channel)
 		return message.reply('you need to specify a valid channel')
 	if (!(channel.type == 'text' || channel.type == 'news')) return
