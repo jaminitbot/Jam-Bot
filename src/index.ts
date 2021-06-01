@@ -1,6 +1,7 @@
 process.chdir(__dirname)
 // Mr imports
 const Discord = require('discord.js')
+import { Intents } from 'discord.js'
 const fs = require('fs')
 const client = new Discord.Client({ disableMentions: 'everyone', ws: { intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'] } })
 const schedule = require('node-schedule')
