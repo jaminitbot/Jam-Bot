@@ -21,7 +21,6 @@ export default async function register(client: client, message: Message) {
 				urls += '\n' + attachment.url
 			})
 		}
-
 		const embed = {
 			title: 'Message deleted',
 			description: `Message deleted in <#${message.channel.id}> by <@${message.author.id}>:\n\`\`\`${message.content || 'NULL'}\`\`\`Attachments:${urls || 'NONE'}`,

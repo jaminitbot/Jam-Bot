@@ -1,4 +1,4 @@
-import { GuildMember, Role } from "discord.js"
+import { GuildMember } from "discord.js"
 
 
 export default async function register(member: GuildMember) {

@@ -3,7 +3,7 @@ process.chdir(__dirname)
 const Discord = require('discord.js')
 import { Intents } from 'discord.js'
 const fs = require('fs')
-const client = new Discord.Client({ disableMentions: 'everyone', ws: { intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'] } })
+const client = new Discord.Client({ disableMentions: 'everyone', ws: { intents: [Intents.FLAGS.DIRECT_MESSAGES, 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'] } })
 const schedule = require('node-schedule')
 const { createLogger, format, transports } = require('winston')
 const winston = require('winston')

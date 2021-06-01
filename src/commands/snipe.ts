@@ -12,7 +12,7 @@ function generateDeleteEmbed(snipes, message: Message, embed: MessageEmbed) {
 		if (element.channel == message.channel.id) {
 			if (element.type == 'delete') {
 				field += `
-		Message deleted by <@${element.user.id}>:
+		Message delet0ed by <@${element.user.id}>:
 		\`\`\`${element.content}\`\`\``
 				if (element.attachments) {
 					field += element.attachments.url + '\n'

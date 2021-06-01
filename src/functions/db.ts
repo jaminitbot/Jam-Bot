@@ -83,7 +83,7 @@ export async function getKey(guildIdInput: string, key: string): Promise<any> {
 }
 /**
  * 
- * @returns Mongo database
+ * @returns Mongo client
  */
 export function returnRawClient(): MongoClient {
 	return this.rawClient
