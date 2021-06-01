@@ -17,8 +17,8 @@ export default async function execute(message: Message, args: Array<string>, kic
 	if (message.author.id == memberToBan.id) return message.reply(`You can't ${kickOrBan} yourself silly!`)
 	const authorRolePosition = message.member.roles.highest.position
 	const targetUserPostion = memberToBan.roles.highest.position
-	if (authorRolePosition < targetUserPostion) {
-		return message.reply('You cannot ban someone who has a higher role than you!')
+	if (authorRolePosition <= targetUserPostion) {
+		return message.reply('You cannot ban someone who has a higher/equal role than you!')
 	}
 	const moderator = message.author.tag
 	const reason = args.splice(1).join(' ') || 'Not Specified'
