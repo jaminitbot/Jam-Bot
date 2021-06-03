@@ -7,6 +7,7 @@ export const name = 'addemoji'
 export const description = 'Adds an emoji to the server'
 export const usage = 'addemoji EmojiName'
 export function execute(client: client, message: Message, args, logger: Logger) {
+	console.log(ewrbhijrgeibgrbu)
 	if (!args[0])
 		return message.reply('you need to specify a name for your emoji!')
 	const url = message.attachments.first()

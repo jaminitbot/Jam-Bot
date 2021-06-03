@@ -2,6 +2,7 @@ process.chdir(__dirname)
 // Mr imports
 try {
 	const Sentry = require("@sentry/node");
+	const Tracing = require("@sentry/tracing");
 	Sentry.init({
 		dsn: process.env.SENTRY_DSN,
 		environment: process.env.SENTRY_ENVIRONMENT ?? 'development',
@@ -11,8 +12,7 @@ try {
 		tracesSampleRate: 1.0,
 	});
 } catch (e) {
-	// eslint-disable-next-line no-empty
-	{ }
+	console.error(e)
 }
 
 const Discord = require('discord.js')
