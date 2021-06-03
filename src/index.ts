@@ -1,20 +1,8 @@
 process.chdir(__dirname)
 // Mr imports
-try {
-	const Sentry = require("@sentry/node");
-	const Tracing = require("@sentry/tracing");
-	Sentry.init({
-		dsn: process.env.SENTRY_DSN,
-		environment: process.env.SENTRY_ENVIRONMENT ?? 'development',
-		// Set tracesSampleRate to 1.0 to capture 100%
-		// of transactions for performance monitoring.
-		// We recommend adjusting this value in production
-		tracesSampleRate: 1.0,
-	});
-} catch (e) {
-	console.error(e)
+if (process.env.NODE_ENV !== 'production') {
+	const dotenv = require('dotenv').config()
 }
-
 const Discord = require('discord.js')
 import { Intents } from 'discord.js'
 const fs = require('fs')
@@ -38,9 +26,6 @@ import sendTwitchNotifs from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
 
 (async function () {
-	if (process.env.NODE_ENV !== 'production') {
-		const dotenv = require('dotenv').config()
-	}
 
 	// Logging
 	const loggingFormat = printf(({ level, message, label, timestamp }) => {
@@ -58,7 +43,6 @@ import { connect, returnRawClient } from './functions/db'
 			new winston.transports.File({ filename: 'combined.log' }),
 		],
 	})
-
 	// Registers all the commands in the commands folder
 	// https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
 	client.commands = new Discord.Collection()

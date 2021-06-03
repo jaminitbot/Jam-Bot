@@ -3,8 +3,6 @@ import { getKey } from '../functions/db'
 import { client } from '../customDefinitions'
 import { Channel, Message } from 'discord.js'
 import { Logger } from 'winston'
-import * as Sentry from "@sentry/node"
-import * as Tracing from "@sentry/tracing"
 const messages = require('../functions/messages')
 const bannedIds = ['']
 
@@ -51,7 +49,6 @@ export default async function register(client: client, message: Message, logger:
 				.execute(client, message, args, logger)
 		} catch (error) {
 			// Error running command
-			Sentry.captureException(error)
 			logger.error('Command failed with error: ' + error)
 			message.reply(messages.getErrorMessage())
 		}
