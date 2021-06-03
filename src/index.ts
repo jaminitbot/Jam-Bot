@@ -1,5 +1,20 @@
 process.chdir(__dirname)
 // Mr imports
+try {
+	const Sentry = require("@sentry/node");
+	Sentry.init({
+		dsn: process.env.SENTRY_DSN,
+
+		// Set tracesSampleRate to 1.0 to capture 100%
+		// of transactions for performance monitoring.
+		// We recommend adjusting this value in production
+		tracesSampleRate: 1.0,
+	});
+} catch (e) {
+	// eslint-disable-next-line no-empty
+	{ }
+}
+
 const Discord = require('discord.js')
 import { Intents } from 'discord.js'
 const fs = require('fs')
