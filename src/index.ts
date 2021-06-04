@@ -6,13 +6,20 @@ if (process.env.NODE_ENV !== 'production') {
 const Discord = require('discord.js')
 import { Intents } from 'discord.js'
 const fs = require('fs')
-const client = new Discord.Client({ disableMentions: 'everyone', ws: { intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] } })
+const clientOptions = {
+	disableMentions: 'everyone',
+	ws: { intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] },
+	messageEditHistoryMaxSize: 2,
+	messageSweepInterval: 300,
+	messageCacheLifetime: 150,
+	messageCacheMaxSize: 100
+}
+const client = new Discord.Client(clientOptions)
 const schedule = require('node-schedule')
 const { createLogger, format, transports } = require('winston')
 const winston = require('winston')
 const { combine, timestamp, label, printf } = format
 import { stopBot } from './functions/util'
-
 // Event Imports
 import guildCreate from './events/guildCreate'
 import guildDelete from './events/guildDelete'
@@ -35,7 +42,6 @@ import { connect, returnRawClient } from './functions/db'
 		level: 'info',
 		format: combine(timestamp(), loggingFormat),
 		transports: [
-			new winston.transports.Console(),
 			new winston.transports.File({
 				filename: 'error.log',
 				level: 'error',
