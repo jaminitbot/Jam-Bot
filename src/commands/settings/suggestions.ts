@@ -14,7 +14,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 			'You need to specify a channel!\n' + this.usage
 		)
 	// @ts-expect-error
-	const channel: TextChannel = await message.guild.channels.fetch(channelInput)
+	const channel: TextChannel = await client.channels.fetch(channelInput)
 	if (!(channel.type == 'text' || channel.type == 'news')) return
 	if (!channel) return message.channel.send('Not a valid channel!')
 	setKey(message.guild.id, 'suggestionChannel', channel.id)

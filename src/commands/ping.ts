@@ -9,8 +9,10 @@ export async function execute(client: client, message: Message, args, logger: Lo
 	message.react('🏓')
 	const sent = await message.channel.send('Pinging...')
 	const embed = new MessageEmbed
-	embed.setDescription(`:stopwatch: ${sent.createdTimestamp - message.createdTimestamp}ms :hourglass: ${Math.round(client.ws.ping)}ms`)
-	embed.setFooter('Roundtrip and api latency')
+	const ping = Date.now() - message.createdTimestamp
+	console.log(ping)
+	embed.setDescription(`:stopwatch: ${sent.createdTimestamp - message.createdTimestamp}ms :hourglass: ${Math.round(client.ws.ping)}ms :alarm_clock: ${message.createdTimestamp}`)
+	embed.setFooter('Roundtrip, api latency and ping')
 	embed.setColor('#FB21CB')
 	sent.edit({ content: null, embed: embed })
 }
