@@ -3,8 +3,8 @@ process.chdir(__dirname)
 if (process.env.NODE_ENV !== 'production') {
 	const dotenv = require('dotenv').config()
 }
-const Discord = require('discord.js')
-import { Intents } from 'discord.js'
+import { Intents, Client, Collection } from 'discord.js'
+import { client } from './customDefinitions'
 const fs = require('fs')
 const clientOptions = {
 	disableMentions: 'everyone',
@@ -14,10 +14,10 @@ const clientOptions = {
 	messageCacheLifetime: 150,
 	messageCacheMaxSize: 100
 }
-const client = new Discord.Client(clientOptions)
-const schedule = require('node-schedule')
+// @ts-expect-error
+const client: client = new Client(clientOptions)
+import { scheduleJob } from 'node-schedule'
 const { createLogger, format, transports } = require('winston')
-const winston = require('winston')
 const { combine, timestamp, label, printf } = format
 import { stopBot } from './functions/util'
 // Event Imports
@@ -42,16 +42,17 @@ import { connect, returnRawClient } from './functions/db'
 		level: 'info',
 		format: combine(timestamp(), loggingFormat),
 		transports: [
-			new winston.transports.File({
+			new transports.File({
 				filename: 'error.log',
 				level: 'error',
 			}),
-			new winston.transports.File({ filename: 'combined.log' }),
+			new transports.Console(),
+			new transports.File({ filename: 'combined.log' }),
 		],
 	})
 	// Registers all the commands in the commands folder
 	// https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
-	client.commands = new Discord.Collection()
+	client.commands = new Collection
 	const commandFiles = fs
 		.readdirSync('./commands')
 		.filter((file) => file.endsWith('.js'))
@@ -78,9 +79,11 @@ import { connect, returnRawClient } from './functions/db'
 		messageEvent(client, msg, logger)
 	})
 	client.on('messageDelete', (msg) => {
+		// @ts-expect-error
 		messageDelete(client, msg)
 	})
 	client.on('messageUpdate', (oldMessage, newMessage) => {
+		// @ts-expect-error
 		messageUpdate(oldMessage, newMessage)
 	})
 	client.on('guildMemberAdd', (member) => {
@@ -128,7 +131,7 @@ import { connect, returnRawClient } from './functions/db'
 		client.user.setActivity('?help', { type: 'WATCHING' })
 		if (process.env.twitchApiClientId && process.env.twitchApiSecret) {
 			// Only if api tokens are present
-			schedule.scheduleJob('*/5 * * * * *', function () {
+			scheduleJob('*/5 * * * * *', function () {
 				// Twitch notifications
 				sendTwitchNotifs(client, logger)
 			})

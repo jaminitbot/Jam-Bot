@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from "discord.js"
 import { client } from '../customDefinitions'
 import { Logger } from "winston"
-const delay = require('delay')
+import delay from 'delay'
 
 export const name = 'poll'
 export const description = 'Creates a poll'

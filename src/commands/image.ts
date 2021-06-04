@@ -1,10 +1,9 @@
 import { Message } from "discord.js"
 import { client } from '../customDefinitions'
 import { Logger } from "winston"
-const gis = require('g-i-s')
-const isImage = require('is-image')
-const isNumber = require('is-number')
-const messages = require('../functions/messages')
+import gis = require('g-i-s')
+import isImage = require('is-image')
+import isNumber = require('is-number')
 
 export const name = 'image'
 export const description = 'Searches google for an image'

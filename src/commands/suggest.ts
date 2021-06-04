@@ -3,7 +3,7 @@ import { client } from '../customDefinitions'
 import { Logger } from "winston"
 import { setKey, getKey } from '../functions/db'
 
-const delay = require('delay')
+import delay from 'delay'
 
 export const name = 'suggest'
 export const description = 'Suggests something'

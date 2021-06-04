@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb"
-
+import NodeCache = require('node-cache')
 /**
  * 
  * @param logger Winston Logger
@@ -7,23 +7,14 @@ import { MongoClient } from "mongodb"
  */
 export function connect(logger) {
 	return new Promise((resolve, reject) => {
-		let MongoClient
-		let NodeCache
-		try {
-			MongoClient = require('mongodb').MongoClient
-			NodeCache = require('node-cache')
-		} catch (err) {
-			logger.error('Error requiring mongodb or node-cache')
-			logger.error(err)
-			reject('Error requiring mongodb or node-cache')
-		}
 		const databaseUrl = process.env.MONGO_URL
-		const mongoClient = MongoClient.connect(databaseUrl, (error, client) => {
+		MongoClient.connect(databaseUrl, (error, client) => {
+			this.rawClient = client
 			const db = client.db(process.env.DBNAME)
 			this.db = db.collection('guilds')
 			this.dbCache = new NodeCache({ stdTTL: 300, checkperiod: 60 })
 		})
-		this.rawClient = mongoClient
+
 		resolve(require('./db'))
 	})
 }
