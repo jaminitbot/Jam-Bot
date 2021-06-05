@@ -1,7 +1,7 @@
-import {GuildMember, PermissionString} from "discord.js"
+import {GuildMember, PermissionString, Message} from "discord.js"
 import {MongoClient} from "mongodb"
 import {client} from "../customDefinitions"
-
+import {getInvalidPermissionsMessage} from './messages'
 /**
  * 
  * @param member Guild member to check
@@ -41,4 +41,8 @@ export function randomInt(min: number, max: number) {
 	min = Math.ceil(min)
 	max = Math.floor(max)
 	return Math.floor(Math.random() * (max - min + 1) + min) //The maximum is inclusive and the minimum is inclusive
+}
+export function returnInvalidPermissionMessage(message:Message) {
+	message.react('❌')
+	message.channel.send(getInvalidPermissionsMessage())
 }

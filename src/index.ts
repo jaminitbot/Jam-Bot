@@ -72,16 +72,16 @@ import {createLogger, transports, format} from "winston";
     }
 
     // Events
-    client.on('guildCreate', (guild) => {
+    client.on('guildCreate', guild => {
         guildCreate(guild, logger)
     })
-    client.on('guildDelete', (guild) => {
+    client.on('guildDelete', guild => {
         guildDelete(guild)
     })
-    client.on('message', (msg) => {
+    client.on('message', msg => {
         messageEvent(client, msg, logger)
     })
-    client.on('messageDelete', (msg) => {
+    client.on('messageDelete', msg => {
         // @ts-expect-error
         messageDelete(client, msg)
     })
@@ -89,10 +89,10 @@ import {createLogger, transports, format} from "winston";
         // @ts-expect-error
         messageUpdate(oldMessage, newMessage)
     })
-    client.on('guildMemberAdd', (member) => {
+    client.on('guildMemberAdd', member => {
         guildMemberAdd(member)
     })
-    client.on('error', (error) => {
+    client.on('error', error => {
         logger.error(error)
     })
     client.on('invalidated', function () {
@@ -102,10 +102,10 @@ import {createLogger, transports, format} from "winston";
     client.on('guildUnavailable', (guild) => {
         logger.error(`Guild ${guild.id} has gone unavailable.`)
     })
-    client.on('warn', (info) => {
+    client.on('warn', info => {
         logger.warn(info)
     })
-    client.on('rateLimit', (rateLimitInfo) => {
+    client.on('rateLimit', rateLimitInfo => {
         logger.error(
             `Rate limit hit. Triggered by ${rateLimitInfo.path}, timeout for ${rateLimitInfo.timeout}. Only ${rateLimitInfo.limit} can be made`
         )
