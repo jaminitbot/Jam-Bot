@@ -10,8 +10,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		message.mentions.members.first() ||
 		await message.guild.members.fetch(args[0])
 	if (!user) return message.reply('you need to mention a valid person!')
-	if (!args[1])
-		return message.reply('you need to say something to tell them')
+	if (!args[1]) return message.reply('you need to say something to tell them')
 	message.delete()
 	const thingToSay = args.splice(1).join(' ')
 	message.channel.send(`${thingToSay}, <@${user.id}>`, { allowedMentions: { parse: ['users'] }, })

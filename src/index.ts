@@ -1,7 +1,7 @@
 process.chdir(__dirname)
 // Mr imports
 if (process.env.NODE_ENV !== 'production') {
-	const dotenv = require('dotenv').config()
+	require('dotenv').config();
 }
 import { Intents, Client, Collection } from 'discord.js'
 import { client } from './customDefinitions'
@@ -18,7 +18,7 @@ const clientOptions = {
 const client: client = new Client(clientOptions)
 import { scheduleJob } from 'node-schedule'
 const { createLogger, format, transports } = require('winston')
-const { combine, timestamp, label, printf } = format
+const { combine, timestamp, printf } = format
 import { stopBot } from './functions/util'
 // Event Imports
 import guildCreate from './events/guildCreate'
@@ -29,13 +29,13 @@ import messageDelete from './events/messageDelete'
 import guildMemberAdd from './events/guildMemberAdd'
 
 // Misc Scripts
-import sendTwitchNotifs from './cron/twitch'
+import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
 
 (async function () {
 
 	// Logging
-	const loggingFormat = printf(({ level, message, label, timestamp }) => {
+	const loggingFormat = printf(({ level, message, timestamp }) => {
 		return `${timestamp} ${level}: ${message}`
 	})
 	const logger = createLogger({
@@ -97,7 +97,7 @@ import { connect, returnRawClient } from './functions/db'
 		process.emit('SIGINT')
 	})
 	client.on('guildUnavailable', (guild) => {
-		logger.error(`Guild ${guild.id} has gone unaviliable.`)
+		logger.error(`Guild ${guild.id} has gone unavailable.`)
 	})
 	client.on('warn', (info) => {
 		logger.warn(info)
@@ -121,11 +121,11 @@ import { connect, returnRawClient } from './functions/db'
 	}
 	process.on('SIGINT', function () {
 		// Shutdown stuff nicely
-		logger.info('Recieved SIGINT, gracefully shutting down.')
+		logger.info('Received SIGINT, gracefully shutting down.')
 		stopBot(client, returnRawClient())
 	})
 
-	// Intialisation
+	// Initialisation
 	client.on('ready', () => {
 		logger.info('Logged in at ' + Date.now())
 		client.user.setActivity('?help', { type: 'WATCHING' })
@@ -133,9 +133,9 @@ import { connect, returnRawClient } from './functions/db'
 			// Only if api tokens are present
 			scheduleJob('*/5 * * * * *', function () {
 				// Twitch notifications
-				sendTwitchNotifs(client)
+				sendTwitchNotifications(client)
 			})
 		}
 	})
-	client.login(process.env.token)
+	await client.login(process.env.token)
 }())

@@ -9,9 +9,9 @@ export default async function register(member: GuildMember) {
 			member.id == '724842710221193217' ||
 			member.id == '312272690473992202'
 		) {
-			member.roles.add('781999680832929813')
+			await member.roles.add('781999680832929813')
 		} else {
-			member.roles.add('791381859878961202')
+			await member.roles.add('791381859878961202')
 		}
 	}
 }

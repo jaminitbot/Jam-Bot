@@ -1,4 +1,4 @@
-import { checkperm } from '../functions/util'
+import { checkPermissions } from '../functions/util'
 import { getKey } from '../functions/db'
 import { client } from '../customDefinitions'
 import { Channel, Message } from 'discord.js'
@@ -38,9 +38,9 @@ export default async function register(client: client, message: Message, logger:
 		if (!client.commands.has(command)) return // Doesn't have specified command
 		try {
 			if (client.commands.get(command).permissions) {
-				if (!checkperm(message.member, client.commands.get(command).permissions)) {
+				if (!checkPermissions(message.member, client.commands.get(command).permissions)) {
 					// User doesn't have specified permissions to run command
-					message.react('❌')
+					await message.react('❌')
 					return message.channel.send(messages.getInvalidPermissionsMessage())
 				}
 			}
@@ -50,7 +50,7 @@ export default async function register(client: client, message: Message, logger:
 		} catch (error) {
 			// Error running command
 			logger.error('Command failed with error: ' + error)
-			message.reply(messages.getErrorMessage())
+			await message.reply(messages.getErrorMessage())
 		}
 	}
 }

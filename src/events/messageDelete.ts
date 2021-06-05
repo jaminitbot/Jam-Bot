@@ -7,14 +7,14 @@ export default async function register(client: client, message: Message) {
 	if (!(message.channel.type == 'news' || message.channel.type == 'text')) return
 	if (message.author.bot) return
 	if (message.author.id == process.env.OWNERID) return
-	inputSnipe(message, null, 'delete')
+	await inputSnipe(message, null, 'delete')
 	//#region Delete log code
 	const logDeletes = await getKey(message.guild.id, 'logDeletedMessages')
 	if (logDeletes) {
-		const modLogChannnelId = await getKey(message.guild.id, 'modLogChannel')
-		if (!modLogChannnelId) return
-		const modLogChannnel = await client.channels.fetch(modLogChannnelId)
-		if (!modLogChannnel || !((modLogChannnel.type == 'text') || modLogChannnel.type == 'news')) return
+		const modLogChannelId = await getKey(message.guild.id, 'modLogChannel')
+		if (!modLogChannelId) return
+		const modLogChannel = await client.channels.fetch(modLogChannelId)
+		if (!modLogChannel || !((modLogChannel.type == 'text') || modLogChannel.type == 'news')) return
 		let urls = ''
 		if (message.attachments) {
 			message.attachments.each(attachment => {
@@ -28,7 +28,7 @@ export default async function register(client: client, message: Message) {
 			timestamp: Date.now(),
 		}
 		// @ts-expect-error
-		modLogChannnel.send({ embed: embed })
+		modLogChannel.send({ embed: embed })
 	}
 	//#endregion
 }

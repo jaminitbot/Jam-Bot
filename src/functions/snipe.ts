@@ -1,4 +1,4 @@
-import { Message, MessageAttachment, TextChannel, User } from "discord.js"
+import { Message, MessageAttachment, User } from "discord.js"
 export const snipeLifetime = 20
 
 interface messageSniped {
@@ -40,6 +40,5 @@ export async function inputSnipe(message: Message, oldMessage: Message, type: st
  * @returns Array of sniped messages
  */
 export function returnSnipedMessages(): Array<messageSniped> {
-	const snipes = Array.from(buffer.values())
-	return snipes
+	return Array.from(buffer.values())
 }

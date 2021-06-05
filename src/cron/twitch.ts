@@ -1,5 +1,4 @@
 import { client } from '../customDefinitions'
-import { Logger } from 'winston'
 import fetch from 'node-fetch'
 import { MessageEmbed } from 'discord.js'
 import { getKey, setKey } from '../functions/db'
@@ -47,7 +46,7 @@ export default async function execute(client: client) {
 			const savedLiveIdentifier = await getKey(guildId, 'LiveIdentifier')
 			const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
 			if (!savedLiveIdentifier) {
-				setKey(guildId, 'LiveIdentifier', newLiveIdentifier)
+				await setKey(guildId, 'LiveIdentifier', newLiveIdentifier)
 			}
 			if (newLiveIdentifier == savedLiveIdentifier) {
 				// If the title in the message and title of stream is the same, do nothing
@@ -55,7 +54,7 @@ export default async function execute(client: client) {
 			} else {
 				// If not
 				if (process.env.NODE_ENV !== 'production') console.log('Stream info has changed, updating')
-				setKey(guildId, 'LiveIdentifier', newLiveIdentifier) // Put the new title in the db
+				await setKey(guildId, 'LiveIdentifier', newLiveIdentifier) // Put the new title in the db
 				const MessageId = await getKey(guildId, 'LiveMessageId') // Get the message id of the notification we sent
 				if (MessageId) {
 					// @ts-expect-error
@@ -65,11 +64,11 @@ export default async function execute(client: client) {
 			}
 		} else {
 			// We haven't notified for this live
-			setKey(guildId, 'LiveTime', startedAt) // Put the time of live in db so we don't notify twice
+			await setKey(guildId, 'LiveTime', startedAt) // Put the time of live in db so we don't notify twice
 			// @ts-expect-error
 			const sentMessage = await notificationChannel.send({ content: notificationMessageContent, embed: embed }) // Notify for the live in the right channel
-			if (sentMessage.channel.type == 'news') sentMessage.crosspost()
-			setKey(guildId, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
+			if (sentMessage.channel.type == 'news') await sentMessage.crosspost()
+			await setKey(guildId, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
 		}
 	}
 }

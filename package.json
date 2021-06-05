@@ -2,7 +2,7 @@
     "name": "jambot",
     "version": "1.0.0",
     "description": "Jammy bot",
-    "main": "index.js",
+    "main": "built/index.js",
     "scripts": {
         "start": "node built/index.js",
         "build": "yarn tsc"
