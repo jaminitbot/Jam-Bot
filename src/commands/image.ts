@@ -38,9 +38,8 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing, filters most things
 	}
 	message.channel.send(`:mag_right: Finding ${imageType}...`).then((sent) => {
-		const search = args.splice(splitBy).join(' ')
 		// @ts-expect-error
-		searchOptions.searchTerm = search
+		searchOptions.searchTerm = args.splice(splitBy).join(' ')
 		const validImageUrls = []
 		gis(searchOptions, function (error, results) {
 			if (error)

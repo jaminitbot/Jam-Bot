@@ -33,8 +33,8 @@ const client: client = new Client(clientOptions)
 const {createLogger, format, transports} = require('winston')
 const {combine, timestamp, printf} = format
 
+    // eslint-disable-next-line no-unexpected-multiline
 (async function () {
-
     // Logging
     const loggingFormat = printf(({level, message, timestamp}) => {
         return `${timestamp} ${level}: ${message}`
