@@ -37,7 +37,7 @@ export function stopBot(client: client, mongoClient: MongoClient, stopCode = 0):
 }
 /**
  * 
- * @param min Minium number (inclusive)
+ * @param min Minimum number (inclusive)
  * @param max Maximum number (inclusive)
  * @returns Random number 
  */

@@ -133,7 +133,7 @@ import { connect, returnRawClient } from './functions/db'
 			// Only if api tokens are present
 			scheduleJob('*/5 * * * * *', function () {
 				// Twitch notifications
-				sendTwitchNotifs(client, logger)
+				sendTwitchNotifs(client)
 			})
 		}
 	})

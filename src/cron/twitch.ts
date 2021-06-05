@@ -6,7 +6,7 @@ import { getKey, setKey } from '../functions/db'
 const messages = require('../functions/messages')
 import sha1 = require('sha1')
 
-export default async function execute(client: client, logger: Logger) {
+export default async function execute(client: client) {
 	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret) return
 	if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsGuild) return
 	if (process.env.NODE_ENV !== 'production') console.log('Checking if Twitch channel is live')
@@ -56,7 +56,7 @@ export default async function execute(client: client, logger: Logger) {
 				// If not
 				if (process.env.NODE_ENV !== 'production') console.log('Stream info has changed, updating')
 				setKey(guildId, 'LiveIdentifier', newLiveIdentifier) // Put the new title in the db
-				const MessageId = await getKey(guildId, 'LiveMessageId') // Get the message id of the notiication we sent
+				const MessageId = await getKey(guildId, 'LiveMessageId') // Get the message id of the notification we sent
 				if (MessageId) {
 					// @ts-expect-error
 					const messageToUpdate = await notificationChannel.messages.fetch(MessageId) // Get the message object
