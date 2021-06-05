@@ -1,7 +1,7 @@
 // Don't ask why this is a thing, waffle wanted it
-import { Message } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
+import {Message} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
 
 export const name = 'cactus'
 export const description = 'Ouch'

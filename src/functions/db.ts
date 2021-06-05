@@ -1,5 +1,6 @@
-import { MongoClient } from "mongodb"
-import NodeCache = require('node-cache')
+import {MongoClient} from "mongodb"
+import NodeCache = require('node-cache');
+
 /**
  * 
  * @param logger Winston Logger
@@ -9,6 +10,7 @@ export function connect(logger) {
 	return new Promise((resolve, reject) => {
 		const databaseUrl = process.env.MONGO_URL
 		MongoClient.connect(databaseUrl, (error, client) => {
+			if (error) reject(error)
 			this.rawClient = client
 			const db = client.db(process.env.DBNAME)
 			this.db = db.collection('guilds')

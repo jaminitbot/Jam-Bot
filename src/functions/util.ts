@@ -1,6 +1,7 @@
-import { GuildMember, PermissionString } from "discord.js"
-import { MongoClient } from "mongodb"
-import { client } from "../customDefinitions"
+import {GuildMember, PermissionString} from "discord.js"
+import {MongoClient} from "mongodb"
+import {client} from "../customDefinitions"
+
 /**
  * 
  * @param member Guild member to check

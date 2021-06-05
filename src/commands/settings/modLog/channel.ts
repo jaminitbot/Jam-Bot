@@ -1,7 +1,7 @@
-import { Message, TextChannel } from "discord.js"
-import { Logger } from "winston"
-import { client } from '../../../customDefinitions'
-import { setKey } from '../../../functions/db'
+import {Message, TextChannel} from "discord.js"
+import {Logger} from "winston"
+import {client} from '../../../customDefinitions'
+import {setKey} from '../../../functions/db'
 
 export const name = 'channel'
 export const description = 'Sets the modlog channel'

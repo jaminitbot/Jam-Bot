@@ -1,7 +1,7 @@
-import { Message } from "discord.js"
-import { Logger } from "winston"
-import { client } from '../../customDefinitions'
-import { setKey } from '../../functions/db'
+import {Message} from "discord.js"
+import {Logger} from "winston"
+import {client} from '../../customDefinitions'
+import {setKey} from '../../functions/db'
 
 export const name = 'prefix'
 export const description = 'Sets the bot prefix'

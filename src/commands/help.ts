@@ -1,7 +1,7 @@
-import { Message, MessageEmbed } from "discord.js"
-import { Logger } from "winston"
-import { client } from '../customDefinitions'
-import { getKey } from '../functions/db'
+import {Message, MessageEmbed} from "discord.js"
+import {Logger} from "winston"
+import {client} from '../customDefinitions'
+import {getKey} from '../functions/db'
 
 export const name = 'help'
 export const description = 'Displays information on a specifc command'

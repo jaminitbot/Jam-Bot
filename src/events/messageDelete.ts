@@ -1,7 +1,7 @@
-import { Message } from "discord.js"
-import { client } from '../customDefinitions'
-import { getKey } from '../functions/db'
-import { inputSnipe } from '../functions/snipe'
+import {Message} from "discord.js"
+import {client} from '../customDefinitions'
+import {getKey} from '../functions/db'
+import {inputSnipe} from '../functions/snipe'
 
 export default async function register(client: client, message: Message) {
 	if (!(message.channel.type == 'news' || message.channel.type == 'text')) return

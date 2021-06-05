@@ -1,6 +1,6 @@
-import { Message, MessageEmbed } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
+import {Message, MessageEmbed} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
 
 export const name = 'debug'
 export const description = 'Displays debug information'

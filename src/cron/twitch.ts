@@ -1,9 +1,10 @@
-import { client } from '../customDefinitions'
+import {client} from '../customDefinitions'
 import fetch from 'node-fetch'
-import { MessageEmbed } from 'discord.js'
-import { getKey, setKey } from '../functions/db'
+import {MessageEmbed} from 'discord.js'
+import {getKey, setKey} from '../functions/db'
+
 const messages = require('../functions/messages')
-import sha1 = require('sha1')
+import sha1 = require('sha1');
 
 export default async function execute(client: client) {
 	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret) return

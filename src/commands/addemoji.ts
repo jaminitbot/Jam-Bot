@@ -1,7 +1,6 @@
-import { Emoji } from "discord.js"
-import { Message } from "discord.js"
-import { Logger } from "winston"
-import { client } from '../customDefinitions'
+import {Emoji, Message} from "discord.js"
+import {Logger} from "winston"
+import {client} from '../customDefinitions'
 
 export const name = 'addemoji'
 export const description = 'Adds an emoji to the server'

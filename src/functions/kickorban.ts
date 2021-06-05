@@ -1,7 +1,8 @@
-import { Message } from "discord.js"
+import {Message} from "discord.js"
+
 /**
  * 
- * @param message Message object of intiating command
+ * @param message Message object of initiating command
  * @param args Command arguments
  * @param kickOrBan kick or ban
  */
@@ -16,8 +17,8 @@ export default async function execute(message: Message, args: Array<string>, kic
 	if (memberToBan.id == process.env.OWNERID) return message.channel.send('Ha no, no kick kick')
 	if (message.author.id == memberToBan.id) return message.reply(`You can't ${kickOrBan} yourself silly!`)
 	const authorRolePosition = message.member.roles.highest.position
-	const targetUserPostion = memberToBan.roles.highest.position
-	if (authorRolePosition <= targetUserPostion) {
+	const targetUserPosition = memberToBan.roles.highest.position
+	if (authorRolePosition <= targetUserPosition) {
 		return message.reply('You cannot ban someone who has a higher/equal role than you!')
 	}
 	const moderator = message.author.tag

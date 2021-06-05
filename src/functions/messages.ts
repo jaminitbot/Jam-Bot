@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
-import { randomInt } from '../functions/util'
+import {randomInt} from './util'
+
 const wrongPermissions = [
 	'Nice try.',
 	'Not this time.',

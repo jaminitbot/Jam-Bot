@@ -1,8 +1,9 @@
-import { Message } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
+import {Message} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
+import {randomInt} from '../functions/util'
+
 const image = require('./image')
-import { randomInt } from '../functions/util'
 
 export const name = 'wombat'
 export const description = 'Wombat'

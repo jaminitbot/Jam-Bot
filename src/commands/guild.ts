@@ -1,7 +1,7 @@
-import { Message } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
-import { generateGuildInfoEmbed } from '../events/guildCreate'
+import {Message} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
+import {generateGuildInfoEmbed} from '../events/guildCreate'
 
 export const name = 'guild'
 export const description = 'Gets guild info'

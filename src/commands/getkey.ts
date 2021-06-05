@@ -1,7 +1,8 @@
-import { Message, MessageEmbed } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
-import { getKey } from '../functions/db'
+import {Message, MessageEmbed} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
+import {getKey} from '../functions/db'
+
 const isNumber = require('is-number')
 
 export const name = 'getkey'

@@ -1,6 +1,6 @@
-import { Message, MessageEmbed, Role } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
+import {Message, MessageEmbed, Role} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
 
 export const name = 'lookup'
 export const description = 'Displays information about a specific user or role'

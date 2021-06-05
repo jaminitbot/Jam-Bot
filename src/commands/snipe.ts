@@ -1,7 +1,8 @@
-import { Message, MessageEmbed } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
-import { returnSnipedMessages, snipeLifetime } from '../functions/snipe'
+import {Message, MessageEmbed} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
+import {returnSnipedMessages, snipeLifetime} from '../functions/snipe'
+
 export const name = 'snipe'
 export const description = 'Snipes deleted and edited messages'
 export const permissions = ''

@@ -1,6 +1,6 @@
-import { Message, TextChannel } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
+import {Message, TextChannel} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
 
 export const name = 'say'
 export const description = 'Say'

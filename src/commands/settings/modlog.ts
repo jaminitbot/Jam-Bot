@@ -1,6 +1,7 @@
-import { Message, TextChannel } from "discord.js"
-import { Logger } from "winston"
-import { client } from '../../customDefinitions'
+import {Message} from "discord.js"
+import {Logger} from "winston"
+import {client} from '../../customDefinitions'
+
 const fs = require('fs')
 function generateEmbed(embed, modLogFiles) {
 	for (const file of modLogFiles) {

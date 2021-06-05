@@ -1,4 +1,4 @@
-import { Client, Collection, PermissionString } from "discord.js"
+import {Client, Collection, PermissionString} from "discord.js"
 
 export interface CollectionCommand {
 	name: string,

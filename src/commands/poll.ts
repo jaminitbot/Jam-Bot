@@ -1,6 +1,6 @@
-import { Message, MessageEmbed } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
+import {Message, MessageEmbed} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
 import delay from 'delay'
 
 export const name = 'poll'

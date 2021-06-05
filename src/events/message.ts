@@ -1,8 +1,9 @@
-import { checkPermissions } from '../functions/util'
-import { getKey } from '../functions/db'
-import { client } from '../customDefinitions'
-import { Channel, Message } from 'discord.js'
-import { Logger } from 'winston'
+import {checkPermissions} from '../functions/util'
+import {getKey} from '../functions/db'
+import {client} from '../customDefinitions'
+import {Channel, Message} from 'discord.js'
+import {Logger} from 'winston'
+
 const messages = require('../functions/messages')
 const bannedIds = ['']
 

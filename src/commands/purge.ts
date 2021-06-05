@@ -1,6 +1,7 @@
-import { Message } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
+import {Message} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
+
 const messages = require('../functions/messages')
 const isNumber = require('is-number')
 

@@ -1,4 +1,5 @@
-import { Message, MessageAttachment, User } from "discord.js"
+import {Message, MessageAttachment, User} from "discord.js"
+
 export const snipeLifetime = 20
 
 interface messageSniped {

@@ -1,7 +1,7 @@
-import { Message, MessageEmbed, TextChannel } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
-import { setKey, getKey } from '../functions/db'
+import {Message, MessageEmbed, TextChannel} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
+import {getKey, setKey} from '../functions/db'
 
 import delay from 'delay'
 

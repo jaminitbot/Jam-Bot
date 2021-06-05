@@ -1,8 +1,8 @@
-import { Message } from "discord.js"
-import { client } from '../customDefinitions'
-import { Logger } from "winston"
+import {Message} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
 import fetch from 'node-fetch'
-import { randomInt } from '../functions/util'
+import {randomInt} from '../functions/util'
 
 export const name = 'stockvideo'
 export const description = 'Gets a stock video'
