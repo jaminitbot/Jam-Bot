@@ -9,7 +9,6 @@ import sha1 = require('sha1');
 export default async function execute(client: client) {
 	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret) return
 	if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsGuild) return
-	if (process.env.NODE_ENV !== 'production') console.log('Checking if Twitch channel is live')
 	const response = await fetch(
 		'https://api.twitch.tv/helix/search/channels?query=' +
 		process.env.twitchNotificationsUsername,
@@ -25,7 +24,6 @@ export default async function execute(client: client) {
 	const guildId = process.env.twitchNotificationsGuild
 	if (liveInfo.is_live) {
 		// Checks if broadcaster is live
-		if (process.env.NODE_ENV !== 'production') console.log('Twitch channel is live')
 		const notificationChannel = await client.channels.fetch(process.env.twitchNotificationsChannel)
 		if (!notificationChannel) return
 		const notificationMessageContent = process.env.TWITCH_ROLE_ID ? `<@&${process.env.TWITCH_ROLE_ID}>` : null
