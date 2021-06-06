@@ -6,19 +6,15 @@ import NodeCache = require('node-cache');
  * @param logger Winston Logger
  * @returns Custom DB object
  */
-export function connect(logger) {
-	return new Promise((resolve, reject) => {
-		const databaseUrl = process.env.MONGO_URL
-		MongoClient.connect(databaseUrl, (error, client) => {
-			if (error) reject(error)
-			this.rawClient = client
-			const db = client.db(process.env.DBNAME)
-			this.db = db.collection('guilds')
-			this.dbCache = new NodeCache({ stdTTL: 300, checkperiod: 60 })
-		})
-
-		resolve(require('./db'))
-	})
+export async function connect(logger) {
+	const databaseUrl = process.env.MONGO_URL
+	const databaseClient = new MongoClient(databaseUrl, {useUnifiedTopology: true})
+	await databaseClient.connect()
+	this.rawClient = databaseClient
+	const db = databaseClient.db(process.env.DBNAME)
+	this.db = db.collection('guilds')
+	this.dbCache = new NodeCache({stdTTL: 300, checkperiod: 60})
+	return require('./db')
 }
 
 /**
