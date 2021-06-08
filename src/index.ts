@@ -14,6 +14,7 @@ import messageEvent from './events/message'
 import messageUpdate from './events/messageUpdate'
 import messageDelete from './events/messageDelete'
 import guildMemberAdd from './events/guildMemberAdd'
+import voiceStateUpdate from './events/voiceStateUpdate'
 
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
@@ -21,7 +22,7 @@ import {connect, returnRawClient} from './functions/db'
 
 const clientOptions = {
     disableMentions: 'everyone',
-    ws: {intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES]},
+    ws: {intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES]},
     messageEditHistoryMaxSize: 2,
     messageSweepInterval: 300,
     messageCacheLifetime: 150,
@@ -88,6 +89,10 @@ import {createLogger, transports, format} from "winston";
     client.on('messageUpdate', (oldMessage, newMessage) => {
         // @ts-expect-error
         messageUpdate(oldMessage, newMessage)
+    })
+    client.on('voiceStateUpdate', (oldState, newState) => {
+        console.log('Yes')
+        voiceStateUpdate(oldState, newState)
     })
     client.on('guildMemberAdd', member => {
         guildMemberAdd(member)

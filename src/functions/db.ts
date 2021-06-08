@@ -23,16 +23,12 @@ export async function connect(logger) {
  * @param value The value of the key to set
  * @returns Boolean
  */
-export async function setKey(guildIdInput: string, key: string, value: unknown) {
+export async function setKey(guildIdInput: string, key: string, value: unknown): Promise<boolean> {
     const db = this.db
     if (process.env.NODE_ENV !== 'production')
         console.log(`Updating ${key} to ${value}`)
     let guildDbObject = await db.findOne({guildId: guildIdInput}) // Find the guild in db
-    if (!guildDbObject) { // If it doesn't exist, make a blank object
-        guildDbObject = {}
-    } else {
-        guildDbObject = guildDbObject.value // Keys and values are stored in the value object
-    }
+    guildDbObject = guildDbObject?.value ?? {}
     guildDbObject[key] = value // Set the key to the new value
     const dbObject = {guildId: guildIdInput, value: guildDbObject} // Make the mongo object
     db.replaceOne({guildId: guildIdInput}, dbObject, {upsert: true}) // Save to DB

@@ -25,7 +25,7 @@ export default async function execute(client: client) {
 	if (liveInfo.is_live) {
 		// Checks if broadcaster is live
 		const notificationChannel = await client.channels.fetch(process.env.twitchNotificationsChannel)
-		if (!notificationChannel) return
+		if (!notificationChannel || !(notificationChannel.type == 'text' || notificationChannel.type == 'news')) return
 		const notificationMessageContent = process.env.TWITCH_ROLE_ID ? `<@&${process.env.TWITCH_ROLE_ID}>` : null
 		const liveTitle = liveInfo.title ?? 'N/A'
 		const startedAt = liveInfo.started_at
@@ -40,8 +40,15 @@ export default async function execute(client: client) {
 		embed.setFooter(`Last updated at: ${time.getUTCHours()}:${time.getUTCMinutes()}:${time.getUTCSeconds()} UTC`)
 		embed.setColor('#A077FF')
 		const LiveTime = await getKey(guildId, 'LiveTime')
-		if (LiveTime == startedAt) {
-			// Checks if we have already notified for this live
+		if (LiveTime != startedAt) {
+			// We haven't notified for this live
+			await setKey(guildId, 'LiveTime', startedAt) // Put the time of live in db so we don't notify twice
+			// @ts-expect-error
+			const sentMessage = await notificationChannel.send({content: notificationMessageContent, embed: embed}) // Notify for the live in the right channel
+			if (sentMessage.channel.type == 'news') await sentMessage.crosspost()
+			await setKey(guildId, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
+		} else {
+			// We've already notified for this live
 			const savedLiveIdentifier = await getKey(guildId, 'LiveIdentifier')
 			const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
 			if (!savedLiveIdentifier) {
@@ -58,16 +65,9 @@ export default async function execute(client: client) {
 				if (MessageId) {
 					// @ts-expect-error
 					const messageToUpdate = await notificationChannel.messages.fetch(MessageId) // Get the message object
-					await messageToUpdate.edit({ content: notificationMessageContent, embed: embed }) // Edit the notification message with the new title
+					await messageToUpdate.edit({content: notificationMessageContent, embed: embed}) // Edit the notification message with the new title
 				}
 			}
-		} else {
-			// We haven't notified for this live
-			await setKey(guildId, 'LiveTime', startedAt) // Put the time of live in db so we don't notify twice
-			// @ts-expect-error
-			const sentMessage = await notificationChannel.send({ content: notificationMessageContent, embed: embed }) // Notify for the live in the right channel
-			if (sentMessage.channel.type == 'news') await sentMessage.crosspost()
-			await setKey(guildId, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
 		}
 	}
 }
