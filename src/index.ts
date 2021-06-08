@@ -3,7 +3,7 @@ process.chdir(__dirname)
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
-import {Client, Collection, Intents} from 'discord.js'
+import {Client, ClientOptions, Collection, Intents} from 'discord.js'
 import {client} from './customDefinitions'
 import {scheduleJob} from 'node-schedule'
 import {stopBot} from './functions/util'
@@ -20,9 +20,10 @@ import voiceStateUpdate from './events/voiceStateUpdate'
 import sendTwitchNotifications from './cron/twitch'
 import {connect, returnRawClient} from './functions/db'
 
-const clientOptions = {
+const clientOptions:ClientOptions = {
     disableMentions: 'everyone',
     ws: {intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES]},
+    presence: {status: 'online', activity: {name: process.env.DEFAULTPREFIX + 'help', type: 'WATCHING'}},
     messageEditHistoryMaxSize: 2,
     messageSweepInterval: 300,
     messageCacheLifetime: 150,
@@ -136,7 +137,6 @@ import {createLogger, transports, format} from "winston";
     // Initialisation
     client.on('ready', () => {
         logger.info('Logged in at ' + Date.now())
-        client.user.setActivity('?help', {type: 'WATCHING'})
         if (process.env.twitchApiClientId && process.env.twitchApiSecret) {
             // Only if api tokens are present
             scheduleJob('*/5 * * * * *', function () {
