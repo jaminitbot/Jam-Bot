@@ -91,9 +91,9 @@ import {createLogger, transports, format} from "winston";
         // @ts-expect-error
         messageUpdate(oldMessage, newMessage)
     })
-    client.on('voiceStateUpdate', (oldState, newState) => {
-        voiceStateUpdate(oldState, newState)
-    })
+    // client.on('voiceStateUpdate', (oldState, newState) => {
+    //     voiceStateUpdate(oldState, newState)
+    // })
     client.on('guildMemberAdd', member => {
         guildMemberAdd(member)
     })
