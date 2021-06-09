@@ -14,7 +14,7 @@ import messageEvent from './events/message'
 import messageUpdate from './events/messageUpdate'
 import messageDelete from './events/messageDelete'
 import guildMemberAdd from './events/guildMemberAdd'
-import voiceStateUpdate from './events/voiceStateUpdate'
+
 
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
@@ -91,9 +91,6 @@ import {createLogger, transports, format} from "winston";
         // @ts-expect-error
         messageUpdate(oldMessage, newMessage)
     })
-    // client.on('voiceStateUpdate', (oldState, newState) => {
-    //     voiceStateUpdate(oldState, newState)
-    // })
     client.on('guildMemberAdd', member => {
         guildMemberAdd(member)
     })
