@@ -92,7 +92,6 @@ import {createLogger, transports, format} from "winston";
         messageUpdate(oldMessage, newMessage)
     })
     client.on('voiceStateUpdate', (oldState, newState) => {
-        console.log('Yes')
         voiceStateUpdate(oldState, newState)
     })
     client.on('guildMemberAdd', member => {
