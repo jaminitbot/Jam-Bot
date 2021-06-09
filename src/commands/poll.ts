@@ -11,7 +11,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 		return message.reply(
 			'you need to specify what to make the poll about!'
 		)
-	message.delete()
+	await message.delete()
 	const text = args.splice(0).join(' ')
 	const embed = new MessageEmbed
 	embed.setDescription(text)
