@@ -5,7 +5,7 @@
     "main": "built/index.js",
     "scripts": {
         "start": "node built/index.js",
-        "build": "yarn tsc"
+        "preinstall": "pnpm tsc"
     },
     "repository": {
         "type": "git",
