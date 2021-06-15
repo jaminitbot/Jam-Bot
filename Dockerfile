@@ -6,5 +6,6 @@ COPY ./ /usr/src/app
 ENV NODE_ENV production
 RUN apk add git
 RUN yarn install
+RUN yarn global add typescript
 RUN yarn tsc
 RUN yarn start
