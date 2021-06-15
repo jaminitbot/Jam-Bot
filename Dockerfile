@@ -38,4 +38,3 @@ ENV twitchApiSecret=${twitchApiSecret}
 ENV twitchNotificationsChannel=${twitchNotificationsChannel}
 ENV twitchNotificationsGuild=${twitchNotificationsGuild}
 ENV twitchNotificationsUsername=${twitchNotificationsUsername}
-RUN yarn start

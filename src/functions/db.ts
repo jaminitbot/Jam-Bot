@@ -1,6 +1,6 @@
 import {MongoClient} from "mongodb"
 import NodeCache = require('node-cache');
-
+import {stopBot} from './util'
 /**
  *
  * @param logger Winston Logger
@@ -9,7 +9,13 @@ import NodeCache = require('node-cache');
 export async function connect(logger) {
     const databaseUrl = process.env.MONGO_URL
     const databaseClient = new MongoClient(databaseUrl, {useUnifiedTopology: true})
-    await databaseClient.connect()
+    try{
+        await databaseClient.connect()
+    } catch(e) {
+        logger.error(e)
+        stopBot(null, null, 0)
+    }
+
     this.rawClient = databaseClient
     const db = databaseClient.db(process.env.DBNAME)
     this.db = db.collection('guilds')
