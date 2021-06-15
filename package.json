@@ -4,8 +4,7 @@
     "description": "Jammy bot",
     "main": "built/index.js",
     "scripts": {
-        "start": "node built/index.js",
-        "preinstall": "pnpm tsc"
+        "start": "node built/index.js"
     },
     "repository": {
         "type": "git",
