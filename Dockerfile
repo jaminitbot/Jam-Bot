@@ -38,3 +38,4 @@ ENV twitchApiSecret=${twitchApiSecret}
 ENV twitchNotificationsChannel=${twitchNotificationsChannel}
 ENV twitchNotificationsGuild=${twitchNotificationsGuild}
 ENV twitchNotificationsUsername=${twitchNotificationsUsername}
+CMD ["yarn", "start"]
