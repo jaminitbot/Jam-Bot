@@ -5,5 +5,5 @@ COPY ./package.json /usr/src/app/
 RUN npm install && npm cache clean --force
 COPY ./ /usr/src/app
 ENV NODE_ENV production
-CMD [ "npm", "tsc" ]
-CMD [ "npm", "start" ]
+RUN npm run tsc
+RUN npm start
