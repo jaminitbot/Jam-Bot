@@ -4,7 +4,8 @@
     "description": "Jammy bot",
     "main": "built/index.js",
     "scripts": {
-        "start": "node built/index.js"
+        "start": "node built/index.js",
+        "build": "yarn run tsc"
     },
     "repository": {
         "type": "git",
