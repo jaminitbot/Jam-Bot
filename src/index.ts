@@ -141,5 +141,5 @@ import {createLogger, transports, format} from "winston";
             })
         }
     })
-    await client.login(process.env.token)
+    await client.login(process.env.TOKEN)
 }())
