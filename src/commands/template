@@ -1,11 +1,11 @@
-import { Message } from "discord.js"
-import { client } from '../customDefinitions.ts'
-import { Logger } from "winston"
+import {Message} from "discord.js"
+import {client} from '../customDefinitions'
+import {Logger} from "winston"
 
-export const name = 'purge'
-export const description = 'Purges messages'
-export const permissions = ''
-export const usage = ''
-export function execute(client: client, message: Message, args: Array<String>, logger: Logger) {
+export const name = 'debug'
+export const description = 'Displays debug information'
+export const permissions = ['ADMINISTRATOR']
+export const usage = 'debug'
+export async function execute(client: client, message: Message, args, logger: Logger) {
 
 }
