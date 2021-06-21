@@ -6,5 +6,5 @@ export const name = 'supersecretwafflecommand'
 export const description = 'Shushhhhh'
 export const usage = 'supersecretwafflecommand'
 export async function execute(client: client, message: Message, args, logger: Logger) {
-    message.
+    message.channel.send("Nothing here yet")
 }
