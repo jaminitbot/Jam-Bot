@@ -27,7 +27,25 @@ const rickRollCodes = [
     'nHRbZW097Uk',
     'kKi-AKvWHGM',
     'm6OCJxOsiyw',
-    'z6wNtevjVOk'
+    'z6wNtevjVOk',
+    'igaCvre6WmE',
+    '2EkXa0GMH1w',
+    '3-csLHSLS-k',
+    '6hlTj-cK7XU',
+    'JrdGAcZ8vhs',
+    'bIXm-Q-Xa4s',
+    'aqOoTQ-G-r4',
+    'fOGEMwgqN20',
+    'C4rtrJjXkng',
+    'nDNYN4-OYZM',
+    'gMA1FUpuELo',
+    'GheaIsTd7pY',
+    'gN1wZiwvjX4',
+    'DvqOdOY2a4I',
+    'oml5cFYAlK8',
+    'UtPZcwPnvkw',
+    'i1EU-_Qe_28',
+    '5qsptIjlHqM'
 ]
 export async function execute(client: client, message: Message, args, logger: Logger) {
     message.channel.send(`<https://youtu.be/${rickRollCodes[randomInt(0, rickRollCodes.length -1)]}>`)
