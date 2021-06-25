@@ -20,5 +20,5 @@ const rickRollCodes = [
     '0SoNH07Slj0'
 ]
 export async function execute(client: client, message: Message, args, logger: Logger) {
-    message.channel.send(`https://youtu.be/${rickRollCodes[randomInt(0, rickRollCodes.length -1)]}`)
+    message.channel.send(`<https://youtu.be/${rickRollCodes[randomInt(0, rickRollCodes.length -1)]}>`)
 }
