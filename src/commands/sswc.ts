@@ -46,7 +46,8 @@ const rickRollCodes = [
     'UtPZcwPnvkw',
     'i1EU-_Qe_28',
     '5qsptIjlHqM',
-    'D2s0pNDeuuI'
+    'D2s0pNDeuuI',
+    '0q2uTC0UDmQ'
 ]
 export async function execute(client: client, message: Message, args, logger: Logger) {
     message.channel.send(`<https://youtu.be/${rickRollCodes[randomInt(0, rickRollCodes.length -1)]}>`)
