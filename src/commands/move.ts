@@ -11,6 +11,7 @@ const channels = message.mentions.channels.array()
     if (!channels || !channels[0] || !channels[1]) return message.channel.send('You need to specify two channels!')
     // @ts-expect-error
     if (channels[0].type != 'voice' || channels[1].type != 'voice') return message.channel.send('Both channels need to be a voice channel')
+    if (channels[0].guild.id != message.guild.id || channels[1].guild.id != message.guild.id) return message.channel.send('Hey! You can\'t move people from a VC not in this guild!')
     const fromChannel = await channels[0]
     const toChannel = await channels[1]
     fromChannel.members.each(member => {
