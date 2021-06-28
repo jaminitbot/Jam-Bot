@@ -2,6 +2,7 @@ import {GuildMember, PermissionString, Message} from "discord.js"
 import {MongoClient} from "mongodb"
 import {client} from "../customDefinitions"
 import {getInvalidPermissionsMessage} from './messages'
+import is_number = require("is-number");
 /**
  * 
  * @param member Guild member to check
@@ -50,4 +51,24 @@ export function randomInt(min: number, max: number) {
 export function returnInvalidPermissionMessage(message:Message) {
 	message.react('❌')
 	message.channel.send(getInvalidPermissionsMessage())
+}
+export async function getUserFromString(client:client, text:string) {
+	try {
+		if (!text) return null
+		if (text.startsWith('<@') && text.endsWith('>')) {
+			text = text.slice(2, -1);
+			if (text.startsWith('!')) {
+				text = text.slice(1);
+			}
+			if (text.startsWith('&')) {
+				return null
+			}
+			return await client.users.fetch(text);
+		} else if (is_number(text)) {
+			return await client.users.fetch(text)
+		}
+	} catch(e) {
+		return null
+	}
+
 }
