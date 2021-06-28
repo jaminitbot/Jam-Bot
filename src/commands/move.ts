@@ -14,8 +14,10 @@ const channels = message.mentions.channels.array()
     // @ts-expect-error
     if (fromChannel.type != 'voice' || toChannel.type != 'voice') return message.channel.send('Both channels need to be a voice channel')
     if (fromChannel.guild.id != message.guild.id || toChannel.guild.id != message.guild.id) return message.channel.send('Hey! You can\'t move people from a VC not in this guild!')
+    let count = 0
     fromChannel.members.each(member => {
+        count++
         member.voice.setChannel(toChannel, `Bulk moved members from ${fromChannel.name} to ${toChannel.name}. Intiated by ${message.author.tag}`)
     })
-    message.channel.send('Poof, successfully moved people!')
+    message.channel.send(`Moved ${count} users from <#${fromChannel.id}> to <#${toChannel.id}>!`)
 }
