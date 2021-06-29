@@ -22,7 +22,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
 				embed.addField('Usage', usage, true)
 				if (command.permissions) {
 					const permissionsNeeded = command.permissions.toString()
-					embed.addField('Permissions', permissionsNeeded, true)
+					embed.addField('Permissions Needed', permissionsNeeded, true)
 				}
 			} else {
 				return message.channel.send('Specified command not found :(')
