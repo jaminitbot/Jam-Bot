@@ -32,6 +32,7 @@ export default async function execute(client: client) {
 		const playingGame = liveInfo.game_name ?? 'N/A'
 		const time = new Date()
 		const embed = new MessageEmbed
+		const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
 		embed.setTitle(`${messages.getHappyMessage()} ${liveInfo.display_name} is live streaming!`)
 		embed.setURL('https://twitch.tv/' + process.env.twitchNotificationsUsername)
 		embed.setDescription(liveTitle)
@@ -47,10 +48,10 @@ export default async function execute(client: client) {
 			const sentMessage = await notificationChannel.send({content: notificationMessageContent, embed: embed}) // Notify for the live in the right channel
 			if (sentMessage.channel.type == 'news') await sentMessage.crosspost()
 			await setKey(guildId, 'LiveMessageId', sentMessage.id) // Put the notification message id in db so we can edit the message later
+			await setKey(guildId, 'LiveIdentifier', newLiveIdentifier) // Put the title into the db
 		} else {
 			// We've already notified for this live
 			const savedLiveIdentifier = await getKey(guildId, 'LiveIdentifier')
-			const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
 			if (!savedLiveIdentifier) {
 				await setKey(guildId, 'LiveIdentifier', newLiveIdentifier)
 			}
