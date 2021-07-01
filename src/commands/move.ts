@@ -17,7 +17,7 @@ const channels = message.mentions.channels.array()
     let count = 0
     fromChannel.members.each(member => {
         count++
-        member.voice.setChannel(toChannel, `Bulk moved members from ${fromChannel.name} to ${toChannel.name}. Intiated by ${message.author.tag}`)
+        member.voice.setChannel(toChannel, `Bulk moved members from ${fromChannel.name} to ${toChannel.name}. Initiated by ${message.author.tag}`)
     })
     message.channel.send(`Moved ${count} users from <#${fromChannel.id}> to <#${toChannel.id}>!`)
 }
