@@ -11,7 +11,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
     embed.setTitle('Changelog')
     let log
     try {
-        log = await fetch('https://raw.githubusercontent.com/jamesatjaminit/Jam-Bot/main/changelog.json').then((response) => response.json())
+        log = await fetch(process.env.changelogLink).then((response) => response.json())
     } catch(e) {
         embed.setDescription('There was an error downloading the changelog, sorry about that :(')
         return sentMessage.edit({content: null, embed: embed})
