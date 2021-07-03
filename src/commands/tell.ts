@@ -7,7 +7,7 @@ export const name = 'tell'
 export const description = 'Tells something, to someone'
 export const usage = 'tell @user You are amazing :))'
 export async function execute(client: client, message: Message, args, logger: Logger) {
-	const user = await getUserFromString(client, args[0])
+	const user = await getUserFromString(message.guild, args[0])
 	if (!user) return message.reply('you need to mention a valid person!')
 	if (!args[1]) return message.reply('you need to say something to tell them')
 	await message.delete()

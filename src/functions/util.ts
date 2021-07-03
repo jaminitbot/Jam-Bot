@@ -1,4 +1,4 @@
-import {GuildMember, PermissionString, Message} from "discord.js"
+import {GuildMember, PermissionString, Message, Guild} from "discord.js"
 import {MongoClient} from "mongodb"
 import {client} from "../customDefinitions"
 import {getInvalidPermissionsMessage} from './messages'
@@ -52,7 +52,13 @@ export function returnInvalidPermissionMessage(message:Message) {
 	message.react('❌')
 	message.channel.send(getInvalidPermissionsMessage())
 }
-export async function getUserFromString(client:client, text:string) {
+
+/**
+ *
+ * @param guild
+ * @param text
+ */
+export async function getUserFromString(guild:Guild, text:string) {
 	try {
 		if (!text) return null
 		if (text.startsWith('<@') && text.endsWith('>')) {
@@ -63,12 +69,30 @@ export async function getUserFromString(client:client, text:string) {
 			if (text.startsWith('&')) {
 				return null
 			}
-			return await client.users.fetch(text);
+			return await guild.client.users.fetch(text);
 		} else if (is_number(text)) {
-			return await client.users.fetch(text)
+			return await guild.client.users.fetch(text)
 		}
 	} catch(e) {
 		return null
 	}
 
+}
+
+export async function getChannelFromString(guild:Guild, text:string):Promise<unknown> {
+	try {
+		if (!text) return null
+		if (text.startsWith('<#') && text.endsWith('>')) {
+			text = text.slice(2, -1);
+			return await guild.client.channels.fetch(text);
+		} else if (is_number(text)) {
+			return await guild.client.channels.fetch(text);
+		} else {
+			return guild.channels.cache.find(
+				channel => channel.name.toLowerCase() === text
+			)
+		}
+	} catch(e) {
+		return null
+	}
 }
