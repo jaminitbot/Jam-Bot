@@ -28,10 +28,11 @@ export async function execute(client: client, message: Message, args, logger: Lo
         if (log[args[0]-1]) {
             embed.addField(`Change ${args[0]}: ${log[args[0]-1].title}`, log[args[0]-1].description)
         } else {
-            embed.setDescription('There wasn\'t a changelog for position' + args[0])
+            embed.setDescription('There wasn\'t a changelog for position: ' + args[0])
+            return sentMessage.edit({content: null, embed: embed})
         }
     }
-    embed.addField('\u200B',`More comprehensive changelogs can be found [here](${process.env.repoLink}/commits/)`)
+    embed.setDescription(`More comprehensive changelogs can be found [here](${process.env.repoLink}/commits/)`)
     embed.setTimestamp(Date.now())
     sentMessage.edit({content: null, embed: embed})
 }
