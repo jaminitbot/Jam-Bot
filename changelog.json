@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Added changelogs!",
+    "description": "Added the ability to see changelogs using the ?changelog command!"
+  },
+  {
+    "title": "Changed ?move behaviour",
+    "description": "Added the ability to search for channels by their name, instead of the dodgy mentioning by ID"
+  }
+]
