@@ -1,4 +1,4 @@
-import {GuildMember, PermissionString, Message, Guild} from "discord.js"
+import {GuildMember, PermissionString, Message, Guild, GuildChannel, Channel} from "discord.js"
 import {MongoClient} from "mongodb"
 import {client} from "../customDefinitions"
 import {getInvalidPermissionsMessage} from './messages'
@@ -79,7 +79,7 @@ export async function getUserFromString(guild:Guild, text:string) {
 
 }
 
-export async function getChannelFromString(guild:Guild, text:string):Promise<unknown> {
+export async function getChannelFromString(guild:Guild, text:string) {
 	try {
 		if (!text) return null
 		if (text.startsWith('<#') && text.endsWith('>')) {
