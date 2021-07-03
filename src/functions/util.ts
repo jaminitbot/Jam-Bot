@@ -54,24 +54,25 @@ export function returnInvalidPermissionMessage(message:Message) {
 }
 
 /**
- *
- * @param guild
- * @param text
+ * Returns a user from a string
+ * @param guild Guild object
+ * @param text Text to get the user from
+ * @returns GuildMember
  */
-export async function getUserFromString(guild:Guild, text:string) {
+export async function getUserFromString(guild:Guild, text:string):Promise<GuildMember> {
 	try {
 		if (!text) return null
-		if (text.startsWith('<@') && text.endsWith('>')) {
+		if (text.startsWith('<@') && text.endsWith('>')) { // Mention
 			text = text.slice(2, -1);
 			if (text.startsWith('!')) {
 				text = text.slice(1);
 			}
-			if (text.startsWith('&')) {
+			if (text.startsWith('&')) { // Role
 				return null
 			}
-			return await guild.client.users.fetch(text);
-		} else if (is_number(text)) {
-			return await guild.client.users.fetch(text)
+			return await guild.members.fetch(text)
+		} else if (is_number(text)) { // Plain ID
+			return await guild.members.fetch(text)
 		}
 	} catch(e) {
 		return null
@@ -79,7 +80,7 @@ export async function getUserFromString(guild:Guild, text:string) {
 
 }
 
-export async function getChannelFromString(guild:Guild, text:string) {
+export async function getChannelFromString(guild:Guild, text:string):Promise<unknown> {
 	try {
 		if (!text) return null
 		if (text.startsWith('<#') && text.endsWith('>')) {
