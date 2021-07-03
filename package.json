@@ -5,7 +5,8 @@
     "main": "built/index.js",
     "scripts": {
         "start": "node built/index.js",
-        "build": "yarn tsc"
+        "build": "yarn tsc",
+        "change": "node devScripts/addChange.js"
     },
     "repository": {
         "type": "git",
