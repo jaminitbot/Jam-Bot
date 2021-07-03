@@ -31,5 +31,7 @@ export async function execute(client: client, message: Message, args, logger: Lo
             embed.setDescription('There wasn\'t a changelog for position' + args[0])
         }
     }
+    embed.setFooter(`More comprehensive changelogs [here](${process.env.repoLink}/commits/)`)
+    embed.setTimestamp(Date.now())
     sentMessage.edit({content: null, embed: embed})
 }
