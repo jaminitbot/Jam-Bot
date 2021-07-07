@@ -6,6 +6,7 @@ export const name = 'changelog'
 export const description = 'Displays the latest changes to the bot'
 export const usage = 'changelog'
 export async function execute(client: client, message: Message, args) {
+	if (!process.env.changelogLink) return message.channel.send('No changelog URL specified :(')
 	const sentMessage = await message.channel.send('Loading changelog...')
 	const embed = new MessageEmbed()
 	embed.setTitle('Changelog')
@@ -32,7 +33,7 @@ export async function execute(client: client, message: Message, args) {
 			return sentMessage.edit({ content: null, embed: embed })
 		}
 	}
-	embed.setDescription(`More comprehensive changelogs can be found [here](${process.env.repoLink}/commits/)`)
+	if (process.env.repoLink) embed.setDescription(`More comprehensive changelogs can be found [here](${process.env.repoLink}/commits/)`)
 	embed.setTimestamp(Date.now())
 	sentMessage.edit({ content: null, embed: embed })
 }
