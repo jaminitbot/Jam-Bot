@@ -1,4 +1,4 @@
-import {Guild} from "discord.js"
+import { Guild } from "discord.js"
 
 export function generateGuildInfoEmbed(guild: Guild): Record<string, unknown> {
 	return {
@@ -15,7 +15,7 @@ export function generateGuildInfoEmbed(guild: Guild): Record<string, unknown> {
 		timestamp: Date.now(),
 	}
 }
-export default async function register(guild: Guild, logger) {
+export default async function register(guild: Guild) {
 	await guild.client.channels.fetch(process.env.GuildLogChannel)
 		// @ts-expect-error
 		.send({ embed: this.generateGuildInfoEmbed(guild) })

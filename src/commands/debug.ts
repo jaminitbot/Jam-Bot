@@ -1,12 +1,12 @@
-import {Message, MessageEmbed} from "discord.js"
-import {client} from '../customDefinitions'
-import {Logger} from "winston"
+import { Message, MessageEmbed } from "discord.js"
+import { client } from '../customDefinitions'
+import { Logger } from "winston"
 
 export const name = 'debug'
 export const description = 'Displays debug information'
 export const permissions = ['ADMINISTRATOR']
 export const usage = 'debug'
-export async function execute(client: client, message: Message, args, logger: Logger) {
+export async function execute(client: client, message: Message, args) {
 	const sentMessage = await message.channel.send('Loading...')
 	const uptimeDate = new Date(Date.now() - client.uptime)
 	const embed = new MessageEmbed

@@ -22,6 +22,7 @@ export function checkPermissions(member: GuildMember, permissions: Array<Permiss
 export async function stopBot(client: client, mongoClient: MongoClient, stopCode = 0) {
 	try {
 		if (client) {
+			client.logger.warn('Received call to stop bot, stopping with code: ' + stopCode)
 			client.destroy()
 		}
 		if (mongoClient) {

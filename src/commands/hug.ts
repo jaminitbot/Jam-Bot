@@ -1,13 +1,13 @@
-import {Message} from "discord.js"
-import {client} from '../customDefinitions'
-import {Logger} from "winston"
+import { Message } from "discord.js"
+import { client } from '../customDefinitions'
+import { Logger } from "winston"
 
 import fetch from 'node-fetch'
 
 export const name = 'hug'
 export const description = 'HUGGSS'
 export const usage = 'hug'
-export async function execute(client: client, message: Message, args, logger: Logger) {
+export async function execute(client: client, message: Message, args) {
 	const { link } = await fetch(
 		'https://some-random-api.ml/animu/hug'
 	).then((response) => response.json())

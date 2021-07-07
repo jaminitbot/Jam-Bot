@@ -1,21 +1,22 @@
 import {MongoClient} from "mongodb"
 import NodeCache = require('node-cache');
 import {stopBot} from './util'
+import {Logger} from "winston";
 /**
  *
  * @param logger Winston Logger
  * @returns Custom DB object
  */
-export async function connect(logger) {
+export async function connect(logger:Logger) {
+    this.logger = logger
     const databaseUrl = process.env.MONGO_URL
     const databaseClient = new MongoClient(databaseUrl, {useUnifiedTopology: true})
     try{
         await databaseClient.connect()
     } catch(e) {
         logger.error(e)
-        stopBot(null, null, 0)
+        await stopBot(null, null, 0)
     }
-
     this.rawClient = databaseClient
     const db = databaseClient.db(process.env.DBNAME)
     this.db = db.collection('guilds')
@@ -31,8 +32,7 @@ export async function connect(logger) {
  */
 export async function setKey(guildIdInput: string, key: string, value: unknown): Promise<boolean> {
     const db = this.db
-    if (process.env.NODE_ENV !== 'production')
-        console.log(`Updating ${key} to ${value}`)
+    this.logger.debug(`Updating ${key} to ${value}`)
     let guildDbObject = await db.findOne({guildId: guildIdInput}) // Find the guild in db
     guildDbObject = guildDbObject?.value ?? {}
     guildDbObject[key] = value // Set the key to the new value
@@ -53,10 +53,7 @@ export async function getKey(guildIdInput: string, key: string): Promise<any> {
     const db = this.db
     const cacheValue = await this.dbCache.get(guildIdInput) // Check if guild is already in cache
     if (cacheValue && cacheValue[key]) {
-        if (process.env.NODE_ENV !== 'production')
-            console.log(
-                `Got ${key} from CACHE with value: ${cacheValue[key]}`
-            )
+        this.logger.debug(`Got ${key} from CACHE with value: ${cacheValue[key]}`)
         return cacheValue[key] // If found in cache, return it
     }
     let guildDbObject = await db.findOne( // Find guild in mongo db
@@ -69,8 +66,7 @@ export async function getKey(guildIdInput: string, key: string): Promise<any> {
         return null // Key doesn't exist
     }
     this.dbCache.set(guildIdInput, guildDbObject) // Put the key into the cache
-    if (process.env.NODE_ENV !== 'production')
-        console.log(`Got ${key} from DB with value: ${guildDbObject[key]}`)
+    this.logger.debug(`Got ${key} from DB with value: ${guildDbObject[key]}`)
     return guildDbObject[key] // Return the value from db
 }
 

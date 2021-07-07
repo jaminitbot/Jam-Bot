@@ -1,11 +1,11 @@
-import {Emoji, Message} from "discord.js"
-import {Logger} from "winston"
-import {client} from '../customDefinitions'
+import { Emoji, Message } from "discord.js"
+import { Logger } from "winston"
+import { client } from '../customDefinitions'
 export const name = 'addemoji'
 export const description = 'Adds an emoji to the server'
 export const usage = 'addemoji EmojiName'
 export const permissions = ['MANAGE_EMOJIS']
-export function execute(client: client, message: Message, args, logger: Logger) {
+export function execute(client: client, message: Message, args) {
 	if (!args[0])
 		return message.reply('you need to specify a name for your emoji!')
 	const url = message.attachments.first()
@@ -24,7 +24,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 				})
 		})
 		.catch((error) => {
-			logger.error(error)
+			client.logger.error(error)
 			message.reply(
 				'uwu senpai, loowks like youwr image is a liwttle too big!'
 			)

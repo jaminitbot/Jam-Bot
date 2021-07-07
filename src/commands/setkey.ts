@@ -1,14 +1,14 @@
-import {Message, MessageEmbed} from "discord.js"
-import {client} from '../customDefinitions'
-import {Logger} from "winston"
-import {setKey} from '../functions/db'
+import { Message, MessageEmbed } from "discord.js"
+import { client } from '../customDefinitions'
+import { Logger } from "winston"
+import { setKey } from '../functions/db'
 
 const isNumber = require('is-number')
 
 export const name = 'setkey'
 export const description = 'Sets a db key'
 export const usage = 'setkey 46435456789132 blah test'
-export async function execute(client: client, message: Message, args, logger: Logger) {
+export async function execute(client: client, message: Message, args) {
 	if (message.author.id !== process.env.OWNERID) return
 	let guild
 	let key

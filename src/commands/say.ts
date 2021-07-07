@@ -1,11 +1,11 @@
-import {Message, TextChannel} from "discord.js"
-import {client} from '../customDefinitions'
-import {Logger} from "winston"
+import { Message, TextChannel } from "discord.js"
+import { client } from '../customDefinitions'
+import { Logger } from "winston"
 
 export const name = 'say'
 export const description = 'Say'
 export const usage = 'say #general Hiiii'
-export async function execute(client: client, message: Message, args, logger: Logger) {
+export async function execute(client: client, message: Message, args) {
 	if (message.author.id !== process.env.OWNERID) return
 	message.delete()
 	// @ts-expect-error

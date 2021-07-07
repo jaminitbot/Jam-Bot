@@ -1,4 +1,5 @@
 import {Client, Collection, PermissionString} from "discord.js"
+import * as winston from "winston";
 
 export interface CollectionCommand {
 	name: string,
@@ -11,5 +12,6 @@ export interface CollectionCommand {
 }
 
 export interface client extends Client {
+    logger: winston.Logger;
 	commands: Collection<unknown, CollectionCommand>
 }

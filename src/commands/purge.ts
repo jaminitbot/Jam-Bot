@@ -1,6 +1,6 @@
-import {Message} from "discord.js"
-import {client} from '../customDefinitions'
-import {Logger} from "winston"
+import { Message } from "discord.js"
+import { client } from '../customDefinitions'
+import { Logger } from "winston"
 
 const messages = require('../functions/messages')
 const isNumber = require('is-number')
@@ -9,7 +9,7 @@ export const name = 'purge'
 export const description = 'Bulk deletes messages'
 export const permissions = ['MANAGE_MESSAGES']
 export const usage = 'purge 10'
-export function execute(client: client, message: Message, args, logger: Logger) {
+export function execute(client: client, message: Message, args) {
 	if (!(message.channel.type == 'news' || message.channel.type == 'text')) return
 	if (!args[0])
 		return message.reply(
@@ -34,7 +34,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 	}
 	message.channel.bulkDelete(deleteCount + 1).catch((error) => {
 		// Delete +1 since we need to delete the intiating command as well
-		logger.error('Error when deleting messages: ' + error)
+		client.logger.error('Error when deleting messages: ' + error)
 		message.channel.send(messages.getErrorMessage())
 	})
 }

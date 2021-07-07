@@ -1,6 +1,6 @@
-import {Message} from "discord.js"
-import {Logger} from "winston"
-import {client} from '../../customDefinitions'
+import { Message } from "discord.js"
+import { Logger } from "winston"
+import { client } from '../../customDefinitions'
 
 const fs = require('fs')
 function generateEmbed(embed, modLogFiles) {
@@ -14,7 +14,7 @@ function generateEmbed(embed, modLogFiles) {
 export const name = 'modlog'
 export const description = 'Various modlog related commands'
 export const usage = 'settings modlog SETTING VALUE'
-export function execute(client: client, message: Message, args, logger: Logger) {
+export function execute(client: client, message: Message, args) {
 
 	const embed = {
 		title: 'Settings: Mod Log - Usage',
@@ -32,7 +32,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 	for (const file of modLogFiles) {
 		const command = require(`./modLog/${file}`)
 		if (String(subSetting).toLowerCase() == command.name) {
-			return command.execute(client, message, args, logger)
+			return command.execute(client, message, args)
 		}
 	}
 	return message.reply({

@@ -1,12 +1,12 @@
-import {Message, MessageEmbed} from "discord.js"
-import {client} from '../customDefinitions'
-import {Logger} from "winston"
+import { Message, MessageEmbed } from "discord.js"
+import { client } from '../customDefinitions'
+import { Logger } from "winston"
 import delay from 'delay'
 
 export const name = 'poll'
 export const description = 'Creates a poll'
 export const usage = 'poll Are chips good?'
-export async function execute(client: client, message: Message, args, logger: Logger) {
+export async function execute(client: client, message: Message, args) {
 	if (!args[0])
 		return message.reply(
 			'you need to specify what to make the poll about!'

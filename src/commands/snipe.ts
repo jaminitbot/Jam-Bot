@@ -41,7 +41,7 @@ function generateEditsEmbed(snipes, message: Message, embed: MessageEmbed) {
 	embed.addField('Message Edits', field || 'NONE', false)
 	return embed
 }
-export async function execute(client: client, message: Message, args: Array<string>, logger: Logger) {
+export async function execute(client: client, message: Message, args) {
 	const snipes = returnSnipedMessages()
 	const embed = new MessageEmbed()
 	let newEmbed

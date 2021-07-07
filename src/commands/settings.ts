@@ -1,6 +1,6 @@
-import {Message} from "discord.js"
-import {client} from '../customDefinitions'
-import {Logger} from "winston"
+import { Message } from "discord.js"
+import { client } from '../customDefinitions'
+import { Logger } from "winston"
 
 const fs = require('fs')
 function generateEmbed(embed, settingsFiles) {
@@ -14,7 +14,7 @@ export const name = 'settings'
 export const description = "Configures the bot's settings"
 export const permissions = ['MANAGE_GUILD']
 export const usage = 'settings'
-export function execute(client: client, message: Message, args, logger: Logger) {
+export function execute(client: client, message: Message, args) {
 	const embed = {
 		title: 'Settings - Usage',
 		description: '',
@@ -33,7 +33,7 @@ export function execute(client: client, message: Message, args, logger: Logger) 
 	for (const file of settingsFiles) {
 		const command = require(`./settings/${file}`)
 		if (String(setting).toLowerCase() == command.name) {
-			return command.execute(client, message, args, logger)
+			return command.execute(client, message, args)
 		}
 	}
 	return message.reply({

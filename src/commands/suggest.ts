@@ -1,15 +1,15 @@
 // TODO: Improve suggestions to allow for editing and implementation
-import {Message, MessageEmbed, TextChannel} from "discord.js"
-import {client} from '../customDefinitions'
-import {Logger} from "winston"
-import {getKey, setKey} from '../functions/db'
+import { Message, MessageEmbed, TextChannel } from "discord.js"
+import { client } from '../customDefinitions'
+import { Logger } from "winston"
+import { getKey, setKey } from '../functions/db'
 
 import delay from 'delay'
 
 export const name = 'suggest'
 export const description = 'Suggests something'
 export const usage = 'suggest Make a memes channel'
-export async function execute(client: client, message: Message, args, logger: Logger) {
+export async function execute(client: client, message: Message, args) {
 	if (!args[0])
 		return message.reply('You need to specify what to suggest!')
 	const suggestionChannelId = await getKey(

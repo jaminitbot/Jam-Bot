@@ -1,13 +1,13 @@
-import {Message} from "discord.js"
-import {client} from '../customDefinitions'
-import {Logger} from "winston"
+import { Message } from "discord.js"
+import { client } from '../customDefinitions'
+import { Logger } from "winston"
 import fetch from 'node-fetch'
-import {randomInt} from '../functions/util'
+import { randomInt } from '../functions/util'
 
 export const name = 'stockvideo'
 export const description = 'Gets a stock video'
 export const usage = 'stock nature'
-export async function execute(client: client, message: Message, args, logger: Logger) {
+export async function execute(client: client, message: Message, args) {
 	if (!process.env.pexelsApiKey) return
 	if (!args[0])
 		return message.reply('You need to specify what to search for!')
