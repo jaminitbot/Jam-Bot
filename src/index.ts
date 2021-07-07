@@ -3,10 +3,13 @@ process.chdir(__dirname)
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
+
 import { Client, ClientOptions, Collection, Intents } from 'discord.js'
+import { createLogger, transports, format } from "winston";
 import { client } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
-import { stopBot } from './functions/util'
+
+
 // Event Imports
 import guildCreate from './events/guildCreate'
 import guildDelete from './events/guildDelete'
@@ -19,24 +22,21 @@ import guildMemberAdd from './events/guildMemberAdd'
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
-
-const clientOptions: ClientOptions = {
-	disableMentions: 'everyone',
-	ws: { intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] },
-	presence: { status: 'online', activity: { name: process.env.DEFAULTPREFIX + 'help', type: 'WATCHING' } },
-	messageEditHistoryMaxSize: 2,
-	messageSweepInterval: 300,
-	messageCacheLifetime: 150,
-	messageCacheMaxSize: 100
-}
-// @ts-expect-error
-const client: client = new Client(clientOptions)
-
-import { createLogger, transports, format } from "winston";
-
+import { stopBot } from './functions/util'
 
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
+	const clientOptions: ClientOptions = {
+		disableMentions: 'everyone',
+		ws: { intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] },
+		presence: { status: 'online', activity: { name: process.env.DEFAULTPREFIX + 'help', type: 'WATCHING' } },
+		messageEditHistoryMaxSize: 2,
+		messageSweepInterval: 300,
+		messageCacheLifetime: 150,
+		messageCacheMaxSize: 100
+	}
+	// @ts-expect-error
+	const client: client = new Client(clientOptions)
 	// Logging
 	client.logger = createLogger({
 		level: 'info',
@@ -52,7 +52,7 @@ import { createLogger, transports, format } from "winston";
 			}),
 		],
 	})
-	if (process.env.SHOW_DEBUG == 'TRUE') {
+	if (String(process.env.SHOW_DEBUG).toLowerCase() == 'TRUE') {
 		client.logger.add(new transports.Console({
 			level: 'debug',
 			format: format.combine(format.colorize(), format.simple()),
@@ -68,7 +68,7 @@ import { createLogger, transports, format } from "winston";
 
 	// Registers all the commands in the commands folder
 	// https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
-	client.logger.verbose('Registering commands')
+	client.logger.verbose('Registering commands...')
 	client.commands = new Collection
 	const fs = require('fs')
 	const commandFiles = fs
@@ -84,7 +84,9 @@ import { createLogger, transports, format } from "winston";
 	const db = await connect(client.logger)
 	if (!db) {
 		client.logger.error('DB not found')
-		process.exit(1)
+		await stopBot(client, null, 1)
+	} else {
+		client.logger.verbose("Successfully connected to database")
 	}
 
 	// Events
@@ -109,20 +111,20 @@ import { createLogger, transports, format } from "winston";
 		guildMemberAdd(member)
 	})
 	client.on('error', error => {
-		client.logger.error(error)
+		client.logger.error('Error logged: ' + error)
 	})
 	client.on('invalidated', function () {
-		// @ts-expect-error
-		process.emit('SIGINT')
+		client.logger.error('Client invalidated, quitting...')
+		stopBot(client, returnRawClient(), 1)
 	})
 	client.on('guildUnavailable', (guild) => {
-		client.logger.error(`Guild ${guild.id} has gone unavailable.`)
+		client.logger.warn(`Guild ${guild.id} has gone offline.`)
 	})
 	client.on('warn', info => {
 		client.logger.warn(info)
 	})
 	client.on('rateLimit', rateLimitInfo => {
-		client.logger.error(
+		client.logger.warn(
 			`Rate limit hit. Triggered by ${rateLimitInfo.path}, timeout for ${rateLimitInfo.timeout}. Only ${rateLimitInfo.limit} can be made`
 		)
 	})
@@ -146,8 +148,7 @@ import { createLogger, transports, format } from "winston";
 
 	// Initialisation
 	client.on('ready', () => {
-		const readyDate = new Date().toTimeString()
-		client.logger.info('Client is READY at: ' + readyDate)
+		client.logger.info('Client is READY at: ' + new Date().toTimeString())
 		if (process.env.twitchApiClientId && process.env.twitchApiSecret) {
 			// Only if api tokens are present
 			scheduleJob('*/5 * * * * *', function () {

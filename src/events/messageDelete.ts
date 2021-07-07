@@ -3,7 +3,7 @@ import {client} from '../customDefinitions'
 import {getKey} from '../functions/db'
 import {inputSnipe} from '../functions/snipe'
 
-export default async function register(client: client, message: Message) {
+export default async function register(client: client, message: Message):Promise<void> {
 	if (!(message.channel.type == 'news' || message.channel.type == 'text')) return
 	if (message.author.bot) return
 	if (message.author.id == process.env.OWNERID) return

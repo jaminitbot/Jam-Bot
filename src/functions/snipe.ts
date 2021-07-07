@@ -17,7 +17,7 @@ const buffer = new Map<number, messageSniped>()
  * @param oldMessage Old message (incase of message edits)
  * @param type Delete or edit
  */
-export async function inputSnipe(message: Message, oldMessage: Message, type: string) {
+export async function inputSnipe(message: Message, oldMessage: Message, type: string):Promise<void> {
 	if (!oldMessage) {
 		// @ts-expect-error
 		oldMessage = {

@@ -5,7 +5,7 @@ import {Logger} from "winston";
 /**
  *
  * @param logger Winston Logger
- * @returns Custom DB object
+ * @returns exports of Database object
  */
 export async function connect(logger:Logger) {
     this.logger = logger
@@ -72,7 +72,7 @@ export async function getKey(guildIdInput: string, key: string): Promise<any> {
 
 /**
  *
- * @returns Mongo client
+ * @returns MongoClient
  */
 export function returnRawClient(): MongoClient {
     return this.rawClient

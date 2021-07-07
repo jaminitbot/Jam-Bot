@@ -1,4 +1,4 @@
-import {GuildMember, PermissionString, Message, Guild, GuildChannel, Channel} from "discord.js"
+import {GuildMember, PermissionString, Message, Guild} from "discord.js"
 import {MongoClient} from "mongodb"
 import {client} from "../customDefinitions"
 import {getInvalidPermissionsMessage} from './messages'
@@ -19,7 +19,7 @@ export function checkPermissions(member: GuildMember, permissions: Array<Permiss
  * @param mongoClient Mongo db client
  * @param stopCode Process exit code, default 0
  */
-export async function stopBot(client: client, mongoClient: MongoClient, stopCode = 0) {
+export async function stopBot(client: client, mongoClient: MongoClient, stopCode = 0):Promise<void> {
 	try {
 		if (client) {
 			client.logger.warn('Received call to stop bot, stopping with code: ' + stopCode)
@@ -39,7 +39,7 @@ export async function stopBot(client: client, mongoClient: MongoClient, stopCode
  * @param max Maximum number (inclusive)
  * @returns Random number 
  */
-export function randomInt(min: number, max: number) {
+export function randomInt(min: number, max: number):number {
 	min = Math.ceil(min)
 	max = Math.floor(max)
 	return Math.floor(Math.random() * (max - min + 1) + min) //The maximum is inclusive and the minimum is inclusive
@@ -49,7 +49,7 @@ export function randomInt(min: number, max: number) {
  *
  * @param message Initiating message
  */
-export function returnInvalidPermissionMessage(message:Message) {
+export function returnInvalidPermissionMessage(message:Message):void {
 	message.react('❌')
 	message.channel.send(getInvalidPermissionsMessage())
 }
