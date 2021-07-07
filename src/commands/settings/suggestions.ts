@@ -1,12 +1,11 @@
 import {Message, TextChannel} from "discord.js"
-import {Logger} from "winston"
 import {client} from '../../customDefinitions'
 import {setKey} from '../../functions/db'
 import {getChannelFromString} from '../../functions/util'
 export const name = 'suggestions'
 export const description = 'Sets the channel for suggestions'
 export const usage = 'settings suggestions #suggestions'
-export async function execute(client: client, message: Message, args, logger: Logger) {
+export async function execute(client: client, message: Message, args) {
 	//@ts-expect-error
 	const channel:TextChannel = await getChannelFromString(message.guild, args[0])
 	if (!channel)

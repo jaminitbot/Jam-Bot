@@ -1,6 +1,5 @@
 import { Message } from "discord.js"
 import { client } from '../customDefinitions'
-import { Logger } from "winston"
 
 export const name = 'supersecretwafflecommand'
 export const description = 'Shushhhhh'

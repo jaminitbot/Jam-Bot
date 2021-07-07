@@ -1,6 +1,5 @@
 import { Message } from "discord.js"
 import { client } from '../customDefinitions'
-import { Logger } from "winston"
 import { randomInt } from '../functions/util'
 
 const image = require('./image')

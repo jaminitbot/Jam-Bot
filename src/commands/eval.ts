@@ -1,6 +1,5 @@
 import { Message, MessageEmbed } from "discord.js"
 import { client } from '../customDefinitions'
-import { Logger } from "winston"
 import { getInvalidPermissionsMessage } from '../functions/messages'
 
 export const name = 'eval'

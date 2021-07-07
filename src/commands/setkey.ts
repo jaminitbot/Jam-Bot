@@ -1,6 +1,5 @@
 import { Message, MessageEmbed } from "discord.js"
 import { client } from '../customDefinitions'
-import { Logger } from "winston"
 import { setKey } from '../functions/db'
 
 const isNumber = require('is-number')

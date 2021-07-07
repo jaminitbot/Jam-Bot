@@ -1,6 +1,5 @@
 import { Message } from "discord.js"
 import { client } from '../customDefinitions'
-import { Logger } from "winston"
 import fetch from 'node-fetch'
 
 export const name = 'dog'

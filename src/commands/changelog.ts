@@ -1,6 +1,7 @@
 import { Message, MessageEmbed } from "discord.js"
 import { client } from '../customDefinitions'
-import { Logger } from "winston"
+
+
 import fetch from 'node-fetch'
 export const name = 'changelog'
 export const description = 'Displays the latest changes to the bot'

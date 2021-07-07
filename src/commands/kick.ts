@@ -1,6 +1,5 @@
 import { Message } from "discord.js"
 import { client } from '../customDefinitions'
-import { Logger } from "winston"
 import kickOrBan from '../functions/kickorban'
 
 export const name = 'kick'

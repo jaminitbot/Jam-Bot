@@ -1,5 +1,4 @@
 import { Message, MessageEmbed } from "discord.js"
-import { Logger } from "winston"
 import { client } from '../customDefinitions'
 import { getKey } from '../functions/db'
 

@@ -1,6 +1,7 @@
 import { Message, VoiceChannel } from "discord.js"
 import { client } from '../customDefinitions'
-import { Logger } from "winston"
+
+
 import { getChannelFromString } from '../functions/util'
 export const name = 'move'
 export const description = 'Moves users from one vc to another'

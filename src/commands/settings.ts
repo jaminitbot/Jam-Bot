@@ -1,6 +1,5 @@
 import { Message } from "discord.js"
 import { client } from '../customDefinitions'
-import { Logger } from "winston"
 
 const fs = require('fs')
 function generateEmbed(embed, settingsFiles) {

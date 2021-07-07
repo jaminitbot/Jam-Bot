@@ -1,6 +1,5 @@
 import { client } from '../../../customDefinitions'
 import { Message } from "discord.js"
-import { Logger } from "winston"
 import { setKey } from '../../../functions/db'
 
 export const name = 'logdeletes'

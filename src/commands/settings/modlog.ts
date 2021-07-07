@@ -1,5 +1,4 @@
 import { Message } from "discord.js"
-import { Logger } from "winston"
 import { client } from '../../customDefinitions'
 
 const fs = require('fs')

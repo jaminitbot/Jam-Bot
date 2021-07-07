@@ -1,5 +1,4 @@
 import { Message, TextChannel } from "discord.js"
-import { Logger } from "winston"
 import { client } from '../../../customDefinitions'
 import { setKey } from '../../../functions/db'
 
