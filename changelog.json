@@ -10,5 +10,9 @@
     {
         "title": "Removed ?tell command",
         "description": "Removed the tell command as it can be used to make the bot pretty much say anything :D"
+    },
+    {
+        "title": "Fixed ping command",
+        "description": "Ping command now doesn't display all the weird numbers at the end"
     }
 ]
