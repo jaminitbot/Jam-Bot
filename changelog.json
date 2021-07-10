@@ -14,5 +14,9 @@
     {
         "title": "Fixed ping command",
         "description": "Ping command now doesn't display all the weird numbers at the end"
+    },
+    {
+        "title": "Improve eval command",
+        "description": "Prevent exposing tokens in the eval command"
     }
 ]
