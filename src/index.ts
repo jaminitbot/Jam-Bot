@@ -52,7 +52,7 @@ import { stopBot } from './functions/util'
 			}),
 		],
 	})
-	if (String(process.env.SHOW_DEBUG).toLowerCase() == 'TRUE') {
+	if (String(process.env.SHOW_DEBUG).toUpperCase() == 'TRUE') {
 		client.logger.add(new transports.Console({
 			level: 'debug',
 			format: format.combine(format.colorize(), format.simple()),
