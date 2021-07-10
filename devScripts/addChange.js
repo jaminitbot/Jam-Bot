@@ -9,15 +9,14 @@ function prompt(question, callback) {
         callback(data.toString().trim());
     });
 }
+process.chdir(__dirname)
 const fs = require('fs')
-const { exec } = require('child_process');
-const filePath = 'changelog.json'
+const filePath = '../changelog.json'
 const data = JSON.parse(fs.readFileSync(filePath, "utf8"))
 prompt("Enter the title of the change: ", function(inputData) {
     const title = inputData
     prompt("Enter the description of the change: ", function(inputData2) {
-        const description = inputData2
-        data[data.length] = {title: title, description:description}
+        data[data.length] = {title: title, description:inputData2}
         fs.writeFile(filePath, JSON.stringify(data, null, 4), function(err){
             process.exit()
         })
