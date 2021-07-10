@@ -3,6 +3,9 @@ import { client } from '../customDefinitions'
 
 
 import fetch from 'node-fetch'
+import NodeCache from "node-cache"
+const cache = new NodeCache({stdTTL:60, checkperiod:30})
+
 export const name = 'changelog'
 export const description = 'Displays the latest changes to the bot'
 export const usage = 'changelog'
@@ -11,15 +14,21 @@ export async function execute(client: client, message: Message, args) {
 	const sentMessage = await message.channel.send('Loading changelog...')
 	const embed = new MessageEmbed()
 	embed.setTitle('Changelog')
-	let log
-	try {
-		log = await fetch(process.env.changelogLink).then((response) => response.json())
-	} catch (e) {
-		embed.setDescription('There was an error downloading the changelog, sorry about that :(')
-		return sentMessage.edit({ content: null, embed: embed })
+	let log = cache.get('log')
+	if (!log) {
+		client.logger.debug('Cache not hit, attempting to retrieve changelog from github...')
+		try {
+			log = await fetch(process.env.changelogLink).then((response) => response.json())
+			cache.set('log', log)
+		} catch (e) {
+			embed.setDescription('There was an error downloading the changelog, sorry about that :(')
+			return sentMessage.edit({ content: null, embed: embed })
+		}
 	}
+
 	if (!args[0]) {
 		let count = 0
+		// @ts-ignore
 		for (let i = log.length - 1; i >= 0; i -= 1) {
 			count++
 			embed.addField(`Change #${i + 1}: ${log[i].title}`, log[i].description)
