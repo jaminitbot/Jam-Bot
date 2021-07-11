@@ -5,6 +5,7 @@ import delay from 'delay'
 export const name = 'poll'
 export const description = 'Creates a poll'
 export const usage = 'poll Are chips good?'
+export const aliases = ['question']
 export async function execute(client: client, message: Message, args) {
 	if (!args[0])
 		return message.reply(

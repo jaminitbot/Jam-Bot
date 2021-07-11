@@ -7,7 +7,7 @@ import isNumber = require('is-number');
 export const name = 'image'
 export const description = 'Searches google for an image'
 export const usage = 'image duck'
-
+export const aliases = ['gis'] // GoogleImageSearch
 export async function execute(client: client, message: Message, args) {
 	if (!args[0])
 		return message.reply('you need to specify what to search for!')

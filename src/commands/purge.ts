@@ -8,6 +8,7 @@ export const name = 'purge'
 export const description = 'Bulk deletes messages'
 export const permissions = ['MANAGE_MESSAGES']
 export const usage = 'purge 10'
+export const aliases = ['massdelete']
 export function execute(client: client, message: Message, args) {
 	if (!(message.channel.type == 'news' || message.channel.type == 'text')) return
 	if (!args[0])

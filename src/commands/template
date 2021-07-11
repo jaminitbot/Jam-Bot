@@ -5,6 +5,7 @@ export const name = 'debug'
 export const description = 'Displays debug information'
 export const permissions = ['ADMINISTRATOR']
 export const usage = 'debug'
+export const aliases = ['debugthing']
 export async function execute(client: client, message: Message, args) {
 
 }

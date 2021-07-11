@@ -1,9 +1,10 @@
 import { Message } from "discord.js"
 import { client } from '../customDefinitions'
 
-export const name = 'supersecretwafflecommand'
+export const name = 'sswc'
 export const description = 'Shushhhhh'
-export const usage = 'supersecretwafflecommand'
+export const usage = 'sswc'
+export const aliases = ['supersecretwafflecommand']
 import { randomInt } from '../functions/util'
 const rickRollCodes = [
 	'dQw4w9WgXcQ',
