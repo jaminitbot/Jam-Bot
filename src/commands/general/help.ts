@@ -3,7 +3,7 @@ import { client } from '../../customDefinitions'
 import { getKey } from '../../functions/db'
 
 export const name = 'help'
-export const description = 'Displays information on a specifc command'
+export const description = 'Displays information on a specific command'
 export const usage = 'help command'
 export async function execute(client: client, message: Message, args) {
 	const embed = new MessageEmbed

@@ -6,8 +6,6 @@ import { Channel, Message } from 'discord.js'
 const messages = require('../functions/messages')
 const bannedIds = ['']
 
-
-
 export default async function register(client: client, message: Message) {
 	if (message.author.bot) return
 	//#region Dm code
@@ -38,8 +36,8 @@ export default async function register(client: client, message: Message) {
 	const commandRequested = args.shift().toLowerCase()
 	const command = client.commands.get(commandRequested) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandRequested));
 	if (message.content.startsWith(prefix)) {
-		client.logger.verbose(`Command ${commandRequested ?? 'NULL'} has been requested, executing command...`)
 		if (!command) return client.logger.debug(`Command ${commandRequested ?? 'NULL'} doesn't exist, not continuing...`)// Doesn't have specified command
+		client.logger.verbose(`Command ${commandRequested ?? 'NULL'} has been requested, executing command...`)
 		try {
 			if (command.permissions) {
 				if (!checkPermissions(message.member, command.permissions)) {
