@@ -31,7 +31,7 @@ export async function execute(client: client, message: Message, args) {
 	} else {
 		// Generic help command
 		embed.setTitle('Help')
-		embed.setDescription('You can view a list of commands [here](https://jambot.jaminit.co.uk/)')
+		embed.setDescription('You can view a list of commands [here](https://jambot.jaminit.co.uk/#/commands/basicCommands)')
 	}
 	embed.setColor('#439A86')
 	message.channel.send(embed)
