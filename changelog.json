@@ -22,5 +22,9 @@
     {
         "title": "Add support for command aliases!",
         "description": "Long overdue, but there's now a way for me to easily implement alises to certain commands!"
+    },
+    {
+        "title": "Update documentation",
+        "description": "New documentation theme, and general ease of use"
     }
 ]
