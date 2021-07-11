@@ -18,5 +18,9 @@
     {
         "title": "Improve eval command",
         "description": "Prevent exposing tokens in the eval command"
+    },
+    {
+        "title": "Add support for command aliases!",
+        "description": "Long overdue, but there's now a way for me to easily implement alises to certain commands!"
     }
 ]
