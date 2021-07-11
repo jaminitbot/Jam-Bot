@@ -9,6 +9,7 @@ const cache = new NodeCache({stdTTL:60, checkperiod:30})
 export const name = 'changelog'
 export const description = 'Displays the latest changes to the bot'
 export const usage = 'changelog'
+export const aliases = ['changes']
 export async function execute(client: client, message: Message, args) {
 	if (!process.env.changelogLink) return message.channel.send('No changelog URL specified :(')
 	const sentMessage = await message.channel.send('Loading changelog...')
