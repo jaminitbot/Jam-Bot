@@ -37,7 +37,7 @@ export default async function register(client: client, message: Message) {
 	const command = client.commands.get(commandRequested) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandRequested));
 	if (message.content.startsWith(prefix)) {
 		if (!command) return client.logger.debug(`Command ${commandRequested ?? 'NULL'} doesn't exist, not continuing...`)// Doesn't have specified command
-		client.logger.verbose(`Command ${commandRequested ?? 'NULL'} has been requested, executing command...`)
+		client.logger.verbose(`Command ${commandRequested ?? 'NULL'} has been requested by ${message.author.tag}, executing command...`)
 		try {
 			if (command.permissions) {
 				if (!checkPermissions(message.member, command.permissions)) {
