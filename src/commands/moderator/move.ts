@@ -14,6 +14,7 @@ export async function execute(client: client, message: Message, args) {
 	const fromChannel: VoiceChannel = await getChannelFromString(message.guild, args[0])
 	//@ts-expect-error
 	const toChannel: VoiceChannel = await getChannelFromString(message.guild, args[1])
+	if (!fromChannel || !toChannel) return message.channel.send('One of those channels weren\'t valid!')
 	if (fromChannel.type != 'voice' || toChannel.type != 'voice') return message.channel.send('Both channels need to be a voice channel')
 	if (fromChannel.guild.id != message.guild.id || toChannel.guild.id != message.guild.id) return message.channel.send('Hey! You can\'t move people from a VC not in this guild!')
 	let count = 0
