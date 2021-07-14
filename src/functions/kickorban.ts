@@ -1,5 +1,5 @@
 import {Message} from "discord.js"
-
+import {getUserFromString} from './util'
 /**
  * 
  * @param message Message object of initiating command
@@ -10,9 +10,7 @@ export default async function execute(message: Message, args: Array<string>, kic
 	if (!args[0]) return message.reply(`usage: ${kickOrBan} @person reason`)
 	if (!message.guild.me.hasPermission(['BAN_MEMBERS', 'KICK_MEMBERS']))
 		return message.channel.send(`I don't have permission to perform this command, check I can ${kickOrBan} people!`)
-	const memberToBan =
-		message.mentions.members.first() ||
-		await message.guild.members.fetch(args[0])
+	const memberToBan = await getUserFromString(message.guild, args[0])
 	if (!memberToBan) return message.reply("You didn't mention a valid user in this server!")
 	if (memberToBan.id == process.env.OWNERID) return message.channel.send('Ha no, no kick kick')
 	if (message.author.id == memberToBan.id) return message.reply(`You can't ${kickOrBan} yourself silly!`)

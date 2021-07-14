@@ -76,9 +76,10 @@ export async function getUserFromString(guild:Guild, text:string):Promise<GuildM
 			return await guild.members.fetch(text)
 		}
 	} catch(e) {
-		return null
+		// eslint-disable-next-line no-empty
+		{}
 	}
-
+	return null
 }
 
 export async function getChannelFromString(guild:Guild, text:string):Promise<unknown> {
