@@ -4,7 +4,7 @@ import { client } from '../../customDefinitions'
 const fs = require('fs')
 function generateEmbed(embed, settingsFiles) {
 	for (const file of settingsFiles) {
-		const command = require(`./admin/settings/${file}`)
+		const command = require(`./settings/${file}`)
 		embed.description += `${command.name}: ${command.description}\n`
 	}
 	return embed
@@ -20,7 +20,7 @@ export function execute(client: client, message: Message, args) {
 		color: 7135759,
 	}
 	const settingsFiles = fs
-		.readdirSync('./commands/settings')
+		.readdirSync('./commands/admin/settings')
 		.filter((file) => file.endsWith('.js'))
 	const setting = args[0]
 	if (!setting) {
@@ -30,7 +30,7 @@ export function execute(client: client, message: Message, args) {
 		})
 	}
 	for (const file of settingsFiles) {
-		const command = require(`./admin/settings/${file}`)
+		const command = require(`./settings/${file}`)
 		if (String(setting).toLowerCase() == command.name) {
 			return command.execute(client, message, args)
 		}

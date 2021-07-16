@@ -20,7 +20,7 @@ export function execute(client: client, message: Message, args) {
 		description: '',
 	}
 	const modLogFiles = fs
-		.readdirSync('./commands/settings/modLog')
+		.readdirSync('./commands/admin/settings/modLog')
 		.filter((file) => file.endsWith('.js'))
 	const subSetting = args[1]
 	if (!subSetting) {
