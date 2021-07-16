@@ -27,11 +27,11 @@ export async function execute(client: client, message: Message, args) {
                 method: 'POST',
                 body: data,
             }).then((r) => r.json())
-            console.log(JSON.stringify(response))
-            message.channel.send(`Log uploaded: ${hasteLocation}/${response.key}`)
+            if (response.key) return message.channel.send(`Log uploaded: ${hasteLocation}/${response.key}`)
         } catch (err) {
             client.logger.error('Failed uploading log to hastebin with error: ' + err)
         }
+        return message.channel.send('There was an error uploading the log to the server, time to check the physical logs! :D')
     });
 
 }
