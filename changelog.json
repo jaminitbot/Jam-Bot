@@ -31,5 +31,10 @@
         "title": "Fix settings command",
         "date": 1626463097298,
         "description": "Settings command now *works* again!"
+    },
+    {
+        "title": "Allow uploading of logs",
+        "date": 1626466715658,
+        "description": "Allow use of the ?log command to upload the logs to the server for easy access"
     }
 ]
