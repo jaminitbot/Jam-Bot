@@ -147,6 +147,11 @@ import { stopBot } from './functions/util'
 		stopBot(client, returnRawClient())
 	})
 
+	if (process.env.NODE_ENV == 'production') {
+		process.on('uncaughtException', (error) => {
+			client.logger.error('Unhandled exception caught: ' + error)
+		});
+	}
 	// Initialisation
 	client.on('ready', () => {
 		client.logger.info('Client is READY at: ' + new Date().toTimeString())
