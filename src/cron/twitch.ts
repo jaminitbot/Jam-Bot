@@ -29,7 +29,6 @@ export default async function execute(client: client) {
 		const liveTitle = liveInfo.title ?? 'N/A'
 		const startedAt = liveInfo.started_at
 		const playingGame = liveInfo.game_name ?? 'N/A'
-		const time = new Date()
 		const embed = new MessageEmbed
 		const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
 		embed.setTitle(`${messages.getHappyMessage()} ${liveInfo.display_name} is live streaming!`)
@@ -37,7 +36,7 @@ export default async function execute(client: client) {
 		embed.setDescription(liveTitle)
 		embed.addField('Playing', playingGame, true)
 		embed.addField('Started at (UTC)', startedAt, true)
-		embed.setFooter(`Last updated at: ${time.getUTCHours()}:${time.getUTCMinutes()}:${time.getUTCSeconds()} UTC`)
+		embed.setFooter(`Last updated <t:${Date.now() / 1000}:R>`)
 		embed.setColor('#A077FF')
 		const LiveTime = await getKey(guildId, 'LiveTime')
 		if (LiveTime != startedAt) {
