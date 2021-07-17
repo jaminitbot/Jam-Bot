@@ -1,7 +1,7 @@
 import {Message} from "discord.js"
 import {client} from '../../customDefinitions'
 const fs = require('fs')
-import fetch from 'node-fetch'
+import {uploadToHasteBin} from '../../functions/util'
 
 export const name = 'log'
 export const description = 'Uploads the log for easy viewing'
@@ -9,7 +9,6 @@ export const usage = 'log error|combined'
 export const aliases = ['uploadlog']
 export async function execute(client: client, message: Message, args) {
     if (message.author.id != process.env.OWNERID) return message.channel.send('Haha no')
-    const hasteLocation = process.env.HATEBIN_HOST ?? 'https://hastebin.com'
     let logFilePath = args[0] ? args[0].toString().toLowerCase() : null
     if (!logFilePath) {
         logFilePath = 'combined.log'
@@ -22,16 +21,12 @@ export async function execute(client: client, message: Message, args) {
         if (err) {
             client.logger.error('Failed getting log with error: ' + err)
         }
-        try {
-            const response = await fetch(hasteLocation + '/documents', {
-                method: 'POST',
-                body: data,
-            }).then((r) => r.json())
-            if (response.key) return message.channel.send(`Log uploaded: ${hasteLocation}/${response.key}`)
-        } catch (err) {
-            client.logger.error('Failed uploading log to hastebin with error: ' + err)
+        const uploadedPasteLocation = await uploadToHasteBin(client.logger, data)
+        if (uploadedPasteLocation) {
+            message.channel.send(`Log uploaded: ${uploadedPasteLocation}`)
+        } else {
+            message.channel.send('There was an error uploading the log to the server, time to check the physical logs! :D')
         }
-        return message.channel.send('There was an error uploading the log to the server, time to check the physical logs! :D')
     });
 
 }

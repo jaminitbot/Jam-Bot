@@ -1,6 +1,7 @@
 import { Message, MessageEmbed } from "discord.js"
 import { client } from '../../customDefinitions'
 import { getInvalidPermissionsMessage } from '../../functions/messages'
+import {uploadToHasteBin} from '../../functions/util'
 const secrets = [
 	process.env.token,
 	process.env.MONGO_URL,
@@ -18,6 +19,8 @@ export async function execute(client: client, message: Message, args) {
 		const command = args.splice(0).join(' ')
 		embed.setTitle('Eval')
 		embed.addField('Command', command)
+		embed.setDescription('Executing command...')
+		const sentMessage = await message.channel.send(embed)
 		let commandOutput
 		try {
 			commandOutput = await eval(command)
@@ -28,11 +31,17 @@ export async function execute(client: client, message: Message, args) {
 			.replace(secretsRegex, '[secret]')
 		commandOutput = String(commandOutput)
 		if (commandOutput.length > 1024) {
-			commandOutput = commandOutput.substring(0, commandOutput.length - (commandOutput.length - 1024))
-			embed.addField('NOTE', 'Output was truncated to send via discord')
+			const uploadedHasteLocation = await uploadToHasteBin(client.logger, commandOutput)
+			if (uploadedHasteLocation) {
+				embed.addField('Output',`Output was too large for discord, uploaded to hastebin: ${uploadedHasteLocation}`)
+			} else {
+				embed.addField('Output', 'Output was too large for discord, but we failed uploading it to hastebin :(')
+			}
+		} else {
+			embed.addField('Output', commandOutput)
 		}
-		embed.addField('Output', commandOutput)
-		message.channel.send(embed)
+
+		sentMessage.edit(embed)
 	} else {
 		message.channel.send(getInvalidPermissionsMessage())
 	}

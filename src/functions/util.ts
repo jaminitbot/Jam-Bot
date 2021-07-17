@@ -3,6 +3,8 @@ import {MongoClient} from "mongodb"
 import {client} from "../customDefinitions"
 import {getInvalidPermissionsMessage} from './messages'
 import is_number = require("is-number");
+import fetch from "node-fetch";
+import {Logger} from "winston";
 /**
  * 
  * @param member Guild member to check
@@ -98,4 +100,18 @@ export async function getChannelFromString(guild:Guild, text:string):Promise<Cha
 	} catch(e) {
 		return null
 	}
+}
+
+export async function uploadToHasteBin(logger:Logger, dataToUpload:string) {
+	const hasteLocation = process.env.HATEBIN_HOST ?? 'https://hastebin.com'
+	try {
+		const response = await fetch(hasteLocation + '/documents', {
+			method: 'POST',
+			body: dataToUpload,
+		}).then((r) => r.json())
+		if (response.key) return `${hasteLocation}/${response.key}`
+	} catch (err) {
+		if (logger) logger.error('Failed uploading log to hastebin with error: ' + err)
+	}
+	return null
 }
