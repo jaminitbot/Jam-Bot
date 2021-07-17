@@ -6,7 +6,6 @@ const messages = require('../functions/messages')
 import sha1 = require('sha1');
 
 export default async function execute(client: client) {
-	if (!process.env.twitchApiClientId || !process.env.twitchApiSecret) return
 	if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsUsername) return
 	const response = await fetch(
 		'https://api.twitch.tv/helix/search/channels?query=' +
