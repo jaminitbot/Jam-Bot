@@ -32,7 +32,7 @@ const wrongPermissions = [
 	'Ha, no.',
 	'I-',
 ]
-const errorMessages = ['Whoops, that did\'t work', 'Something went wrong']
+const errorMessages = ['Whoops, that didn\'t work, please file an issue if this continues', 'Something went wrong, please try again later', 'Ooops, something went wrong running that command, sorry :(']
 const happyMessages = [
 	'PogChamp,',
 	':partying_face:',
