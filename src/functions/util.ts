@@ -57,7 +57,7 @@ export function returnInvalidPermissionMessage(message:Message):void {
 }
 
 /**
- * Returns a user from a string
+ * Returns a user from a string, usually a ID or mention
  * @param guild Guild object
  * @param text Text to get the user from
  * @returns GuildMember
@@ -84,6 +84,12 @@ export async function getUserFromString(guild:Guild, text:string):Promise<GuildM
 	return null
 }
 
+/**
+ * Returns a channel from a string of text, usually a ID or mention
+ * @param guild Guild object
+ * @param text Text to get channel from
+ * @returns Channel
+ */
 export async function getChannelFromString(guild:Guild, text:string):Promise<Channel> {
 	try {
 		if (!text) return null
@@ -102,7 +108,13 @@ export async function getChannelFromString(guild:Guild, text:string):Promise<Cha
 	}
 }
 
-export async function uploadToHasteBin(logger:Logger, dataToUpload:string) {
+/**
+ * Uploads text to a hastebin host
+ * @param logger OPTIONAL winston logger
+ * @param dataToUpload Text to upload
+ * @returns string Uploaded paste location
+ */
+export async function uploadToHasteBin(logger:Logger, dataToUpload:string):Promise<string> {
 	const hasteLocation = process.env.HATEBIN_HOST ?? 'https://hastebin.com'
 	try {
 		const response = await fetch(hasteLocation + '/documents', {
