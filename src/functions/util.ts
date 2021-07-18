@@ -1,10 +1,10 @@
-import {GuildMember, PermissionString, Message, Guild, Channel} from "discord.js"
-import {MongoClient} from "mongodb"
-import {client} from "../customDefinitions"
-import {getInvalidPermissionsMessage} from './messages'
+import { GuildMember, PermissionString, Message, Guild, Channel } from "discord.js"
+import { MongoClient } from "mongodb"
+import { client } from "../customDefinitions"
+import { getInvalidPermissionsMessage } from './messages'
 import is_number = require("is-number");
 import fetch from "node-fetch";
-import {Logger} from "winston";
+import { Logger } from "winston";
 /**
  * 
  * @param member Guild member to check
@@ -21,7 +21,7 @@ export function checkPermissions(member: GuildMember, permissions: Array<Permiss
  * @param mongoClient Mongo db client
  * @param stopCode Process exit code, default 0
  */
-export async function stopBot(client: client, mongoClient: MongoClient, stopCode = 0):Promise<void> {
+export async function stopBot(client: client, mongoClient: MongoClient, stopCode = 0): Promise<void> {
 	try {
 		if (client) {
 			client.logger.warn('Received call to stop bot, stopping with code: ' + stopCode)
@@ -41,7 +41,7 @@ export async function stopBot(client: client, mongoClient: MongoClient, stopCode
  * @param max Maximum number (inclusive)
  * @returns Random number 
  */
-export function randomInt(min: number, max: number):number {
+export function randomInt(min: number, max: number): number {
 	min = Math.ceil(min)
 	max = Math.floor(max)
 	return Math.floor(Math.random() * (max - min + 1) + min) //The maximum is inclusive and the minimum is inclusive
@@ -51,7 +51,7 @@ export function randomInt(min: number, max: number):number {
  *
  * @param message Initiating message
  */
-export function returnInvalidPermissionMessage(message:Message):void {
+export function returnInvalidPermissionMessage(message: Message): void {
 	message.react('❌')
 	message.channel.send(getInvalidPermissionsMessage())
 }
@@ -62,7 +62,7 @@ export function returnInvalidPermissionMessage(message:Message):void {
  * @param text Text to get the user from
  * @returns GuildMember
  */
-export async function getUserFromString(guild:Guild, text:string):Promise<GuildMember> {
+export async function getUserFromString(guild: Guild, text: string): Promise<GuildMember> {
 	try {
 		if (!text) return null
 		if (text.startsWith('<@') && text.endsWith('>')) { // Mention
@@ -77,9 +77,9 @@ export async function getUserFromString(guild:Guild, text:string):Promise<GuildM
 		} else if (is_number(text)) { // Plain ID
 			return await guild.members.fetch(text)
 		}
-	} catch(e) {
+	} catch (e) {
 		// eslint-disable-next-line no-empty
-		{}
+		{ }
 	}
 	return null
 }
@@ -90,7 +90,7 @@ export async function getUserFromString(guild:Guild, text:string):Promise<GuildM
  * @param text Text to get channel from
  * @returns Channel
  */
-export async function getChannelFromString(guild:Guild, text:string):Promise<Channel> {
+export async function getChannelFromString(guild: Guild, text: string): Promise<Channel> {
 	try {
 		if (!text) return null
 		if (text.startsWith('<#') && text.endsWith('>')) {
@@ -103,7 +103,7 @@ export async function getChannelFromString(guild:Guild, text:string):Promise<Cha
 				channel => channel.name.toLowerCase() === text
 			)
 		}
-	} catch(e) {
+	} catch (e) {
 		return null
 	}
 }
@@ -114,7 +114,7 @@ export async function getChannelFromString(guild:Guild, text:string):Promise<Cha
  * @param dataToUpload Text to upload
  * @returns string Uploaded paste location
  */
-export async function uploadToHasteBin(logger:Logger, dataToUpload:string):Promise<string> {
+export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Promise<string> {
 	const hasteLocation = process.env.HATEBIN_HOST ?? 'https://hastebin.com'
 	try {
 		const response = await fetch(hasteLocation + '/documents', {
