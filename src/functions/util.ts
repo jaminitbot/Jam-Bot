@@ -115,6 +115,9 @@ export async function getChannelFromString(guild: Guild, text: string): Promise<
  * @returns string Uploaded paste location
  */
 export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Promise<string> {
+	if (!dataToUpload) {
+		if (logger) logger.error('Failed uploading to hastebin: There was no content provided to upload')
+	}
 	const hasteLocation = process.env.HATEBIN_HOST ?? 'https://hastebin.com'
 	try {
 		const response = await fetch(hasteLocation + '/documents', {
@@ -123,7 +126,7 @@ export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Pr
 		}).then((r) => r.json())
 		if (response.key) return `${hasteLocation}/${response.key}`
 	} catch (err) {
-		if (logger) logger.error('Failed uploading log to hastebin with error: ' + err)
+		if (logger) logger.error('Failed uploading to hastebin with error: ' + err)
 	}
 	return null
 }
