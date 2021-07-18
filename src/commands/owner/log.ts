@@ -21,6 +21,7 @@ export async function execute(client: client, message: Message, args) {
         if (err) {
             client.logger.error('Failed getting log with error: ' + err)
         }
+        if (!data) return message.channel.send('The log was empty, there isn\'t any point uploading it.')
         const uploadedPasteLocation = await uploadToHasteBin(client.logger, data)
         if (uploadedPasteLocation) {
             message.channel.send(`Log uploaded: ${uploadedPasteLocation}`)
