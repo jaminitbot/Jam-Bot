@@ -10,7 +10,6 @@ import {Logger} from "winston";
 export async function connect(logger:Logger) {
     this.logger = logger
     const databaseUrl = process.env.mongoUrl
-    console.log('Attempting to login to mongo with creds: ' + databaseUrl)
     const databaseClient = new MongoClient(databaseUrl, {useUnifiedTopology: true})
     try{
         await databaseClient.connect()
