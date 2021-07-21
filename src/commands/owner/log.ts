@@ -8,7 +8,7 @@ export const description = 'Uploads the log for easy viewing'
 export const usage = 'log error|combined'
 export const aliases = ['uploadlog']
 export async function execute(client: client, message: Message, args) {
-    if (message.author.id != process.env.OWNERID) return returnInvalidPermissionMessage(message)
+    if (message.author.id != process.env.ownerId) return returnInvalidPermissionMessage(message)
     let logFilePath = args[0] ? args[0].toString().toLowerCase() : null
     if (!logFilePath) {
         logFilePath = 'combined.log'

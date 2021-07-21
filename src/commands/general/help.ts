@@ -11,7 +11,7 @@ export async function execute(client: client, message: Message, args) {
 		// User wants info on a particular command
 		const commandToFind = String(args[0]).toLowerCase()
 		if (commandToFind && !(commandToFind == ' ')) {
-			const prefix = await getKey(message.guild.id, 'prefix') || process.env.DEFAULTPREFIX
+			const prefix = await getKey(message.guild.id, 'prefix') || process.env.defaultPrefix
 			const command = client.commands.get(commandToFind) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandToFind));
 			if (command) {
 				embed.setTitle('Help: ' + prefix + command.name)

@@ -4,7 +4,7 @@ import { getInvalidPermissionsMessage } from '../../functions/messages'
 import {uploadToHasteBin} from '../../functions/util'
 const secrets = [
 	process.env.token,
-	process.env.MONGO_URL,
+	process.env.mongoUrl,
 	process.env.twitchApiSecret,
 	process.env.twitchApiClientId,
 	process.env.pexelsApiKey
@@ -14,7 +14,7 @@ export const name = 'eval'
 export const description = 'Executes code'
 export const usage = 'eval 1+1'
 export async function execute(client: client, message: Message, args) {
-	if (message.author.id == process.env.OWNERID) {
+	if (message.author.id == process.env.ownerId) {
 		const embed = new MessageEmbed
 		const command = args.splice(0).join(' ')
 		embed.setTitle('Eval')

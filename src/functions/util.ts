@@ -12,7 +12,7 @@ import { Logger } from "winston";
  * @returns Boolean
  */
 export function checkPermissions(member: GuildMember, permissions: Array<PermissionString>): boolean {
-	return member.hasPermission(permissions) || member.id == process.env.OWNERID;
+	return member.hasPermission(permissions) || member.id == process.env.ownerId;
 
 }
 /**
@@ -118,7 +118,7 @@ export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Pr
 	if (!dataToUpload) {
 		if (logger) logger.error('Failed uploading to hastebin: There was no content provided to upload')
 	}
-	const hasteLocation = process.env.HATEBIN_HOST ?? 'https://hastebin.com'
+	const hasteLocation = process.env.hasteBinHost ?? 'https://hastebin.com'
 	try {
 		const response = await fetch(hasteLocation + '/documents', {
 			method: 'POST',

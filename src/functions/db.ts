@@ -9,7 +9,8 @@ import {Logger} from "winston";
  */
 export async function connect(logger:Logger) {
     this.logger = logger
-    const databaseUrl = process.env.MONGO_URL
+    const databaseUrl = process.env.mongoUrl
+    console.log('Attempting to login to mongo with creds: ' + databaseUrl)
     const databaseClient = new MongoClient(databaseUrl, {useUnifiedTopology: true})
     try{
         await databaseClient.connect()
@@ -18,7 +19,7 @@ export async function connect(logger:Logger) {
         await stopBot(null, null, 0)
     }
     this.rawClient = databaseClient
-    const db = databaseClient.db(process.env.DBNAME)
+    const db = databaseClient.db(process.env.databaseName)
     this.db = db.collection('guilds')
     this.dbCache = new NodeCache({stdTTL: 300, checkperiod: 60})
     return require('./db')

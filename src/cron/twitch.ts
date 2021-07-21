@@ -25,7 +25,7 @@ export default async function execute(client: client) {
 		const notificationChannel:TextChannel = await client.channels.fetch(process.env.twitchNotificationsChannel)
 		if (!notificationChannel || !(notificationChannel.type == 'text' || notificationChannel.type == 'news')) return
 		const guildId = notificationChannel.guild.id
-		const notificationMessageContent = process.env.TWITCH_ROLE_ID ? `<@&${process.env.TWITCH_ROLE_ID}>` : null
+		const notificationMessageContent = process.env.twitchNotificationsRoleId ? `<@&${process.env.twitchNotificationsRoleId}>` : null
 		const liveTitle = liveInfo.title ?? 'N/A'
 		const startedAt = liveInfo.started_at
 		const playingGame = liveInfo.game_name ?? 'N/A'

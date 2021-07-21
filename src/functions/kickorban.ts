@@ -12,7 +12,7 @@ export default async function execute(message: Message, args: Array<string>, kic
 		return message.channel.send(`I don't have permission to perform this command, check I can ${kickOrBan} people!`)
 	const memberToBan = await getUserFromString(message.guild, args[0])
 	if (!memberToBan) return message.reply("You didn't mention a valid user in this server!")
-	if (memberToBan.id == process.env.OWNERID) return message.channel.send('Ha no, no kick kick')
+	if (memberToBan.id == process.env.ownerId) return message.channel.send('Ha no, no kick kick')
 	if (message.author.id == memberToBan.id) return message.reply(`You can't ${kickOrBan} yourself silly!`)
 	const authorRolePosition = message.member.roles.highest.position
 	const targetUserPosition = memberToBan.roles.highest.position

@@ -7,7 +7,7 @@ export const description = 'Gracefully shuts down the bot'
 export const usage = 'shutdown'
 export const aliases = ['off', 'logoff']
 export async function execute(client: client, message: Message, args) {
-	if (message.author.id == process.env.OWNERID) {
+	if (message.author.id == process.env.ownerId) {
 		await message.react('👋')
 		await message.channel.send('Shutting Down...')
 		// @ts-expect-error

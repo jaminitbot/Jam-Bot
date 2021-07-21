@@ -20,7 +20,7 @@ export default async function register(client: client, message: Message) {
 					message.author.defaultAvatarURL,
 			},
 		}
-		const dmChannel: Channel = await client.channels.fetch(process.env.DmChannel)
+		const dmChannel: Channel = await client.channels.fetch(process.env.dmChannel)
 		if (!dmChannel) return
 		if (dmChannel.type == 'text' || dmChannel.type == 'news') {
 			// @ts-expect-error
@@ -31,7 +31,7 @@ export default async function register(client: client, message: Message) {
 	//#endregion
 	if (bannedIds.includes(message.author.id)) return
 	let prefix = await getKey(message.guild.id, 'prefix')
-	if (!prefix) prefix = process.env.DEFAULTPREFIX
+	if (!prefix) prefix = process.env.defaultPrefix
 	const args = message.content.slice(prefix.length).trim().split(/ +/)
 	const commandRequested = args.shift().toLowerCase()
 	const command = client.commands.get(commandRequested) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandRequested));

@@ -6,7 +6,7 @@ export const name = 'guild'
 export const description = 'Gets guild info'
 export const usage = ''
 export async function execute(client: client, message: Message, args) {
-	if (message.author.id == process.env.OWNERID) {
+	if (message.author.id == process.env.ownerId) {
 		if (!args[0]) return message.reply('you need to specify a guild id')
 		message.channel.send({
 			embed: generateGuildInfoEmbed(

@@ -29,7 +29,7 @@ import { stopBot } from './functions/util'
 	const clientOptions: ClientOptions = {
 		disableMentions: 'everyone',
 		ws: { intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] },
-		presence: { status: 'online', activity: { name: process.env.DEFAULTPREFIX + 'help', type: 'WATCHING' } },
+		presence: { status: 'online', activity: { name: process.env.defaultPrefix + 'help', type: 'WATCHING' } },
 		messageEditHistoryMaxSize: 2,
 		messageSweepInterval: 300,
 		messageCacheLifetime: 150,
@@ -52,7 +52,7 @@ import { stopBot } from './functions/util'
 			}),
 		],
 	})
-	if (String(process.env.SHOW_DEBUG).toUpperCase() == 'TRUE') {
+	if (String(process.env.showDebugMessages).toUpperCase() == 'TRUE') {
 		client.logger.add(new transports.Console({
 			level: 'debug',
 			format: format.combine(format.colorize(), format.simple()),

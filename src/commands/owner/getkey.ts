@@ -8,7 +8,7 @@ export const name = 'getkey'
 export const description = 'Gets a db key'
 export const usage = 'getkey 4569844357398443 blah'
 export async function execute(client: client, message: Message, args) {
-	if (message.author.id !== process.env.OWNERID) return
+	if (message.author.id !== process.env.ownerId) return
 	let guild
 	let key
 	if (!isNumber(args[0]) && !args[1]) { // Getting key without guild input
