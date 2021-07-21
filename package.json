@@ -6,7 +6,8 @@
     "scripts": {
         "start": "node built/index.js",
         "build": "yarn tsc",
-        "change": "node devScripts/addChange.js"
+        "change": "node devScripts/addChange.js",
+        "prepare": "husky install"
     },
     "repository": {
         "type": "git",
@@ -36,6 +37,8 @@
         "winston": "^3.3.3"
     },
     "devDependencies": {
+        "@commitlint/cli": "^12.1.4",
+        "@commitlint/config-conventional": "^12.1.4",
         "@types/is-number": "^7.0.1",
         "@types/mongodb": "^3.6.16",
         "@types/node": "^15.6.1",
@@ -44,7 +47,8 @@
         "@types/sha1": "^1.1.2",
         "@typescript-eslint/eslint-plugin": "^4.25.0",
         "@typescript-eslint/parser": "^4.25.0",
-        "eslint": "^7.27.0"
+        "eslint": "^7.27.0",
+        "husky": "^7.0.0"
     },
     "optionalDependencies": {
         "bufferutil": "^4.0.3",
