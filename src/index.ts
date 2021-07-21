@@ -163,5 +163,5 @@ import { stopBot } from './functions/util'
 			})
 		}
 	})
-	await client.login(process.env.TOKEN)
+	await client.login(process.env.token)
 }())
