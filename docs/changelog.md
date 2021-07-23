@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/jamesatjaminit/Jam-Bot/compare/v1.0.0...v1.0.1) (2021-07-23)
+
+
+### Bug Fixes
+
+* fix changelog url in changelog command ([99a25ff](https://github.com/jamesatjaminit/Jam-Bot/commit/99a25ff65d935459a734be3747c02eefbd28a5c4))
+
 ## 1.0.0 (2021-07-23)
 
 
