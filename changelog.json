@@ -36,5 +36,10 @@
         "title": "Allow uploading of logs",
         "date": 1626466715658,
         "description": "Allow use of the ?log command to upload the logs to the server for easy access"
+    },
+    {
+        "title": "Update changelog command",
+        "date": 1627052783042,
+        "description": "[Comprehensive changelogs aren't so ugly now](https://jambot.jaminit.co.uk/#/changelog)"
     }
 ]
