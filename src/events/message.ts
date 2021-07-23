@@ -40,7 +40,7 @@ export default async function register(client: client, message: Message) {
 		client.logger.verbose(`Command ${commandRequested ?? 'NULL'} has been requested by ${message.author.tag}, executing command...`)
 		try {
 			if (command.permissions) {
-				if (!checkPermissions(message.member, command.permissions)) {
+				if (!checkPermissions(message.member, [...command.permissions])) {
 					// User doesn't have specified permissions to run command
 					client.logger.debug(`User ${message.author.tag} doesn't have the required permissions to run command ${commandRequested ?? 'NULL'}`)
 					return returnInvalidPermissionMessage(message)

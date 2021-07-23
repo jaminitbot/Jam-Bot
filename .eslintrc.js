@@ -13,6 +13,6 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 0,
         '@typescript-eslint/no-unused-vars': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
-        '@typescript-eslint/ban-ts-comment': 0,
+        '@typescript-eslint/ban-ts-comment': 0
     },
 }

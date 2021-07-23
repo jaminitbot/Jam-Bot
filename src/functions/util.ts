@@ -1,19 +1,28 @@
-import { GuildMember, PermissionString, Message, Guild, Channel } from "discord.js"
+import {GuildMember, PermissionString, Message, Guild, Channel} from "discord.js"
 import { MongoClient } from "mongodb"
 import { client } from "../customDefinitions"
 import { getInvalidPermissionsMessage } from './messages'
 import is_number = require("is-number");
 import fetch from "node-fetch";
-import { Logger } from "winston";
+import {Logger} from "winston";
 /**
  * 
  * @param member Guild member to check
  * @param permissions Permissions required
  * @returns Boolean
  */
-export function checkPermissions(member: GuildMember, permissions: Array<PermissionString>): boolean {
-	return member.hasPermission(permissions) || member.id == process.env.ownerId;
-
+type permission = PermissionString | 'OWNER'
+export function checkPermissions(member: GuildMember, permissions: Array<permission>): boolean {
+	let validPermission = true
+	if (permissions.includes('OWNER')) {
+		permissions = removeItemFromArray(permissions, 'OWNER')
+		if (process.env.ownerId != member.id) validPermission = false
+	}
+	if (permissions.length != 0) {
+		// @ts-expect-error
+		if (!member.hasPermission(permissions)) validPermission = false
+	}
+	return validPermission
 }
 /**
  *
@@ -129,4 +138,15 @@ export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Pr
 		if (logger) logger.error('Failed uploading to hastebin with error: ' + err)
 	}
 	return null
+}
+export function removeItemFromArray(arr, value) {
+	let i = 0;
+	while (i < arr.length) {
+		if (arr[i] === value) {
+			arr.splice(i, 1);
+		} else {
+			++i;
+		}
+	}
+	return arr;
 }

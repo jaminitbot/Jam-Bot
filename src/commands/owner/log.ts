@@ -1,14 +1,16 @@
 import {Message} from "discord.js"
 import {client} from '../../customDefinitions'
+
 const fs = require('fs')
 import {uploadToHasteBin} from '../../functions/util'
-import {returnInvalidPermissionMessage} from '../../functions/util'
+
 export const name = 'log'
 export const description = 'Uploads the log for easy viewing'
 export const usage = 'log error|combined'
 export const aliases = ['uploadlog']
+export const permissions = ['OWNER']
+
 export async function execute(client: client, message: Message, args) {
-    if (message.author.id != process.env.ownerId) return returnInvalidPermissionMessage(message)
     let logFilePath = args[0] ? args[0].toString().toLowerCase() : null
     if (!logFilePath) {
         logFilePath = 'combined.log'

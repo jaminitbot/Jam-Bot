@@ -7,8 +7,9 @@ const isNumber = require('is-number')
 export const name = 'setkey'
 export const description = 'Sets a db key'
 export const usage = 'setkey 46435456789132 blah test'
+export const permissions = ['OWNER']
+
 export async function execute(client: client, message: Message, args) {
-	if (message.author.id !== process.env.ownerId) return
 	let guild
 	let key
 	let value
