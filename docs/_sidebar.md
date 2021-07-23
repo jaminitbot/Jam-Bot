@@ -1,0 +1,6 @@
+-   [Home](/)
+-   Commands
+    -   [Basic Commands](/commands/basicCommands)
+    -   [Image Commands](/commands/imageCommands)
+    -   [Moderation Commands](/commands/moderationCommands)
+    -   [Bot settings](/commands/settings)
