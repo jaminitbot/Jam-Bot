@@ -44,7 +44,7 @@ export async function execute(client: client, message: Message, args) {
 			return sentMessage.edit({ content: null, embed: embed })
 		}
 	}
-	embed.setDescription(`More comprehensive changelogs can be found [here](https://jambot.jaminit.co.uk/changelog)`)
+	embed.setDescription(`More comprehensive changelogs can be found [here](https://jambot.jaminit.co.uk/#/changelog)`)
 	embed.setTimestamp(Date.now())
 	sentMessage.edit({ content: null, embed: embed })
 }
