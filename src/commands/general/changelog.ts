@@ -44,7 +44,7 @@ export async function execute(client: client, message: Message, args) {
 			return sentMessage.edit({ content: null, embed: embed })
 		}
 	}
-	if (process.env.repoLink) embed.setDescription(`More comprehensive changelogs can be found [here](${process.env.repoLink}/commits/)`)
+	embed.setDescription(`More comprehensive changelogs can be found [here](https://jambot.jaminit.co.uk/changelog)`)
 	embed.setTimestamp(Date.now())
 	sentMessage.edit({ content: null, embed: embed })
 }
