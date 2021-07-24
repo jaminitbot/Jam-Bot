@@ -1,6 +1,6 @@
-import {GuildMember, PermissionString, Message, Guild, Channel} from "discord.js"
+import {GuildMember, Message, Guild, Channel} from "discord.js"
 import { MongoClient } from "mongodb"
-import { client } from "../customDefinitions"
+import { client, permission } from "../customDefinitions"
 import { getInvalidPermissionsMessage } from './messages'
 import is_number = require("is-number");
 import fetch from "node-fetch";
@@ -11,7 +11,6 @@ import {Logger} from "winston";
  * @param permissions Permissions required
  * @returns Boolean
  */
-type permission = PermissionString | 'OWNER'
 export function checkPermissions(member: GuildMember, permissions: Array<permission>): boolean {
 	let validPermission = true
 	if (permissions.includes('OWNER')) {
