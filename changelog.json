@@ -46,5 +46,10 @@
         "title": "Commands in dms!",
         "date": 1627147879710,
         "description": "Certain commands can now be run in dms, hurray!"
+    },
+    {
+        "title": "Update changelog command (again!)",
+        "date": 1627148595911,
+        "description": "The changelog command now shows the date of the change!"
     }
 ]
