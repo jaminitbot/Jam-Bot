@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v1.0.2...v1.1.0) (2021-07-24)
+
+
+### Features
+
+* allow certain commands to be run in dms ([8c4525c](https://github.com/jamesatjaminit/Jam-Bot/commit/8c4525c515b6046795cb8ee6b12b2beab03958e6))
+* use timestamp of change in changelog command ([0ed7fad](https://github.com/jamesatjaminit/Jam-Bot/commit/0ed7fad21937209837888b257fc2a146500f4bd6))
+
 ### [1.0.2](https://github.com/jamesatjaminit/Jam-Bot/compare/v1.0.1...v1.0.2) (2021-07-23)
 
 ### [1.0.1](https://github.com/jamesatjaminit/Jam-Bot/compare/v1.0.0...v1.0.1) (2021-07-23)
