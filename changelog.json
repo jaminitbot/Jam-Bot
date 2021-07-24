@@ -41,5 +41,10 @@
         "title": "Update changelog command",
         "date": 1627052783042,
         "description": "[Comprehensive changelogs aren't so ugly now](https://jambot.jaminit.co.uk/#/changelog)"
+    },
+    {
+        "title": "Commands in dms!",
+        "date": 1627147879710,
+        "description": "Certain commands can now be run in dms, hurray!"
     }
 ]
