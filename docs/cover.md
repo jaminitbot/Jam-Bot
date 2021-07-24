@@ -7,4 +7,4 @@
 -   Frequent Updates
 
 [More info](#home)
-[Command docs](/commands/basicCommands)
+[Command docs](/commands/basic)
