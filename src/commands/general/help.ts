@@ -5,13 +5,15 @@ import { getKey } from '../../functions/db'
 export const name = 'help'
 export const description = 'Displays information on a specific command'
 export const usage = 'help command'
+export const allowInDm = true
 export async function execute(client: client, message: Message, args) {
 	const embed = new MessageEmbed
 	if (args[0]) {
 		// User wants info on a particular command
 		const commandToFind = String(args[0]).toLowerCase()
 		if (commandToFind && !(commandToFind == ' ')) {
-			const prefix = await getKey(message.guild.id, 'prefix') || process.env.defaultPrefix
+			const guildId = message.guild ? message.guild.id : 0
+			const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
 			const command = client.commands.get(commandToFind) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandToFind));
 			if (command) {
 				embed.setTitle('Help: ' + prefix + command.name)

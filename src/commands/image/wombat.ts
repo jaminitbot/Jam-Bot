@@ -7,6 +7,7 @@ const image = require('./image')
 export const name = 'wombat'
 export const description = 'Wombat'
 export const usage = 'Wombat'
+export const allowInDm = true
 export function execute(client: client, message: Message, args) {
 	const tempArgs = [randomInt(1, 25), 'wombat']
 	image.execute(client, message, tempArgs)

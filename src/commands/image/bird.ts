@@ -6,6 +6,7 @@ export const name = 'bird'
 export const description = 'Chirp'
 export const usage = 'bird'
 export const aliases = ['birb']
+export const allowInDm = true
 export async function execute(client: client, message: Message, args) {
 	const { link } = await fetch(
 		'https://some-random-api.ml/img/birb'

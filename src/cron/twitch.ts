@@ -39,7 +39,7 @@ export default async function execute(client: client) {
 		embed.setFooter(`Last updated <t:${Date.now() / 1000}:R>`)
 		embed.setColor('#A077FF')
 		const LiveTime = await getKey(guildId, 'LiveTime')
-		if (LiveTime != startedAt) {
+        if (LiveTime != startedAt) {
 			client.logger.info('Twitch channel is now live, and we haven\'t notified yet. Notifying now...')
 			// We haven't notified for this live
 			await setKey(guildId, 'LiveTime', startedAt) // Put the time of live in db so we don't notify twice
@@ -50,7 +50,7 @@ export default async function execute(client: client) {
 		} else {
 			// We've already notified for this live
 			const savedLiveIdentifier = await getKey(guildId, 'LiveIdentifier')
-			if (!savedLiveIdentifier) {
+            if (!savedLiveIdentifier) {
 				await setKey(guildId, 'LiveIdentifier', newLiveIdentifier)
 			}
 			if (newLiveIdentifier == savedLiveIdentifier) {

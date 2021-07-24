@@ -2,6 +2,7 @@ import {Client, Collection, PermissionString} from "discord.js"
 import {Logger} from "winston";
 
 export interface CollectionCommand {
+    allowInDm: boolean;
     aliases: Array<string>;
 	name: string,
 	description: string,

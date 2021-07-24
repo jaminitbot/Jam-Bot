@@ -5,6 +5,7 @@ export const name = 'ping'
 export const description = 'Displays various latency information'
 export const usage = 'ping'
 export const aliases = ['latency', 'pong']
+export const allowInDm = true
 export async function execute(client: client, message: Message, args) {
 	const sent = await message.channel.send('Pinging...')
 	const embed = new MessageEmbed

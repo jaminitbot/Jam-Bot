@@ -10,6 +10,7 @@ export const name = 'changelog'
 export const description = 'Displays the latest changes to the bot'
 export const usage = 'changelog'
 export const aliases = ['changes', 'change']
+export const allowInDm = true
 export async function execute(client: client, message: Message, args) {
 	if (!process.env.changelogLink) return message.channel.send('No changelog URL specified :(')
 	const sentMessage = await message.channel.send('Loading changelog...')
@@ -45,6 +46,5 @@ export async function execute(client: client, message: Message, args) {
 		}
 	}
 	embed.setDescription(`More comprehensive changelogs can be found [here](https://jambot.jaminit.co.uk/#/changelog)`)
-	embed.setTimestamp(Date.now())
 	sentMessage.edit({ content: null, embed: embed })
 }

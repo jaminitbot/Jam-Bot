@@ -49,7 +49,7 @@ export async function setKey(guildIdInput: string, key: string, value: unknown):
  */
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function getKey(guildIdInput: string, key: string): Promise<any> {
+export async function getKey(guildIdInput: string | number, key: string): Promise<any> {
     const db = this.db
     const cacheValue = await this.dbCache.get(guildIdInput) // Check if guild is already in cache
     if (cacheValue && cacheValue[key]) {

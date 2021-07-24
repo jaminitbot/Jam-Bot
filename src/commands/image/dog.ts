@@ -5,6 +5,7 @@ import fetch from 'node-fetch'
 export const name = 'dog'
 export const description = 'Gets a random dog picture, or a specific breed'
 export const usage = 'dog'
+export const allowInDm = true
 export async function execute(client: client, message: Message, args) {
 	let data
 	if (args[0]) {

@@ -11,11 +11,8 @@ export const usage = 'suggest Make a memes channel'
 export async function execute(client: client, message: Message, args) {
 	if (!args[0])
 		return message.reply('You need to specify what to suggest!')
-	const suggestionChannelId = await getKey(
-		message.guild.id,
-		'suggestionChannel'
-	)
-	if (!suggestionChannelId)
+	const suggestionChannelId = await getKey(message.guild.id, 'suggestionChannel')
+    if (!suggestionChannelId)
 		return message.channel.send(
 			"Looks like suggestions haven't been setup here yet!"
 		)
@@ -25,7 +22,7 @@ export async function execute(client: client, message: Message, args) {
 	const suggestionDescription = args.join(' ')
 	message.delete()
 	let suggestionCount = await getKey(message.guild.id, 'suggestionCount')
-	if (!suggestionCount) suggestionCount = 0
+    if (!suggestionCount) suggestionCount = 0
 	suggestionCount = parseInt(suggestionCount)
 	await setKey(message.guild.id, 'suggestionCount', suggestionCount + 1)
 	const embed = new MessageEmbed

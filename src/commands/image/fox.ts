@@ -5,6 +5,7 @@ import fetch from 'node-fetch'
 export const name = 'fox'
 export const description = 'Fox'
 export const usage = 'fox'
+export const allowInDm = true
 export async function execute(client: client, message: Message, args) {
 	const { image } = await fetch(
 		'https://randomfox.ca/floof/'
