@@ -1,11 +1,5 @@
 # Basic Commands
 
-## Add Emoji
-
-Adds an image or animated emoji to the guild  
-Usage: `?addemoji blobWave`  
-NOTE: Make sure to attach the emoji to the same message
-
 ## Changelog
 
 Shows the latest changes that the bot has undergone  
