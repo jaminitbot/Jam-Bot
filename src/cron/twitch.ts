@@ -36,7 +36,7 @@ export default async function execute(client: client) {
 		embed.setDescription(liveTitle)
 		embed.addField('Playing', playingGame, true)
 		embed.addField('Started at (UTC)', startedAt, true)
-		embed.setFooter(`Last updated <t:${Date.now() / 1000}:R>`)
+		embed.setFooter(`Last updated ${new Date(Date.now()).toTimeString()}`)
 		embed.setColor('#A077FF')
 		const LiveTime = await getKey(guildId, 'LiveTime')
         if (LiveTime != startedAt) {
