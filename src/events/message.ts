@@ -17,7 +17,7 @@ export default async function register(client: client, message: Message) {
     if (message.content.startsWith(prefix)) {
         if (!command) return client.logger.debug(`Command ${commandRequested ?? 'NULL'} doesn't exist, not continuing...`)// Doesn't have specified command
         client.logger.verbose(`Command ${commandRequested ?? 'NULL'} has been requested by ${message.author.tag}, executing command...`)
-        if (!command.allowInDm) return message.channel.send('Sorry, that command can only be run in a server!')
+        if (message.channel.type == 'dm' && !command.allowInDm) return message.channel.send('Sorry, that command can only be run in a server!')
         if (command.permissions) {
             if (!checkPermissions(message.member, [...command.permissions])) {
                 // User doesn't have specified permissions to run command
