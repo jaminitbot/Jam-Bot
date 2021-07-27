@@ -36,7 +36,8 @@ export default async function register(client: client, message: Message) {
         if (message.channel.type == 'dm' && process.env.dmChannel) {
             const dmChannel = await client.channels.fetch(process.env.dmChannel)
             const embed = new MessageEmbed()
-            embed.addField('Contents', message.content)
+            if (message.content) embed.addField('Contents', message.content)
+            if (message.attachments.first()) embed.setImage(message.attachments.first().url)
             embed.setAuthor(message.author.tag, message.author.avatarURL())
             embed.setFooter(`Channel ID: ${message.channel.id}`)
             embed.setTimestamp(Date.now())
