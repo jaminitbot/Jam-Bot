@@ -1,7 +1,7 @@
 import {checkPermissions, returnInvalidPermissionMessage} from '../functions/util'
 import {getKey} from '../functions/db'
 import {client} from '../customDefinitions'
-import {Message} from 'discord.js'
+import {Message, MessageEmbed} from 'discord.js'
 
 const messages = require('../functions/messages')
 const bannedIds = ['']
@@ -31,6 +31,17 @@ export default async function register(client: client, message: Message) {
             // Error running command
             client.logger.error('Command failed with error: ' + error)
             message.reply(messages.getErrorMessage())
+        }
+    } else {
+        if (message.channel.type == 'dm' && process.env.dmChannel) {
+            const dmChannel = await client.channels.fetch(process.env.dmChannel)
+            const embed = new MessageEmbed()
+            embed.addField('Contents', message.content)
+            embed.setAuthor(message.author.tag, message.author.avatarURL())
+            embed.setFooter(`Channel ID: ${message.channel.id}`)
+            embed.setTimestamp(Date.now())
+            // @ts-expect-error
+            if (dmChannel.type == 'text' || dmChannel.type == 'news') dmChannel.send(embed)
         }
     }
 }
