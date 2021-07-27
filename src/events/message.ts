@@ -39,7 +39,7 @@ export default async function register(client: client, message: Message) {
             if (message.content) embed.addField('Contents', message.content)
             if (message.attachments.first()) embed.setImage(message.attachments.first().url)
             embed.setAuthor(message.author.tag, message.author.avatarURL())
-            embed.setFooter(`Channel ID: ${message.channel.id}`)
+            embed.setFooter(`User ID: ${message.author.id}`)
             embed.setTimestamp(Date.now())
             // @ts-expect-error
             if (dmChannel.type == 'text' || dmChannel.type == 'news') dmChannel.send(embed)
