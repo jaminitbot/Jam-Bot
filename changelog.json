@@ -51,5 +51,10 @@
         "title": "Update changelog command (again!)",
         "date": 1627148595911,
         "description": "The changelog command now shows the date of the change!"
+    },
+    {
+        "title": "Changelog command updates",
+        "date": 1627566190805,
+        "description": "Little one: changelogs now use discord timestamps"
     }
 ]
