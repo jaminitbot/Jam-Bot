@@ -32,7 +32,7 @@ export function checkPermissions(member: GuildMember, permissions: Array<permiss
 export async function stopBot(client: client, mongoClient: MongoClient, stopCode = 0): Promise<void> {
 	try {
 		if (client) {
-			client.logger.warn('Received call to stop bot, stopping with code: ' + stopCode)
+			client.logger.warn('util: Received call to stop bot, stopping with code: ' + stopCode)
 			client.destroy()
 		}
 		if (mongoClient) {
@@ -124,7 +124,7 @@ export async function getChannelFromString(guild: Guild, text: string): Promise<
  */
 export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Promise<string> {
 	if (!dataToUpload) {
-		if (logger) logger.error('Failed uploading to hastebin: There was no content provided to upload')
+		if (logger) logger.error('hasteUploader: No content provided to upload, skipping...')
 	}
 	const hasteLocation = process.env.hasteBinHost ?? 'https://hastebin.com'
 	try {
@@ -134,7 +134,7 @@ export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Pr
 		}).then((r) => r.json())
 		if (response.key) return `${hasteLocation}/${response.key}`
 	} catch (err) {
-		if (logger) logger.error('Failed uploading to hastebin with error: ' + err)
+		if (logger) logger.error('hasteUploader: Failed uploading to hastebin with error: ' + err)
 	}
 	return null
 }

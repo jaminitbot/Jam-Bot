@@ -20,7 +20,7 @@ export default async function execute(client: client) {
 	const json = await response.json()
 	const liveInfo = json.data[0]
 	if (liveInfo.is_live) { // Checks if broadcaster is live
-		client.logger.debug('Twitch channel is live')
+		client.logger.debug('twitch: Twitch channel is live')
 		//@ts-expect-error
 		const notificationChannel:TextChannel = await client.channels.fetch(process.env.twitchNotificationsChannel)
 		if (!notificationChannel || !(notificationChannel.type == 'text' || notificationChannel.type == 'news')) return
@@ -40,7 +40,7 @@ export default async function execute(client: client) {
 		embed.setColor('#A077FF')
 		const LiveTime = await getKey(guildId, 'LiveTime')
         if (LiveTime != startedAt) {
-			client.logger.info('Twitch channel is now live, and we haven\'t notified yet. Notifying now...')
+			client.logger.info('twitch: Twitch channel is now live, and we haven\'t notified yet. Notifying now...')
 			// We haven't notified for this live
 			await setKey(guildId, 'LiveTime', startedAt) // Put the time of live in db so we don't notify twice
 			const sentMessage = await notificationChannel.send({ content: notificationMessageContent, embed: embed }) // Notify for the live in the right channel

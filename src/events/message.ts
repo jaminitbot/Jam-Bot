@@ -15,13 +15,13 @@ export default async function register(client: client, message: Message) {
     const commandRequested = args.shift().toLowerCase()
     const command = client.commands.get(commandRequested) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandRequested));
     if (message.content.startsWith(prefix)) {
-        if (!command) return client.logger.debug(`Command ${commandRequested ?? 'NULL'} doesn't exist, not continuing...`)// Doesn't have specified command
-        client.logger.verbose(`Command ${commandRequested ?? 'NULL'} has been requested by ${message.author.tag}, executing command...`)
+        if (!command) return client.logger.debug(`messageHandler: Command ${commandRequested ?? 'NULL'} doesn't exist, not continuing...`)// Doesn't have specified command
+        client.logger.verbose(`messageHandler: Command ${commandRequested ?? 'NULL'} has been requested by ${message.author.tag}, executing command...`)
         if (message.channel.type == 'dm' && !command.allowInDm) return message.channel.send('Sorry, that command can only be run in a server!')
         if (command.permissions) {
             if (!checkPermissions(message.member, [...command.permissions])) {
                 // User doesn't have specified permissions to run command
-                client.logger.debug(`User ${message.author.tag} doesn't have the required permissions to run command ${commandRequested ?? 'NULL'}`)
+                client.logger.debug(`messageHandler: User ${message.author.tag} doesn't have the required permissions to run command ${commandRequested ?? 'NULL'}`)
                 return returnInvalidPermissionMessage(message)
             }
         }
@@ -29,11 +29,12 @@ export default async function register(client: client, message: Message) {
             command.execute(client, message, args)
         } catch (error) {
             // Error running command
-            client.logger.error('Command failed with error: ' + error)
+            client.logger.error('messageHandler: Command failed with error: ' + error)
             message.reply(messages.getErrorMessage())
         }
     } else {
         if (message.channel.type == 'dm' && process.env.dmChannel) {
+            client.logger.verbose(`messageHandler: Received a DM from ${message.author.tag}, attempting to notify in the correct channel...`)
             const dmChannel = await client.channels.fetch(process.env.dmChannel)
             const embed = new MessageEmbed()
             if (message.content) embed.addField('Contents', message.content)

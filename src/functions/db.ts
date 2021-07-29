@@ -32,7 +32,7 @@ export async function connect(logger:Logger) {
  */
 export async function setKey(guildIdInput: string, key: string, value: unknown): Promise<boolean> {
     const db = this.db
-    this.logger.debug(`Updating ${key} to ${value}`)
+    this.logger.debug(`DB: Updating ${key} to ${value}`)
     let guildDbObject = await db.findOne({guildId: guildIdInput}) // Find the guild in db
     guildDbObject = guildDbObject?.value ?? {}
     guildDbObject[key] = value // Set the key to the new value
@@ -53,7 +53,7 @@ export async function getKey(guildIdInput: string | number, key: string): Promis
     const db = this.db
     const cacheValue = await this.dbCache.get(guildIdInput) // Check if guild is already in cache
     if (cacheValue && cacheValue[key]) {
-        this.logger.debug(`Got ${key} from CACHE with value: ${cacheValue[key]}`)
+        this.logger.debug(`DB: Got ${key} from CACHE with value: ${cacheValue[key]}`)
         return cacheValue[key] // If found in cache, return it
     }
     let guildDbObject = await db.findOne( // Find guild in mongo db
@@ -66,7 +66,7 @@ export async function getKey(guildIdInput: string | number, key: string): Promis
         return null // Key doesn't exist
     }
     this.dbCache.set(guildIdInput, guildDbObject) // Put the key into the cache
-    this.logger.debug(`Got ${key} from DB with value: ${guildDbObject[key]}`)
+    this.logger.debug(`DB: Got ${key} from DB with value: ${guildDbObject[key]}`)
     return guildDbObject[key] // Return the value from db
 }
 

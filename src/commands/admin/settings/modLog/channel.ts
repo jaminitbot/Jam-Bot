@@ -16,5 +16,4 @@ export async function execute(client: client, message: Message, args: Array<stri
 	setKey(message.guild.id, 'modLogChannel', channel.id)
 	message.channel.send('Set modlog channel!')
 	channel.send('Modlogs will be sent here!')
-
 }
