@@ -13,7 +13,7 @@ function generateDeleteEmbed(snipes, message: Message, embed: MessageEmbed) {
 			if (element.type == 'delete') {
 				field += `
 		Message deleted by <@${element.user.id}>:
-		\`\`\`${element.content}\`\`\``
+		\n${element.content}`
 				if (element.attachments) {
 					field += element.attachments.url + '\n'
 				}
@@ -30,9 +30,9 @@ function generateEditsEmbed(snipes, message: Message, embed: MessageEmbed) {
 			if (element.type == 'edit') {
 				if (element.content) {
 					field += `
-					Messaged edited by <@${element.user.id}>:
-					\`\`\`${element.oldMessage}\`\`\`⬇️
-					\`\`\`${element.content}\`\`\``
+					Messaged edited by <@${element.user.id}>:\n
+					${element.oldMessage}\`\`\`⬇️
+					\n${element.content}`
 				}
 			}
 		}
