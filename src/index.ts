@@ -27,7 +27,7 @@ import { stopBot } from './functions/util'
 (async function () {
 	const clientOptions: ClientOptions = {
 		disableMentions: 'everyone',
-		ws: { intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] },
+		ws: { intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] },
 		presence: { status: 'online', activity: { name: process.env.defaultPrefix + 'help', type: 'WATCHING' } },
 		messageEditHistoryMaxSize: 2,
 		messageSweepInterval: 300,
