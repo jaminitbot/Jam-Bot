@@ -8,12 +8,12 @@ import {getUserFromString} from './util'
  */
 export default async function execute(message: Message, args: Array<string>, kickOrBan: string) {
 	if (!args[0]) return message.reply(`usage: ${kickOrBan} @person reason`)
-	if (!message.guild.me.hasPermission(['BAN_MEMBERS', 'KICK_MEMBERS']))
-		return message.channel.send(`I don't have permission to perform this command, check I can ${kickOrBan} people!`)
+	if (!message.guild.me.hasPermission(['BAN_MEMBERS', 'KICK_MEMBERS'])) return message.channel.send(`I don't have permission to perform this command, check I can ${kickOrBan} people!`)
 	const memberToBan = await getUserFromString(message.guild, args[0])
-	if (!memberToBan) return message.reply("You didn't mention a valid user in this server!")
+	if (!memberToBan) return message.reply("you didn't mention a valid user in this server!")
 	if (memberToBan.id == process.env.ownerId) return message.channel.send('Ha no, no kick kick')
-	if (message.author.id == memberToBan.id) return message.reply(`You can't ${kickOrBan} yourself silly!`)
+	if (message.author.id == memberToBan.id) return message.reply(`you can't ${kickOrBan} yourself silly!`)
+	if (!memberToBan.manageable) return message.reply(`I can\'t ${kickOrBan} that user, their role is probably higher than mine :(`)
 	const authorRolePosition = message.member.roles.highest.position
 	const targetUserPosition = memberToBan.roles.highest.position
 	if (authorRolePosition <= targetUserPosition) {
