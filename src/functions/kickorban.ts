@@ -13,7 +13,7 @@ export default async function execute(message: Message, args: Array<string>, kic
 	if (!memberToBan) return message.reply("you didn't mention a valid user in this server!")
 	if (memberToBan.id == process.env.ownerId) return message.channel.send('Ha no, no kick kick')
 	if (message.author.id == memberToBan.id) return message.reply(`you can't ${kickOrBan} yourself silly!`)
-	if (!memberToBan.manageable) return message.reply(`I can\'t ${kickOrBan} that user, their role is probably higher than mine :(`)
+	if (!memberToBan.manageable) return message.reply(`I can't ${kickOrBan} that user, their role is probably higher than mine :(`)
 	const authorRolePosition = message.member.roles.highest.position
 	const targetUserPosition = memberToBan.roles.highest.position
 	if (authorRolePosition <= targetUserPosition) {
