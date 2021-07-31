@@ -56,5 +56,10 @@
         "title": "Changelog command updates",
         "date": 1627566190805,
         "description": "Little one: changelogs now use discord timestamps"
+    },
+    {
+        "title": "Remove autorole",
+        "date": 1627737337944,
+        "description": "Previous the bot gave the role \"A role\", to users, automatically giving a role out [plays havok](https://i.imgur.com/kucMopA.png) with discord's server verification level. The feature has been removed."
     }
 ]
