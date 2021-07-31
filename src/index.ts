@@ -16,7 +16,6 @@ import guildDelete from './events/guildDelete'
 import messageEvent from './events/message'
 import messageUpdate from './events/messageUpdate'
 import messageDelete from './events/messageDelete'
-import guildMemberAdd from './events/guildMemberAdd'
 
 
 // Misc Scripts
@@ -107,9 +106,6 @@ import { stopBot } from './functions/util'
 	client.on('messageUpdate', (oldMessage, newMessage) => {
 		// @ts-expect-error
 		messageUpdate(oldMessage, newMessage)
-	})
-	client.on('guildMemberAdd', member => {
-		guildMemberAdd(member)
 	})
 	client.on('error', error => {
 		client.logger.error('Error logged: ' + error)
