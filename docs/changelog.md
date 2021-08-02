@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.0.0...v2.1.0) (2021-08-02)
+
+
+### Features
+
+* slash commands! ([37d1fc8](https://github.com/jamesatjaminit/Jam-Bot/commit/37d1fc88321d95d9c11d75f6dcffacda422d9d31))
+
 ## [2.0.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v1.1.1...v2.0.0) (2021-08-02)
 
 
