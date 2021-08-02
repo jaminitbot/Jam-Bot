@@ -61,5 +61,10 @@
         "title": "Remove autorole",
         "date": 1627737337944,
         "description": "Previous the bot gave the role \"A role\", to users, automatically giving a role out [plays havok](https://i.imgur.com/kucMopA.png) with discord's server verification level. The feature has been removed."
+    },
+    {
+        "title": "Slash commands!",
+        "date": 1627930057182,
+        "description": "I've implemented the basics so slash commands can be used via the bot, most of the commands are not working with slash commands yet, but they will be soon."
     }
 ]

@@ -8,7 +8,7 @@ import { Client, ClientOptions, Collection, Intents } from 'discord.js'
 import { createLogger, transports, format } from "winston";
 import { client } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
-
+import registerSlashCommands from './functions/registerSlashCommands'
 
 // Event Imports
 import guildCreate from './events/guildCreate'
@@ -16,7 +16,7 @@ import guildDelete from './events/guildDelete'
 import messageCreate from './events/messageCreate'
 import messageUpdate from './events/messageUpdate'
 import messageDelete from './events/messageDelete'
-
+import interactionCreate from './events/interactionCreate'
 
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
@@ -60,7 +60,6 @@ import { stopBot } from './functions/util'
 		}));
 		client.logger.info('Logger is in VERBOSE mode')
 	}
-
 	// Registers all the commands in the commands folder
 	// https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
 	client.logger.verbose('Registering commands...')
@@ -74,7 +73,6 @@ import { stopBot } from './functions/util'
 			client.commands.set(command.name, command);
 		}
 	}
-
 	// Database connections
 	client.logger.verbose('Attempting to connect to database...')
 	const db = await connect(client.logger)
@@ -121,7 +119,9 @@ import { stopBot } from './functions/util'
 			`Rate limit hit. Triggered by ${rateLimitInfo.path}, timeout for ${rateLimitInfo.timeout}. Only ${rateLimitInfo.limit} can be made`
 		)
 	})
-
+	client.on('interactionCreate', interaction => {
+		interactionCreate(client, interaction)
+	})
 	// SIGINT STUFF
 	if (process.platform === 'win32') {
 		const rl = require('readline').createInterface({
@@ -145,8 +145,9 @@ import { stopBot } from './functions/util'
 		});
 	}
 	// Initialisation
-	client.on('ready', () => {
+	client.on('ready', async () => {
 		client.logger.info('Client is READY at: ' + new Date().toTimeString())
+		await registerSlashCommands(client)
 		if (process.env.twitchApiClientId && process.env.twitchApiSecret) {
 			// Only if api tokens are present
 			scheduleJob('*/5 * * * * *', function () {

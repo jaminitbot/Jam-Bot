@@ -1,9 +1,13 @@
 import {Client, Collection, PermissionString} from "discord.js"
 import {Logger} from "winston";
+import {slashCommandOptions} from "./commands/general/poll";
 
 type permission = PermissionString | 'OWNER'
 
 export interface CollectionCommand {
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	executeSlash: Function;
+	slashCommandOptions: Any;
     allowInDm: boolean;
     aliases: Array<string>;
 	name: string,
