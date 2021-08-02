@@ -13,7 +13,7 @@ import { scheduleJob } from 'node-schedule'
 // Event Imports
 import guildCreate from './events/guildCreate'
 import guildDelete from './events/guildDelete'
-import messageEvent from './events/message'
+import messageCreate from './events/messageCreate'
 import messageUpdate from './events/messageUpdate'
 import messageDelete from './events/messageDelete'
 
@@ -26,13 +26,9 @@ import { stopBot } from './functions/util'
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
 	const clientOptions: ClientOptions = {
-		disableMentions: 'everyone',
-		ws: { intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] },
-		presence: { status: 'online', activity: { name: process.env.defaultPrefix + 'help', type: 'WATCHING' } },
-		messageEditHistoryMaxSize: 2,
-		messageSweepInterval: 300,
-		messageCacheLifetime: 150,
-		messageCacheMaxSize: 100
+		allowedMentions: {parse: ['roles', 'everyone']},
+		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES],
+		presence: { status: 'online', activities: [{ name: process.env.defaultPrefix + 'help', type: 'WATCHING' }] },
 	}
 	// @ts-expect-error
 	const client: client = new Client(clientOptions)
@@ -96,8 +92,8 @@ import { stopBot } from './functions/util'
 	client.on('guildDelete', guild => {
 		guildDelete(guild)
 	})
-	client.on('message', msg => {
-		messageEvent(client, msg)
+	client.on('messageCreate', msg => {
+		messageCreate(client, msg)
 	})
 	client.on('messageDelete', msg => {
 		// @ts-expect-error

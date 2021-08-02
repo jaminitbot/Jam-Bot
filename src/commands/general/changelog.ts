@@ -33,7 +33,7 @@ export async function execute(client: client, message: Message, args) {
 			cache.set('log', log)
 		} catch (e) {
 			embed.setDescription('There was an error downloading the changelog, sorry about that :(')
-			return sentMessage.edit({ content: null, embed: embed })
+			return sentMessage.edit({ content: null, embeds: [embed] })
 		}
 	}
 
@@ -50,9 +50,9 @@ export async function execute(client: client, message: Message, args) {
 			embed.addField(`Change ${args[0]}: ${log[args[0] - 1].title}`, `Changed: ${generateDateFromEntry(log[args[0] - 1])} \n${log[args[0] - 1].description}`)
 		} else {
 			embed.setDescription('There wasn\'t a changelog for position: ' + args[0])
-			return sentMessage.edit({ content: null, embed: embed })
+			return sentMessage.edit({ content: null, embeds: [embed] })
 		}
 	}
 	embed.setDescription(`More comprehensive changelogs can be found [here](https://jambot.jaminit.co.uk/#/changelog)`)
-	sentMessage.edit({ content: null, embed: embed })
+	sentMessage.edit({ content: null, embeds: [embed] })
 }

@@ -8,7 +8,7 @@ import {getUserFromString} from './util'
  */
 export default async function execute(message: Message, args: Array<string>, kickOrBan: string) {
 	if (!args[0]) return message.reply(`usage: ${kickOrBan} @person reason`)
-	if (!message.guild.me.hasPermission(['BAN_MEMBERS', 'KICK_MEMBERS'])) return message.channel.send(`I don't have permission to perform this command, check I can ${kickOrBan} people!`)
+	if (!message.guild.me.permissions.has(['BAN_MEMBERS', 'KICK_MEMBERS'])) return message.channel.send(`I don't have permission to perform this command, check I can ${kickOrBan} people!`)
 	const memberToBan = await getUserFromString(message.guild, args[0])
 	if (!memberToBan) return message.reply("you didn't mention a valid user in this server!")
 	if (memberToBan.id == process.env.ownerId) return message.channel.send('Ha no, no kick kick')

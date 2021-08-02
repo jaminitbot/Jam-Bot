@@ -25,7 +25,7 @@ export function execute(client: client, message: Message, args) {
 	const subSetting = args[1]
 	if (!subSetting) {
 		return message.channel.send({
-			embed: generateEmbed(embed, modLogFiles),
+			embeds: [generateEmbed(embed, modLogFiles)],
 		})
 	}
 	for (const file of modLogFiles) {
@@ -36,6 +36,6 @@ export function execute(client: client, message: Message, args) {
 	}
 	return message.reply({
 		content: "I couldn't find that sub-setting!",
-		embed: generateEmbed(embed, modLogFiles),
+		embeds: [generateEmbed(embed, modLogFiles)],
 	})
 }

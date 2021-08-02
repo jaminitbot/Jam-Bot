@@ -28,5 +28,5 @@ export async function execute(client: client, message: Message, args) {
 	embed.addField('Value', valueReturned, true)
 	embed.setFooter(`Intiated by ${message.author.tag}`, message.author.displayAvatarURL())
 	embed.setTimestamp(Date.now())
-	message.channel.send(embed)
+	message.channel.send({embeds: [embed]})
 }

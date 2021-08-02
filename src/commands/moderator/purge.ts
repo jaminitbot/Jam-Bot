@@ -10,14 +10,14 @@ export const permissions = ['MANAGE_MESSAGES']
 export const usage = 'purge 10'
 export const aliases = ['massdelete']
 export function execute(client: client, message: Message, args) {
-	if (!(message.channel.type == 'news' || message.channel.type == 'text')) return
+	if (!(message.channel.type == 'GUILD_TEXT' || message.channel.type == 'GUILD_NEWS')) return
 	if (!args[0])
 		return message.reply(
 			'You need to specify how many messages to purge!'
 		)
 	if (!isNumber(args[0]))
 		return message.reply('you need to specify a number!')
-	if (!message.guild.me.hasPermission(['MANAGE_MESSAGES']))
+	if (!message.guild.me.permissions.has(['MANAGE_MESSAGES']))
 		return message.channel.send(
 			"I don't have permission to perform this command, make sure I have the manage messages permission!"
 		)

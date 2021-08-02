@@ -4,7 +4,7 @@ import {getKey} from '../functions/db'
 import {inputSnipe} from '../functions/snipe'
 
 export default async function register(client: client, message: Message):Promise<void> {
-	if (!(message.channel.type == 'news' || message.channel.type == 'text')) return
+	if (!(message.channel.type == 'GUILD_NEWS' || message.channel.type == 'GUILD_TEXT')) return
 	if (message.author.bot) return
 	if (message.author.id == process.env.ownerId) return
 	await inputSnipe(message, null, 'delete')
@@ -14,7 +14,7 @@ export default async function register(client: client, message: Message):Promise
 		const modLogChannelId = await getKey(message.guild.id, 'modLogChannel')
         if (!modLogChannelId) return
 		const modLogChannel = await client.channels.fetch(modLogChannelId)
-		if (!modLogChannel || !((modLogChannel.type == 'text') || modLogChannel.type == 'news')) return
+		if (!modLogChannel || !((modLogChannel.type == 'GUILD_TEXT') || modLogChannel.type == 'GUILD_NEWS')) return
 		let urls = ''
 		if (message.attachments) {
 			message.attachments.each(attachment => {
