@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v1.1.1...v2.0.0) (2021-08-02)
+
+
+### Features
+
+* upgrade to discord.js v13 ([c3e2f0a](https://github.com/jamesatjaminit/Jam-Bot/commit/c3e2f0a55575a867334875a0f9bb8a2c58517a66))
+
+
+### Bug Fixes
+
+* fix unmanagable users to getting banned ([a12d8f3](https://github.com/jamesatjaminit/Jam-Bot/commit/a12d8f30e4cb40435abe833ba990b85757fbd1fd))
+* remove autorole as it causes issues with verification level ([caa0e9d](https://github.com/jamesatjaminit/Jam-Bot/commit/caa0e9def8f1fc3cf590538e7cd03301486b8a22))
+* update snipe formatting ([78a3cab](https://github.com/jamesatjaminit/Jam-Bot/commit/78a3cab5ad0b90961690b8904bd6815fc0fdf88d))
+* use relative timestamps ([bbf7434](https://github.com/jamesatjaminit/Jam-Bot/commit/bbf743442e5a1d9112b9022cbc3c60a992a7ae71))
+
 ### [1.1.1](https://github.com/jamesatjaminit/Jam-Bot/compare/v1.1.0...v1.1.1) (2021-07-27)
 
 
