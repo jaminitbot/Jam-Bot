@@ -23,7 +23,7 @@ export async function execute(client: client, message: Message, args) {
     embed.setTitle('Eval')
     embed.addField('Command', command)
     embed.setDescription('Executing command...')
-    const sentMessage = await message.channel.send(embed)
+    const sentMessage = await message.channel.send({embeds: [embed] })
     let commandOutput
     try {
         commandOutput = await eval(command)
@@ -44,5 +44,5 @@ export async function execute(client: client, message: Message, args) {
         embed.addField('Output', commandOutput)
     }
 
-    sentMessage.edit(embed)
+    sentMessage.edit({embeds: [embed]})
 }

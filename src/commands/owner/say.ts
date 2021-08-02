@@ -12,7 +12,7 @@ export async function execute(client: client, message: Message, args) {
 	await message.delete()
 	// @ts-expect-error
 	const channel: TextChannel = await getChannelFromString(message.guild, args[0])
-	if (!(channel.type == 'text' || channel.type == 'news')) return client.logger.debug('Say Command: Channel wasn\'t a text channel, not continuing')
+	if (!(channel.type == 'GUILD_TEXT' || channel.type == 'GUILD_NEWS')) return client.logger.debug('Say Command: Channel wasn\'t a text channel, not continuing')
 	const thingToSay = args.splice(1).join(' ')
 	channel.send(thingToSay)
 }

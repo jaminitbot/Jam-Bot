@@ -26,7 +26,7 @@ export function execute(client: client, message: Message, args) {
 	if (!setting) {
 		// If no setting was specified, show the help
 		return message.channel.send({
-			embed: generateEmbed(embed, settingsFiles),
+			embeds: [generateEmbed(embed, settingsFiles)],
 		})
 	}
 	for (const file of settingsFiles) {
@@ -37,6 +37,6 @@ export function execute(client: client, message: Message, args) {
 	}
 	return message.reply({
 		content: "I couldn't find that setting!",
-		embed: generateEmbed(embed, settingsFiles),
+		embeds: [generateEmbed(embed, settingsFiles)],
 	})
 }

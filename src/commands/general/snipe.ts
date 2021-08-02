@@ -60,5 +60,5 @@ export async function execute(client: client, message: Message, args) {
 		return
 	}
 	newEmbed.setColor('#BCD8C1')
-	message.channel.send({ embed: newEmbed })
+	message.channel.send({ embeds: [newEmbed] })
 }

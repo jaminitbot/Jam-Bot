@@ -26,13 +26,9 @@ import { stopBot } from './functions/util'
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
 	const clientOptions: ClientOptions = {
-		disableMentions: 'everyone',
-		ws: { intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] },
-		presence: { status: 'online', activity: { name: process.env.defaultPrefix + 'help', type: 'WATCHING' } },
-		messageEditHistoryMaxSize: 2,
-		messageSweepInterval: 300,
-		messageCacheLifetime: 150,
-		messageCacheMaxSize: 100
+		allowedMentions: {parse: ['roles', 'everyone']},
+		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES],
+		presence: { status: 'online', activities: [{ name: process.env.defaultPrefix + 'help', type: 'WATCHING' }] },
 	}
 	// @ts-expect-error
 	const client: client = new Client(clientOptions)

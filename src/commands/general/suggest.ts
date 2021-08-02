@@ -34,7 +34,7 @@ export async function execute(client: client, message: Message, args) {
 	embed.setColor('#E9D985')
 	embed.setFooter('Suggestion by ' + message.author.tag, message.author.displayAvatarURL())
 	embed.setTimestamp(Date.now())
-	const suggestionMessage = await suggestionChannel.send(embed)
+	const suggestionMessage = await suggestionChannel.send({embeds: [embed]})
 	await message.reply('Suggestion logged!')
 	await suggestionMessage.react('✅')
 	await delay(1050)

@@ -12,7 +12,7 @@ export async function execute(client: client, message: Message, args) {
 		return message.channel.send(
 			'You need to specify a channel!\n' + this.usage
 		)
-	if (!(channel.type == 'text' || channel.type == 'news')) return
+	if (!(channel.type == 'GUILD_TEXT' || channel.type == 'GUILD_NEWS')) return
 	if (!channel) return message.channel.send('Not a valid channel!')
 	await setKey(message.guild.id, 'suggestionChannel', channel.id)
 	await message.channel.send('Set suggestion channel!')

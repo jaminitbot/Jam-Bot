@@ -19,7 +19,7 @@ export async function execute(client: client, message: Message, args) {
 	embed.setFooter(`A poll by ${message.author.tag}`, message.member.user.avatarURL())
 	embed.setTimestamp(Date.now())
 	embed.setColor('#167C6A')
-	const sent = await message.channel.send(embed)
+	const sent = await message.channel.send({embeds: [embed]})
 	await sent.react('✅')
 	await delay(1100)
 	sent.react('❌')

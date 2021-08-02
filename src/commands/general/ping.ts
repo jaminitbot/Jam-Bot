@@ -12,6 +12,6 @@ export async function execute(client: client, message: Message, args) {
 	embed.setDescription(`:stopwatch: ${sent.createdTimestamp - message.createdTimestamp}ms :hourglass: ${Math.round(client.ws.ping)}ms`)
 	embed.setFooter('Roundtrip and api latency')
 	embed.setColor('#FB21CB')
-	await sent.edit({ content: null, embed: embed })
+	await sent.edit({ content: null, embeds: [embed] })
 	message.react('🏓')
 }

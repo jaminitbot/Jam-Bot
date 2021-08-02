@@ -18,5 +18,5 @@ export async function execute(client: client, message: Message, args) {
 	embed.setFooter(`Initiated by ${message.author.tag}`, message.author.displayAvatarURL())
 	embed.setTimestamp(Date.now())
 	embed.setColor('#222E50')
-	sentMessage.edit({ content: null, embed: embed })
+	sentMessage.edit({ content: null, embeds: [embed] })
 }
