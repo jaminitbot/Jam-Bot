@@ -10,5 +10,5 @@ export default async function register(client:client) {
         if (command.slashCommandOptions) data[data.length - 1]['options'] = command.slashCommandOptions
 
     })
-    await client.guilds.cache.get('771310968982339594')?.commands.set(data);
+    await client.application?.commands.set(data);
 }
