@@ -13,7 +13,7 @@ import { scheduleJob } from 'node-schedule'
 // Event Imports
 import guildCreate from './events/guildCreate'
 import guildDelete from './events/guildDelete'
-import messageEvent from './events/message'
+import messageCreate from './events/messageCreate'
 import messageUpdate from './events/messageUpdate'
 import messageDelete from './events/messageDelete'
 
@@ -92,8 +92,8 @@ import { stopBot } from './functions/util'
 	client.on('guildDelete', guild => {
 		guildDelete(guild)
 	})
-	client.on('message', msg => {
-		messageEvent(client, msg)
+	client.on('messageCreate', msg => {
+		messageCreate(client, msg)
 	})
 	client.on('messageDelete', msg => {
 		// @ts-expect-error
