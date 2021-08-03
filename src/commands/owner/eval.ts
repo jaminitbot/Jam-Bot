@@ -15,7 +15,7 @@ export const name = 'eval'
 export const description = 'Executes code'
 export const usage = 'eval 1+1'
 export const permissions = ['OWNER']
-
+export const exposeSlash = false
 export async function execute(client: client, message: Message, args) {
     if (!args[0]) return message.channel.send('Do you just expect me to guess at what you want to run?')
     const embed = new MessageEmbed

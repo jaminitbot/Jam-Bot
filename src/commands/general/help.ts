@@ -6,6 +6,12 @@ export const name = 'help'
 export const description = 'Displays information on a specific command'
 export const usage = 'help command'
 export const allowInDm = true
+export const slashCommandOptions = [{
+	name: 'command',
+	type: 'STRING',
+	description: '(Optional) the command you\'d like to get help on',
+	required: false
+}]
 export async function execute(client: client, message: Message, args) {
 	const embed = new MessageEmbed
 	if (args[0]) {

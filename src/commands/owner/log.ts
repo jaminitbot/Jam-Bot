@@ -9,7 +9,7 @@ export const description = 'Uploads the log for easy viewing'
 export const usage = 'log error|combined'
 export const aliases = ['uploadlog']
 export const permissions = ['OWNER']
-
+export const exposeSlash = false
 export async function execute(client: client, message: Message, args) {
     let logFilePath = args[0] ? args[0].toString().toLowerCase() : null
     if (!logFilePath) {

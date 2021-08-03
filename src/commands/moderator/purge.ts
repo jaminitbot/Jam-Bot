@@ -9,6 +9,12 @@ export const description = 'Bulk deletes messages'
 export const permissions = ['MANAGE_MESSAGES']
 export const usage = 'purge 10'
 export const aliases = ['massdelete']
+export const slashCommandOptions = [{
+	name: 'number',
+	type: 'INTEGER',
+	description: 'The number of messages to purge',
+	required: true
+}]
 export function execute(client: client, message: Message, args) {
 	if (!(message.channel.type == 'GUILD_TEXT' || message.channel.type == 'GUILD_NEWS')) return
 	if (!args[0])

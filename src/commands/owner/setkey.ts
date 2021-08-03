@@ -8,7 +8,7 @@ export const name = 'setkey'
 export const description = 'Sets a db key'
 export const usage = 'setkey 46435456789132 blah test'
 export const permissions = ['OWNER']
-
+export const exposeSlash = false
 export async function execute(client: client, message: Message, args) {
 	let guild
 	let key

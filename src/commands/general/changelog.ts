@@ -20,6 +20,12 @@ export const description = 'Displays the latest changes to the bot'
 export const usage = 'changelog'
 export const aliases = ['changes', 'change']
 export const allowInDm = true
+export const slashCommandOptions = [{
+	name: 'changeid',
+	type: 'INTEGER',
+	description: '(Optional) the specific change you\'d like to get',
+	required: false
+}]
 export async function execute(client: client, message: Message, args) {
 	if (!process.env.changelogLink) return message.channel.send('No changelog URL specified :(')
 	const sentMessage = await message.channel.send('Loading changelog...')

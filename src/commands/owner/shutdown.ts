@@ -6,7 +6,7 @@ export const description = 'Gracefully shuts down the bot'
 export const usage = 'shutdown'
 export const aliases = ['off', 'logoff']
 export const permissions = ['OWNER']
-
+export const exposeSlash = false
 export async function execute(client: client, message: Message, args) {
     await message.react('👋')
     await message.channel.send('Shutting Down...')

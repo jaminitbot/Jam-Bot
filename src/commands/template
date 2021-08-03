@@ -1,4 +1,4 @@
-import {Message} from "discord.js"
+import {Interaction, Message} from "discord.js"
 import {client} from '../../customDefinitions'
 
 export const name = 'debug'
@@ -7,6 +7,16 @@ export const permissions = ['ADMINISTRATOR']
 export const usage = 'debug'
 export const aliases = ['debugthing']
 export const allowInDm = false
+export const slashCommandOptions = [{
+	name: 'content',
+	type: 'STRING',
+	description: 'The content of your poll',
+	required: true
+}]
 export async function execute(client: client, message: Message, args) {
 
+}
+
+export async function executeSlash(client, interaction:Interaction) {
+	if (!interaction.isCommand()) return
 }

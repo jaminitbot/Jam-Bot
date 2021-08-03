@@ -6,6 +6,7 @@ export const name = 'say'
 export const description = 'Say'
 export const usage = 'say #general Hiiii'
 export const permissions = ['OWNER']
+export const exposeSlash = false
 export async function execute(client: client, message: Message, args) {
 	if (!args[0]) return message.reply('you need to specify a valid channel')
 	if (!args[1]) return message.reply('you can\'t say nothing!')

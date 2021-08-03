@@ -8,6 +8,7 @@ export interface CollectionCommand {
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	executeSlash: Function;
 	slashCommandOptions: Any;
+	exposeSlash: boolean;
     allowInDm: boolean;
     aliases: Array<string>;
 	name: string,

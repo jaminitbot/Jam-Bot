@@ -8,6 +8,18 @@ export const description = 'Moves users from one vc to another'
 export const permissions = ['MOVE_MEMBERS']
 export const usage = 'move #fromvc #tovc'
 export const aliases = ['massmove']
+export const slashCommandOptions = [{
+	name: 'from',
+	type: 'CHANNEL',
+	description: 'The channel to move users from',
+	required: true
+},
+	{
+		name: 'to',
+		type: 'CHANNEL',
+		description: 'The channel to move users to',
+		required: true
+	}]
 export async function execute(client: client, message: Message, args) {
 	if (!args[0] || !args[1]) return message.channel.send('You need to specify two channels!')
 	//@ts-expect-error

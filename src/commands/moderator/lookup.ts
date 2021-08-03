@@ -6,6 +6,12 @@ export const description = 'Displays information about a specific user or role'
 export const permissions = ['MANAGE_MESSAGES']
 export const usage = 'lookup @user|@role'
 export const aliases = ['info']
+export const slashCommandOptions = [{
+	name: 'lookup',
+	type: 'MENTIONABLE',
+	description: 'The user/role to lookup',
+	required: true
+}]
 export async function execute(client: client, message: Message, args) {
 	if (!args[0]) return message.reply('Usage: ' + this.usage)
 	// Basic info

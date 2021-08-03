@@ -8,6 +8,12 @@ import delay from 'delay'
 export const name = 'suggest'
 export const description = 'Suggests something'
 export const usage = 'suggest Make a memes channel'
+export const slashCommandOptions = [{
+	name: 'suggestion',
+	type: 'STRING',
+	description: 'Your suggestion',
+	required: true
+}]
 export async function execute(client: client, message: Message, args) {
 	if (!args[0])
 		return message.reply('You need to specify what to suggest!')

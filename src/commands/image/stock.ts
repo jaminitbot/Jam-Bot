@@ -6,6 +6,12 @@ import { randomInt } from '../../functions/util'
 export const name = 'stock'
 export const description = 'Gets a stock image'
 export const usage = 'stock nature'
+export const slashCommandOptions = [{
+	name: 'search',
+	type: 'STRING',
+	description: 'The text to search for',
+	required: true
+}]
 export async function execute(client: client, message: Message, args) {
 	if (!process.env.pexelsApiKey) return
 	if (!args[0])
