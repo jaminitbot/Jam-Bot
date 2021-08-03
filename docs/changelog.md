@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.1.0...v2.2.0) (2021-08-03)
+
+
+### Features
+
+* add image slash command ([8907d7e](https://github.com/jamesatjaminit/Jam-Bot/commit/8907d7e4d7bc16ca6f1fb4fc061bc408766024bf))
+* add more slash commands ([5594cf3](https://github.com/jamesatjaminit/Jam-Bot/commit/5594cf34b9e1ea18288371b2d2bb64f3185da4da))
+* add slash commands functionality to all image commands ([2f23431](https://github.com/jamesatjaminit/Jam-Bot/commit/2f23431366ba6237fda617757f63c682fa6ca811))
+* basic functions for slash commands ([d05fa48](https://github.com/jamesatjaminit/Jam-Bot/commit/d05fa48c7745211eb1d9a7f65575754a31726456))
+* more slash commands ([3f797ce](https://github.com/jamesatjaminit/Jam-Bot/commit/3f797ceec952e22cc4ad8c0cf4a174cf173ae062))
+
+
+### Bug Fixes
+
+* check permissions for interactions ([48de7d3](https://github.com/jamesatjaminit/Jam-Bot/commit/48de7d36940cf56dca30124bcab2993de7896ad2))
+* deploy slash commands everywhere ([b2c4626](https://github.com/jamesatjaminit/Jam-Bot/commit/b2c46263fe204b0adb36475cbf38d5fec1466d4f))
+* fix gif slash command ([c81c97c](https://github.com/jamesatjaminit/Jam-Bot/commit/c81c97c0757a6d8ac0030052a1da9b983fc3d45c))
+* handle if the bot can't react to the poll ([e1f5efb](https://github.com/jamesatjaminit/Jam-Bot/commit/e1f5efbcb946221dd5214bf9ba2b3d8a10c7ac3f))
+* improve styling of slash commands ping command ([c414682](https://github.com/jamesatjaminit/Jam-Bot/commit/c414682b862b8eac00f20958cf7a4375e6081033))
+
 ## [2.1.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.0.0...v2.1.0) (2021-08-02)
 
 
