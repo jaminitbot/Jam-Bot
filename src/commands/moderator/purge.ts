@@ -26,7 +26,7 @@ async function bulkDeleteMessages(channel: Channel, NumOfMessagesToDelete) {
 		return "You can't delete more than 100 messages in one go!"
 	}
 	// @ts-expect-error
-	channel.bulkDelete(deleteCount + 1).catch((error) => {
+	await channel.bulkDelete(deleteCount + 1).catch((error) => {
 		// Delete +1 since we need to delete the initiating command as well
 		return messages.getErrorMessage()
 	})
@@ -36,11 +36,11 @@ export async function execute(client: client, message: Message, args) {
 	if (!args[0]) return message.reply('You need to specify how many messages to purge!')
 	if (!isNumber(args[0])) return message.reply('you need to specify a number!')
 	const sentMessage = await message.channel.send(await bulkDeleteMessages(message.channel, args[0]))
-	setTimeout(() => sentMessage.delete(), 2 * 1000)
+	setTimeout(() => sentMessage.delete(), 3 * 1000)
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
 	const numOfMessages = interaction.options.getInteger('number')
 	// @ts-expect-error
 	await interaction.reply(await bulkDeleteMessages(interaction.channel, numOfMessages))
-	setTimeout(() => interaction.deleteReply(), 2 * 1000)
+	setTimeout(() => interaction.deleteReply(), 3 * 1000)
 }
