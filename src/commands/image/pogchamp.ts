@@ -1,4 +1,4 @@
-import { Message } from "discord.js"
+import {CommandInteraction, Message} from "discord.js"
 import { client } from '../../customDefinitions'
 import fetch from 'node-fetch'
 
@@ -12,4 +12,7 @@ export async function execute(client: client, message: Message, args) {
 		'https://raw.githubusercontent.com/MattIPv4/pogchamp/master/build/data.json'
 	).then((response) => response.json())
 	message.channel.send(img.medium)
+}
+export async function executeSlash(client, interaction:CommandInteraction) {
+
 }

@@ -18,10 +18,10 @@ export const slashCommandOptions = [{
     {
         name: 'position',
         type: 'INTEGER',
-        description: '(optional) the specific position of image to get',
+        description: '(optional) the specific result to get',
         required: false
     }]
-async function searchForImage(search, position, nsfw, imageType):Promise<string> {
+export async function searchForImage(search, position, nsfw, imageType):Promise<string> {
     return new Promise(function(resolve, reject) {
         let searchOptions = {
             searchTerm: search
@@ -71,7 +71,7 @@ export async function execute(client: client, message: Message, args) {
         imageType = 'image'
     }
     //#endregion
-    const sentMessage = await message.channel.send(`:mag_right: Finding ${imageType}...`)
+    const sentMessage = await message.channel.send(`:mag_right: Finding image...`)
     const search = args.splice(splitBy).join(' ')
     // @ts-expect-error
     const isNsfw = message.channel.nsfw
