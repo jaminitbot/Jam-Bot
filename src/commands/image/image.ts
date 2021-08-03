@@ -23,6 +23,7 @@ export const slashCommandOptions = [{
     }]
 export async function searchForImage(search, position, nsfw, imageType):Promise<string> {
     return new Promise(function(resolve, reject) {
+        if (!position) position = 1
         if (position < 1) {
             resolve('You cannot get an image for a position less than one!')
         }
@@ -64,8 +65,6 @@ export async function execute(client: client, message: Message, args) {
         }
         splitBy = 1 // Make sure we don't include the position in the search
         position = args[0]
-    } else {
-        position = 1
     }
     let imageType: string
     //#region Janky Gif Code
