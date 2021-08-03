@@ -64,6 +64,8 @@ export async function execute(client: client, message: Message, args) {
         }
         splitBy = 1 // Make sure we don't include the position in the search
         position = args[0]
+    } else {
+        position = 1
     }
     let imageType: string
     //#region Janky Gif Code
@@ -78,7 +80,7 @@ export async function execute(client: client, message: Message, args) {
     const search = args.splice(splitBy).join(' ')
     // @ts-expect-error
     const isNsfw = message.channel.nsfw
-    const imageUrl = await searchForImage(search, position,isNsfw , imageType)
+    const imageUrl = await searchForImage(search, position, isNsfw , imageType)
     sentMessage.edit(imageUrl)
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
