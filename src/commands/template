@@ -17,6 +17,6 @@ export async function execute(client: client, message: Message, args) {
 
 }
 
-export async function executeSlash(client, interaction:Interaction) {
+export async function executeSlash(client, interaction:CommandInteraction) {
 	if (!interaction.isCommand()) return
 }
