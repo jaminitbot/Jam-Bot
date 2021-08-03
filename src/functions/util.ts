@@ -19,7 +19,7 @@ export function checkPermissions(member: GuildMember, permissions: Array<permiss
 	}
 	if (permissions.length != 0) {
 		// @ts-expect-error
-		if (!member.hasPermission(permissions)) validPermission = false
+		if (!member.permissions.has(permissions)) validPermission = false
 	}
 	return validPermission
 }
