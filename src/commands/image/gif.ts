@@ -29,7 +29,8 @@ export async function execute(client: client, message: Message, args) {
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
 	await interaction.defer()
-	const search = interaction.options.getString('search')
+	const search = interaction.options.getString('search') + ' gif'
+	console.log(search)
 	const position = interaction.options.getInteger('position') || null
 	// @ts-expect-error
 	const isNsfw = interaction.channel.nsfw
