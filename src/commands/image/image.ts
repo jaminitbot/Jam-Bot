@@ -23,6 +23,9 @@ export const slashCommandOptions = [{
     }]
 export async function searchForImage(search, position, nsfw, imageType):Promise<string> {
     return new Promise(function(resolve, reject) {
+        if (position < 1) {
+            resolve('You cannot get an image for a position less than one!')
+        }
         let searchOptions = {
             searchTerm: search
         }
@@ -41,7 +44,7 @@ export async function searchForImage(search, position, nsfw, imageType):Promise<
             })
             if (position) {
                 // Get specific image at position
-                resolve(validImageUrls[position-1] || `There isn't an ${imageType} for position: ${position}`)
+                resolve(validImageUrls[position - 1] || `There isn't an ${imageType} for position: ${position}`)
             } else {
                 resolve(validImageUrls[0] || `No ${imageType} found for your search.`)
             }
@@ -79,7 +82,7 @@ export async function execute(client: client, message: Message, args) {
     sentMessage.edit(imageUrl)
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
-    interaction.defer()
+    await interaction.defer()
     const search = interaction.options.getString('search')
     const position = interaction.options.getInteger('position')
     // @ts-expect-error

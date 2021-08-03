@@ -29,7 +29,7 @@ export async function getStockImage(search, position) {
 	)
 	const json = await response.json()
 	const photoPosition = position ?? 1
-	if (!(0 < position - 1 < json.photos.length)) return `There isn't a photo for position: ${position}`
+	if (1 > position || position > json.photos.length) return `There isn't a stock photo for position: ${position}`
 	const image = json.photos[photoPosition-1].src.medium // eslint-disable-line no-undef
 	return image || 'Unable to get a stock photo, the api\'s probably down'
 }
