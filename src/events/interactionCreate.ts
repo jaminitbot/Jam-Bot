@@ -10,7 +10,7 @@ export default async function register(client:client, interaction:Interaction) {
         if (typeof command.executeSlash != 'function') {
             const guildId = interaction.guild ? interaction.guild.id : 0
             const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
-            return interaction.reply({content: `This command hasn't been setup for slash commands yet, please use \`${prefix}${command.name}\` for the time being!`})
+            return interaction.reply({content: `This command hasn't been setup for slash commands yet, please use \`${prefix}${command.name}\` for the time being!`, ephemeral: true})
         }
         try {
             command.executeSlash(client, interaction)
