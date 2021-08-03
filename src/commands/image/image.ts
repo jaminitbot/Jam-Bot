@@ -41,7 +41,7 @@ export async function searchForImage(search, position, nsfw, imageType):Promise<
             })
             if (position) {
                 // Get specific image at position
-                resolve(validImageUrls[position] || `There isn't an ${imageType} for position: ${position}`)
+                resolve(validImageUrls[position-1] || `There isn't an ${imageType} for position: ${position}`)
             } else {
                 resolve(validImageUrls[0] || `No ${imageType} found for your search.`)
             }
