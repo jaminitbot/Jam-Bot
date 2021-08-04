@@ -19,9 +19,7 @@ export async function execute(client: client, message: Message, args) {
 	message.react('🏓')
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
-	// @ts-expect-error
-	const isEphemeral = interaction.ephemeralPing ?? false
-	const reply = await interaction.defer({fetchReply:true, ephemeral: isEphemeral})
+	const reply = await interaction.defer({fetchReply:true})
 	// @ts-expect-error
 	const embed = createLatencyEmbed(interaction.createdTimestamp, reply.createdTimestamp, client)
 	const row = new MessageActionRow()
@@ -35,8 +33,6 @@ export async function executeSlash(client, interaction:CommandInteraction) {
 }
 export async function executeButton(client, interaction:ButtonInteraction) {
 	if (interaction.customId == 'ping-againButton') {
-		// @ts-expect-error
-		interaction.ephemeralPing = true
 		// @ts-expect-error
 		executeSlash(client, interaction)
 	}
