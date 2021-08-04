@@ -5,7 +5,7 @@ import {checkPermissions} from "../functions/util";
 import {getErrorMessage, getInvalidPermissionsMessage} from '../functions/messages'
 export default async function register(client:client, interaction:Interaction) {
     if (interaction.isCommand()) { // Is a slash command
-        const command = client.commands.get(interaction.commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(interaction.commandName));
+        const command = client.commands.get(interaction.commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(interaction.commandName))
         if (!command) return
         if (typeof command.executeSlash != 'function') {
             const guildId = interaction.guild ? interaction.guild.id : 0
@@ -27,6 +27,17 @@ export default async function register(client:client, interaction:Interaction) {
             // Error running command
             client.logger.error('interactionHandler: Command failed with error: ' + error)
             interaction.reply({content: getErrorMessage()})
+        }
+    } else if (interaction.isButton()) {
+        const buttonNameObject = interaction.customId.trim().split('-')
+        const command = client.commands.get(buttonNameObject[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(buttonNameObject[0]))
+        if (command) {
+            try {
+                command.executeButton(client, interaction)
+            } catch (error) {
+                // Error running command
+                client.logger.error('interactionHandler: Command button failed with error: ' + error)
+            }
         }
     }
 }

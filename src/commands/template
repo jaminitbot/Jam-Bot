@@ -20,3 +20,8 @@ export async function execute(client: client, message: Message, args) {
 export async function executeSlash(client, interaction:CommandInteraction) {
 
 }
+
+
+export async function executeButton(client, interaction:ButtonInteraction) {
+
+}

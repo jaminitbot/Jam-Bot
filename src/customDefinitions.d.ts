@@ -7,6 +7,8 @@ type permission = PermissionString | 'OWNER'
 export interface CollectionCommand {
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	executeSlash: Function;
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	executeButton: Function;
 	slashCommandOptions: Any;
 	exposeSlash: boolean;
     allowInDm: boolean;

@@ -1,4 +1,4 @@
-import {CommandInteraction, Message, MessageEmbed} from "discord.js"
+import {ButtonInteraction, CommandInteraction, Message, MessageActionRow, MessageButton, MessageEmbed} from "discord.js"
 import { client } from '../../customDefinitions'
 
 export const name = 'ping'
@@ -19,8 +19,25 @@ export async function execute(client: client, message: Message, args) {
 	message.react('🏓')
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
-	const reply = await interaction.defer({fetchReply:true})
+	// @ts-expect-error
+	const isEphemeral = interaction.ephemeralPing ?? false
+	const reply = await interaction.defer({fetchReply:true, ephemeral: isEphemeral})
 	// @ts-expect-error
 	const embed = createLatencyEmbed(interaction.createdTimestamp, reply.createdTimestamp, client)
-	interaction.editReply({embeds: [embed]})
+	const row = new MessageActionRow()
+		.addComponents(
+			new MessageButton()
+				.setCustomId('ping-againButton')
+				.setLabel('Ping again!')
+				.setStyle('PRIMARY')
+		)
+	interaction.editReply({embeds: [embed], components: [row]})
+}
+export async function executeButton(client, interaction:ButtonInteraction) {
+	if (interaction.customId == 'ping-againButton') {
+		// @ts-expect-error
+		interaction.ephemeralPing = true
+		// @ts-expect-error
+		executeSlash(client, interaction)
+	}
 }
