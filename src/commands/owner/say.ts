@@ -11,13 +11,13 @@ export const slashCommandOptions = [{
 	name: 'channel',
 	type: 'CHANNEL',
 	description: '(Optional) channel to use',
-	require: false
+	required: false
 },
 	{
 		name: 'message',
 		type: 'STRING',
 		description: 'Message to send',
-		require: true
+		required: true
 	}]
 async function sayInChannel(thingToSay, channel) {
 	if (!(channel.type == 'GUILD_TEXT' || channel.type == 'GUILD_NEWS')) return 'Channel wasn\'t a text channel, not continuing'

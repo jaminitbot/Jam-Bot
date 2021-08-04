@@ -13,13 +13,13 @@ export const slashCommandOptions = [{
 	name: 'guildid',
 	type: 'INTEGER',
 	description: '(Optional) guild id',
-	require: false
+	required: false
 },
 	{
 		name: 'key',
 		type: 'STRING',
 		description: 'Key to get',
-		require: true
+		required: true
 	}]
 async function returnGetKeyEmbed(guild, key) {
 	const valueReturned = String(await getKey(guild, key))

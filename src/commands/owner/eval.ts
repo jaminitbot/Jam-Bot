@@ -20,7 +20,7 @@ export const slashCommandOptions = [{
     name: 'command',
     type: 'STRING',
     description: 'The command to execute',
-    require: true
+    required: true
 }]
 async function runEvalCommand(commandToRun, logger) {
     const embed = new MessageEmbed

@@ -13,19 +13,19 @@ export const slashCommandOptions = [{
 	name: 'guildid',
 	type: 'INTEGER',
 	description: '(Optional) guild id',
-	require: false
+	required: false
 },
 	{
 		name: 'key',
 		type: 'STRING',
 		description: 'Key to set',
-		require: true
+		required: true
 	},
 	{
 		name: 'value',
 		type: 'STRING',
 		description: 'Value to set',
-		require: true
+		required: true
 	}]
 async function returnSetKeyEmbed(guildId, key, value) {
 	try {

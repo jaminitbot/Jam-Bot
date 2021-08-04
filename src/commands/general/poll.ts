@@ -11,7 +11,7 @@ export const slashCommandOptions = [{
 	name: 'content',
 	type: 'STRING',
 	description: 'The content of your poll',
-	require: true
+	required: true
 }]
 function createPollEmbed(pollContent:string, authorTag: string, authorAvatar:string) {
 	const embed = new MessageEmbed
