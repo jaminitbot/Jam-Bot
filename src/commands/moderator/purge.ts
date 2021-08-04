@@ -35,6 +35,7 @@ async function bulkDeleteMessages(channel: Channel, NumOfMessagesToDelete) {
 export async function execute(client: client, message: Message, args) {
 	if (!args[0]) return message.reply('You need to specify how many messages to purge!')
 	if (!isNumber(args[0])) return message.reply('you need to specify a number!')
+	// @ts-expect-error
 	const sentMessage = await message.channel.send(await bulkDeleteMessages(message.channel, args[0]))
 	setTimeout(() => sentMessage.delete(), 3 * 1000)
 }
