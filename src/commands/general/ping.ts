@@ -22,17 +22,31 @@ export async function executeSlash(client, interaction:CommandInteraction) {
 	const reply = await interaction.defer({fetchReply:true})
 	// @ts-expect-error
 	const embed = createLatencyEmbed(interaction.createdTimestamp, reply.createdTimestamp, client)
-	const row = new MessageActionRow()
-		.addComponents(
-			new MessageButton()
-				.setCustomId('ping-againButton')
-				.setLabel('Ping again!')
-				.setStyle('PRIMARY')
-		)
-	interaction.editReply({embeds: [embed], components: [row]})
+	let options = {
+		embeds: null,
+		components: null
+	}
+	// @ts-expect-error
+	if (!interaction.noButton) {
+		const row = new MessageActionRow()
+			.addComponents(
+				new MessageButton()
+					.setCustomId('ping-againButton')
+					.setLabel('Ping again!')
+					.setStyle('PRIMARY')
+			)
+
+		options.components = [row]
+	} else {
+		embed.setFooter('Requested again by ' + interaction.user.tag, interaction.user.avatarURL())
+	}
+	options.embeds = [embed]
+	interaction.editReply(options)
 }
 export async function executeButton(client, interaction:ButtonInteraction) {
 	if (interaction.customId == 'ping-againButton') {
+		// @ts-expect-error
+		interaction.noButton = true
 		// @ts-expect-error
 		executeSlash(client, interaction)
 	}
