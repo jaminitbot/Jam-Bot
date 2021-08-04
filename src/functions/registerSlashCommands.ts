@@ -5,18 +5,18 @@ export default async function register(client:client) {
     let data = []
     let devData = []
     commands.forEach(command => {
-        if (!command.exposeSlash) {
-            data[data.length] = {
-                name: command.name,
-                description: command.description,
-            }
-            if (command.slashCommandOptions) data[data.length - 1]['options'] = command.slashCommandOptions
-        } else {
+        if (command.permissions && command.permissions.includes('OWNER')) {
             devData[devData.length] = {
                 name: command.name,
                 description: command.description,
             }
             if (command.slashCommandOptions) devData[devData.length - 1]['options'] = command.slashCommandOptions
+        } else {
+            data[data.length] = {
+                name: command.name,
+                description: command.description,
+            }
+            if (command.slashCommandOptions) data[data.length - 1]['options'] = command.slashCommandOptions
         }
     })
     await client.application?.commands.set(data)

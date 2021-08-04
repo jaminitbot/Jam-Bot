@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js"
+import {CommandInteraction, Message, MessageEmbed} from "discord.js"
 import { client } from '../../customDefinitions'
 import { getKey } from '../../functions/db'
 
@@ -9,6 +9,28 @@ export const description = 'Gets a db key'
 export const usage = 'getkey 4569844357398443 blah'
 export const permissions = ['OWNER']
 export const exposeSlash = false
+export const slashCommandOptions = [{
+	name: 'guildid',
+	type: 'INTEGER',
+	description: '(Optional) guild id',
+	require: false
+},
+	{
+		name: 'key',
+		type: 'STRING',
+		description: 'Key to get',
+		require: true
+	}]
+async function returnGetKeyEmbed(guild, key) {
+	const valueReturned = String(await getKey(guild, key))
+	const embed = new MessageEmbed
+	embed.setTitle('GetKey')
+	embed.addField('Guild', guild, true)
+	embed.addField('Key', key, true)
+	embed.addField('Value', valueReturned, true)
+	embed.setTimestamp(Date.now())
+	return embed
+}
 export async function execute(client: client, message: Message, args) {
 	let guild
 	let key
@@ -21,13 +43,13 @@ export async function execute(client: client, message: Message, args) {
 		guild = args[0]
 		key = args[1]
 	}
-	const valueReturned = String(await getKey(guild, key))
-	const embed = new MessageEmbed
-	embed.setTitle('GetKey')
-	embed.addField('Guild', guild, true)
-	embed.addField('Key', key, true)
-	embed.addField('Value', valueReturned, true)
-	embed.setFooter(`Intiated by ${message.author.tag}`, message.author.displayAvatarURL())
-	embed.setTimestamp(Date.now())
+	const embed = await returnGetKeyEmbed(guild, key)
+	embed.setFooter(`Initiated by ${message.author.tag}`, message.author.displayAvatarURL())
 	message.channel.send({embeds: [embed]})
+}
+export async function executeSlash(client, interaction:CommandInteraction) {
+	const guildId = interaction.options.getInteger('guildid') ?? interaction.guild.id
+	const key = interaction.options.getString('key')
+	const embed = await returnGetKeyEmbed(guildId, key)
+	interaction.reply({embeds: [embed]})
 }
