@@ -10,17 +10,18 @@ export const usage = 'getkey 4569844357398443 blah'
 export const permissions = ['OWNER']
 export const exposeSlash = false
 export const slashCommandOptions = [{
+	name: 'key',
+	type: 'STRING',
+	description: 'Key to get',
+	required: true
+},
+	{
 	name: 'guildid',
 	type: 'INTEGER',
 	description: '(Optional) guild id',
 	required: false
-},
-	{
-		name: 'key',
-		type: 'STRING',
-		description: 'Key to get',
-		required: true
-	}]
+}
+]
 async function returnGetKeyEmbed(guild, key) {
 	const valueReturned = String(await getKey(guild, key))
 	const embed = new MessageEmbed

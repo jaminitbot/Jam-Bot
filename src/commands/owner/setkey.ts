@@ -9,12 +9,7 @@ export const description = 'Sets a db key'
 export const usage = 'setkey 46435456789132 blah test'
 export const permissions = ['OWNER']
 export const exposeSlash = false
-export const slashCommandOptions = [{
-	name: 'guildid',
-	type: 'INTEGER',
-	description: '(Optional) guild id',
-	required: false
-},
+export const slashCommandOptions = [
 	{
 		name: 'key',
 		type: 'STRING',
@@ -26,6 +21,12 @@ export const slashCommandOptions = [{
 		type: 'STRING',
 		description: 'Value to set',
 		required: true
+	},
+	{
+		name: 'guildid',
+		type: 'INTEGER',
+		description: '(Optional) guild id',
+		required: false
 	}]
 async function returnSetKeyEmbed(guildId, key, value) {
 	try {

@@ -7,17 +7,18 @@ export const description = 'Say'
 export const usage = 'say #general Hiiii'
 export const permissions = ['OWNER']
 export const exposeSlash = false
-export const slashCommandOptions = [{
-	name: 'channel',
-	type: 'CHANNEL',
-	description: '(Optional) channel to use',
-	required: false
-},
+export const slashCommandOptions = [
 	{
 		name: 'message',
 		type: 'STRING',
 		description: 'Message to send',
 		required: true
+	},
+	{
+		name: 'channel',
+		type: 'CHANNEL',
+		description: '(Optional) channel to use',
+		required: false
 	}]
 async function sayInChannel(thingToSay, channel) {
 	if (!(channel.type == 'GUILD_TEXT' || channel.type == 'GUILD_NEWS')) return 'Channel wasn\'t a text channel, not continuing'
