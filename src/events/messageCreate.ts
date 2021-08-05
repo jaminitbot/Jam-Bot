@@ -6,6 +6,7 @@ import {Message, MessageEmbed} from 'discord.js'
 const messages = require('../functions/messages')
 const bannedIds = ['']
 
+// let mentionSlash = true
 export default async function register(client: client, message: Message) {
     if (message.author.bot) return
     if (bannedIds.includes(message.author.id)) return
@@ -18,6 +19,12 @@ export default async function register(client: client, message: Message) {
         if (!command) return client.logger.debug(`messageHandler: Command ${commandRequested ?? 'NULL'} doesn't exist, not continuing...`)// Doesn't have specified command
         client.logger.verbose(`messageHandler: Command ${commandRequested ?? 'NULL'} has been requested by ${message.author.tag}, executing command...`)
         if (message.channel.type == 'DM' && !command.allowInDm) return message.channel.send('Sorry, that command can only be run in a server!')
+        // if (typeof command.executeSlash == 'function' && !command.exposeSlash && mentionSlash) {
+        //     const slashCommandMessage = await message.reply(`Hey! There's this posh new thing called slash commands, and that command can be used with it! Try doing \`/${command.name}\`! They're so much easier to use :) \n*Dismissing this message for 20 seconds*`)
+        //     mentionSlash = false
+        //     setTimeout(() => mentionSlash = true, 20 * 1000)
+        //     setTimeout(() => slashCommandMessage.delete(), 5 * 1000)
+        // }
         if (command.permissions) {
             if (!checkPermissions(message.member, [...command.permissions])) {
                 // User doesn't have specified permissions to run command
