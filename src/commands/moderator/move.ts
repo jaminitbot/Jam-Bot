@@ -49,7 +49,7 @@ export async function execute(client: client, message: Message, args) {
 }
 
 export async function executeSlash(client, interaction:CommandInteraction) {
-	await interaction.defer()
+	await interaction.deferReply()
 	// @ts-expect-error
 	const fromChannel:VoiceChannel = interaction.options.getChannel('from')
 	// @ts-expect-error

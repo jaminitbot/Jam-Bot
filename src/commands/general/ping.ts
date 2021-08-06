@@ -19,7 +19,7 @@ export async function execute(client: client, message: Message, args) {
 	message.react('🏓')
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
-	const reply = await interaction.defer({fetchReply:true})
+	const reply = await interaction.deferReply({fetchReply:true})
 	// @ts-expect-error
 	const embed = createLatencyEmbed(interaction.createdTimestamp, reply.createdTimestamp, client)
 	let options = {

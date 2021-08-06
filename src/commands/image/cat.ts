@@ -16,6 +16,6 @@ export async function execute(client: client, message: Message, args) {
 	message.channel.send(await returnCatImage())
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
-	await interaction.defer()
+	await interaction.deferReply()
 	interaction.editReply(await returnCatImage())
 }

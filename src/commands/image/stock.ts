@@ -41,7 +41,7 @@ export async function execute(client: client, message: Message, args) {
 
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
-	await interaction.defer()
+	await interaction.deferReply()
 	const search = interaction.options.getString('search')
 	const position = interaction.options.getInteger('position') ?? 1
 	interaction.editReply(await getStockImage(search, position))

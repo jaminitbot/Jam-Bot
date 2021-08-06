@@ -12,7 +12,7 @@ export async function execute(client: client, message: Message, args) {
 	message.channel.send(imageUrl)
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
-	await interaction.defer()
+	await interaction.deferReply()
 	const imageUrl = await searchForImage('frog', randomInt(1, 25), false, 'frog')
 	interaction.editReply(imageUrl)
 }

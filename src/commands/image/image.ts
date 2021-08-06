@@ -83,7 +83,7 @@ export async function execute(client: client, message: Message, args) {
     sentMessage.edit(imageUrl)
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
-    await interaction.defer()
+    await interaction.deferReply()
     const search = interaction.options.getString('search')
     const position = interaction.options.getInteger('position')
     // @ts-expect-error

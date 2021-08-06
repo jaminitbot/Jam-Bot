@@ -55,7 +55,7 @@ export async function execute(client: client, message: Message, args) {
     sentMessage.edit({embeds: [embed]})
 }
 export async function executeSlash(client, interaction:CommandInteraction) {
-    await interaction.defer()
+    await interaction.deferReply()
     const command = interaction.options.getString('command')
     const embed = await runEvalCommand(command, client.logger)
     interaction.editReply({embeds: [embed]})
