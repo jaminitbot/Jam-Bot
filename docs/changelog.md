@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.2.0...v2.3.0) (2021-08-07)
+
+
+### Features
+
+* add code to prepare for migrating away from slash commands ([fed7024](https://github.com/jamesatjaminit/Jam-Bot/commit/fed7024ad613700bdd67a8e6f6f739ba1f84a46e))
+* buttons on ping command? ([930bf8c](https://github.com/jamesatjaminit/Jam-Bot/commit/930bf8c7fb999c72c74ef96dcb07af6ab0f54b80))
+* register owner slash commands to dev server ([77cddc0](https://github.com/jamesatjaminit/Jam-Bot/commit/77cddc042191f59bbc27c7a13eb57167fb4c387d))
+
+
+### Bug Fixes
+
+* fix buttons ([0a90a48](https://github.com/jamesatjaminit/Jam-Bot/commit/0a90a488e7d11bb862354b4aea1c6fd8fcc5f529))
+* fix image command ([15dcf24](https://github.com/jamesatjaminit/Jam-Bot/commit/15dcf246080ed0325f1e6ff0fe4f1ddab33b04c4))
+* fix image command part 2 ([843b5be](https://github.com/jamesatjaminit/Jam-Bot/commit/843b5be19d6d0776d4d68691a9b5610965d7a759))
+* fix image positions less than 1 v2 ([0635ac7](https://github.com/jamesatjaminit/Jam-Bot/commit/0635ac78976893bea10165a0aa51c26655168a58))
+* fix owner slash commands ([75a15f2](https://github.com/jamesatjaminit/Jam-Bot/commit/75a15f2afb6785f1e92fa2f6c36ea5613936984d))
+* fix permissions checking ([582d9a4](https://github.com/jamesatjaminit/Jam-Bot/commit/582d9a4f0c353fec91047b6954c6e0c94fcc32fe))
+* improve say command logic ([51a320c](https://github.com/jamesatjaminit/Jam-Bot/commit/51a320c5a241f2182a745d35aec0e42a095307de))
+* no longe position zero ([c721e46](https://github.com/jamesatjaminit/Jam-Bot/commit/c721e460ce775abf8d4385266bdce085f146b539))
+* required options before non-required slash commandsa ([0775fba](https://github.com/jamesatjaminit/Jam-Bot/commit/0775fba32bece182a16cc2cdf266c2466e771930))
+* typescript compile ([cbd8866](https://github.com/jamesatjaminit/Jam-Bot/commit/cbd8866aef48f244dd49cdff440bca67ad037465))
+
 ## [2.2.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.1.0...v2.2.0) (2021-08-03)
 
 
