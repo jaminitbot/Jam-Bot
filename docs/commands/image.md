@@ -1,5 +1,5 @@
 # Image Commands
-!> We are in the process or migrating all commands to the new slash commands! Most of the commands will not work if you put a / in front of them, it's tons easier to use, so check it out!
+!> We are in the process or migrating all commands to the new slash commands! Most of the commands will work if you put a / in front of them, it's tons easier to use, so check it out!
 ## Birb
 
 Gets a random birb image
