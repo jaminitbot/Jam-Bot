@@ -42,8 +42,8 @@
         "winston": "^3.3.3"
     },
     "devDependencies": {
-        "@commitlint/cli": "^12.1.4",
-        "@commitlint/config-conventional": "^12.1.4",
+        "@commitlint/cli": "12.1.4",
+        "@commitlint/config-conventional": "12.1.4",
         "@types/is-number": "7.0.1",
         "@types/mongodb": "3.6.20",
         "@types/node": "15.14.7",
