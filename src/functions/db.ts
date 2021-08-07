@@ -10,7 +10,7 @@ import {Logger} from "winston";
 export async function connect(logger:Logger) {
     this.logger = logger
     const databaseUrl = process.env.mongoUrl
-    const databaseClient = new MongoClient(databaseUrl, {useUnifiedTopology: true})
+    const databaseClient = new MongoClient(databaseUrl)
     try{
         await databaseClient.connect()
     } catch(e) {
