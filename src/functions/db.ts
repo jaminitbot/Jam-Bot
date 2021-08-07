@@ -21,7 +21,7 @@ export async function connect(logger:Logger) {
     const db = databaseClient.db(process.env.databaseName)
     this.db = db.collection('guilds')
     this.dbCache = new NodeCache({stdTTL: 300, checkperiod: 60})
-    return require('./db')
+    return {setKey: this.setKey, getKey: this.getKey, returnRawClient: this.returnRawClient}
 }
 
 /**
