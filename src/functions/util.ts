@@ -15,8 +15,9 @@ export function checkPermissions(member: GuildMember, permissions: Array<permiss
 	let validPermission = true
 	if (permissions.includes('OWNER')) {
 		permissions = removeItemFromArray(permissions, 'OWNER')
-		if (process.env.ownerId != member.id) validPermission = false
-	}
+		const owners = process.env.ownerId.split(',')
+		if (!owners.includes(member.id)) validPermission = false
+	}%
 	if (permissions.length != 0) {
 		// @ts-expect-error
 		if (!member.permissions.has(permissions)) validPermission = false
