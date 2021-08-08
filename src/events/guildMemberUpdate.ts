@@ -6,8 +6,8 @@ export default async function register(oldMember:GuildMember | PartialGuildMembe
             try {
                 await newMember.roles.add(process.env.DEFAULT_ROLE)
                 // eslint-disable-next-line no-empty
-            } catch {
-
+            } catch(err) {
+                console.error(err)
             }
 
         }

@@ -29,7 +29,7 @@ import { stopBot } from './functions/util'
 (async function () {
 	const clientOptions: ClientOptions = {
 		allowedMentions: {parse: ['roles', 'everyone']},
-		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES],
+		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
 		presence: { status: 'online', activities: [{ name: process.env.defaultPrefix + 'help', type: 'WATCHING' }] },
 	}
 	// @ts-expect-error
