@@ -17,6 +17,7 @@ import messageCreate from './events/messageCreate'
 import messageUpdate from './events/messageUpdate'
 import messageDelete from './events/messageDelete'
 import interactionCreate from './events/interactionCreate'
+import guildMemberUpdate from './events/guildMemberUpdate'
 
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
@@ -121,6 +122,9 @@ import { stopBot } from './functions/util'
 	})
 	client.on('interactionCreate', interaction => {
 		interactionCreate(client, interaction)
+	})
+	client.on('guildMemberUpdate', (oldMember, newMember) => {
+		guildMemberUpdate(oldMember, newMember)
 	})
 	// SIGINT STUFF
 	if (process.platform === 'win32') {
