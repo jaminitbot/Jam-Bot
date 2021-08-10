@@ -1,18 +1,18 @@
-import {Message} from "discord.js"
-import {client} from '../customDefinitions'
-import {getKey} from '../functions/db'
-import {inputSnipe} from '../functions/snipe'
+import { Message } from "discord.js"
+import { client } from '../customDefinitions'
+import { getKey } from '../functions/db'
+import { inputSnipe } from '../functions/snipe'
 
-export default async function register(client: client, message: Message):Promise<void> {
+export default async function register(client: client, message: Message): Promise<void> {
 	if (!(message.channel.type == 'GUILD_NEWS' || message.channel.type == 'GUILD_TEXT')) return
 	if (message.author.bot) return
 	if (message.author.id == process.env.ownerId) return
 	await inputSnipe(message, null, 'delete')
 	//#region Delete log code
 	const logDeletes = await getKey(message.guild.id, 'logDeletedMessages')
-    if (logDeletes) {
+	if (logDeletes) {
 		const modLogChannelId = await getKey(message.guild.id, 'modLogChannel')
-        if (!modLogChannelId) return
+		if (!modLogChannelId) return
 		const modLogChannel = await client.channels.fetch(modLogChannelId)
 		if (!modLogChannel || !((modLogChannel.type == 'GUILD_TEXT') || modLogChannel.type == 'GUILD_NEWS')) return
 		let urls = ''
@@ -28,7 +28,7 @@ export default async function register(client: client, message: Message):Promise
 			timestamp: Date.now(),
 		}
 		// @ts-expect-error
-		modLogChannel.send({ embed: embed })
+		modLogChannel.send({ embeds: [embed] })
 	}
 	//#endregion
 }
