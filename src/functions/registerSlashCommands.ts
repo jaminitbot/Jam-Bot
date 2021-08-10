@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 /* eslint-disable prefer-const */
+=======
+>>>>>>> 5579c79b7c8c98e25e9fec84993a7d45f452c160
 import { client } from '../customDefinitions'
 /**
  * Registers slash commands with discord
