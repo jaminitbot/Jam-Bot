@@ -67,6 +67,11 @@
         "description": "I've implemented the basics so slash commands can be used via the bot, most of the commands are not working with slash commands yet, but they will be soon."
     },
     {
+        "title": "More slash commands!",
+        "date": 1628007269000,
+        "description": "I've made loadsss more commands work as slash commands now! :D"
+    },
+    {
         "title": "Autorole is back!",
         "date": 1628457526000,
         "description": "I improved the way the member role is given out, so the role is given automatically again!"
@@ -75,10 +80,5 @@
         "title": "Delete logs!",
         "date": 1628629444433,
         "description": "~~They work again~~"
-    },
-    {
-        "title": "More slash commands!",
-        "date": 1628629491921,
-        "description": "I've made loadsss more commands work as slash commands now! :D"
     }
 ]
