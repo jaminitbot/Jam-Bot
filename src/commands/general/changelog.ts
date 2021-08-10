@@ -4,7 +4,7 @@ import { client } from '../../customDefinitions'
 
 import fetch from 'node-fetch'
 import NodeCache from "node-cache"
-const cache = new NodeCache({stdTTL:60, checkperiod:30})
+const cache = new NodeCache({ stdTTL: 600, checkperiod: 60 })
 
 function generateDateFromEntry(entry) {
 	if (!entry) throw new Error('No entry specified')
