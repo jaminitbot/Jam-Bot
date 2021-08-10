@@ -7,7 +7,6 @@
         "start": "node built/index.js",
         "build": "yarn tsc",
         "change": "node devScripts/addChange.js",
-        "prepare": "husky install",
         "release:minor": "yarn release --release-as minor",
         "release:patch": "yarn release --release-as patch",
         "release:major": "yarn release --release-as major",
