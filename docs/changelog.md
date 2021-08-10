@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.3.0...v2.4.0) (2021-08-10)
+
+
+### Features
+
+* awful hardcoded role stuff ([361dc36](https://github.com/jamesatjaminit/Jam-Bot/commit/361dc369515a688b697276ddcfb7c70bd7cfd1c9))
+* improve style of delete logs ([18869c0](https://github.com/jamesatjaminit/Jam-Bot/commit/18869c02988279bd08906b0c42df95a9404bd3cb))
+* logging timestamps! ([ca9cef7](https://github.com/jamesatjaminit/Jam-Bot/commit/ca9cef72924b48021f3e080f9bd51522a86bebe8))
+* support multiple owners ([0c3e95f](https://github.com/jamesatjaminit/Jam-Bot/commit/0c3e95f2e4c4af0328d39c649536a1255d2edeea))
+
+
+### Bug Fixes
+
+* **deps:** update dependency mongodb to v4 ([#75](https://github.com/jamesatjaminit/Jam-Bot/issues/75)) ([834143f](https://github.com/jamesatjaminit/Jam-Bot/commit/834143f14d288ecf915ee71d3f883ad72fe32541))
+* fix compat with new version of mongo ([de38873](https://github.com/jamesatjaminit/Jam-Bot/commit/de3887341a693585938f68e57b48a9ec6f97259b))
+* fix delete logs ([b8c6501](https://github.com/jamesatjaminit/Jam-Bot/commit/b8c65018e964b851a1cdcc77541fc5ecabcecb53))
+* fix guild roles ([509a847](https://github.com/jamesatjaminit/Jam-Bot/commit/509a8471f1ce94166240e3fc0717e6cd800a0f41))
+* fix message delete log v2 ([010cbcf](https://github.com/jamesatjaminit/Jam-Bot/commit/010cbcfec1ed36a054d57eda2ac06206503370b6))
+* remove typo ([a6400b8](https://github.com/jamesatjaminit/Jam-Bot/commit/a6400b8fce727ae21ace2986ab0d1990349510b8))
+* request guild member intent for roles ([166c9de](https://github.com/jamesatjaminit/Jam-Bot/commit/166c9de6967183d3b9287828fd3254f8c923bab3))
+
 ## [2.3.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.2.0...v2.3.0) (2021-08-07)
 
 
