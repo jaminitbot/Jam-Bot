@@ -28,7 +28,7 @@ import { stopBot } from './functions/util'
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
 	const clientOptions: ClientOptions = {
-		allowedMentions: {parse: ['roles', 'everyone']},
+		allowedMentions: { parse: ['roles', 'everyone'] },
 		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
 		presence: { status: 'online', activities: [{ name: process.env.defaultPrefix + 'help', type: 'WATCHING' }] },
 	}
@@ -37,7 +37,10 @@ import { stopBot } from './functions/util'
 	// Logging
 	client.logger = createLogger({
 		level: 'info',
-		format: format.json(),
+		format: format.combine(
+			format.timestamp(),
+			format.json()
+		),
 		transports: [
 			new transports.File({
 				filename: 'error.log',
@@ -154,7 +157,7 @@ import { stopBot } from './functions/util'
 	}
 	// Initialisation
 	client.on('ready', async () => {
-		client.logger.info('Client is READY at: ' + new Date().toTimeString())
+		client.logger.info('Client is READY')
 		await registerSlashCommands(client)
 		if (process.env.twitchApiClientId && process.env.twitchApiSecret) {
 			// Only if api tokens are present
