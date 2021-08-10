@@ -1,4 +1,4 @@
-import { Message } from "discord.js"
+import { Message, MessageEmbed } from "discord.js"
 import { client } from '../customDefinitions'
 import { getKey } from '../functions/db'
 import { inputSnipe } from '../functions/snipe'
@@ -21,12 +21,22 @@ export default async function register(client: client, message: Message): Promis
 				urls += '\n' + attachment.url
 			})
 		}
-		const embed = {
-			title: 'Message deleted',
-			description: `Message deleted in <#${message.channel.id}> by <@${message.author.id}>:\n\`\`\`${message.content || 'NULL'}\`\`\`Attachments:${urls || 'NONE'}`,
-			color: ' #FF0000',
-			timestamp: Date.now(),
+		// const embed = {
+		// 	title: 'Message deleted',
+		// 	description: `Message deleted in <#${message.channel.id}> by <@${message.author.id}>:\n\`\`\`${message.content || 'NULL'}\`\`\`Attachments:${urls || 'NONE'}`,
+		// 	color: ' #FF0000',
+		// 	timestamp: Date.now(),
+		// }
+		const embed = new MessageEmbed
+		embed.setAuthor(message.author.tag, message.author.avatarURL())
+		embed.addField(`Message deleted in #${message.channel.name}`, message.content ?? '[No Content]', false)
+		if (message.attachments) {
+			embed.setImage(message.attachments.first().url)
+			embed.addField('Attachment Urls: ', urls)
 		}
+		embed.setColor('#FF0000')
+		embed.setFooter(`User ID: ${message.author.id}, Channel ID: ${message.channel.id}`)
+		embed.setTimestamp(Date.now())
 		// @ts-expect-error
 		modLogChannel.send({ embeds: [embed] })
 	}
