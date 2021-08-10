@@ -6,7 +6,7 @@ import is_number = require("is-number");
 import fetch from "node-fetch";
 import {Logger} from "winston";
 /**
- * 
+ * Checks permissions against a guild member
  * @param member Guild member to check
  * @param permissions Permissions required
  * @returns Boolean
@@ -25,7 +25,7 @@ export function checkPermissions(member: GuildMember, permissions: Array<permiss
 	return validPermission
 }
 /**
- *
+ * Stops the bot and services gracefully
  * @param client Discordjs Client
  * @param mongoClient Mongo db client
  * @param stopCode Process exit code, default 0
@@ -45,7 +45,7 @@ export async function stopBot(client: client, mongoClient: MongoClient, stopCode
 	}
 }
 /**
- * 
+ * Generates a random number between two values
  * @param min Minimum number (inclusive)
  * @param max Maximum number (inclusive)
  * @returns Random number 
@@ -139,6 +139,12 @@ export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Pr
 	}
 	return null
 }
+
+/**
+ * Removes a specified value from an array
+ * @param arr Array to perform on
+ * @param value Value to remove
+ */
 export function removeItemFromArray(arr, value) {
 	let i = 0;
 	while (i < arr.length) {
