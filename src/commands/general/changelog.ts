@@ -1,6 +1,6 @@
 import { Message, MessageEmbed } from "discord.js"
 import { client } from '../../customDefinitions'
-
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 import fetch from 'node-fetch'
 import NodeCache from "node-cache"
@@ -20,12 +20,13 @@ export const description = 'Displays the latest changes to the bot'
 export const usage = 'changelog'
 export const aliases = ['changes', 'change']
 export const allowInDm = true
-export const slashCommandOptions = [{
-	name: 'changeid',
-	type: 'INTEGER',
-	description: '(Optional) the specific change you\'d like to get',
-	required: false
-}]
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
+	.addIntegerOption(option =>
+		option.setName('changeid')
+			.setDescription('(Optional) the specific change you\'d like to get')
+			.setRequired(false))
 export async function execute(client: client, message: Message, args) {
 	if (!process.env.changelogLink) return message.channel.send('No changelog URL specified :(')
 	const sentMessage = await message.channel.send('Loading changelog...')

@@ -1,22 +1,22 @@
-import {CommandInteraction, Message} from "discord.js"
+import { CommandInteraction, Message } from "discord.js"
 import { client } from '../../customDefinitions'
 import fetch from 'node-fetch'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'stock'
 export const description = 'Gets a stock image'
 export const usage = 'stock nature'
-export const slashCommandOptions = [{
-	name: 'search',
-	type: 'STRING',
-	description: 'The text to search for',
-	required: true
-},
-	{
-		name: 'position',
-		type: 'INTEGER',
-		description: '(optional) the specific result to get',
-		required: false
-	}]
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
+	.addStringOption(option =>
+		option.setName('search')
+			.setDescription('The text to search for')
+			.setRequired(true))
+	.addIntegerOption(option =>
+		option.setName('position')
+			.setDescription('The specific position to get')
+			.setRequired(false))
 export async function getStockImage(search, position) {
 	if (!process.env.pexelsApiKey) return
 	const response = await fetch(
@@ -30,7 +30,7 @@ export async function getStockImage(search, position) {
 	const json = await response.json()
 	const photoPosition = position ?? 1
 	if (1 > position || position > json.photos.length) return `There isn't a stock photo for position: ${position}`
-	const image = json.photos[photoPosition-1].src.medium // eslint-disable-line no-undef
+	const image = json.photos[photoPosition - 1].src.medium // eslint-disable-line no-undef
 	return image || 'Unable to get a stock photo, the api\'s probably down'
 }
 export async function execute(client: client, message: Message, args) {
@@ -40,7 +40,7 @@ export async function execute(client: client, message: Message, args) {
 	sent.edit(await getStockImage(search, null))
 
 }
-export async function executeSlash(client, interaction:CommandInteraction) {
+export async function executeSlash(client, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const search = interaction.options.getString('search')
 	const position = interaction.options.getInteger('position') ?? 1

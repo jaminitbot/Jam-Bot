@@ -1,10 +1,14 @@
-import {CommandInteraction, Message} from "discord.js"
+import { CommandInteraction, Message } from "discord.js"
 import { client } from '../../customDefinitions'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'sswc'
 export const description = 'Shushhhhh'
 export const usage = 'sswc'
 export const aliases = ['supersecretwafflecommand']
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
 import { randomInt } from '../../functions/util'
 const rickRollCodes = [
 	'dQw4w9WgXcQ',
@@ -55,6 +59,6 @@ const rickRollCodes = [
 export async function execute(client: client, message: Message, args) {
 	message.channel.send(`<https://youtu.be/${rickRollCodes[randomInt(0, rickRollCodes.length - 1)]}>`)
 }
-export async function executeSlash(client, interaction:CommandInteraction) {
+export async function executeSlash(client, interaction: CommandInteraction) {
 	interaction.reply(`<https://youtu.be/${rickRollCodes[randomInt(0, rickRollCodes.length - 1)]}>`)
 }

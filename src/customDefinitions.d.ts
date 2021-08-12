@@ -1,7 +1,6 @@
-import {Client, Collection, PermissionString} from "discord.js"
-import {Logger} from "winston";
-import {slashCommandOptions} from "./commands/general/poll";
-
+import { Client, Collection, PermissionString } from "discord.js"
+import { Logger } from "winston";
+import { SlashCommandBuilder } from '@discordjs/builders'
 type permission = PermissionString | 'OWNER'
 
 export interface CollectionCommand {
@@ -9,10 +8,10 @@ export interface CollectionCommand {
 	executeSlash: Function;
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	executeButton: Function;
-	slashCommandOptions: Any;
+	slashData: SlashCommandBuilder;
 	exposeSlash: boolean;
-    allowInDm: boolean;
-    aliases: Array<string>;
+	allowInDm: boolean;
+	aliases: Array<string>;
 	name: string,
 	description: string,
 	permissions: Array<permission>
@@ -23,6 +22,6 @@ export interface CollectionCommand {
 }
 
 export interface client extends Client {
-    logger: Logger;
+	logger: Logger;
 	commands: Collection<string, CollectionCommand>
 }

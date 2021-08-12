@@ -1,17 +1,19 @@
-import {CommandInteraction, Message} from "discord.js"
+import { CommandInteraction, Message } from "discord.js"
 import { client } from '../../customDefinitions'
 import fetch from 'node-fetch'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'dog'
 export const description = 'Gets a random dog picture, or a specific breed'
 export const usage = 'dog'
 export const allowInDm = true
-export const slashCommandOptions = [{
-	name: 'breed',
-	type: 'STRING',
-	description: '(optional) the breed of the dog you\'d like to find',
-	required: false
-}]
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
+	.addStringOption(option =>
+		option.setName('breed')
+			.setDescription('(Optional) the breed of the dog to search for')
+			.setRequired(false))
 async function getDogPhoto(breed) {
 	let data
 	const breedArray = breed ? breed.trim().split(/ +/) : null
@@ -46,7 +48,7 @@ export async function execute(client: client, message: Message, args) {
 	}
 	message.channel.send(data)
 }
-export async function executeSlash(client, interaction:CommandInteraction) {
+export async function executeSlash(client, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const breed = interaction.options.getString('breed') ?? null
 	interaction.editReply(await getDogPhoto(breed))

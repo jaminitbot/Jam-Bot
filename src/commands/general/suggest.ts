@@ -1,20 +1,22 @@
 // TODO: Improve suggestions to allow for editing and implementation
-import {CommandInteraction, Message, MessageEmbed, TextChannel} from "discord.js"
+import { CommandInteraction, Message, MessageEmbed, TextChannel } from "discord.js"
 import { client } from '../../customDefinitions'
 import { getKey, setKey } from '../../functions/db'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 import delay from 'delay'
 
 export const name = 'suggest'
 export const description = 'Suggests something'
 export const usage = 'suggest Make a memes channel'
-export const slashCommandOptions = [{
-	name: 'suggestion',
-	type: 'STRING',
-	description: 'Your suggestion',
-	required: true
-}]
-async function sendSuggestion(client:client, suggestion:string, guildId:string, attachment:string, author) {
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
+	.addStringOption(option =>
+		option.setName('suggestion')
+			.setDescription('The thing to suggest')
+			.setRequired(true))
+async function sendSuggestion(client: client, suggestion: string, guildId: string, attachment: string, author) {
 	const suggestionChannelId = await getKey(guildId, 'suggestionChannel')
 	if (!suggestionChannelId) return 1 // Suggestions aren't setup yet
 	// @ts-expect-error
@@ -34,7 +36,7 @@ async function sendSuggestion(client:client, suggestion:string, guildId:string, 
 	embed.setFooter('Suggestion by ' + author.tag, author.displayAvatarURL())
 	embed.setTimestamp(Date.now())
 	console.log(suggestionChannel)
-	const suggestionMessage = await suggestionChannel.send({embeds: [embed]})
+	const suggestionMessage = await suggestionChannel.send({ embeds: [embed] })
 	await suggestionMessage.react('✅')
 	await delay(1050)
 	await suggestionMessage.react('❌')
@@ -54,13 +56,13 @@ export async function execute(client: client, message: Message, args) {
 		message.channel.send('There was an error finding the suggestions channel.')
 	}
 }
-export async function executeSlash(client, interaction:CommandInteraction) {
+export async function executeSlash(client, interaction: CommandInteraction) {
 	const suggestionDescription = interaction.options.getString('suggestion')
 	const result = await sendSuggestion(client, suggestionDescription, interaction.guild.id, null, interaction.user)
 	if (result == 0) {
-		interaction.reply({content: 'Suggestion logged!', ephemeral: true})
+		interaction.reply({ content: 'Suggestion logged!', ephemeral: true })
 	} else if (result == 1) {
-		interaction.reply({content: 'Whoops, suggestions aren\'t setup in this server yet!', ephemeral: true})
+		interaction.reply({ content: 'Whoops, suggestions aren\'t setup in this server yet!', ephemeral: true })
 	} else if (result == 2) {
 		interaction.reply('There was an error finding the suggestions channel.')
 	}

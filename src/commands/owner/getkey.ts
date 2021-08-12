@@ -1,6 +1,7 @@
-import {CommandInteraction, Message, MessageEmbed} from "discord.js"
+import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { client } from '../../customDefinitions'
 import { getKey } from '../../functions/db'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 const isNumber = require('is-number')
 
@@ -9,19 +10,17 @@ export const description = 'Gets a db key'
 export const usage = 'getkey 4569844357398443 blah'
 export const permissions = ['OWNER']
 export const exposeSlash = false
-export const slashCommandOptions = [{
-	name: 'key',
-	type: 'STRING',
-	description: 'Key to get',
-	required: true
-},
-	{
-	name: 'guildid',
-	type: 'INTEGER',
-	description: '(Optional) guild id',
-	required: false
-}
-]
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
+	.addStringOption(option =>
+		option.setName('key')
+			.setDescription('The key to get')
+			.setRequired(true))
+	.addIntegerOption(option =>
+		option.setName('guild')
+			.setDescription('(Optional) guild id')
+			.setRequired(false))
 async function returnGetKeyEmbed(guild, key) {
 	const valueReturned = String(await getKey(guild, key))
 	const embed = new MessageEmbed
@@ -46,11 +45,11 @@ export async function execute(client: client, message: Message, args) {
 	}
 	const embed = await returnGetKeyEmbed(guild, key)
 	embed.setFooter(`Initiated by ${message.author.tag}`, message.author.displayAvatarURL())
-	message.channel.send({embeds: [embed]})
+	message.channel.send({ embeds: [embed] })
 }
-export async function executeSlash(client, interaction:CommandInteraction) {
+export async function executeSlash(client, interaction: CommandInteraction) {
 	const guildId = interaction.options.getInteger('guildid') ?? interaction.guild.id
 	const key = interaction.options.getString('key')
 	const embed = await returnGetKeyEmbed(guildId, key)
-	interaction.reply({embeds: [embed]})
+	interaction.reply({ embeds: [embed] })
 }

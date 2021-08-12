@@ -1,4 +1,8 @@
 /* eslint-disable prefer-const */
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+const token = process.env.token
+const rest = new REST({ version: '9' }).setToken(token);
 import { client } from '../customDefinitions'
 /**
  * Registers slash commands with discord
@@ -11,19 +15,17 @@ export default async function register(client: client) {
 	let devData = []
 	commands.forEach(command => {
 		if (command.permissions && command.permissions.includes('OWNER')) {
-			devData[devData.length] = {
-				name: command.name,
-				description: command.description,
-			}
-			if (command.slashCommandOptions) devData[devData.length - 1]['options'] = command.slashCommandOptions
+			devData.push(command.slashData.toJSON())
 		} else {
-			data[data.length] = {
-				name: command.name,
-				description: command.description,
-			}
-			if (command.slashCommandOptions) data[data.length - 1]['options'] = command.slashCommandOptions
+			data.push(command.slashData.toJSON())
 		}
 	})
-	await client.application?.commands.set(data)
-	if (process.env.devServerId) await client.guilds.cache.get(process.env.devServerId)?.commands.set(devData)
+	await rest.put(
+		Routes.applicationCommands(client.application.id),
+		{ body: data },
+	)
+	if (process.env.devServerId) await rest.put(
+		Routes.applicationGuildCommands(client.application.id, process.env.devServerId),
+		{ body: devData },
+	)
 }

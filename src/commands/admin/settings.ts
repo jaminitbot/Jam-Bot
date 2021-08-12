@@ -1,5 +1,6 @@
 import { Message } from "discord.js"
 import { client } from '../../customDefinitions'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 const fs = require('fs')
 function generateEmbed(embed, settingsFiles) {
@@ -13,6 +14,9 @@ export const name = 'settings'
 export const description = "Configures the bot's settings"
 export const permissions = ['MANAGE_GUILD']
 export const usage = 'settings'
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
 export function execute(client: client, message: Message, args) {
 	const embed = {
 		title: 'Settings - Usage',

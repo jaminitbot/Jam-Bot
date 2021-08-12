@@ -1,7 +1,7 @@
-import {CommandInteraction, Message, MessageEmbed} from "discord.js"
+import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { client } from '../../customDefinitions'
 import { setKey } from '../../functions/db'
-
+import { SlashCommandBuilder } from '@discordjs/builders'
 const isNumber = require('is-number')
 
 export const name = 'setkey'
@@ -9,29 +9,25 @@ export const description = 'Sets a db key'
 export const usage = 'setkey 46435456789132 blah test'
 export const permissions = ['OWNER']
 export const exposeSlash = false
-export const slashCommandOptions = [
-	{
-		name: 'key',
-		type: 'STRING',
-		description: 'Key to set',
-		required: true
-	},
-	{
-		name: 'value',
-		type: 'STRING',
-		description: 'Value to set',
-		required: true
-	},
-	{
-		name: 'guildid',
-		type: 'INTEGER',
-		description: '(Optional) guild id',
-		required: false
-	}]
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
+	.addStringOption(option =>
+		option.setName('key')
+			.setDescription('Key to get')
+			.setRequired(true))
+	.addStringOption(option =>
+		option.setName('value')
+			.setDescription('Value to set')
+			.setRequired(true))
+	.addIntegerOption(option =>
+		option.setName('guild')
+			.setDescription('(Optional) guild id')
+			.setRequired(false))
 async function returnSetKeyEmbed(guildId, key, value) {
 	try {
 		await setKey(guildId, key, value)
-	} catch(err) {
+	} catch (err) {
 		const embed = new MessageEmbed()
 		embed.setDescription('Something went wrong :(')
 		return embed
@@ -62,12 +58,12 @@ export async function execute(client: client, message: Message, args) {
 	}
 	const embed = await returnSetKeyEmbed(guild, key, value)
 	embed.setFooter(`Intiated by ${message.author.tag}`, message.author.displayAvatarURL())
-	message.channel.send({embeds: [embed]})
+	message.channel.send({ embeds: [embed] })
 }
-export async function executeSlash(client, interaction:CommandInteraction) {
+export async function executeSlash(client, interaction: CommandInteraction) {
 	const guildId = interaction.options.getInteger('guildid') ?? interaction.guild.id
 	const key = interaction.options.getString('key')
 	const value = interaction.options.getString('value')
 	const embed = await returnSetKeyEmbed(guildId, key, value)
-	interaction.reply({embeds: [embed]})
+	interaction.reply({ embeds: [embed] })
 }

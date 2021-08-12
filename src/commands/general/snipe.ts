@@ -1,11 +1,15 @@
-import {Message, MessageEmbed} from "discord.js"
-import {client} from '../../customDefinitions'
-import {returnSnipedMessages, snipeLifetime} from '../../functions/snipe'
+import { Message, MessageEmbed } from "discord.js"
+import { client } from '../../customDefinitions'
+import { returnSnipedMessages, snipeLifetime } from '../../functions/snipe'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'snipe'
 export const description = 'Snipes deleted and edited messages'
 export const permissions = ''
 export const usage = 'snipe (deletes|edits)'
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
 function generateDeleteEmbed(snipes, message: Message, embed: MessageEmbed) {
 	let field = ''
 	snipes.forEach(element => {

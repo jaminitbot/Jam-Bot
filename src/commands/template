@@ -1,5 +1,6 @@
-import {Interaction, Message} from "discord.js"
+import {ButtonInteraction, CommandInteraction, Message} from "discord.js"
 import {client} from '../../customDefinitions'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'debug'
 export const description = 'Displays debug information'
