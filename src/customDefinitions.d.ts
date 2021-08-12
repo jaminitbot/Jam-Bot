@@ -1,13 +1,11 @@
-import { Client, Collection, PermissionString } from "discord.js"
+import { ButtonInteraction, Client, Collection, CommandInteraction, Message, PermissionString } from "discord.js"
 import { Logger } from "winston";
 import { SlashCommandBuilder } from '@discordjs/builders'
 type permission = PermissionString | 'OWNER'
 
 export interface CollectionCommand {
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	executeSlash: Function;
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	executeButton: Function;
+	executeSlash: (client: client, interaction: CommandInteraction) => void
+	executeButton: (client: client, interaction: ButtonInteraction) => void
 	slashData: SlashCommandBuilder;
 	exposeSlash: boolean;
 	allowInDm: boolean;
@@ -16,8 +14,7 @@ export interface CollectionCommand {
 	description: string,
 	permissions: Array<permission>
 	usage: string
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	execute: Function
+	execute: (client: client, message: Message, args: Array<unknown>) => void
 
 }
 
