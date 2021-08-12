@@ -11,6 +11,7 @@ export const allowInDm = false
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
+
 export async function execute(client: client, message: Message, args) {
 
 }
@@ -18,7 +19,6 @@ export async function execute(client: client, message: Message, args) {
 export async function executeSlash(client:client, interaction:CommandInteraction) {
 
 }
-
 
 export async function executeButton(client:client, interaction:ButtonInteraction) {
 
