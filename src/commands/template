@@ -1,5 +1,5 @@
-import {ButtonInteraction, CommandInteraction, Message} from "discord.js"
-import {client} from '../../customDefinitions'
+import { ButtonInteraction, CommandInteraction, Message } from "discord.js"
+import { client } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'debug'
@@ -8,21 +8,18 @@ export const permissions = ['ADMINISTRATOR']
 export const usage = 'debug'
 export const aliases = ['debugthing']
 export const allowInDm = false
-export const slashCommandOptions = [{
-	name: 'content',
-	type: 'STRING',
-	description: 'The content of your poll',
-	required: true
-}]
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
 export async function execute(client: client, message: Message, args) {
 
 }
 
-export async function executeSlash(client, interaction:CommandInteraction) {
+export async function executeSlash(client:client, interaction:CommandInteraction) {
 
 }
 
 
-export async function executeButton(client, interaction:ButtonInteraction) {
+export async function executeButton(client:client, interaction:ButtonInteraction) {
 
 }
