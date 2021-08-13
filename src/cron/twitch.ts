@@ -3,7 +3,8 @@ import fetch from 'node-fetch'
 import { MessageEmbed, TextChannel } from 'discord.js'
 import { getKey, setKey } from '../functions/db'
 const messages = require('../functions/messages')
-import sha1 = require('sha1');
+import sha1 = require('sha1')
+import dayjs = require('dayjs')
 
 export default async function execute(client: BotClient) {
 	if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsUsername) return
@@ -27,7 +28,7 @@ export default async function execute(client: BotClient) {
 		const guildId = notificationChannel.guild.id
 		const notificationMessageContent = process.env.twitchNotificationsRoleId ? `<@&${process.env.twitchNotificationsRoleId}>` : null
 		const liveTitle = liveInfo.title ?? 'N/A'
-		const startedAt = liveInfo.started_at
+		const startedAt = dayjs(liveInfo.started_at).format("hh:mm a [-] DD/MM/YY")
 		const playingGame = liveInfo.game_name ?? 'N/A'
 		const embed = new MessageEmbed
 		const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
