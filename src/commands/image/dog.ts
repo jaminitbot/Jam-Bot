@@ -48,7 +48,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	}
 	message.channel.send(data)
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const breed = interaction.options.getString('breed') ?? null
 	interaction.editReply(await getDogPhoto(breed))

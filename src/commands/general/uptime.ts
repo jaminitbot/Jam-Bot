@@ -15,7 +15,7 @@ export function execute(client: BotClient, message: Message, args) {
 		'The bot has been up since: ' + TimeDate.toString()
 	)
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const TimeDate = new Date(Date.now() - client.uptime)
 	interaction.reply('The bot has been up since: ' + TimeDate.toString())
 }

@@ -40,7 +40,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	sent.edit(await getStockImage(search, null))
 
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const search = interaction.options.getString('search')
 	const position = interaction.options.getInteger('position') ?? 1

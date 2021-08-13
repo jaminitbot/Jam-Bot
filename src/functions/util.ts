@@ -145,7 +145,8 @@ export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Pr
  * @param arr Array to perform on
  * @param value Value to remove
  */
-export function removeItemFromArray(arr, value) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function removeItemFromArray(arr: Array<any>, value: unknown) {
 	let i = 0;
 	while (i < arr.length) {
 		if (arr[i] === value) {

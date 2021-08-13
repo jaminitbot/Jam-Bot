@@ -55,7 +55,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	const embed = await runEvalCommand(command, client.logger)
 	sentMessage.edit({ content: null, embeds: [embed] })
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const command = interaction.options.getString('command')
 	const embed = await runEvalCommand(command, client.logger)

@@ -16,7 +16,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	const imageUrl = await searchForImage('frog', randomInt(1, 25), false, 'frog')
 	message.channel.send(imageUrl)
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const imageUrl = await searchForImage('frog', randomInt(1, 25), false, 'frog')
 	interaction.editReply(imageUrl)

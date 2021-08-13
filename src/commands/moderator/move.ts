@@ -47,7 +47,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	message.channel.send(result)
 }
 
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	// @ts-expect-error
 	const fromChannel: VoiceChannel = interaction.options.getChannel('from')

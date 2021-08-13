@@ -1,5 +1,5 @@
 import { ButtonInteraction, CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'debug'
@@ -12,14 +12,14 @@ export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 
-export async function execute(client: client, message: Message, args) {
+export async function execute(client:BotClient, message: Message, args) {
 
 }
 
-export async function executeSlash(client:client, interaction:CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction:CommandInteraction) {
 
 }
 
-export async function executeButton(client:client, interaction:ButtonInteraction) {
+export async function executeButton(client: BotClient, interaction:ButtonInteraction) {
 
 }

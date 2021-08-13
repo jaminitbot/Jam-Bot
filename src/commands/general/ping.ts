@@ -22,7 +22,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	await sent.edit({ content: null, embeds: [createLatencyEmbed(message.createdTimestamp, sent.createdTimestamp, client)] })
 	message.react('🏓')
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const reply = await interaction.deferReply({ fetchReply: true })
 	// @ts-expect-error
 	const embed = createLatencyEmbed(interaction.createdTimestamp, reply.createdTimestamp, client)
@@ -48,7 +48,7 @@ export async function executeSlash(client, interaction: CommandInteraction) {
 	options.embeds = [embed]
 	interaction.editReply(options)
 }
-export async function executeButton(client, interaction: ButtonInteraction) {
+export async function executeButton(client: BotClient, interaction: ButtonInteraction) {
 	if (interaction.customId == 'ping-againButton') {
 		// @ts-expect-error
 		interaction.noButton = true

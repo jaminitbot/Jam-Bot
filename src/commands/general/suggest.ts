@@ -56,7 +56,7 @@ export async function execute(client: BotClient, message: Message, args) {
 		message.channel.send('There was an error finding the suggestions channel.')
 	}
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const suggestionDescription = interaction.options.getString('suggestion')
 	const result = await sendSuggestion(client, suggestionDescription, interaction.guild.id, null, interaction.user)
 	if (result == 0) {

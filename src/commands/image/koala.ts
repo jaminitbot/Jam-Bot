@@ -19,7 +19,7 @@ async function getKoalaImage() {
 export async function execute(client: BotClient, message: Message, args) {
 	message.channel.send(await getKoalaImage())
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	interaction.editReply(await getKoalaImage())
 }

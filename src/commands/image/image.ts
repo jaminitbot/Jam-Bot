@@ -21,7 +21,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('position')
 			.setDescription('The specific position to get')
 			.setRequired(false))
-export async function searchForImage(search, position, nsfw, imageType): Promise<string> {
+export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string): Promise<string> {
 	return new Promise(function (resolve, reject) {
 		if (!position) position = 1
 		if (position < 1) {
@@ -83,7 +83,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	const imageUrl = await searchForImage(search, position, isNsfw, imageType)
 	sentMessage.edit(imageUrl)
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const search = interaction.options.getString('search')
 	const position = interaction.options.getInteger('position')

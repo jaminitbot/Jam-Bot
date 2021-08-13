@@ -36,7 +36,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	const thingToSay = args.splice(1).join(' ')
 	sayInChannel(thingToSay, channel)
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const thingToSay = interaction.options.getString('message')
 	const channel = interaction.options.getChannel('channel') ?? interaction.channel
 	interaction.reply({ content: await sayInChannel(thingToSay, channel), ephemeral: true })

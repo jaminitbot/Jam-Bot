@@ -46,7 +46,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	embed.setFooter(`Initiated by ${message.author.tag}`, message.author.displayAvatarURL())
 	message.channel.send({ embeds: [embed] })
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const guildId = interaction.options.getInteger('guildid') ?? interaction.guild.id
 	const key = interaction.options.getString('key')
 	const embed = await returnGetKeyEmbed(guildId, key)

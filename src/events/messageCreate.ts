@@ -3,7 +3,7 @@ import { getKey } from '../functions/db'
 import { BotClient } from '../customDefinitions'
 import { Message, MessageEmbed } from 'discord.js'
 
-const messages = require('../functions/messages')
+import { getErrorMessage } from '../functions/messages'
 const bannedIds = ['']
 
 // let mentionSlash = true
@@ -37,7 +37,7 @@ export default async function register(client: BotClient, message: Message) {
 		} catch (error) {
 			// Error running command
 			client.logger.error('messageHandler: Command failed with error: ' + error)
-			message.reply(messages.getErrorMessage())
+			message.reply(getErrorMessage())
 		}
 	} else {
 		if (message.channel.type == 'DM' && process.env.dmChannel) {

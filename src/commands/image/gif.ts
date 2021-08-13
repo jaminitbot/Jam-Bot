@@ -27,7 +27,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	const imageUrl = await searchForImage(search, 0, false, 'gif')
 	sentMessage.edit(imageUrl)
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const search = interaction.options.getString('search') + ' gif'
 	console.log(search)

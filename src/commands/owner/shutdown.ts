@@ -15,7 +15,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	// @ts-expect-error
 	process.emit('SIGINT')
 }
-export async function executeSlash(client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.reply('Shutting down...')
 	// @ts-expect-error
 	process.emit('SIGINT')
