@@ -1,6 +1,6 @@
 import { GuildMember, Message, Guild, Channel } from "discord.js"
 import { MongoClient } from "mongodb"
-import { BotClient, permission } from "../customDefinitions"
+import { BotClient, Permission } from "../customDefinitions"
 import { getInvalidPermissionsMessage } from './messages'
 import is_number = require("is-number");
 import fetch from "node-fetch";
@@ -11,7 +11,7 @@ import { Logger } from "winston";
  * @param permissions Permissions required
  * @returns Boolean
  */
-export function checkPermissions(member: GuildMember, permissions: Array<permission>): boolean {
+export function checkPermissions(member: GuildMember, permissions: Array<Permission>): boolean {
 	let validPermission = true
 	if (permissions.includes('OWNER')) {
 		permissions = removeItemFromArray(permissions, 'OWNER')

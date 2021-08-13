@@ -1,7 +1,7 @@
 import { ButtonInteraction, Client, Collection, CommandInteraction, Message, PermissionString } from "discord.js"
 import { Logger } from "winston";
 import { SlashCommandBuilder } from '@discordjs/builders'
-type permission = PermissionString | 'OWNER'
+type Permission = PermissionString | 'OWNER'
 
 export interface Command {
 	executeSlash: (client: BotClient, interaction: CommandInteraction) => void
@@ -11,7 +11,7 @@ export interface Command {
 	aliases: Array<string>
 	name: string
 	description: string,
-	permissions: Array<permission>
+	permissions: Array<Permission>
 	usage: string
 	execute: (client: BotClient, message: Message, args: Array<unknown>) => void
 
