@@ -6,7 +6,7 @@ A simple discord bot that's easy to use, deploy, and setup!
 
 ## Command docs:
 
--   [Basic Commands](/commands/basicCommands)
--   [Image Commands](/commands/imageCommands)
--   [Moderation Commands](/commands/moderationCommands)
+-   [Basic Commands](/commands/basic)
+-   [Image Commands](/commands/image)
+-   [Moderation Commands](/commands/moderation)
 -   [Settings](/commands/settings)
