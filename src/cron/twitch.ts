@@ -19,10 +19,6 @@ export default async function execute(client: BotClient) {
 	)
 	const json = await response.json()
 	const liveInfo = json.data[0]
-	liveInfo.is_live = true
-	liveInfo.game_name = "Minecrawft Battle Royal"
-	liveInfo.title = "Playing the new minecraft gamemode"
-	liveInfo.started_at = "2021-08-09T19:51:45Z"
 	if (liveInfo.is_live) { // Checks if broadcaster is live
 		client.logger.debug('twitch: Twitch channel is live')
 		//@ts-expect-error
