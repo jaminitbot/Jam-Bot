@@ -31,7 +31,6 @@ export default async function execute(client: BotClient) {
 		const startedAt = dayjs(liveInfo.started_at).format("hh:mm a [-] DD/MM/YY")
 		const playingGame = liveInfo.game_name ?? 'N/A'
 		const embed = new MessageEmbed
-		const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
 		embed.setTitle(`${messages.getHappyMessage()} ${liveInfo.display_name} is live streaming!`)
 		embed.setURL('https://twitch.tv/' + process.env.twitchNotificationsUsername)
 		embed.setDescription(liveTitle)
@@ -39,6 +38,7 @@ export default async function execute(client: BotClient) {
 		embed.addField('Started at (UTC)', startedAt, true)
 		embed.setFooter('Updates every 5 seconds.')
 		embed.setColor('#A077FF')
+		const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
 		const LiveTime = await getKey(guildId, 'LiveTime')
 		if (LiveTime != startedAt) {
 			client.logger.info('twitch: Twitch channel is now live, and we haven\'t notified yet. Notifying now...')

@@ -1,4 +1,5 @@
-[{
+[
+    {
         "title": "Added changelogs!",
         "description": "Added the ability to see changelogs using the ?changelog command!"
     },
@@ -80,5 +81,10 @@
         "title": "Delete logs!",
         "date": 1628629444433,
         "description": "~~They work again~~"
+    },
+    {
+        "title": "Improve twitch embeds",
+        "date": 1628865724946,
+        "description": "The overall twitch embed now looks prettier, the timings are also formatted better :)"
     }
 ]
