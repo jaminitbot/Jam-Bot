@@ -13,7 +13,12 @@ export default async function register(client: BotClient, message: Message): Pro
 	if (logDeletes) {
 		const modLogChannelId = await getKey(message.guild.id, 'modLogChannel')
 		if (!modLogChannelId) return
-		const modLogChannel = await client.channels.fetch(modLogChannelId)
+		let modLogChannel
+		try {
+			modLogChannel = await client.channels.fetch(modLogChannelId)
+		} catch (err) {
+			return
+		}
 		if (!modLogChannel || !((modLogChannel.type == 'GUILD_TEXT') || modLogChannel.type == 'GUILD_NEWS')) return
 		let urls = ''
 		if (message.attachments) {
@@ -31,7 +36,6 @@ export default async function register(client: BotClient, message: Message): Pro
 		embed.setColor('#FF0000')
 		embed.setFooter(`User ID: ${message.author.id}, Channel ID: ${message.channel.id}`)
 		embed.setTimestamp(Date.now())
-		// @ts-expect-error
 		modLogChannel.send({ embeds: [embed] })
 	}
 	//#endregion

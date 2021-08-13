@@ -1,6 +1,7 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import dayjs from "dayjs"
 
 export const name = 'uptime'
 export const description = "Displays the bot's current uptime"
@@ -16,6 +17,6 @@ export function execute(client: BotClient, message: Message, args) {
 	)
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
-	const TimeDate = new Date(Date.now() - client.uptime)
-	interaction.reply('The bot has been up since: ' + TimeDate.toString())
+	const TimeDate = dayjs().format("hh:mm:ss a [-] YY:MM:DD")
+	interaction.reply('The bot has been up since: ' + TimeDate)
 }

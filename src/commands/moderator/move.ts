@@ -19,7 +19,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('to')
 			.setDescription('The channel to move users to')
 			.setRequired(true))
-async function moveVoiceChannel(fromChannel: VoiceChannel, toChannel: VoiceChannel, guildId: string, intiatingTag: string) {
+async function moveVoiceChannel(client: BotClient, fromChannel: VoiceChannel, toChannel: VoiceChannel, guildId: string, intiatingTag: string) {
 	if (!fromChannel || !toChannel) return 'One of those channels weren\'t valid!'
 	if (fromChannel.type != 'GUILD_VOICE' || toChannel.type != 'GUILD_VOICE') return 'One or more of those channels weren\'t a voice channel!'
 	if (fromChannel.guild.id != guildId || toChannel.guild.id != guildId) return 'Hey! Both of the channels need to be in the same server!'
@@ -33,6 +33,7 @@ async function moveVoiceChannel(fromChannel: VoiceChannel, toChannel: VoiceChann
 			return 'There was no users to move.'
 		}
 	} catch (err) {
+		client.logger.warn('moveCommand: Potentional error: ' + err)
 		return 'There was an unknown error when trying to perform that action, sorry :('
 	}
 	return `Successfully moved ${count} user(s) from ${fromChannel.name} to ${toChannel.name}.`
@@ -43,7 +44,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	const fromChannel: VoiceChannel = await getChannelFromString(message.guild, args[0])
 	//@ts-expect-error
 	const toChannel: VoiceChannel = await getChannelFromString(message.guild, args[1])
-	const result = await moveVoiceChannel(fromChannel, toChannel, message.guild.id, message.author.tag)
+	const result = await moveVoiceChannel(client, fromChannel, toChannel, message.guild.id, message.author.tag)
 	message.channel.send(result)
 }
 
@@ -53,6 +54,6 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const fromChannel: VoiceChannel = interaction.options.getChannel('from')
 	// @ts-expect-error
 	const toChannel: VoiceChannel = interaction.options.getChannel('to')
-	const result = await moveVoiceChannel(fromChannel, toChannel, interaction.guild.id, interaction.user.tag)
+	const result = await moveVoiceChannel(client, fromChannel, toChannel, interaction.guild.id, interaction.user.tag)
 	interaction.editReply(result)
 }
