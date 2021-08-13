@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.1](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.4.0...v2.4.1) (2021-08-13)
+
+
+### Features
+
+* move slash commands to proper builder ([41a86ef](https://github.com/jamesatjaminit/Jam-Bot/commit/41a86ef8e1cf3bcd2dca6bcb0b9751d53bc68fb5))
+* tslib ([b94d600](https://github.com/jamesatjaminit/Jam-Bot/commit/b94d60097198e6ad352f37f0a68da146fd6d20d0))
+
+
+### Bug Fixes
+
+* remove last updated in twich embed ([59bb22c](https://github.com/jamesatjaminit/Jam-Bot/commit/59bb22c34495f198d873bd251d3c300a1c964af3))
+
 ## [2.4.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.3.0...v2.4.0) (2021-08-10)
 
 
