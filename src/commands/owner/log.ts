@@ -9,7 +9,6 @@ export const description = 'Uploads the log for easy viewing'
 export const usage = 'log error|combined'
 export const aliases = ['uploadlog']
 export const permissions = ['OWNER']
-export const exposeSlash = false
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)

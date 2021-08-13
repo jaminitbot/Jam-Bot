@@ -16,7 +16,6 @@ export const name = 'eval'
 export const description = 'Executes code'
 export const usage = 'eval 1+1'
 export const permissions = ['OWNER']
-export const exposeSlash = false
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)

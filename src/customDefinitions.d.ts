@@ -7,7 +7,6 @@ export interface CollectionCommand {
 	executeSlash: (client: client, interaction: CommandInteraction) => void
 	executeButton: (client: client, interaction: ButtonInteraction) => void
 	slashData: SlashCommandBuilder;
-	exposeSlash: boolean;
 	allowInDm: boolean;
 	aliases: Array<string>;
 	name: string,

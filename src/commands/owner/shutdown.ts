@@ -7,7 +7,6 @@ export const description = 'Gracefully shuts down the bot'
 export const usage = 'shutdown'
 export const aliases = ['off', 'logoff']
 export const permissions = ['OWNER']
-export const exposeSlash = false
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)

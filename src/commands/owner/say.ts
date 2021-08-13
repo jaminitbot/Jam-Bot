@@ -7,7 +7,6 @@ export const name = 'say'
 export const description = 'Say'
 export const usage = 'say #general Hiiii'
 export const permissions = ['OWNER']
-export const exposeSlash = false
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)

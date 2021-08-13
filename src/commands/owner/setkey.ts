@@ -8,7 +8,6 @@ export const name = 'setkey'
 export const description = 'Sets a db key'
 export const usage = 'setkey 46435456789132 blah test'
 export const permissions = ['OWNER']
-export const exposeSlash = false
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
