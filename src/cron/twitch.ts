@@ -5,7 +5,6 @@ import { getKey, setKey } from '../functions/db'
 const messages = require('../functions/messages')
 import sha1 = require('sha1')
 import dayjs = require('dayjs')
-
 export default async function execute(client: BotClient) {
 	if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsUsername) return
 	const response = await fetch(
@@ -20,6 +19,10 @@ export default async function execute(client: BotClient) {
 	)
 	const json = await response.json()
 	const liveInfo = json.data[0]
+	liveInfo.is_live = true
+	liveInfo.game_name = "Minecrawft Battle Royal"
+	liveInfo.title = "Playing the new minecraft gamemode"
+	liveInfo.started_at = "2021-08-09T19:51:45Z"
 	if (liveInfo.is_live) { // Checks if broadcaster is live
 		client.logger.debug('twitch: Twitch channel is live')
 		//@ts-expect-error
@@ -28,14 +31,14 @@ export default async function execute(client: BotClient) {
 		const guildId = notificationChannel.guild.id
 		const notificationMessageContent = process.env.twitchNotificationsRoleId ? `<@&${process.env.twitchNotificationsRoleId}>` : null
 		const liveTitle = liveInfo.title ?? 'N/A'
-		const startedAt = dayjs(liveInfo.started_at).format("hh:mm a [-] DD/MM/YY")
+		const startedAt = dayjs(liveInfo.started_at).unix()
 		const playingGame = liveInfo.game_name ?? 'N/A'
 		const embed = new MessageEmbed
 		embed.setTitle(`${messages.getHappyMessage()} ${liveInfo.display_name} is live streaming!`)
 		embed.setURL('https://twitch.tv/' + process.env.twitchNotificationsUsername)
 		embed.setDescription(liveTitle)
 		embed.addField('Playing', playingGame, true)
-		embed.addField('Started at (UTC)', startedAt, true)
+		embed.addField('Started', `<t:${startedAt}:R>`, true)
 		embed.setFooter('Updates every 5 seconds.')
 		embed.setColor('#A077FF')
 		const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
