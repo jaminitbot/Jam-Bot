@@ -31,6 +31,7 @@ import { stopBot } from './functions/util'
 		allowedMentions: { parse: ['roles', 'everyone'] },
 		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
 		presence: { status: 'online', activities: [{ name: process.env.defaultPrefix + 'help', type: 'WATCHING' }] },
+		partials: ['MESSAGE']
 	}
 	// @ts-expect-error
 	const client: BotClient = new Client(clientOptions)
@@ -104,7 +105,7 @@ import { stopBot } from './functions/util'
 	})
 	client.on('messageUpdate', (oldMessage, newMessage) => {
 		// @ts-expect-error
-		messageUpdate(oldMessage, newMessage)
+		messageUpdate(client, oldMessage, newMessage)
 	})
 	client.on('error', error => {
 		client.logger.error('Error logged: ' + error)

@@ -4,9 +4,11 @@ import { getKey } from '../functions/db'
 import { inputSnipe } from '../functions/snipe'
 
 export default async function register(client: BotClient, message: Message): Promise<void> {
+	if (message.partial) return
 	if (!(message.channel.type == 'GUILD_NEWS' || message.channel.type == 'GUILD_TEXT')) return
 	if (message.author.bot) return
-	if (message.author.id == process.env.ownerId) return
+	const owners = process.env.ownerId.split(',')
+	if (owners.includes(message.author.id)) return
 	await inputSnipe(message, null, 'delete')
 	//#region Delete log code
 	const logDeletes = await getKey(message.guild.id, 'logDeletedMessages')
@@ -20,19 +22,9 @@ export default async function register(client: BotClient, message: Message): Pro
 			return
 		}
 		if (!modLogChannel || !((modLogChannel.type == 'GUILD_TEXT') || modLogChannel.type == 'GUILD_NEWS')) return
-		let urls = ''
-		if (message.attachments) {
-			message.attachments.each(attachment => {
-				urls += '\n' + attachment.url
-			})
-		}
 		const embed = new MessageEmbed
 		embed.setAuthor(message.author.tag, message.author.avatarURL())
 		embed.addField(`Message deleted in #${message.channel.name}`, message.content ?? '[No Content]', false)
-		if (message.attachments.first()) {
-			embed.setImage(message.attachments.first().url)
-			embed.addField('Attachment Urls: ', urls)
-		}
 		embed.setColor('#FF0000')
 		embed.setFooter(`User ID: ${message.author.id}, Channel ID: ${message.channel.id}`)
 		embed.setTimestamp(Date.now())
