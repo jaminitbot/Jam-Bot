@@ -1,6 +1,6 @@
-import { Message, MessageEmbed } from "discord.js"
+import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import { returnSnipedMessages, snipeLifetime } from '../../functions/snipe'
+import { MessageSniped, returnSnipedMessages, snipeLifetime } from '../../functions/snipe'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'snipe'
@@ -10,59 +10,56 @@ export const usage = 'snipe (deletes|edits)'
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-function generateDeleteEmbed(snipes, message: Message, embed: MessageEmbed) {
-	let field = ''
-	snipes.forEach(element => {
-		if (element.channel == message.channel.id) {
-			if (element.type == 'delete') {
-				field += `
-		Message deleted by <@${element.user.id}>:
-		\n${element.content}`
-				if (element.attachments) {
-					field += element.attachments.url + '\n'
-				}
+	.addStringOption(option =>
+		option.setName('type')
+			.setDescription('(Optional): The type of message (edits or deletes) to snipe')
+			.setRequired(false))
+function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId) {
+	const embed = new MessageEmbed
+	if (type) {
+		const ed = type.endsWith('e') ? type.substr(0, type.length - 1) : type
+		embed.setTitle(`Messages ${ed}ed in the last ${snipeLifetime} seconds`)
+	} else {
+		embed.setTitle(`Messages edited/deleted in the last ${snipeLifetime} seconds`)
+	}
+	for (const snipe of snipes) {
+		if (!type || snipe.type == type) {
+			if (embed.fields.length == 24) {
+				embed.addField('Too many messages have been edited/deleted', 'Only showing the latest 25 edit/deletes')
+				break
+			}
+			if (snipe.type == 'delete') {
+				embed.addField(`Message deleted by ${snipe.user.tag}`, snipe.newMessage)
+			} else if (snipe.type == 'edit') {
+				embed.addField(`Message edited by ${snipe.user.tag}`, `**Before:** ${snipe.oldMessage}\n**+After:** ${snipe.newMessage}`)
 			}
 		}
-	})
-	embed.addField('Message Deletes', field || 'NONE', false)
+	}
+	embed.setTimestamp(Date.now())
+	embed.setColor('#BCD8C1')
 	return embed
 }
-function generateEditsEmbed(snipes, message: Message, embed: MessageEmbed) {
-	let field = ''
-	snipes.forEach(element => {
-		if (element.channel == message.channel.id) {
-			if (element.type == 'edit') {
-				if (element.content) {
-					field += `
-					Messaged edited by <@${element.user.id}>:\n
-					${element.oldMessage}\`\`\`⬇️
-					\n${element.content}`
-				}
-			}
-		}
-	})
-	embed.addField('Message Edits', field || 'NONE', false)
-	return embed
-}
+
 export async function execute(client: BotClient, message: Message, args) {
 	const snipes = returnSnipedMessages()
-	const embed = new MessageEmbed()
-	let newEmbed
-	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL())
-	embed.setTimestamp(Date.now())
-	if (!args[0]) { // Both edits and deletes
-		embed.setTitle(`Message edits and deletes in the last ${snipeLifetime}s`)
-		newEmbed = generateEditsEmbed(snipes, message, generateDeleteEmbed(snipes, message, embed))
-	} else if ((args[0].toLowerCase() == 'edit') || (args[0].toLowerCase() == 'edits')) {
-		embed.setTitle(`Message edits in the last ${snipeLifetime}s`)
-		newEmbed = generateEditsEmbed(snipes, message, embed)
-	} else if ((args[0].toLowerCase() == 'delete') || (args[0].toLowerCase() == 'deletes')) {
-		embed.setTitle(`Message deletes in the last ${snipeLifetime}s`)
-		newEmbed = generateDeleteEmbed(snipes, message, embed)
+	let type = args[0] ?? null
+	if (type) type = type.substring(0, type.length - 1)
+	if (type) {
+		if (type != 'delete' && type != 'edit') return message.reply('Type has to be either `deletes` or `edits`')
 	} else {
-		message.reply('that isn\'t a valid option')
-		return
+		type = null
 	}
-	newEmbed.setColor('#BCD8C1')
-	message.channel.send({ embeds: [newEmbed] })
+
+	const embed = returnSnipesEmbed(snipes, type, message.channel.id)
+	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL())
+	message.channel.send({ embeds: [embed] })
+}
+
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+	const snipes = returnSnipedMessages()
+	let type = interaction.options.getString('type') ?? null
+	if (type) type = type.substring(0, type.length - 1)
+	if (type && type != 'edit' && type != 'delete') return interaction.reply({ content: 'Type has to be either `deletes` or `edits`', ephemeral: true })
+	const embed = returnSnipesEmbed(snipes, type, interaction.channel.id)
+	interaction.reply({ embeds: [embed] })
 }

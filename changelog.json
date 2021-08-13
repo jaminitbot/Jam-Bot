@@ -86,5 +86,10 @@
         "title": "Improve twitch embeds",
         "date": 1628865724946,
         "description": "The overall twitch embed now looks prettier, the timings are also formatted better :)"
+    },
+    {
+        "title": "Snipe improvements",
+        "date": 1628870851352,
+        "description": "The snipe command now looks nicer, and works with slash commands!"
     }
 ]

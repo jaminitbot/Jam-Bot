@@ -11,8 +11,7 @@ export async function execute(client: BotClient, message: Message, args: Array<s
 	const channelInput = args[2].slice(2, -1)
 	// @ts-expect-error
 	const channel: TextChannel = await client.channels.fetch(channelInput)
-	// @ts-expect-error
-	if (!channel || !(channel.type == 'news' || channel.type == 'text')) return message.channel.send('Not a valid channel!')
+	if (!channel || !(channel.type == 'GUILD_TEXT' || channel.type == 'GUILD_NEWS')) return message.channel.send('Not a valid channel!')
 	setKey(message.guild.id, 'modLogChannel', channel.id)
 	message.channel.send('Set modlog channel!')
 	channel.send('Modlogs will be sent here!')
