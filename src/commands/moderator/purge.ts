@@ -51,6 +51,5 @@ export async function execute(client: BotClient, message: Message, args) {
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const numOfMessages = interaction.options.getInteger('number')
 	// @ts-expect-error
-	await interaction.reply(await bulkDeleteMessages(interaction.channel, numOfMessages))
-	setTimeout(() => interaction.deleteReply(), 3 * 1000)
+	await interaction.reply({ content: await bulkDeleteMessages(interaction.channel, numOfMessages), ephemeral: true })
 }
