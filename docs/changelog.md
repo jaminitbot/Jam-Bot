@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.4.1...v2.5.0) (2021-08-13)
+
+
+### Features
+
+* message edit log ([b08eae1](https://github.com/jamesatjaminit/Jam-Bot/commit/b08eae1d39cd1b5db5e534d35e89f7f08d84fe7c))
+* snipe command improvements ([e07445e](https://github.com/jamesatjaminit/Jam-Bot/commit/e07445e828b21f17afb70628cb694c870aece3e5))
+* twitch date formatting ([276e10f](https://github.com/jamesatjaminit/Jam-Bot/commit/276e10f0bea2e6071803df5a7727947cdd39fe1f))
+
+
+### Bug Fixes
+
+* general error checking ([66374e9](https://github.com/jamesatjaminit/Jam-Bot/commit/66374e9a30e8b75fd8df5ccaac0514fcc33366a2))
+* make purge command ephemeral ([5ecdc26](https://github.com/jamesatjaminit/Jam-Bot/commit/5ecdc26ecc812dda7413e328217fee46daea5b9c))
+
 ### [2.4.1](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.4.0...v2.4.1) (2021-08-13)
 
 
