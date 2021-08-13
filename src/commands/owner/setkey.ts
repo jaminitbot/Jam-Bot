@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { setKey } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 const isNumber = require('is-number')
@@ -40,7 +40,7 @@ async function returnSetKeyEmbed(guildId, key, value) {
 	embed.setTimestamp(Date.now())
 	return embed
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	let guild
 	let key
 	let value

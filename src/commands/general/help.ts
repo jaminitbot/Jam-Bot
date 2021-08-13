@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { getKey } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -14,7 +14,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('command')
 			.setDescription('(Optional) the command you\'d like to get help on')
 			.setRequired(false))
-async function returnHelpEmbed(client: client, commandToGet, prefix) {
+async function returnHelpEmbed(client: BotClient, commandToGet, prefix) {
 	const embed = new MessageEmbed
 	embed.setColor('#439A86')
 	if (commandToGet) {
@@ -39,14 +39,14 @@ async function returnHelpEmbed(client: client, commandToGet, prefix) {
 	}
 	return embed
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	const commandToFind = String(args[0]).toLowerCase()
 	const guildId = message.guild ? message.guild.id : 0
 	const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
 	const embed = await returnHelpEmbed(client, commandToFind, prefix)
 	message.channel.send({ embeds: [embed] })
 }
-export async function executeSlash(client: client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const commandToGet = interaction.options.getString('command')
 	const embed = await returnHelpEmbed(client, commandToGet, '/')
 	interaction.reply({ embeds: [embed] })

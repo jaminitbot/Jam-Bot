@@ -1,5 +1,5 @@
 import { CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'sswc'
@@ -56,7 +56,7 @@ const rickRollCodes = [
 	'soceYqv9Dtw',
 	'lypGLHSpWa0'
 ]
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	message.channel.send(`<https://youtu.be/${rickRollCodes[randomInt(0, rickRollCodes.length - 1)]}>`)
 }
 export async function executeSlash(client, interaction: CommandInteraction) {

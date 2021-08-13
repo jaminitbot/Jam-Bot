@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import delay from 'delay'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -23,7 +23,7 @@ function createPollEmbed(pollContent: string, authorTag: string, authorAvatar: s
 	embed.setColor('#167C6A')
 	return embed
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0])
 		return message.reply(
 			'you need to specify what to make the poll about!'
@@ -36,7 +36,7 @@ export async function execute(client: client, message: Message, args) {
 	await delay(1100)
 	sent.react('❌')
 }
-export async function executeSlash(client: client, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	if (!interaction.isCommand()) return
 	const pollContent = interaction.options.getString('content')
 	const embed = createPollEmbed(pollContent, interaction.user.tag, interaction.user.avatarURL())

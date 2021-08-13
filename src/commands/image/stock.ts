@@ -1,5 +1,5 @@
 import { CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import fetch from 'node-fetch'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -33,7 +33,7 @@ export async function getStockImage(search, position) {
 	const image = json.photos[photoPosition - 1].src.medium // eslint-disable-line no-undef
 	return image || 'Unable to get a stock photo, the api\'s probably down'
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('You need to specify what to search for!')
 	const sent = await message.channel.send(':mag_right: Finding image...')
 	const search = args.join(' ')

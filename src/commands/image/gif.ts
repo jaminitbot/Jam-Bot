@@ -1,5 +1,5 @@
 import { CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { searchForImage } from './image'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -18,7 +18,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('position')
 			.setDescription('(Optional) the specific gif to get')
 			.setRequired(false))
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('you need to specify what to search for!')
 	const sentMessage = await message.channel.send(`:mag_right: Finding gif...`)
 	const search = args.join(' ') + ' gif'

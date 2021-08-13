@@ -1,5 +1,5 @@
 import { CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import fetch from 'node-fetch'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -18,7 +18,7 @@ async function returnBirdUrl() {
 	return link || "Unable to get a birb, the api's probably down"
 
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	message.channel.send(await returnBirdUrl())
 }
 export async function executeSlash(client, interaction: CommandInteraction) {

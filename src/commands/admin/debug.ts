@@ -1,5 +1,5 @@
 import { Message, MessageEmbed } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'debug'
@@ -9,7 +9,7 @@ export const usage = 'debug'
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	const sentMessage = await message.channel.send('Loading...')
 	const uptimeDate = new Date(Date.now() - client.uptime)
 	const embed = new MessageEmbed

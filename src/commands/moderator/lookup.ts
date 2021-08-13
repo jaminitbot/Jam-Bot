@@ -1,5 +1,5 @@
 import { Message, MessageEmbed, Role } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'lookup'
@@ -14,7 +14,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('lookup')
 			.setDescription('The user/role to lookup')
 			.setRequired(true))
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('Usage: ' + this.usage)
 	// Basic info
 	const lookupMessage = await message.channel.send(':mag_right: Looking up...')

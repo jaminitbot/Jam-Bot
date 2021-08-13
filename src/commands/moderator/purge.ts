@@ -1,5 +1,5 @@
 import { Channel, CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 const messages = require('../../functions/messages')
@@ -41,7 +41,7 @@ async function bulkDeleteMessages(channel: Channel, NumOfMessagesToDelete) {
 	})
 	return `Successfully deleted ${deleteCount} messages.`
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('You need to specify how many messages to purge!')
 	if (!isNumber(args[0])) return message.reply('you need to specify a number!')
 	// @ts-expect-error

@@ -1,5 +1,5 @@
 import { CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'uptime'
@@ -9,7 +9,7 @@ export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export function execute(client: client, message: Message, args) {
+export function execute(client: BotClient, message: Message, args) {
 	const TimeDate = new Date(Date.now() - client.uptime)
 	message.channel.send(
 		'The bot has been up since: ' + TimeDate.toString()

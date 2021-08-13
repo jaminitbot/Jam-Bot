@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { getKey } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -30,7 +30,7 @@ async function returnGetKeyEmbed(guild, key) {
 	embed.setTimestamp(Date.now())
 	return embed
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	let guild
 	let key
 	if (!isNumber(args[0]) && !args[1]) { // Getting key without guild input

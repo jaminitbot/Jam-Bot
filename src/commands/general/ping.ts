@@ -1,5 +1,5 @@
 import { ButtonInteraction, CommandInteraction, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'ping'
@@ -17,7 +17,7 @@ function createLatencyEmbed(incomingMessageTimestamp, sentMessageTimestamp, clie
 	embed.setColor('#FB21CB')
 	return embed
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	const sent = await message.channel.send('Pinging...')
 	await sent.edit({ content: null, embeds: [createLatencyEmbed(message.createdTimestamp, sent.createdTimestamp, client)] })
 	message.react('🏓')

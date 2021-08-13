@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 import { Client, ClientOptions, Collection, Intents } from 'discord.js'
 import { createLogger, transports, format } from "winston";
-import { client } from './customDefinitions'
+import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
 import registerSlashCommands from './functions/registerSlashCommands'
 
@@ -33,7 +33,7 @@ import { stopBot } from './functions/util'
 		presence: { status: 'online', activities: [{ name: process.env.defaultPrefix + 'help', type: 'WATCHING' }] },
 	}
 	// @ts-expect-error
-	const client: client = new Client(clientOptions)
+	const client: BotClient = new Client(clientOptions)
 	// Logging
 	client.logger = createLogger({
 		level: 'info',

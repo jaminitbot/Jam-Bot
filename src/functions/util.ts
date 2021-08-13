@@ -1,10 +1,10 @@
-import {GuildMember, Message, Guild, Channel} from "discord.js"
+import { GuildMember, Message, Guild, Channel } from "discord.js"
 import { MongoClient } from "mongodb"
-import { client, permission } from "../customDefinitions"
+import { BotClient, permission } from "../customDefinitions"
 import { getInvalidPermissionsMessage } from './messages'
 import is_number = require("is-number");
 import fetch from "node-fetch";
-import {Logger} from "winston";
+import { Logger } from "winston";
 /**
  * Checks permissions against a guild member
  * @param member Guild member to check
@@ -30,7 +30,7 @@ export function checkPermissions(member: GuildMember, permissions: Array<permiss
  * @param mongoClient Mongo db client
  * @param stopCode Process exit code, default 0
  */
-export async function stopBot(client: client, mongoClient: MongoClient, stopCode = 0): Promise<void> {
+export async function stopBot(client: BotClient, mongoClient: MongoClient, stopCode = 0): Promise<void> {
 	try {
 		if (client) {
 			client.logger.warn('util: Received call to stop bot, stopping with code: ' + stopCode)

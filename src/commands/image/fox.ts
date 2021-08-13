@@ -1,5 +1,5 @@
 import { CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import fetch from 'node-fetch'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -16,7 +16,7 @@ async function returnFoxImage() {
 	).then((response) => response.json())
 	return image || "Unable to get a cute fox, the api's probably down :c"
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	message.channel.send(await returnFoxImage())
 }
 export async function executeSlash(client, interaction: CommandInteraction) {

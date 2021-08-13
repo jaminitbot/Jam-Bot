@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import fetch from 'node-fetch'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -11,7 +11,7 @@ export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	const { img } = await fetch(
 		'https://raw.githubusercontent.com/MattIPv4/pogchamp/master/build/data.json'
 	).then((response) => response.json())

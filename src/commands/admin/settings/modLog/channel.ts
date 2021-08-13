@@ -1,11 +1,11 @@
 import { Message, TextChannel } from "discord.js"
-import { client } from '../../../../customDefinitions'
+import { BotClient } from '../../../../customDefinitions'
 import { setKey } from '../../../../functions/db'
 
 export const name = 'channel'
 export const description = 'Sets the modlog channel'
 export const usage = 'settings modlog channel #modlog'
-export async function execute(client: client, message: Message, args: Array<string>) {
+export async function execute(client: BotClient, message: Message, args: Array<string>) {
 	if (!args[2])
 		return message.channel.send('You need to specify a channel!')
 	const channelInput = args[2].slice(2, -1)

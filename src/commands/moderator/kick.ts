@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import kickOrBan from '../../functions/kickorban'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -18,6 +18,6 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('reason')
 			.setDescription('(Optional) reason to kick the user')
 			.setRequired(false))
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	kickOrBan(message, args, 'kick')
 }

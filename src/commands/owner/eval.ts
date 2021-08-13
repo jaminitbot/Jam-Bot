@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { uploadToHasteBin } from '../../functions/util'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -48,7 +48,7 @@ async function runEvalCommand(commandToRun, logger) {
 	}
 	return embed
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.channel.send('Do you just expect me to guess at what you want to run?')
 	const command = args.splice(0).join(' ')
 	const sentMessage = await message.channel.send({ content: 'Executing command...' })

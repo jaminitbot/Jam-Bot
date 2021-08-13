@@ -1,11 +1,11 @@
-import { client } from '../customDefinitions'
+import { BotClient } from '../customDefinitions'
 import fetch from 'node-fetch'
-import {MessageEmbed, TextChannel} from 'discord.js'
+import { MessageEmbed, TextChannel } from 'discord.js'
 import { getKey, setKey } from '../functions/db'
 const messages = require('../functions/messages')
 import sha1 = require('sha1');
 
-export default async function execute(client: client) {
+export default async function execute(client: BotClient) {
 	if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsUsername) return
 	const response = await fetch(
 		'https://api.twitch.tv/helix/search/channels?query=' +
@@ -22,7 +22,7 @@ export default async function execute(client: client) {
 	if (liveInfo.is_live) { // Checks if broadcaster is live
 		client.logger.debug('twitch: Twitch channel is live')
 		//@ts-expect-error
-		const notificationChannel:TextChannel = await client.channels.fetch(process.env.twitchNotificationsChannel)
+		const notificationChannel: TextChannel = await client.channels.fetch(process.env.twitchNotificationsChannel)
 		if (!notificationChannel || !(notificationChannel.type == 'GUILD_TEXT' || notificationChannel.type == 'GUILD_NEWS')) return
 		const guildId = notificationChannel.guild.id
 		const notificationMessageContent = process.env.twitchNotificationsRoleId ? `<@&${process.env.twitchNotificationsRoleId}>` : null
@@ -39,7 +39,7 @@ export default async function execute(client: client) {
 		embed.setFooter(`Last updated ${new Date(Date.now()).toTimeString()}`)
 		embed.setColor('#A077FF')
 		const LiveTime = await getKey(guildId, 'LiveTime')
-        if (LiveTime != startedAt) {
+		if (LiveTime != startedAt) {
 			client.logger.info('twitch: Twitch channel is now live, and we haven\'t notified yet. Notifying now...')
 			// We haven't notified for this live
 			await setKey(guildId, 'LiveTime', startedAt) // Put the time of live in db so we don't notify twice
@@ -50,7 +50,7 @@ export default async function execute(client: client) {
 		} else {
 			// We've already notified for this live
 			const savedLiveIdentifier = await getKey(guildId, 'LiveIdentifier')
-            if (!savedLiveIdentifier) {
+			if (!savedLiveIdentifier) {
 				await setKey(guildId, 'LiveIdentifier', newLiveIdentifier)
 			}
 			if (newLiveIdentifier == savedLiveIdentifier) {

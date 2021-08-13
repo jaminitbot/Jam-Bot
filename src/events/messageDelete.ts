@@ -1,9 +1,9 @@
 import { Message, MessageEmbed } from "discord.js"
-import { client } from '../customDefinitions'
+import { BotClient } from '../customDefinitions'
 import { getKey } from '../functions/db'
 import { inputSnipe } from '../functions/snipe'
 
-export default async function register(client: client, message: Message): Promise<void> {
+export default async function register(client: BotClient, message: Message): Promise<void> {
 	if (!(message.channel.type == 'GUILD_NEWS' || message.channel.type == 'GUILD_TEXT')) return
 	if (message.author.bot) return
 	if (message.author.id == process.env.ownerId) return

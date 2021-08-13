@@ -1,5 +1,5 @@
 import { CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import gis = require('g-i-s');
 import isImage = require('is-image');
 import isNumber = require('is-number');
@@ -53,7 +53,7 @@ export async function searchForImage(search, position, nsfw, imageType): Promise
 		})
 	});
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('you need to specify what to search for!')
 	let splitBy = 0
 	let position

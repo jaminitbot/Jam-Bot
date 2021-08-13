@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { client } from '../../../customDefinitions'
+import { BotClient } from '../../../customDefinitions'
 
 const fs = require('fs')
 function generateEmbed(embed, modLogFiles) {
@@ -13,7 +13,7 @@ function generateEmbed(embed, modLogFiles) {
 export const name = 'modlog'
 export const description = 'Various modlog related commands'
 export const usage = 'settings modlog SETTING VALUE'
-export function execute(client: client, message: Message, args) {
+export function execute(client: BotClient, message: Message, args) {
 
 	const embed = {
 		title: 'Settings: Mod Log - Usage',

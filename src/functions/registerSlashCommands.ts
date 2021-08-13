@@ -3,12 +3,12 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const token = process.env.token
 const rest = new REST({ version: '9' }).setToken(token);
-import { client } from '../customDefinitions'
+import { BotClient } from '../customDefinitions'
 /**
  * Registers slash commands with discord
  * @param client Discord client
  */
-export default async function register(client: client) {
+export default async function register(client: BotClient) {
 	client.logger.verbose('Registering slash commands...')
 	const commands = client.commands
 	let data = []

@@ -3,21 +3,21 @@ import { Logger } from "winston";
 import { SlashCommandBuilder } from '@discordjs/builders'
 type permission = PermissionString | 'OWNER'
 
-export interface CollectionCommand {
-	executeSlash: (client: client, interaction: CommandInteraction) => void
-	executeButton: (client: client, interaction: ButtonInteraction) => void
-	slashData: SlashCommandBuilder;
-	allowInDm: boolean;
-	aliases: Array<string>;
-	name: string,
+export interface Command {
+	executeSlash: (client: BotClient, interaction: CommandInteraction) => void
+	executeButton: (client: BotClient, interaction: ButtonInteraction) => void
+	slashData: SlashCommandBuilder
+	allowInDm: boolean
+	aliases: Array<string>
+	name: string
 	description: string,
 	permissions: Array<permission>
 	usage: string
-	execute: (client: client, message: Message, args: Array<unknown>) => void
+	execute: (client: BotClient, message: Message, args: Array<unknown>) => void
 
 }
 
-export interface client extends Client {
-	logger: Logger;
-	commands: Collection<string, CollectionCommand>
+export interface BotClient extends Client {
+	logger: Logger
+	commands: Collection<string, Command>
 }

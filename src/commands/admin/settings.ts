@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 const fs = require('fs')
@@ -17,7 +17,7 @@ export const usage = 'settings'
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export function execute(client: client, message: Message, args) {
+export function execute(client: BotClient, message: Message, args) {
 	const embed = {
 		title: 'Settings - Usage',
 		description: '',

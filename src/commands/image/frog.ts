@@ -1,5 +1,5 @@
 import { CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { randomInt } from '../../functions/util'
 import { searchForImage } from './image'
 import { SlashCommandBuilder } from '@discordjs/builders'
@@ -12,7 +12,7 @@ export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	const imageUrl = await searchForImage('frog', randomInt(1, 25), false, 'frog')
 	message.channel.send(imageUrl)
 }

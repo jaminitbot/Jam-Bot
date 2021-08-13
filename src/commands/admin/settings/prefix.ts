@@ -1,11 +1,11 @@
 import { Message } from "discord.js"
-import { client } from '../../../customDefinitions'
+import { BotClient } from '../../../customDefinitions'
 import { setKey } from '../../../functions/db'
 
 export const name = 'prefix'
 export const description = 'Sets the bot prefix'
 export const usage = 'settings prefix $'
-export function execute(client: client, message: Message, args) {
+export function execute(client: BotClient, message: Message, args) {
 
 	const prefix = args[1]
 	if (!prefix)

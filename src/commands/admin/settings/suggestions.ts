@@ -1,13 +1,13 @@
-import {Message, TextChannel} from "discord.js"
-import {client} from '../../../customDefinitions'
-import {setKey} from '../../../functions/db'
-import {getChannelFromString} from '../../../functions/util'
+import { Message, TextChannel } from "discord.js"
+import { BotClient } from '../../../customDefinitions'
+import { setKey } from '../../../functions/db'
+import { getChannelFromString } from '../../../functions/util'
 export const name = 'suggestions'
 export const description = 'Sets the channel for suggestions'
 export const usage = 'settings suggestions #suggestions'
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	//@ts-expect-error
-	const channel:TextChannel = await getChannelFromString(message.guild, args[0])
+	const channel: TextChannel = await getChannelFromString(message.guild, args[0])
 	if (!channel)
 		return message.channel.send(
 			'You need to specify a channel!\n' + this.usage

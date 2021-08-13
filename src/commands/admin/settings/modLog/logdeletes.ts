@@ -1,11 +1,11 @@
-import { client } from '../../../../customDefinitions'
+import { BotClient } from '../../../../customDefinitions'
 import { Message } from "discord.js"
 import { setKey } from '../../../../functions/db'
 
 export const name = 'logdeletes'
 export const description = 'Turns logging deletes on or off'
 export const usage = 'settings modlog logdeletes on|off'
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	const toggle = String(args[2]).toLowerCase()
 	if (!toggle || !(toggle == 'on' || toggle == 'off')) {
 		return message.channel.send(

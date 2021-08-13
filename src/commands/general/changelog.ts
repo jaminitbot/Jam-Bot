@@ -1,5 +1,5 @@
 import { Message, MessageEmbed } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 import fetch from 'node-fetch'
@@ -27,7 +27,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('changeid')
 			.setDescription('(Optional) the specific change you\'d like to get')
 			.setRequired(false))
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	if (!process.env.changelogLink) return message.channel.send('No changelog URL specified :(')
 	const sentMessage = await message.channel.send('Loading changelog...')
 	const embed = new MessageEmbed()

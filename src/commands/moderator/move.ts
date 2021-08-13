@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, VoiceChannel } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { getChannelFromString } from '../../functions/util'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -37,7 +37,7 @@ async function moveVoiceChannel(fromChannel: VoiceChannel, toChannel: VoiceChann
 	}
 	return `Successfully moved ${count} user(s) from ${fromChannel.name} to ${toChannel.name}.`
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0] || !args[1]) return message.channel.send('You need to specify two channels!')
 	//@ts-expect-error
 	const fromChannel: VoiceChannel = await getChannelFromString(message.guild, args[0])

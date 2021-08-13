@@ -1,5 +1,5 @@
 import { CommandInteraction, Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import fetch from 'node-fetch'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -32,7 +32,7 @@ async function getDogPhoto(breed) {
 	}
 	return data.message ?? "Unable to get a doggy, the api's probably down"
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	let data
 	if (args[0]) {
 		if (args[1]) {

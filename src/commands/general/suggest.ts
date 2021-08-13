@@ -1,6 +1,6 @@
 // TODO: Improve suggestions to allow for editing and implementation
 import { CommandInteraction, Message, MessageEmbed, TextChannel } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { getKey, setKey } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -16,7 +16,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('suggestion')
 			.setDescription('The thing to suggest')
 			.setRequired(true))
-async function sendSuggestion(client: client, suggestion: string, guildId: string, attachment: string, author) {
+async function sendSuggestion(client: BotClient, suggestion: string, guildId: string, attachment: string, author) {
 	const suggestionChannelId = await getKey(guildId, 'suggestionChannel')
 	if (!suggestionChannelId) return 1 // Suggestions aren't setup yet
 	// @ts-expect-error
@@ -42,7 +42,7 @@ async function sendSuggestion(client: client, suggestion: string, guildId: strin
 	await suggestionMessage.react('❌')
 	return 0
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('You need to specify what to suggest!')
 	message.delete()
 	const suggestionDescription = args.join(' ')

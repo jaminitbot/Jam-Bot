@@ -1,5 +1,5 @@
 import { Message, MessageEmbed } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { returnSnipedMessages, snipeLifetime } from '../../functions/snipe'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -44,7 +44,7 @@ function generateEditsEmbed(snipes, message: Message, embed: MessageEmbed) {
 	embed.addField('Message Edits', field || 'NONE', false)
 	return embed
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	const snipes = returnSnipedMessages()
 	const embed = new MessageEmbed()
 	let newEmbed

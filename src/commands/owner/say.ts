@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, TextChannel } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { getChannelFromString } from '../../functions/util'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -27,7 +27,7 @@ async function sayInChannel(thingToSay, channel) {
 		return 'Unknown error sending message.'
 	}
 }
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	// @ts-expect-error
 	const channel: TextChannel = await getChannelFromString(message.guild, args[0])
 	if (!channel) return message.reply('you need to specify a valid channel')

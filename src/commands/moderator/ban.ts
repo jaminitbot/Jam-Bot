@@ -1,6 +1,6 @@
 import { Message } from "discord.js"
 import KickOrBan from '../../functions/kickorban'
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'ban'
@@ -18,6 +18,6 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('reason')
 			.setDescription('(Optional) reason to ban the user')
 			.setRequired(false))
-export function execute(client: client, message: Message, args) {
+export function execute(client: BotClient, message: Message, args) {
 	KickOrBan(message, args, 'ban')
 }

@@ -1,5 +1,5 @@
 import { Message } from "discord.js"
-import { client } from '../../customDefinitions'
+import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 const fs = require('fs')
 import { uploadToHasteBin } from '../../functions/util'
@@ -12,7 +12,7 @@ export const permissions = ['OWNER']
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export async function execute(client: client, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	let logFilePath = args[0] ? args[0].toString().toLowerCase() : null
 	if (!logFilePath) {
 		logFilePath = 'combined.log'
