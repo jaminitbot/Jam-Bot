@@ -11,12 +11,10 @@ export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 export function execute(client: BotClient, message: Message, args) {
-	const TimeDate = dayjs().format("hh:mm:ss a [-] YY:MM:DD")
-	message.channel.send(
-		'The bot has been up since: ' + TimeDate
-	)
+	const TimeDate = dayjs().format("DD:MM:YYYY [-] hh:mm:ss a")
+	message.channel.send('The bot has been up since: ' + TimeDate)
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
-	const TimeDate = dayjs().format("hh:mm:ss a [-] YY:MM:DD")
+	const TimeDate = dayjs().format("DD:MM:YYYY [-] hh:mm:ss a")
 	interaction.reply('The bot has been up since: ' + TimeDate)
 }
