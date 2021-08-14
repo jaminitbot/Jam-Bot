@@ -14,10 +14,14 @@ export interface Command {
 	permissions: Array<Permission>
 	usage: string
 	execute: (client: BotClient, message: Message, args: Array<unknown>) => void
-
 }
-
+interface Event {
+	name: string
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	register: Function
+}
 export interface BotClient extends Client {
+	events: Collection<string, Event>
 	logger: Logger
 	commands: Collection<string, Command>
 }

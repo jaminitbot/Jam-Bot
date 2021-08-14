@@ -2,7 +2,9 @@ import { Message, MessageEmbed } from "discord.js";
 import { BotClient } from "src/customDefinitions";
 import { inputSnipe } from '../functions/snipe'
 import { getKey } from '../functions/db'
-export default async function register(client: BotClient, oldMessage: Message, newMessage: Message): Promise<void> {
+export const name = "messageUpdate"
+
+export async function register(client: BotClient, oldMessage: Message, newMessage: Message): Promise<void> {
 	try {
 		if (oldMessage.partial) await oldMessage.fetch(true)
 		if (newMessage.partial) await newMessage.fetch(true)

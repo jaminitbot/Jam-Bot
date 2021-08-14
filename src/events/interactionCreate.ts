@@ -3,7 +3,9 @@ import { Interaction } from "discord.js";
 import { getKey } from "../functions/db";
 import { checkPermissions } from "../functions/util";
 import { getErrorMessage, getInvalidPermissionsMessage } from '../functions/messages'
-export default async function register(client: BotClient, interaction: Interaction) {
+export const name = "interactionCreate"
+
+export async function register(client: BotClient, interaction: Interaction) {
 	if (interaction.isCommand()) { // Is a slash command
 		const command = client.commands.get(interaction.commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(interaction.commandName))
 		if (!command) return

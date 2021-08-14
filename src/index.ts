@@ -4,26 +4,16 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 
-import { Client, ClientOptions, Collection, Intents } from 'discord.js'
+import { Client, ClientOptions, Intents } from 'discord.js'
 import { createLogger, transports, format } from "winston";
 import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
 import registerSlashCommands from './functions/registerSlashCommands'
 
-// Event Imports
-import guildCreate from './events/guildCreate'
-import guildDelete from './events/guildDelete'
-import messageCreate from './events/messageCreate'
-import messageUpdate from './events/messageUpdate'
-import messageDelete from './events/messageDelete'
-import interactionCreate from './events/interactionCreate'
-import guildMemberUpdate from './events/guildMemberUpdate'
-import guildMemberAdd from './events/guildMemberAdd'
-
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
-import { stopBot } from './functions/util'
+import { stopBot, registerCommands, registerEvents } from './functions/util'
 
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
@@ -69,16 +59,9 @@ import { stopBot } from './functions/util'
 	// Registers all the commands in the commands folder
 	// https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
 	client.logger.verbose('Registering commands...')
-	client.commands = new Collection
-	const fs = require('fs')
-	const commandFolders = fs.readdirSync('./commands');
-	for (const folder of commandFolders) {
-		const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
-		for (const file of commandFiles) {
-			const command = require(`./commands/${folder}/${file}`);
-			client.commands.set(command.name, command);
-		}
-	}
+	registerCommands(client)
+	client.logger.verbose('Registering events...')
+	registerEvents(client)
 	// Database connections
 	client.logger.verbose('Attempting to connect to database...')
 	const db = await connect(client.logger)
@@ -91,21 +74,19 @@ import { stopBot } from './functions/util'
 
 	// Events
 	client.on('guildCreate', guild => {
-		guildCreate(guild)
+		client.events.get('guildCreate').register(guild)
 	})
 	client.on('guildDelete', guild => {
-		guildDelete(guild)
+		client.events.get('guildDelete').register(guild)
 	})
-	client.on('messageCreate', msg => {
-		messageCreate(client, msg)
+	client.on('messageCreate', message => {
+		client.events.get('messageCreate').register(client, message)
 	})
-	client.on('messageDelete', msg => {
-		// @ts-expect-error
-		messageDelete(client, msg)
+	client.on('messageDelete', message => {
+		client.events.get('messageDelete').register(client, message)
 	})
 	client.on('messageUpdate', (oldMessage, newMessage) => {
-		// @ts-expect-error
-		messageUpdate(client, oldMessage, newMessage)
+		client.events.get('messageUpdate').register(client, oldMessage, newMessage)
 	})
 	client.on('error', error => {
 		client.logger.error('Error logged: ' + error)
@@ -126,13 +107,13 @@ import { stopBot } from './functions/util'
 		)
 	})
 	client.on('interactionCreate', interaction => {
-		interactionCreate(client, interaction)
+		client.events.get('interactionCreate').register(client, interaction)
 	})
 	client.on('guildMemberUpdate', (oldMember, newMember) => {
-		guildMemberUpdate(oldMember, newMember)
+		client.events.get('guildMemberUpdate').register(oldMember, newMember)
 	})
 	client.on('guildMemberAdd', member => {
-		guildMemberAdd(member)
+		client.events.get('guildMemberAdd').register(member)
 	})
 	// SIGINT STUFF
 	if (process.platform === 'win32') {

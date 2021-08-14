@@ -5,9 +5,10 @@ import { Message, MessageEmbed } from 'discord.js'
 
 import { getErrorMessage } from '../functions/messages'
 const bannedIds = ['']
+export const name = "messageCreate"
 
 // let mentionSlash = true
-export default async function register(client: BotClient, message: Message) {
+export async function register(client: BotClient, message: Message) {
 	if (message.author.bot) return
 	if (bannedIds.includes(message.author.id)) return
 	const guildId = message.guild ? message.guild.id : 0

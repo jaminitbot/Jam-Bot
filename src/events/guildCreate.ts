@@ -1,5 +1,5 @@
 import { Guild } from "discord.js"
-
+export const name = "guildCreate"
 export async function generateGuildInfoEmbed(guild: Guild) {
 	const owner = await guild.fetchOwner()
 	return {
@@ -16,7 +16,7 @@ export async function generateGuildInfoEmbed(guild: Guild) {
 		timestamp: Date.now(),
 	}
 }
-export default async function register(guild: Guild) {
+export async function register(guild: Guild) {
 	await guild.client.channels.fetch(process.env.guildLogChannel)
 		// @ts-expect-error
 		.send({ embed: await this.generateGuildInfoEmbed(guild) })

@@ -2,8 +2,9 @@ import { Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../customDefinitions'
 import { getKey } from '../functions/db'
 import { inputSnipe } from '../functions/snipe'
+export const name = "messageDelete"
 
-export default async function register(client: BotClient, message: Message): Promise<void> {
+export async function register(client: BotClient, message: Message): Promise<void> {
 	if (message.partial) return
 	if (!(message.channel.type == 'GUILD_NEWS' || message.channel.type == 'GUILD_TEXT')) return
 	if (message.author.bot) return
