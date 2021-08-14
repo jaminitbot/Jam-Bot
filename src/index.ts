@@ -1,6 +1,6 @@
 process.chdir(__dirname)
 // Mr imports
-if (process.env.NODE_ENV !== 'production') {
+if (!process.env.token) {
 	require('dotenv').config();
 }
 
