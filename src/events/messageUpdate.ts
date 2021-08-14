@@ -11,7 +11,7 @@ export async function register(client: BotClient, oldMessage: Message, newMessag
 	} catch {
 		return
 	}
-
+	if (oldMessage.content == newMessage.content) return
 	if (!(newMessage.channel.type == 'GUILD_TEXT' || newMessage.channel.type == 'GUILD_NEWS')) return
 	if (newMessage.author.bot) return
 	const owners = process.env.ownerId.split(',')
@@ -34,6 +34,7 @@ export async function register(client: BotClient, oldMessage: Message, newMessag
 		embed.addField(`Message edited in #${newMessage.channel.name}`, `**Before:** ${oldMessage.content ?? '[No Content]'}\n**After:** ${newMessage.content ?? '[No Content]'}`)
 		embed.setFooter(`User ID: ${newMessage.author.id}, Channel ID: ${newMessage.channel.id}`)
 		embed.setTimestamp(Date.now())
+		embed.setColor('#61C9A8')
 		modLogChannel.send({ embeds: [embed] })
 	}
 }

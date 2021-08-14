@@ -3,7 +3,7 @@ import { BotClient } from '../customDefinitions'
 import { getKey } from '../functions/db'
 import { inputSnipe } from '../functions/snipe'
 export const name = "messageDelete"
-
+// https://coolors.co/aa8f66-ff0000-ffeedb-61c9a8-121619
 export async function register(client: BotClient, message: Message): Promise<void> {
 	if (message.partial) return
 	if (!(message.channel.type == 'GUILD_NEWS' || message.channel.type == 'GUILD_TEXT')) return
