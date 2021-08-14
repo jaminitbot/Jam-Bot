@@ -2,7 +2,8 @@ import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { registerCommands, registerEvents } from '../../functions/util'
-
+const { promisify } = require('util');
+const exec = promisify(require('child_process').exec)
 export const name = 'reload'
 export const description = 'Displays debug information'
 export const permissions = ['OWNER']
@@ -14,6 +15,7 @@ export const slashData = new SlashCommandBuilder()
 
 export async function execute(client: BotClient, message: Message, args) {
 	try {
+		await exec('git pull')
 		registerCommands(client)
 		registerEvents(client)
 	} catch (err) {
@@ -24,6 +26,7 @@ export async function execute(client: BotClient, message: Message, args) {
 
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	try {
+		await exec('git pull')
 		registerCommands(client)
 		registerEvents(client)
 	} catch (err) {
