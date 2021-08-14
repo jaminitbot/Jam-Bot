@@ -25,6 +25,7 @@ export async function execute(client: BotClient, message: Message, args) {
 }
 
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+	await interaction.deferReply()
 	try {
 		await exec('git pull')
 		registerCommands(client)
@@ -32,5 +33,5 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	} catch (err) {
 		return client.logger.error('reloadCommand: Error when registering commands/events: ' + err)
 	}
-	interaction.reply({ content: 'Sucessfully reloaded commands and events' })
+	interaction.editReply({ content: 'Sucessfully reloaded commands and events' })
 }
