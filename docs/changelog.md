@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.1](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.5.0...v2.5.1) (2021-08-18)
+
+
+### Features
+
+* docker! ([b3ca3b3](https://github.com/jamesatjaminit/Jam-Bot/commit/b3ca3b3508dc8a0111712445f1fc0830b937be19))
+* reload command ([39595aa](https://github.com/jamesatjaminit/Jam-Bot/commit/39595aa835005ec9d77753b0a20bb5869846ea40))
+* reload.ts uses git pull ([095a5d2](https://github.com/jamesatjaminit/Jam-Bot/commit/095a5d2e673b583eb58d77d10ee844d1dfb387f5))
+* use discord timestamps in twitch embex ([6f3ac09](https://github.com/jamesatjaminit/Jam-Bot/commit/6f3ac092552d76b7d80580202071bee7f21fcac6))
+
+
+### Bug Fixes
+
+* catch errors fetching data from twitch ([09d8fae](https://github.com/jamesatjaminit/Jam-Bot/commit/09d8fae3ff01e899565823ecd49f54b7ec6729db))
+* date formatting in uptime command ([a81011b](https://github.com/jamesatjaminit/Jam-Bot/commit/a81011bdf9f47b16a0880718f61ead2bb325ef5b))
+* defer reload command reply ([0b04806](https://github.com/jamesatjaminit/Jam-Bot/commit/0b048069c64e4faa6316f7b613b45defaa7628a0))
+* fix debug command ([8b7f46a](https://github.com/jamesatjaminit/Jam-Bot/commit/8b7f46a786ea80f5655b19011a8d91ee4368202c))
+* fix message edits ([dc63bdd](https://github.com/jamesatjaminit/Jam-Bot/commit/dc63bdd40cdd24df1f89255133b5d869925df8f3))
+* remove live ping ([6b09780](https://github.com/jamesatjaminit/Jam-Bot/commit/6b09780f0d67bda623ec14f38380f8fe94f4f719))
+* restart policy docker-compose.yml ([670aa15](https://github.com/jamesatjaminit/Jam-Bot/commit/670aa156686b9db07851918f25657da42c3d858e))
+
 ## [2.5.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.4.1...v2.5.0) (2021-08-13)
 
 
