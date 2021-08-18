@@ -28,18 +28,22 @@ import { stopBot, registerCommands, registerEvents } from './functions/util'
 	// Logging
 	client.logger = createLogger({
 		level: 'info',
-		format: format.combine(
-			format.timestamp(),
-			format.json()
-		),
 		transports: [
 			new transports.File({
 				filename: 'error.log',
 				level: 'warn',
+				format: format.combine(
+					format.timestamp(),
+					format.json()
+				),
 			}),
 			new transports.File({
 				filename: 'combined.log',
 				level: 'info',
+				format: format.combine(
+					format.timestamp(),
+					format.json()
+				),
 			}),
 		],
 	})

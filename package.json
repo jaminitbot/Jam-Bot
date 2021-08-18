@@ -6,6 +6,7 @@
     "scripts": {
         "start": "node built/index.js",
         "build": "yarn tsc",
+        "dev": "yarn build && yarn start",
         "change": "node devScripts/addChange.js",
         "release:minor": "yarn release --release-as minor",
         "release:patch": "yarn release --release-as patch",
