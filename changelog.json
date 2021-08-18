@@ -91,5 +91,10 @@
         "title": "Snipe improvements",
         "date": 1628870851352,
         "description": "The snipe command now looks nicer, and works with slash commands!"
+    },
+    {
+        "title": "Image command improvements",
+        "date": 1629287986702,
+        "description": "The bot now checks more thoroughly to see if an image URL is actually an image URL, better results!"
     }
 ]
