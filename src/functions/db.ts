@@ -23,6 +23,7 @@ export async function connect(logger: Logger) {
 	this.dbCache = new NodeCache({ stdTTL: 300, checkperiod: 60 })
 	return { setKey: this.setKey, getKey: this.getKey, returnRawClient: this.returnRawClient }
 }
+
 /** 
  * Sets a specified key for the guild
  * @param guildIdInput The guild identifier

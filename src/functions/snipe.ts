@@ -1,4 +1,4 @@
-import { Message, MessageAttachment, User } from "discord.js"
+import { Message, User } from "discord.js"
 
 export const snipeLifetime = 20
 
@@ -7,7 +7,6 @@ export interface MessageSniped {
 	oldMessage: string,
 	newMessage: string,
 	user: User,
-	attachments: MessageAttachment,
 	type: string
 }
 const buffer = new Map<number, MessageSniped>()
@@ -29,7 +28,6 @@ export async function inputSnipe(message: Message, oldMessage: Message, type: st
 		oldMessage: oldMessage.content || 'Message had no content',
 		newMessage: message.content || 'Message had no content',
 		user: message.author,
-		attachments: message.attachments.first() || null,
 		type: type
 	}
 	const id = Math.random()
