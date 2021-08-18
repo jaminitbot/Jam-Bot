@@ -7,16 +7,22 @@ import sha1 = require('sha1')
 import dayjs = require('dayjs')
 export default async function execute(client: BotClient) {
 	if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsUsername) return
-	const response = await fetch(
-		'https://api.twitch.tv/helix/search/channels?query=' +
-		process.env.twitchNotificationsUsername,
-		{
-			headers: {
-				'CLIENT-ID': process.env.twitchApiClientId,
-				Authorization: 'Bearer ' + process.env.twitchApiSecret,
-			},
-		}
-	)
+	let response
+	try {
+		response = await fetch(
+			'https://api.twitch.tv/helix/search/channels?query=' +
+			process.env.twitchNotificationsUsername,
+			{
+				headers: {
+					'CLIENT-ID': process.env.twitchApiClientId,
+					Authorization: 'Bearer ' + process.env.twitchApiSecret,
+				},
+			}
+		)
+	} catch (err) {
+		client.logger.error('twitchNotificiations: failed fetching twich information with error: ' + err)
+		return
+	}
 	const json = await response.json()
 	const liveInfo = json.data[0]
 	if (liveInfo.is_live) { // Checks if broadcaster is live
