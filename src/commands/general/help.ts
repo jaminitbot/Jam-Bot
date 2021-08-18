@@ -40,7 +40,7 @@ async function returnHelpEmbed(client: BotClient, commandToGet, prefix) {
 	return embed
 }
 export async function execute(client: BotClient, message: Message, args) {
-	const commandToFind = String(args[0]).toLowerCase()
+	const commandToFind = args[0]
 	const guildId = message.guild ? message.guild.id : 0
 	const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
 	const embed = await returnHelpEmbed(client, commandToFind, prefix)
