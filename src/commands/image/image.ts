@@ -1,7 +1,7 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import gis = require('g-i-s');
-import isImage = require('is-image');
+import isImage = require('is-image-url');
 import isNumber = require('is-number');
 import { SlashCommandBuilder } from '@discordjs/builders'
 
