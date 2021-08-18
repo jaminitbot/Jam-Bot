@@ -19,9 +19,9 @@ async function returnHelpEmbed(client: BotClient, commandToGet, prefix) {
 	embed.setColor('#439A86')
 	if (commandToGet) {
 		commandToGet = String(commandToGet).toLowerCase()
-		const command = client.commands.get(commandToGet) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandToGet));
-		embed.setTitle('Help: ' + prefix + command.name ?? commandToGet)
+		const command = client.commands.get(commandToGet) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandToGet))
 		if (command) {
+			embed.setTitle('Help: ' + prefix + command.name ?? commandToGet)
 			const description = command.description ?? 'None'
 			const usage = command.usage ? prefix + command.usage : prefix + commandToGet
 			embed.addField('Description', description, true)
