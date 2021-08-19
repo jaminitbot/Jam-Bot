@@ -56,9 +56,6 @@ export default async function execute(client: BotClient) {
 		} else {
 			// We've already notified for this live
 			const savedLiveIdentifier = await getKey(guildId, 'LiveIdentifier')
-			if (!savedLiveIdentifier) {
-				await setKey(guildId, 'LiveIdentifier', newLiveIdentifier)
-			}
 			if (newLiveIdentifier == savedLiveIdentifier) {
 				// If the title in the message and title of stream is the same, do nothing
 				return

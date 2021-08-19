@@ -1,11 +1,10 @@
-import { GuildMember, Message, Guild, Channel, Collection } from "discord.js"
+import { GuildMember, Message, Guild, Channel } from "discord.js"
 import { MongoClient } from "mongodb"
 import { BotClient, Permission } from "../customDefinitions"
 import { getInvalidPermissionsMessage } from './messages'
 import is_number = require("is-number");
 import fetch from "node-fetch";
 import { Logger } from "winston";
-const fs = require('fs')
 /**
  * Checks permissions against a guild member
  * @param member Guild member to check
@@ -157,26 +156,4 @@ export function removeItemFromArray(arr: Array<any>, value: unknown) {
 		}
 	}
 	return arr;
-}
-
-export function registerCommands(client: BotClient) {
-	client.commands = new Collection
-	const commandFolders = fs.readdirSync('./commands')
-	for (const folder of commandFolders) {
-		const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'))
-		for (const file of commandFiles) {
-			delete require.cache[require.resolve(`../commands/${folder}/${file}`)]
-			const command = require(`../commands/${folder}/${file}`)
-			client.commands.set(command.name, command)
-		}
-	}
-}
-export function registerEvents(client: BotClient) {
-	client.events = new Collection
-	const commandFiles = fs.readdirSync(`./events`).filter(file => file.endsWith('.js'))
-	for (const file of commandFiles) {
-		delete require.cache[require.resolve(`../events/${file}`)]
-		const event = require(`../events/${file}`)
-		client.events.set(event.name, event)
-	}
 }

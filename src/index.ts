@@ -8,13 +8,12 @@ import { Client, ClientOptions, Intents } from 'discord.js'
 import { createLogger, transports, format } from "winston";
 import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
-import registerSlashCommands from './functions/registerSlashCommands'
+import { registerCommands, registerEvents, registerSlashCommands } from './functions/registerCommands'
 
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
-import { stopBot, registerCommands, registerEvents } from './functions/util'
-
+import { stopBot } from './functions/util'
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
 	const clientOptions: ClientOptions = {
