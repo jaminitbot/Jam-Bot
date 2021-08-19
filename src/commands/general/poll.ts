@@ -33,7 +33,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	const embed = createPollEmbed(text, message.author.tag, message.member.user.avatarURL())
 	const sent = await message.channel.send({ embeds: [embed] })
 	await sent.react('✅')
-	await delay(1100)
+	await delay(1010)
 	sent.react('❌')
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {

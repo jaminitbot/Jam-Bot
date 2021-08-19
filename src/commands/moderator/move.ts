@@ -21,6 +21,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(true))
 async function moveVoiceChannel(client: BotClient, fromChannel: VoiceChannel, toChannel: VoiceChannel, guildId: string, intiatingTag: string) {
 	if (!fromChannel || !toChannel) return 'One of those channels weren\'t valid!'
+	if (!toChannel.guild.me.permissions.has('MOVE_MEMBERS')) return 'I don\'t have permission to move people, ask an admin to check my permissions!'
 	if (fromChannel.type != 'GUILD_VOICE' || toChannel.type != 'GUILD_VOICE') return 'One or more of those channels weren\'t a voice channel!'
 	if (fromChannel.guild.id != guildId || toChannel.guild.id != guildId) return 'Hey! Both of the channels need to be in the same server!'
 	let count = 0

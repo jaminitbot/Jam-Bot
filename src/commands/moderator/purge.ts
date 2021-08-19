@@ -1,4 +1,4 @@
-import { Channel, CommandInteraction, Message } from "discord.js"
+import { CommandInteraction, Message, TextBasedChannels } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
@@ -23,10 +23,9 @@ export const slashCommandOptions = [{
 	description: 'The number of messages to purge',
 	required: true
 }]
-async function bulkDeleteMessages(channel: Channel, NumOfMessagesToDelete) {
+async function bulkDeleteMessages(channel: TextBasedChannels, NumOfMessagesToDelete) {
 	if (channel.type != 'GUILD_TEXT' && channel.type != 'GUILD_NEWS') return
-	// @ts-expect-error
-	if (!channel.guild.me.permissions.has(['MANAGE_MESSAGES'])) return "I don't have permission to perform this command, make sure I have the manage messages permission!"
+	if (!channel.guild.me.permissions.has(['MANAGE_MESSAGES'])) return 'I don\'t have permission to delete messages, ask an admin to check my permissions!'
 	const deleteCount = parseInt(NumOfMessagesToDelete)
 	if (deleteCount < 1) {
 		return "You can't delete less than one message silly!"
@@ -34,7 +33,6 @@ async function bulkDeleteMessages(channel: Channel, NumOfMessagesToDelete) {
 		// Discord api doesn't let us do more than 100
 		return "You can't delete more than 100 messages in one go!"
 	}
-	// @ts-expect-error
 	await channel.bulkDelete(deleteCount + 1).catch((error) => {
 		// Delete +1 since we need to delete the initiating command as well
 		return messages.getErrorMessage()
@@ -44,12 +42,10 @@ async function bulkDeleteMessages(channel: Channel, NumOfMessagesToDelete) {
 export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('You need to specify how many messages to purge!')
 	if (!isNumber(args[0])) return message.reply('you need to specify a number!')
-	// @ts-expect-error
 	const sentMessage = await message.channel.send(await bulkDeleteMessages(message.channel, args[0]))
 	setTimeout(() => sentMessage.delete(), 3 * 1000)
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const numOfMessages = interaction.options.getInteger('number')
-	// @ts-expect-error
 	await interaction.reply({ content: await bulkDeleteMessages(interaction.channel, numOfMessages), ephemeral: true })
 }

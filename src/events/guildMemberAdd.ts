@@ -7,7 +7,7 @@ export async function register(member: GuildMember) {
 			await member.roles.add(process.env.DEFAULT_ROLE)
 			// eslint-disable-next-line no-empty
 		} catch (err) {
-			console.error(err)
+			return
 		}
 	}
 }

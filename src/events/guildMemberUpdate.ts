@@ -8,9 +8,8 @@ export async function register(oldMember: GuildMember | PartialGuildMember, newM
 				await newMember.roles.add(process.env.DEFAULT_ROLE)
 				// eslint-disable-next-line no-empty
 			} catch (err) {
-				console.error(err)
+				return
 			}
-
 		}
 	}
 

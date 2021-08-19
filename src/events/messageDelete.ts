@@ -29,7 +29,6 @@ export async function register(client: BotClient, message: Message): Promise<voi
 		embed.setColor('#FF0000')
 		embed.setFooter(`User ID: ${message.author.id}, Channel ID: ${message.channel.id}`)
 		embed.setTimestamp(Date.now())
-		modLogChannel.send({ embeds: [embed] })
 	}
 	//#endregion
 }
