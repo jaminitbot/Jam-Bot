@@ -7,11 +7,6 @@ let totalSlashCommandsCreated = 0
 // eslint-disable-next-line prefer-const
 let dbObject = {}
 export async function connectToSatsCollection(databaseClient: MongoClient) {
-	try {
-		databaseClient.connect()
-	} catch (e) {
-		return null
-	}
 	const db = databaseClient.db(process.env.databaseName)
 	this.db = db.collection('stats')
 	const newDb: Collection = this.db

@@ -1,3 +1,7 @@
 bot:
   build: .
   restart: unless-stopped
+docs:
+  build: docs
+  restart: unless-stopped
+  ports: [8014:80]
