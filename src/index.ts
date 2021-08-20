@@ -150,7 +150,7 @@ import { stopBot } from './functions/util'
 				// Twitch notifications
 				sendTwitchNotifications(client)
 			})
-			scheduleJob('* * * * *', function () {
+			scheduleJob('*/10 * * * *', function () {
 				saveStatsToDB()
 			})
 		}
