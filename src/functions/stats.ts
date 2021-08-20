@@ -68,4 +68,9 @@ export async function saveStatsToDB() {
 	const mongoDbObject = { date: new Date, 'totalMessagesCreated': totalMessagesCreated, 'totalMessagesDeleted': totalMessagesDeleted, 'totalMessagesEdited': totalMessagesEdited, 'totalSlashCommandsCreated': totalSlashCommandsCreated, 'guildStats': dbObject }
 	const db: Collection = this.db
 	db.insertOne(mongoDbObject)
+	dbObject = {}
+	totalMessagesCreated = 0
+	totalMessagesDeleted = 0
+	totalMessagesEdited = 0
+	totalSlashCommandsCreated = 0
 }
