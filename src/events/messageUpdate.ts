@@ -35,6 +35,11 @@ export async function register(client: BotClient, oldMessage: Message, newMessag
 		embed.setFooter(`User ID: ${newMessage.author.id}, Channel ID: ${newMessage.channel.id}`)
 		embed.setTimestamp(Date.now())
 		embed.setColor('#61C9A8')
-		modLogChannel.send({ embeds: [embed] })
+		try {
+			modLogChannel.send({ embeds: [embed] })
+		} catch (err) {
+			return
+		}
+
 	}
 }
