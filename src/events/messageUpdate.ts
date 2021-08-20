@@ -2,6 +2,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { BotClient } from "src/customDefinitions";
 import { inputSnipe } from '../functions/snipe'
 import { getKey } from '../functions/db'
+import { storeMessageEdit } from '../functions/stats'
 export const name = "messageUpdate"
 
 export async function register(client: BotClient, oldMessage: Message, newMessage: Message): Promise<void> {
@@ -12,6 +13,7 @@ export async function register(client: BotClient, oldMessage: Message, newMessag
 		return
 	}
 	if (oldMessage.content == newMessage.content) return
+	storeMessageEdit(newMessage)
 	if (!(newMessage.channel.type == 'GUILD_TEXT' || newMessage.channel.type == 'GUILD_NEWS')) return
 	if (newMessage.author.bot) return
 	const owners = process.env.ownerId.split(',')

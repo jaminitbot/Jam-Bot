@@ -2,7 +2,7 @@ import { checkPermissions, returnInvalidPermissionMessage } from '../functions/u
 import { getKey } from '../functions/db'
 import { BotClient } from '../customDefinitions'
 import { Message, MessageEmbed } from 'discord.js'
-
+import { storeMessageCreate } from '../functions/stats'
 import { getErrorMessage } from '../functions/messages'
 const bannedIds = ['']
 export const name = "messageCreate"
@@ -10,6 +10,7 @@ export const name = "messageCreate"
 // let mentionSlash = true
 export async function register(client: BotClient, message: Message) {
 	if (message.author.bot) return
+	storeMessageCreate(message)
 	if (bannedIds.includes(message.author.id)) return
 	const guildId = message.guild ? message.guild.id : 0
 	const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix

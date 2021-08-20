@@ -9,7 +9,7 @@ import { createLogger, transports, format } from "winston";
 import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
 import { registerCommands, registerEvents, registerSlashCommands } from './functions/registerCommands'
-
+import { saveStatsToDB, connectToSatsCollection } from './functions/stats'
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
@@ -74,7 +74,7 @@ import { stopBot } from './functions/util'
 	} else {
 		client.logger.verbose("Successfully connected to database")
 	}
-
+	connectToSatsCollection(returnRawClient())
 	// Events
 	client.on('guildCreate', guild => {
 		client.events.get('guildCreate').register(guild)
@@ -149,6 +149,10 @@ import { stopBot } from './functions/util'
 			scheduleJob('*/5 * * * * *', function () {
 				// Twitch notifications
 				sendTwitchNotifications(client)
+			})
+			// * * * * *
+			scheduleJob('*/5 * * * * *', function () {
+				saveStatsToDB()
 			})
 		}
 	})

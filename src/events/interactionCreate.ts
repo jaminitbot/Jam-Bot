@@ -3,12 +3,14 @@ import { Interaction } from "discord.js";
 import { getKey } from "../functions/db";
 import { checkPermissions } from "../functions/util";
 import { getErrorMessage, getInvalidPermissionsMessage } from '../functions/messages'
+import { storeSlashCommandCreate } from '../functions/stats'
 export const name = "interactionCreate"
 
 export async function register(client: BotClient, interaction: Interaction) {
 	if (interaction.isCommand()) { // Is a slash command
 		const command = client.commands.get(interaction.commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(interaction.commandName))
 		if (!command) return
+		storeSlashCommandCreate(interaction)
 		if (typeof command.executeSlash != 'function') {
 			const guildId = interaction.guild ? interaction.guild.id : 0
 			const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix

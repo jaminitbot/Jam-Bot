@@ -2,10 +2,12 @@ import { Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../customDefinitions'
 import { getKey } from '../functions/db'
 import { inputSnipe } from '../functions/snipe'
+import { storeMessageDelete } from '../functions/stats'
 export const name = "messageDelete"
 // https://coolors.co/aa8f66-ff0000-ffeedb-61c9a8-121619
 export async function register(client: BotClient, message: Message): Promise<void> {
 	if (message.partial) return
+	storeMessageDelete(message)
 	if (!(message.channel.type == 'GUILD_NEWS' || message.channel.type == 'GUILD_TEXT')) return
 	if (message.author.bot) return
 	const owners = process.env.ownerId.split(',')
