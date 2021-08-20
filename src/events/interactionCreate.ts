@@ -14,7 +14,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 			const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
 			return interaction.reply({ content: `This command hasn't been setup for slash commands yet, please use \`${prefix}${command.name}\` for the time being!`, ephemeral: true })
 		}
-		if (!interaction.channel && !command.allowInDm) return interaction.reply('Sorry, that command can only be run in a server!')
+		if (!interaction.channel) return interaction.reply('Sorry, slash commands don\'t work in dms yet')
 		if (command.permissions) {
 			// @ts-expect-error
 			if (!checkPermissions(interaction.member, [...command.permissions])) {
