@@ -19,7 +19,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('value')
 			.setDescription('Value to set')
 			.setRequired(true))
-	.addIntegerOption(option =>
+	.addStringOption(option =>
 		option.setName('guild')
 			.setDescription('(Optional) guild id')
 			.setRequired(false))
@@ -60,7 +60,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	message.channel.send({ embeds: [embed] })
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
-	const guildId = interaction.options.getInteger('guildid') ?? interaction.guild.id
+	const guildId = interaction.options.getString('guildid') ?? interaction.guild.id
 	const key = interaction.options.getString('key')
 	const value = interaction.options.getString('value')
 	const embed = await returnSetKeyEmbed(guildId, key, value)
