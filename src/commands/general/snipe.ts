@@ -53,7 +53,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	const embed = returnSnipesEmbed(snipes, type, message.channel.id)
 	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL())
 	try {
-		message.channel.send({ embeds: [embed] })
+		await message.channel.send({ embeds: [embed] })
 	} catch (err) {
 		return
 	}
@@ -67,7 +67,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	if (type && type != 'edit' && type != 'delete') return interaction.reply({ content: 'Type has to be either `deletes` or `edits`', ephemeral: true })
 	const embed = returnSnipesEmbed(snipes, type, interaction.channel.id)
 	try {
-		interaction.reply({ embeds: [embed] })
+		await interaction.reply({ embeds: [embed] })
 	} catch (err) {
 		return
 	}
