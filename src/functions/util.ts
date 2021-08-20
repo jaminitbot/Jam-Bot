@@ -82,6 +82,9 @@ export async function getUserFromString(guild: Guild, text: string): Promise<Gui
 			if (text.startsWith('&')) { // Role
 				return null
 			}
+			if (text.startsWith('<#')) { // Channel
+				return null
+			}
 			return await guild.members.fetch(text)
 		} else if (is_number(text)) { // Plain ID
 			return await guild.members.fetch(text)
@@ -102,11 +105,14 @@ export async function getUserFromString(guild: Guild, text: string): Promise<Gui
 export async function getChannelFromString(guild: Guild, text: string): Promise<Channel> {
 	try {
 		if (!text) return null
+		if (text.startsWith('<@')) { // User or role
+			return null
+		}
 		if (text.startsWith('<#') && text.endsWith('>')) {
 			text = text.slice(2, -1);
-			return await guild.client.channels.fetch(text);
+			return await guild.client.channels.fetch(text)
 		} else if (is_number(text)) {
-			return await guild.client.channels.fetch(text);
+			return await guild.client.channels.fetch(text)
 		} else {
 			return guild.channels.cache.find(
 				channel => channel.name.toLowerCase() === text

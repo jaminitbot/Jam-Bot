@@ -6,7 +6,6 @@ export async function register(oldMember: GuildMember | PartialGuildMember, newM
 		if (oldMember.pending && !newMember.pending) {
 			try {
 				await newMember.roles.add(process.env.DEFAULT_ROLE)
-				// eslint-disable-next-line no-empty
 			} catch (err) {
 				return
 			}
