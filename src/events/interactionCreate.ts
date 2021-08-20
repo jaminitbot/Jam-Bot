@@ -24,7 +24,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 			}
 		}
 		try {
-			command.executeSlash(client, interaction)
+			await command.executeSlash(client, interaction)
 		} catch (error) {
 			// Error running command
 			client.logger.error('interactionHandler: Command failed with error: ' + error)

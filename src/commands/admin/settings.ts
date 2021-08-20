@@ -17,7 +17,7 @@ export const usage = 'settings'
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	const embed = {
 		title: 'Settings - Usage',
 		description: '',

@@ -18,6 +18,6 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('reason')
 			.setDescription('(Optional) reason to ban the user')
 			.setRequired(false))
-export function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	KickOrBan(message, args, 'ban')
 }

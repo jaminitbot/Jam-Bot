@@ -10,7 +10,7 @@ export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args) {
 	const TimeDate = dayjs().format("DD:MM:YYYY [-] hh:mm:ss a")
 	message.channel.send('The bot has been up since: ' + TimeDate)
 }

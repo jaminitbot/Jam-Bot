@@ -34,7 +34,7 @@ export async function register(client: BotClient, message: Message) {
 			}
 		}
 		try {
-			command.execute(client, message, args)
+			await command.execute(client, message, args)
 		} catch (error) {
 			// Error running command
 			client.logger.error('messageHandler: Command failed with error: ' + error)
