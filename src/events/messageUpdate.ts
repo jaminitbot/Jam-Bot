@@ -36,7 +36,7 @@ export async function register(client: BotClient, oldMessage: Message, newMessag
 		embed.setTimestamp(Date.now())
 		embed.setColor('#61C9A8')
 		try {
-			modLogChannel.send({ embeds: [embed] })
+			await modLogChannel.send({ embeds: [embed] })
 		} catch (err) {
 			return
 		}
