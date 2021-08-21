@@ -10,7 +10,6 @@ export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 export async function execute(client: BotClient, message: Message, args) {
-	if (message.guild.me.permissions.has('MANAGE_EMOJIS_AND_STICKERS')) return message.channel.send('I don\'t have permission to manage emojis, ask an admin to check my permissions!')
 	if (!args[0]) return message.reply('you need to specify a name for your emoji!')
 	const url = message.attachments.first()
 	if (!url) return message.reply('you need to attach the image of the emoji!')

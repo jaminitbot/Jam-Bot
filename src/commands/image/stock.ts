@@ -20,7 +20,7 @@ export const slashData = new SlashCommandBuilder()
 export async function getStockImage(search, position) {
 	if (!process.env.pexelsApiKey) return
 	const response = await fetch(
-		`https://api.pexels.com/v1/search?query=${search}&per_page=100`,
+		`https://api.pexels.com/v1/search?query=${encodeURIComponent(search)}&per_page=100`,
 		{
 			headers: {
 				Authorization: process.env.pexelsApiKey,
