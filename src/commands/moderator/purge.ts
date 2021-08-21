@@ -31,7 +31,7 @@ async function bulkDeleteMessages(channel: TextBasedChannels, NumOfMessagesToDel
 		return "You can't delete less than one message silly!"
 	} else if (deleteCount > 99) {
 		// Discord api doesn't let us do more than 100
-		return "You can't delete more than 100 messages in one go!"
+		return "You can't delete more than 99 messages in one go!"
 	}
 	await channel.bulkDelete(deleteCount + 1).catch((error) => {
 		// Delete +1 since we need to delete the initiating command as well
