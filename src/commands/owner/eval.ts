@@ -26,7 +26,6 @@ export const slashData = new SlashCommandBuilder()
 async function runEvalCommand(commandToRun, logger) {
 	const embed = new MessageEmbed
 	embed.setTitle('Eval')
-	embed.addField('Command', commandToRun)
 	let commandOutput
 	try {
 		commandOutput = await eval(commandToRun)
@@ -36,6 +35,16 @@ async function runEvalCommand(commandToRun, logger) {
 	commandOutput = String(commandOutput)
 		.replace(secretsRegex, '[secret]')
 	commandOutput = String(commandOutput)
+	if (commandToRun.length > 1024) {
+		const uploadedHasteLocation = await uploadToHasteBin(logger, commandToRun)
+		if (uploadedHasteLocation) {
+			embed.addField('Command', `Command was too large for discord, uploaded to hastebin: ${uploadedHasteLocation}`)
+		} else {
+			embed.addField('Command', 'Command was too large for discord, but we failed uploading it to hastebin :(')
+		}
+	} else {
+		embed.addField('Command', commandToRun)
+	}
 	if (commandOutput.length > 1024) {
 		const uploadedHasteLocation = await uploadToHasteBin(logger, commandOutput)
 		if (uploadedHasteLocation) {

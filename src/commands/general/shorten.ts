@@ -20,16 +20,20 @@ export const slashCommandOptions = [{
 	description: 'The URL to shorten',
 	required: true
 }]
-async function shortenUrl(url) {
-	const data = await fetch(
-		'https://is.gd/create.php?format=json&url=' +
-		encodeURIComponent(url)
-	).then((response) => response.json())
-	return data.shorturl || null
+const urlRegex = new RegExp(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w\-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)/)
+async function shortenUrl(url: string) {
+	if (url.match(urlRegex)) {
+		const data = await fetch(
+			'https://is.gd/create.php?format=json&url=' +
+			encodeURIComponent(url)
+		).then((response) => response.json())
+		return data.shorturl || null
+	}
+	return 'That isn\'t a valid url! (Did you forget https)'
 }
 export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('you need to specify a url to shorten!')
-	message.channel.send(await shortenUrl(args[0]))
+	message.channel.send(await shortenUrl(args[0]) || 'Error getting short url :(')
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	let url = interaction.options.getString('url')

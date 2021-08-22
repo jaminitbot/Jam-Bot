@@ -17,10 +17,10 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('position')
 			.setDescription('The specific position to get')
 			.setRequired(false))
-export async function getStockImage(search, position) {
+export async function getStockImage(search: string, position: number) {
 	if (!process.env.pexelsApiKey) return
 	const response = await fetch(
-		`https://api.pexels.com/v1/search?query=${encodeURIComponent(search)}&per_page=100`,
+		`https://api.pexels.com/v1/search?query=${encodeURI(search)}&per_page=100`,
 		{
 			headers: {
 				Authorization: process.env.pexelsApiKey,
@@ -37,7 +37,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('You need to specify what to search for!')
 	const sent = await message.channel.send(':mag_right: Finding image...')
 	const search = args.join(' ')
-	sent.edit(await getStockImage(search, null))
+	sent.edit(await getStockImage(search, 1))
 
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
