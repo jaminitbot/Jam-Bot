@@ -15,7 +15,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('from')
 			.setDescription('The channel to move users from')
 			.setRequired(true))
-	.addStringOption(option =>
+	.addChannelOption(option =>
 		option.setName('to')
 			.setDescription('The channel to move users to')
 			.setRequired(true))
