@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.2](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.5.1...v2.5.2) (2021-08-22)
+
+
+### Features
+
+* general permission checking improvements ([ed891df](https://github.com/jamesatjaminit/Jam-Bot/commit/ed891df5f8f8bd4c48aa019406abca10604681a7))
+* stat logging ([db8af83](https://github.com/jamesatjaminit/Jam-Bot/commit/db8af83f4bd73d0a3f66801ac51eb0c727727e11))
+* stats logging improvements ([1897a75](https://github.com/jamesatjaminit/Jam-Bot/commit/1897a7580642104bd62e48b472ee4c4f14fa6d7a))
+
+
+### Bug Fixes
+
+* change stats upload interval v2 ([cb475c5](https://github.com/jamesatjaminit/Jam-Bot/commit/cb475c5228934c3e24ed415efc201afec1212f3a))
+* console debugging logging ([3b394f2](https://github.com/jamesatjaminit/Jam-Bot/commit/3b394f2b7a1b9b4bfe51d9adf3e0a31d30cf2f35))
+* fix commands ([68fcbf2](https://github.com/jamesatjaminit/Jam-Bot/commit/68fcbf2f4119088e6c68031d1d83692040047154))
+* fix crashing when using snipe command ([0287b3c](https://github.com/jamesatjaminit/Jam-Bot/commit/0287b3c7eea3f3b494fb37d9e09a682057bce036))
+* fix delete logs ([91c4958](https://github.com/jamesatjaminit/Jam-Bot/commit/91c4958cee0c3ae345a01cb18059d4366ebdedf3))
+* fix dm commands ([e4eeed3](https://github.com/jamesatjaminit/Jam-Bot/commit/e4eeed3d8a150696245126c52bbcf863811681c6))
+* fix error handling? ([ca3ef92](https://github.com/jamesatjaminit/Jam-Bot/commit/ca3ef925099e48f1051d87b1230bdc0c90f27b3a))
+* fix help command for a command that doesn't exist ([9ddb5b4](https://github.com/jamesatjaminit/Jam-Bot/commit/9ddb5b4c9905b07d3b22181fd0199801a91dc6ca))
+* fix help command using prefix ([83ae823](https://github.com/jamesatjaminit/Jam-Bot/commit/83ae82322b96b9a74fa31922778e553c20d6be7e))
+* fix lookup command bug ([c679b86](https://github.com/jamesatjaminit/Jam-Bot/commit/c679b86328189ce935950fa581103e23aa686672))
+* fix modlogs ([31bcecb](https://github.com/jamesatjaminit/Jam-Bot/commit/31bcecbea087472645df9cb6959c30b3941abbaf))
+* fix purge command ([5a397b1](https://github.com/jamesatjaminit/Jam-Bot/commit/5a397b193d43d718460ee2fcb638c44060da15d4))
+* fix setkey and getkey slash commands ([edd516f](https://github.com/jamesatjaminit/Jam-Bot/commit/edd516f27a6ec7dd211606a7ecf3b406129a8e1d))
+* fix slash commands in dms ([7ff2e00](https://github.com/jamesatjaminit/Jam-Bot/commit/7ff2e00dc69371663381a0cb71239b002ae256a4))
+* fix stats upload interval ([90a2f7a](https://github.com/jamesatjaminit/Jam-Bot/commit/90a2f7abcc77d771ab06e4144826a92620aa582c))
+* fix tons of bugs ([d62c7b8](https://github.com/jamesatjaminit/Jam-Bot/commit/d62c7b8db6e4d757e3d48d6ee30797bed527c59b))
+* improve checking of image urls ([b5e5efb](https://github.com/jamesatjaminit/Jam-Bot/commit/b5e5efb668238f22f897e803d6ee2a981d75977c))
+* improve general logic ([a7e66d1](https://github.com/jamesatjaminit/Jam-Bot/commit/a7e66d137f9bfb56bc5c174a9286e5cc84f767f4))
+* purge command improvements ([1940552](https://github.com/jamesatjaminit/Jam-Bot/commit/1940552a93cf32b19eaaa29a0e1a80682d522088))
+* reset stats on upload ([a9006fc](https://github.com/jamesatjaminit/Jam-Bot/commit/a9006fc1717337f9a598f06cfe3f4306613acf06))
+
 ### [2.5.1](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.5.0...v2.5.1) (2021-08-18)
 
 
