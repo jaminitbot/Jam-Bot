@@ -96,5 +96,10 @@
         "title": "Image command improvements",
         "date": 1629287986702,
         "description": "The bot now checks more thoroughly to see if an image URL is actually an image URL, better results!"
+    },
+    {
+        "title": "Bug fixes!",
+        "date": 1629643662613,
+        "description": "Loads of bugs have been now fixed, thanks to the wonderful testing by honkserini!"
     }
 ]
