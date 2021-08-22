@@ -15,10 +15,9 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('content')
 			.setDescription('The content of your poll')
 			.setRequired(true))
-function createPollEmbed(pollContent: string, authorTag: string, authorAvatar: string) {
+function createPollEmbed(pollContent: string) {
 	const embed = new MessageEmbed
 	embed.setDescription(pollContent)
-	embed.setFooter(`A poll by ${authorTag}`, authorAvatar)
 	embed.setTimestamp(Date.now())
 	embed.setColor('#167C6A')
 	return embed
@@ -30,7 +29,8 @@ export async function execute(client: BotClient, message: Message, args) {
 		)
 	await message.delete()
 	const text = args.splice(0).join(' ')
-	const embed = createPollEmbed(text, message.author.tag, message.member.user.avatarURL())
+	const embed = createPollEmbed(text)
+	embed.setFooter(`A poll by ${message.author.tag}`, message.member.user.avatarURL())
 	const sent = await message.channel.send({ embeds: [embed] })
 	await sent.react('✅')
 	await delay(1010)
@@ -39,7 +39,7 @@ export async function execute(client: BotClient, message: Message, args) {
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	if (!interaction.isCommand()) return
 	const pollContent = interaction.options.getString('content')
-	const embed = createPollEmbed(pollContent, interaction.user.tag, interaction.user.avatarURL())
+	const embed = createPollEmbed(pollContent)
 	const sent = await interaction.reply({ embeds: [embed], fetchReply: true })
 	try {
 		// @ts-expect-error
