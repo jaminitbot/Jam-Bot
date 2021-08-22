@@ -1,7 +1,7 @@
 import { Message, MessageEmbed, Role } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-
+import { getUserFromString } from '../../functions/util'
 export const name = 'lookup'
 export const description = 'Displays information about a specific user or role'
 export const permissions = ['MANAGE_MESSAGES']
@@ -19,9 +19,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	// Basic info
 	const lookupMessage = await message.channel.send(':mag_right: Looking up...')
 	const embed = new MessageEmbed
-	const user =
-		message.mentions.members.first() ||
-		await message.guild.members.fetch(args[0])
+	const user = await getUserFromString(message.guild, args[0])
 	if (user) {
 		// Valid user found, get info
 		const userName =
