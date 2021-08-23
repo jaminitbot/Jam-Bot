@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BotClient } from '../customDefinitions'
 import fetch from 'node-fetch'
 import { MessageEmbed, TextChannel } from 'discord.js'
@@ -10,7 +11,7 @@ export default async function execute(client: BotClient) {
 	let response
 	try {
 		response = await fetch(
-			'https://api.twitch.tv/helix/search/channels?query=' +
+			'https://api.twitch.tv/helix/streams?user_id=' +
 			process.env.twitchNotificationsUsername,
 			{
 				headers: {
@@ -25,7 +26,7 @@ export default async function execute(client: BotClient) {
 	}
 	const json = await response.json()
 	const liveInfo = json.data[0]
-	if (liveInfo.is_live) { // Checks if broadcaster is live
+	if (liveInfo) { // Checks if broadcaster is live
 		client.logger.debug('twitch: Twitch channel is live')
 		//@ts-expect-error
 		const notificationChannel: TextChannel = await client.channels.fetch(process.env.twitchNotificationsChannel)
@@ -34,10 +35,11 @@ export default async function execute(client: BotClient) {
 		const notificationMessageContent = process.env.twitchNotificationsRoleId ? `<@&${process.env.twitchNotificationsRoleId}>` : null
 		const liveTitle = liveInfo.title ?? 'N/A'
 		const startedAt = dayjs(liveInfo.started_at).unix()
+		const gameId = liveInfo.game_id
 		const playingGame = liveInfo.game_name ?? 'N/A'
 		const embed = new MessageEmbed
-		embed.setTitle(`${messages.getHappyMessage()} ${liveInfo.display_name} is live streaming!`)
-		embed.setURL('https://twitch.tv/' + process.env.twitchNotificationsUsername)
+		embed.setTitle(`${messages.getHappyMessage()} ${liveInfo.user_login} is live streaming!`)
+		embed.setURL('https://twitch.tv/' + liveInfo.user_login)
 		embed.setDescription(liveTitle)
 		embed.addField('Playing', playingGame, true)
 		embed.addField('Started', `<t:${startedAt}:R>`, true)
