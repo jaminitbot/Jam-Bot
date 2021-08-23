@@ -3,6 +3,7 @@ import { BotClient } from '../customDefinitions'
 import fetch from 'node-fetch'
 import { MessageEmbed, TextChannel } from 'discord.js'
 import { getKey, setKey } from '../functions/db'
+import isImageUrl = require('is-image-url')
 const messages = require('../functions/messages')
 import sha1 = require('sha1')
 import dayjs = require('dayjs')
@@ -37,12 +38,14 @@ export default async function execute(client: BotClient) {
 		const startedAt = dayjs(liveInfo.started_at).unix()
 		const gameId = liveInfo.game_id
 		const playingGame = liveInfo.game_name ?? 'N/A'
+		const thumbnailUrl = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${liveInfo.user_login}-200x100.jpg`
 		const embed = new MessageEmbed
 		embed.setTitle(`${messages.getHappyMessage()} ${liveInfo.user_login} is live streaming!`)
 		embed.setURL('https://twitch.tv/' + liveInfo.user_login)
 		embed.setDescription(liveTitle)
 		embed.addField('Playing', playingGame, true)
 		embed.addField('Started', `<t:${startedAt}:R>`, true)
+		if (isImageUrl(thumbnailUrl)) embed.setImage(thumbnailUrl)
 		embed.setFooter('Updates every 5 seconds.')
 		embed.setColor('#A077FF')
 		const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
