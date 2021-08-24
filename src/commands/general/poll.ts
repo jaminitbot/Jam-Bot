@@ -32,9 +32,14 @@ export async function execute(client: BotClient, message: Message, args) {
 	const embed = createPollEmbed(text)
 	embed.setFooter(`A poll by ${message.author.tag}`, message.member.user.avatarURL())
 	const sent = await message.channel.send({ embeds: [embed] })
-	await sent.react('✅')
-	await delay(1010)
-	sent.react('❌')
+	try {
+		await sent.react('✅')
+		await delay(1010)
+		sent.react('❌')
+	} catch {
+		return
+	}
+
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	if (!interaction.isCommand()) return
@@ -44,7 +49,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	try {
 		// @ts-expect-error
 		await sent.react('✅')
-		await delay(1100)
+		await delay(1010)
 		// @ts-expect-error
 		sent.react('❌')
 	} catch (err) {

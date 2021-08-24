@@ -49,7 +49,6 @@ export async function execute(client: BotClient, message: Message, args) {
 	} else {
 		type = null
 	}
-
 	const embed = returnSnipesEmbed(snipes, type, message.channel.id)
 	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL())
 	try {

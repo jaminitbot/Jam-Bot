@@ -1,8 +1,8 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import gis = require('g-i-s');
-import isImage = require('is-image-url');
-import isNumber = require('is-number');
+import gis = require('g-i-s')
+import isImageUrl = require('is-image-url')
+import isNumber = require('is-number')
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'image'
@@ -38,9 +38,10 @@ export async function searchForImage(search: string, position: number, nsfw: boo
 			searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing, filters most things
 		}
 		const validImageUrls = []
-		gis(searchOptions, function (error, results) {
+		gis(searchOptions, function (error: unknown, results: Array<Record<string, unknown>>) {
+			if (error) return
 			results.forEach((element) => {
-				if (isImage(element.url)) {
+				if (isImageUrl(element.url)) {
 					validImageUrls.push(element.url)
 				}
 			})
