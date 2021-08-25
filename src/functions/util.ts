@@ -163,3 +163,7 @@ export function removeItemFromArray(arr: Array<any>, value: unknown) {
 	}
 	return arr;
 }
+export function isBotOwner(userId:string) {
+	const owners = process.env.ownerId.split(',')
+	return owners.includes(userId)
+}

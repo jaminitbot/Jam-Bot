@@ -10,8 +10,6 @@ export async function register(client: BotClient, message: Message): Promise<voi
 	storeMessageDelete(message)
 	if (!(message.channel.type == 'GUILD_NEWS' || message.channel.type == 'GUILD_TEXT')) return
 	if (message.author.bot) return
-	const owners = process.env.ownerId.split(',')
-	if (owners.includes(message.author.id)) return
 	await inputSnipe(message, null, 'delete')
 	//#region Delete log code
 	const logDeletes = await getKey(message.guild.id, 'logDeletedMessages')

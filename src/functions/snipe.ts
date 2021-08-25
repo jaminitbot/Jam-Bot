@@ -1,4 +1,5 @@
 import { Message, User } from "discord.js"
+import {isBotOwner} from './util'
 
 export const snipeLifetime = 20
 
@@ -8,6 +9,7 @@ export interface MessageSniped {
 	newMessage: string,
 	user: User,
 	type: string
+	isOwner: boolean
 }
 const buffer = new Map<number, MessageSniped>()
 /**
@@ -23,12 +25,14 @@ export async function inputSnipe(message: Message, oldMessage: Message, type: st
 			content: null
 		}
 	}
+	const isOwner = isBotOwner(message.author.id)
 	const messageObject: MessageSniped = {
 		channel: message.channel.id,
 		oldMessage: oldMessage.content || '[No content]',
 		newMessage: message.content || '[No content]',
 		user: message.author,
-		type: type
+		type: type,
+		isOwner: isOwner
 	}
 	const id = Math.random()
 	buffer.set(id, messageObject)

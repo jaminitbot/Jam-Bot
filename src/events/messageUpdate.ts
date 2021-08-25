@@ -16,8 +16,6 @@ export async function register(client: BotClient, oldMessage: Message, newMessag
 	storeMessageEdit(newMessage)
 	if (!(newMessage.channel.type == 'GUILD_TEXT' || newMessage.channel.type == 'GUILD_NEWS')) return
 	if (newMessage.author.bot) return
-	const owners = process.env.ownerId.split(',')
-	if (owners.includes(newMessage.author.id)) return
 	await inputSnipe(newMessage, oldMessage, 'edit')
 	//#region Edit log
 	const logEdits = await getKey(newMessage.guild.id, 'logDeletedMessages')
