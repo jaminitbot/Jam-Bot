@@ -1,7 +1,6 @@
 import { Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-
 import fetch from 'node-fetch'
 import NodeCache from "node-cache"
 const cache = new NodeCache({ stdTTL: 600, checkperiod: 60 })
