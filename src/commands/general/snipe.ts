@@ -35,6 +35,9 @@ function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId
 			}
 		}
 	}
+	if (embed.fields.length == 0) {
+		embed.setDescription(`No edits/deletes in the last ${snipeLifetime} seconds`)
+	}
 	embed.setTimestamp(Date.now())
 	embed.setColor('#BCD8C1')
 	return embed
