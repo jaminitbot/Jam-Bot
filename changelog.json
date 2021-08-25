@@ -106,5 +106,10 @@
         "title": "Twitch notification improvements!",
         "date": 1629713042181,
         "description": "The bot now only notifies for the correct person :D and shows a thumbnail in the embed now :)"
+    },
+    {
+        "title": "Allow admins to snipe bot owners",
+        "date": 1629904328867,
+        "description": "Not the peasants though, only admins ;)"
     }
 ]
