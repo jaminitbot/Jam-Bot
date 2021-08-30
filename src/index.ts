@@ -29,7 +29,7 @@ import { stopBot } from './functions/util'
 	// @ts-expect-error
 	const client: BotClient = new Client(clientOptions)
 	// Logging
-	client.logger = await createLogger({
+	client.logger = createLogger({
 		level: 'info',
 		transports: [
 			new transports.File({

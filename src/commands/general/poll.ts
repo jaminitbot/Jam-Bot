@@ -12,8 +12,8 @@ export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 	.addStringOption(option =>
-		option.setName('content')
-			.setDescription('The content of your poll')
+		option.setName('question')
+			.setDescription('The question for your poll')
 			.setRequired(true))
 function createPollEmbed(pollContent: string) {
 	const embed = new MessageEmbed
@@ -42,8 +42,7 @@ export async function execute(client: BotClient, message: Message, args) {
 
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
-	if (!interaction.isCommand()) return
-	const pollContent = interaction.options.getString('content')
+	const pollContent = interaction.options.getString('question')
 	const embed = createPollEmbed(pollContent)
 	const sent = await interaction.reply({ embeds: [embed], fetchReply: true })
 	try {

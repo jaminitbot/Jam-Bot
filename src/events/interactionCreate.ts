@@ -30,7 +30,18 @@ export async function register(client: BotClient, interaction: Interaction) {
 		} catch (error) {
 			// Error running command
 			client.logger.error('interactionHandler: Command failed with error: ' + error)
-			interaction.reply({ content: getErrorMessage() })
+			try {
+				if (interaction.deferred) {
+					interaction.editReply({content: getErrorMessage()})
+				} else {
+					interaction.reply({content: getErrorMessage()})
+				}
+			// eslint-disable-next-line no-empty
+			} catch {
+				
+			}
+			
+			
 		}
 	} else if (interaction.isButton()) {
 		const buttonNameObject = interaction.customId.trim().split('-')
