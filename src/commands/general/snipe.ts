@@ -25,10 +25,10 @@ function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId
 		embed.setTitle(`Messages edited/deleted in the last ${snipeLifetime} seconds`)
 	}
 	for (const snipe of snipes) {
-		if (snipe.channel != channelId) continue
-		if (isBotOwner(snipe.user.id) && !canSnipeOwner) continue
+		if (snipe.channel != channelId) continue // Not a snipe for that channel
+		if (isBotOwner(snipe.user.id) && !canSnipeOwner) continue // Isn't admin and snipe was by a bot owner
 		if (!type || snipe.type == type) {
-			if (embed.fields.length == 24) {
+			if (embed.fields.length == 24) { // Discord api limitation
 				embed.addField('Too many messages have been edited/deleted', 'Only showing the latest 25 edit/deletes')
 				break
 			}
@@ -57,13 +57,12 @@ export async function execute(client: BotClient, message: Message, args) {
 		type = null
 	}
 	const embed = returnSnipesEmbed(snipes, type, message.channel.id, message.member)
-	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL())
+	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL()) // Add sniped by since author is not shown when using legacy prefix commands
 	try {
 		await message.channel.send({ embeds: [embed] })
-	} catch (err) {
+	} catch {
 		return
 	}
-
 }
 
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
@@ -75,8 +74,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const embed = returnSnipesEmbed(snipes, type, interaction.channel.id, interaction.member)
 	try {
 		await interaction.reply({ embeds: [embed] })
-	} catch (err) {
+	} catch {
 		return
 	}
-
 }
