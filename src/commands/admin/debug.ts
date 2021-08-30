@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-
+import dayjs from "dayjs"
 export const name = 'debug'
 export const description = 'Displays debug information'
 export const permissions = ['ADMINISTRATOR']
@@ -11,7 +11,7 @@ export const slashData = new SlashCommandBuilder()
 	.setDescription(description)
 export async function execute(client: BotClient, message: Message, args) {
 	const sentMessage = await message.channel.send('Loading...')
-	const uptimeDate = new Date(Date.now() - client.uptime)
+	const uptimeDate = dayjs(Date.now() - client.uptime).format("HH:mm:ss [-] DD/MM/YYYY")
 	const embed = new MessageEmbed
 	embed.setTitle('Debug Information')
 	embed.addField('Roundtrip', `${sentMessage.createdTimestamp - message.createdTimestamp}ms`, true)

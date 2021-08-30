@@ -16,7 +16,8 @@
         "resolveJsonModule": true,
         "forceConsistentCasingInFileNames": true,
         "baseUrl": ".",
-		"importHelpers": true
+		"importHelpers": true,
+        "noImplicitUseStrict": true
     },
     "exclude": ["node_modules"],
     "include": ["./src/**/*.tsx", "./src/**/*.ts"]
