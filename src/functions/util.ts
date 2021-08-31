@@ -1,4 +1,4 @@
-import { GuildMember, Message, Guild, Channel } from "discord.js"
+import { GuildMember, Message, Guild, Channel, Role } from "discord.js"
 import { MongoClient } from "mongodb"
 import { BotClient, Permission } from "../customDefinitions"
 import { getInvalidPermissionsMessage } from './messages'
@@ -96,6 +96,34 @@ export async function getUserFromString(guild: Guild, text: string): Promise<Gui
 	return null
 }
 
+/**
+ * Returns a user from a string, usually a ID or mention
+ * @param guild Guild object
+ * @param text Text to get the user from
+ * @returns GuildMember
+ */
+ export async function getRoleFromString(guild: Guild, text: string): Promise<Role> {
+	try {
+		if (!text) return null
+		if (text.startsWith('<@') && text.endsWith('>')) { // Mention
+			text = text.slice(2, -1);
+			if (text.startsWith('<#')) { // Channel
+				return null
+			}
+			if (text.startsWith('&')) { // Role
+				text = text.slice(1)
+			}
+			
+			return await guild.roles.fetch(text)
+		} else if (is_number(text)) { // Plain ID
+			return await guild.roles.fetch(text)
+		}
+	} catch (e) {
+		// eslint-disable-next-line no-empty
+		{ }
+	}
+	return null
+}
 /**
  * Returns a channel from a string of text, usually a ID or mention
  * @param guild Guild object

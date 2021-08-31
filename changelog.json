@@ -111,5 +111,10 @@
         "title": "Allow admins to snipe bot owners",
         "date": 1629904328867,
         "description": "Not the peasants though, only admins ;)"
+    },
+    {
+        "title": "Lookup command!",
+        "date": 1630427009569,
+        "description": "Works with slash commands now :D and the logic is a licle better"
     }
 ]

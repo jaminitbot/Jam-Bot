@@ -1,7 +1,9 @@
-import { Message, MessageEmbed, Role } from "discord.js"
+import { CommandInteraction, Guild, GuildMember, Message, MessageEmbed, Role, TextBasedChannels } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { getUserFromString } from '../../functions/util'
+import dayjs from "dayjs"
+import { getRoleFromString, getUserFromString } from "../../functions/util"
+
 export const name = 'lookup'
 export const description = 'Displays information about a specific user or role'
 export const permissions = ['MANAGE_MESSAGES']
@@ -14,28 +16,23 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('lookup')
 			.setDescription('The user/role to lookup')
 			.setRequired(true))
-export async function execute(client: BotClient, message: Message, args) {
-	if (!args[0]) return message.reply('Usage: ' + this.usage)
-	// Basic info
-	const lookupMessage = await message.channel.send(':mag_right: Looking up...')
+async function lookupUserOrRole(channel:TextBasedChannels, guild:Guild, member:GuildMember, role:Role) {
 	const embed = new MessageEmbed
-	const user = await getUserFromString(message.guild, args[0])
-	if (user) {
+	embed.setColor('#007991')
+	if (member && (!role || !role.color) && member.roles) {
 		// Valid user found, get info
-		const userName =
-			user.user.username + '#' + user.user.discriminator
-		const avatar =
-			user.user.avatarURL() || user.user.defaultAvatarURL
-		const isBot = String(user.user.bot).toUpperCase()
-		const createdAt = user.user.createdAt
-		const nickName = user.nickname || user.user.username
-		const { id } = user
+		const userName = member.user.tag
+		const avatar = member.user.avatarURL() ?? member.user.defaultAvatarURL
+		const isBot = String(member.user.bot).toUpperCase()
+		const createdAt = dayjs(member.user.createdAt).format('HH:mm [-] DD/MM/YYYY')
+		const nickName = member.nickname ?? member.user.username
+		const { id } = member
 		let roles = ''
-		user.roles.cache.forEach((role) => {
+		member.roles.cache.forEach((role) => {
 			roles = `${roles} ${role.name},`
 		})
 		embed.addField('Nickname', nickName, true)
-		embed.addField('Account Creation', createdAt.toDateString(), true)
+		embed.addField('Account Creation', createdAt, true)
 		embed.addField('Id', id, true)
 		embed.addField('Bot', isBot, true)
 		embed.addField('Roles', roles, true)
@@ -43,10 +40,7 @@ export async function execute(client: BotClient, message: Message, args) {
 
 	} else {
 		// Didn't get a valid user, maybe its a role?
-		const role: Role =
-			message.mentions.roles.first() ||
-			await message.guild.roles.fetch(args[0])
-		if (role) {
+		if (role && role.color) {
 			// Valid role
 			const { id, position, createdAt, name, mentionable } = role
 			embed.addField('ID', id, true)
@@ -56,13 +50,28 @@ export async function execute(client: BotClient, message: Message, args) {
 			embed.setTitle('Role: ' + name)
 		} else {
 			// No role or user found
-			return lookupMessage.edit('That is not a valid user or role.')
+			embed.setTitle('Lookup: Failed')
+			embed.setDescription('No user/role specified!')
+			return embed
 		}
 	}
-	const initiatedUser = message.author.tag
+	embed.setTimestamp(Date.now())
+	return embed
+}
+export async function execute(client: BotClient, message: Message, args) {
+	if (!args[0]) return message.reply('Usage: ' + this.usage)
+	const user = await getUserFromString(message.guild, args[0])
+	const role = await getRoleFromString(message.guild, args[0])
+	const embed = await lookupUserOrRole(message.channel, message.guild, user, role)
+	const initiatedUser = message.member.user.tag
 	const initiatedAvatar = message.member.user.avatarURL()
 	embed.setFooter('Command issued by ' + initiatedUser, initiatedAvatar)
-	embed.setColor('#007991')
-	embed.setTimestamp(Date.now())
-	lookupMessage.edit({ content: null, embeds: [embed] })
+	message.channel.send({embeds: [embed]})
+}
+export async function executeSlash(client: BotClient, interaction:CommandInteraction) {
+	await interaction.deferReply()
+	const userRole = interaction.options.getMentionable('lookup')
+	// @ts-expect-error
+	const embed = await lookupUserOrRole(interaction.channel, interaction.guild, userRole, userRole)
+	interaction.editReply({embeds: [embed]})
 }
