@@ -17,7 +17,16 @@ export async function generateGuildInfoEmbed(guild: Guild) {
 	}
 }
 export async function register(guild: Guild) {
-	await guild.client.channels.fetch(process.env.guildLogChannel)
+	if (!process.env.guildLogChannel) return
+	const channel = await guild.client.channels.fetch(process.env.guildLogChannel)
+	if (!channel) return
+	if (channel.type != 'GUILD_TEXT' && channel.type != 'GUILD_NEWS') return
+	try {
 		// @ts-expect-error
-		.send({ embed: await this.generateGuildInfoEmbed(guild) })
+		channel.send({ embed: await this.generateGuildInfoEmbed(guild) })
+		// eslint-disable-next-line no-empty
+	} catch {
+
+	}
+
 }
