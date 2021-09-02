@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.3](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.5.2...v2.5.3) (2021-09-02)
+
+
+### Features
+
+* allow admins to snipe bot owners ([d6b0f7e](https://github.com/jamesatjaminit/Jam-Bot/commit/d6b0f7e10125c5eb2389291fab3e748d0cc638dc))
+* azure monitoring test ([536bc7b](https://github.com/jamesatjaminit/Jam-Bot/commit/536bc7b8d4f7a122b080fd7adeeb292cf5d5f7ca))
+* general command improvements ([4363c54](https://github.com/jamesatjaminit/Jam-Bot/commit/4363c54cfcffa333c9e4f3a9d7ae7fd823d056be))
+* lookup command slash command support ([f58ab0f](https://github.com/jamesatjaminit/Jam-Bot/commit/f58ab0f02c9d1fbd93f2de5795d93842171851c2))
+* twitch thumbnails ([de7c6c3](https://github.com/jamesatjaminit/Jam-Bot/commit/de7c6c321e04a1d60432f2242235a0b8365c41eb))
+
+
+### Bug Fixes
+
+* add notice on no sniped messages ([5ae1b34](https://github.com/jamesatjaminit/Jam-Bot/commit/5ae1b3498a7a8456e43309e9f08db082e395561f))
+* fix date formatting ([2a3f3ec](https://github.com/jamesatjaminit/Jam-Bot/commit/2a3f3ec461461f1e462589b86c97a4876003a611))
+* fix guild logs ([ed05910](https://github.com/jamesatjaminit/Jam-Bot/commit/ed059100e318d8c1ca8b41d1894d803e498c9598))
+* fix move command slash args ([169e542](https://github.com/jamesatjaminit/Jam-Bot/commit/169e5420773c6d3d80f2e05a9356381860943792))
+* fix purge command slash command ([1a73b08](https://github.com/jamesatjaminit/Jam-Bot/commit/1a73b08f9a8293c81f0b24854654109d77bdb6dd))
+* fix stats interval ([c938a33](https://github.com/jamesatjaminit/Jam-Bot/commit/c938a33fdbfe6c98242c8740d7ecd88c2d2f61a1))
+* fix twitch notifications ([3a6082b](https://github.com/jamesatjaminit/Jam-Bot/commit/3a6082b0290dce007ba8af1b0d5f3065b541c64c))
+* standardise stats logging ([1379b34](https://github.com/jamesatjaminit/Jam-Bot/commit/1379b342ff3672344a61c80eb0772aa942cc7342))
+* various command improvements ([a5eac0d](https://github.com/jamesatjaminit/Jam-Bot/commit/a5eac0d350b23e5369b03d13f9870097b58e57ec))
+
 ### [2.5.2](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.5.1...v2.5.2) (2021-08-22)
 
 
