@@ -29,12 +29,11 @@ async function bulkDeleteMessages(channel: TextBasedChannels, NumOfMessagesToDel
 	const deleteCount = parseInt(NumOfMessagesToDelete)
 	if (deleteCount < 1) {
 		return "You can't delete less than one message silly!"
-	} else if (deleteCount > 99) {
+	} else if (deleteCount > 100) {
 		// Discord api doesn't let us do more than 100
-		return "You can't delete more than 99 messages in one go!"
+		return "You can't delete more than 100 messages in one go!"
 	}
-	await channel.bulkDelete(deleteCount + 1).catch((error) => {
-		// Delete +1 since we need to delete the initiating command as well
+	await channel.bulkDelete(deleteCount).catch((error) => {
 		return messages.getErrorMessage()
 	})
 	return `Successfully deleted ${deleteCount} messages.`
@@ -42,6 +41,7 @@ async function bulkDeleteMessages(channel: TextBasedChannels, NumOfMessagesToDel
 export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('You need to specify how many messages to purge!')
 	if (!isNumber(args[0])) return message.reply('you need to specify a number!')
+	await message.delete()
 	await message.channel.send(await bulkDeleteMessages(message.channel, args[0]))
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
