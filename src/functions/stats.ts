@@ -18,11 +18,11 @@ export function storeMessageCreate(message: Message) {
 	const guildId = message.guild ? message.guild.id : 0
 	if (!dbObject[guildId]) dbObject[guildId] = {}
 	let prevMessagesCreated = 0
-	if (dbObject[guildId] && dbObject[guildId].messagesSent) {
-		prevMessagesCreated = dbObject[guildId].messagesSent
+	if (dbObject[guildId] && dbObject[guildId].totalMessagesCreated) {
+		prevMessagesCreated = dbObject[guildId].totalMessagesCreated
 	}
 	dbObject[guildId].guildId = guildId
-	dbObject[guildId].messagesSent = prevMessagesCreated + 1
+	dbObject[guildId].totalMessagesCreated = prevMessagesCreated + 1
 }
 
 export function storeMessageDelete(message: Message) {
@@ -30,11 +30,11 @@ export function storeMessageDelete(message: Message) {
 	const guildId = message.guild ? message.guild.id : 0
 	if (!dbObject[guildId]) dbObject[guildId] = {}
 	let prevMessagesDeleted = 0
-	if (dbObject[guildId] && dbObject[guildId].messagesDeleted) {
-		prevMessagesDeleted = dbObject[guildId].messagesDeleted
+	if (dbObject[guildId] && dbObject[guildId].totalMessagesDeleted) {
+		prevMessagesDeleted = dbObject[guildId].totalMessagesDeleted
 	}
 	dbObject[guildId].guildId = guildId
-	dbObject[guildId].messagesDeleted = prevMessagesDeleted + 1
+	dbObject[guildId].totalMessagesDeleted = prevMessagesDeleted + 1
 }
 
 export function storeMessageEdit(newMessage: Message) {
@@ -42,22 +42,22 @@ export function storeMessageEdit(newMessage: Message) {
 	const guildId = newMessage.guild ? newMessage.guild.id : 0
 	if (!dbObject[guildId]) dbObject[guildId] = {}
 	let prevMessagesEdited = 0
-	if (dbObject[guildId] && dbObject[guildId].messagesEdited) {
-		prevMessagesEdited = dbObject[guildId].messagesEdited
+	if (dbObject[guildId] && dbObject[guildId].totalMessagesEdited) {
+		prevMessagesEdited = dbObject[guildId].totalMessagesEdited
 	}
 	dbObject[guildId].guildId = guildId
-	dbObject[guildId].messagesEdited = prevMessagesEdited + 1
+	dbObject[guildId].totalMessagesEdited = prevMessagesEdited + 1
 }
 export function storeSlashCommandCreate(interaction: CommandInteraction) {
 	totalSlashCommandsCreated += 1
 	const guildId = interaction.guild ? interaction.guild.id : 0
 	let prevSlashCommandsCreated = 0
 	if (!dbObject[guildId]) dbObject[guildId] = {}
-	if (dbObject[guildId] && dbObject[guildId].slashCommandsCreated) {
-		prevSlashCommandsCreated = dbObject[guildId].slashCommandsCreated
+	if (dbObject[guildId] && dbObject[guildId].totalSlashCommandsCreated) {
+		prevSlashCommandsCreated = dbObject[guildId].totalSlashCommandsCreated
 	}
 	dbObject[guildId].guildId = guildId
-	dbObject[guildId].slashCommandsCreated = prevSlashCommandsCreated + 1
+	dbObject[guildId].totalSlashCommandsCreated = prevSlashCommandsCreated + 1
 }
 export async function saveStatsToDB() {
 	const mongoDbObject = { date: new Date, 'totalMessagesCreated': totalMessagesCreated, 'totalMessagesDeleted': totalMessagesDeleted, 'totalMessagesEdited': totalMessagesEdited, 'totalSlashCommandsCreated': totalSlashCommandsCreated, 'guildStats': dbObject }
