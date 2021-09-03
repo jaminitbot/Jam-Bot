@@ -2,9 +2,10 @@ import { GuildMember, Message, Guild, Channel, Role } from "discord.js"
 import { MongoClient } from "mongodb"
 import { BotClient, Permission } from "../customDefinitions"
 import { getInvalidPermissionsMessage } from './messages'
-import is_number = require("is-number");
-import fetch from "node-fetch";
-import { Logger } from "winston";
+import is_number = require("is-number")
+import axios from 'axios'
+import { Logger } from "winston"
+
 /**
  * Checks permissions against a guild member
  * @param member Guild member to check
@@ -15,8 +16,7 @@ export function checkPermissions(member: GuildMember, permissions: Array<Permiss
 	let validPermission = true
 	if (permissions.includes('OWNER')) {
 		permissions = removeItemFromArray(permissions, 'OWNER')
-		const owners = process.env.ownerId.split(',')
-		if (!owners.includes(member.id)) validPermission = false
+		if (!isBotOwner(member.id)) validPermission = false
 	}
 	if (permissions.length != 0) {
 		// @ts-expect-error
@@ -24,6 +24,7 @@ export function checkPermissions(member: GuildMember, permissions: Array<Permiss
 	}
 	return validPermission
 }
+
 /**
  * Stops the bot and services gracefully
  * @param client Discordjs Client
@@ -44,6 +45,7 @@ export async function stopBot(client: BotClient, mongoClient: MongoClient, stopC
 		process.exit()
 	}
 }
+
 /**
  * Generates a random number between two values
  * @param min Minimum number (inclusive)
@@ -89,9 +91,8 @@ export async function getUserFromString(guild: Guild, text: string): Promise<Gui
 		} else if (is_number(text)) { // Plain ID
 			return await guild.members.fetch(text)
 		}
-	} catch (e) {
+	} catch {
 		// eslint-disable-next-line no-empty
-		{ }
 	}
 	return null
 }
@@ -102,7 +103,7 @@ export async function getUserFromString(guild: Guild, text: string): Promise<Gui
  * @param text Text to get the user from
  * @returns GuildMember
  */
- export async function getRoleFromString(guild: Guild, text: string): Promise<Role> {
+export async function getRoleFromString(guild: Guild, text: string): Promise<Role> {
 	try {
 		if (!text) return null
 		if (text.startsWith('<@') && text.endsWith('>')) { // Mention
@@ -113,17 +114,17 @@ export async function getUserFromString(guild: Guild, text: string): Promise<Gui
 			if (text.startsWith('&')) { // Role
 				text = text.slice(1)
 			}
-			
+
 			return await guild.roles.fetch(text)
 		} else if (is_number(text)) { // Plain ID
 			return await guild.roles.fetch(text)
 		}
-	} catch (e) {
+	} catch {
 		// eslint-disable-next-line no-empty
-		{ }
 	}
 	return null
 }
+
 /**
  * Returns a channel from a string of text, usually a ID or mention
  * @param guild Guild object
@@ -146,7 +147,7 @@ export async function getChannelFromString(guild: Guild, text: string): Promise<
 				channel => channel.name.toLowerCase() === text
 			)
 		}
-	} catch (e) {
+	} catch {
 		return null
 	}
 }
@@ -163,11 +164,12 @@ export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Pr
 	}
 	const hasteLocation = process.env.hasteBinHost ?? 'https://hastebin.com'
 	try {
-		const response = await fetch(hasteLocation + '/documents', {
-			method: 'POST',
-			body: dataToUpload,
-		}).then((r) => r.json())
-		if (response.key) return `${hasteLocation}/${response.key}`
+		const response = await axios.post(hasteLocation + '/documents', {
+			data: dataToUpload,
+		})
+		if (response.status != 200) return null
+		const responseData = response.data
+		if (responseData.key) return `${hasteLocation}/${responseData.key}`
 	} catch (err) {
 		if (logger) logger.error('hasteUploader: Failed uploading to hastebin with error: ' + err)
 	}
@@ -181,17 +183,28 @@ export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Pr
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function removeItemFromArray(arr: Array<any>, value: unknown) {
-	let i = 0;
+	let i = 0
 	while (i < arr.length) {
-		if (arr[i] === value) {
-			arr.splice(i, 1);
+		if (arr[i] == value) {
+			arr.splice(i, 1)
 		} else {
-			++i;
+			++i
 		}
 	}
-	return arr;
+	return arr
 }
-export function isBotOwner(userId:string) {
+/**
+ * Checks if a user ID is one of the bot owners
+ * @param userId User ID to check
+ * @returns Boolean
+ */
+export function isBotOwner(userId: string) {
 	const owners = process.env.ownerId.split(',')
 	return owners.includes(userId)
+}
+export function saveLogger(logger) {
+	this.logger = logger
+}
+export function getLogger(): Logger {
+	return this.logger
 }

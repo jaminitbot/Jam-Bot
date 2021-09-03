@@ -1,6 +1,6 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import fetch from 'node-fetch'
+import axios, { AxiosResponse } from 'axios'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'dog'
@@ -15,22 +15,23 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('(Optional) the breed of the dog to search for')
 			.setRequired(false))
 async function getDogPhoto(breed) {
-	let data
+	let response: AxiosResponse
 	const breedArray = breed ? breed.trim().split(/ +/) : null
 	if (!breed) {
-		data = await fetch(
+		response = await axios.get(
 			'https://dog.ceo/api/breeds/image/random'
-		).then((response) => response.json())
+		)
 	} else if (breedArray[1]) {
-		data = await fetch(
+		response = await axios.get(
 			`https://dog.ceo/api/breed/${breedArray[1]}/${breedArray[0]}/images/random`
-		).then((response) => response.json())
+		)
 	} else if (breedArray[0]) {
-		data = await fetch(
+		response = await axios.get(
 			`https://dog.ceo/api/breed/${breedArray[0]}/images/random`
-		).then((response) => response.json())
+		)
 	}
-	return data.message ?? "Unable to get a doggy, the api's probably down"
+	if (response.status != 200) return 'The API seems to be returning errors, please try again later'
+	return response.data.message ?? "Unable to get a doggy, the api's probably down"
 }
 export async function execute(client: BotClient, message: Message, args) {
 	let data

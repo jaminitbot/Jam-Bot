@@ -1,6 +1,6 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import fetch from 'node-fetch'
+import axios from 'axios'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'bird'
@@ -12,10 +12,11 @@ export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 async function returnBirdUrl() {
-	const { link } = await fetch(
+	const response = await axios.get(
 		'https://some-random-api.ml/img/birb'
-	).then((response) => response.json())
-	return link || "Unable to get a birb, the api's probably down"
+	)
+	if (response.status != 200) return 'The API seems to be returning errors, please try again later'
+	return response.data.link || "Unable to get a birb, the api's probably down"
 
 }
 export async function execute(client: BotClient, message: Message, args) {

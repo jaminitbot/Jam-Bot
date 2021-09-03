@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { BotClient } from '../customDefinitions'
-import fetch from 'node-fetch'
+import axios, { AxiosResponse } from 'axios'
 import { MessageEmbed, TextChannel } from 'discord.js'
 import { getKey, setKey } from '../functions/db'
 import isImageUrl = require('is-image-url')
@@ -9,15 +9,15 @@ import sha1 = require('sha1')
 import dayjs = require('dayjs')
 export default async function execute(client: BotClient) {
 	if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsUsername) return
-	let response
+	let response: AxiosResponse
 	try {
-		response = await fetch(
+		response = await axios.get(
 			'https://api.twitch.tv/helix/streams?user_id=' +
 			process.env.twitchNotificationsUsername,
 			{
 				headers: {
 					'CLIENT-ID': process.env.twitchApiClientId,
-					Authorization: 'Bearer ' + process.env.twitchApiSecret,
+					'Authorization': 'Bearer ' + process.env.twitchApiSecret,
 				},
 			}
 		)
@@ -25,7 +25,11 @@ export default async function execute(client: BotClient) {
 		client.logger.error('twitchNotificiations: failed fetching twich information with error: ' + err)
 		return
 	}
-	const json = await response.json()
+	if (response.status != 200) {
+		client.logger.warn('Twitch returned a non-standard response code, skipping live checks')
+		return
+	}
+	const json = response.data
 	const liveInfo = json.data[0]
 	if (liveInfo) { // Checks if broadcaster is live
 		client.logger.debug('twitch: Twitch channel is live')

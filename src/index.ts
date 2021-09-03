@@ -4,7 +4,7 @@ if (!process.env.token) {
 	require('dotenv').config();
 }
 
-import { Client, ClientOptions, Intents } from 'discord.js'
+import { Client, ClientOptions, Intents, MessageEmbed } from 'discord.js'
 import { createLogger, transports, format } from "winston";
 import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
@@ -13,7 +13,7 @@ import { saveStatsToDB, connectToSatsCollection } from './functions/stats'
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
-import { stopBot } from './functions/util'
+import { saveLogger, stopBot } from './functions/util'
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
 	const clientOptions: ClientOptions = {
@@ -25,7 +25,7 @@ import { stopBot } from './functions/util'
 	// @ts-expect-error
 	const client: BotClient = new Client(clientOptions)
 	// Logging
-	client.logger = createLogger({
+	const logger = createLogger({
 		level: 'info',
 		transports: [
 			new transports.File({
@@ -47,32 +47,57 @@ import { stopBot } from './functions/util'
 		],
 	})
 	if (String(process.env.showDebugMessages).toUpperCase() == 'TRUE') {
-		client.logger.add(new transports.Console({
+		logger.add(new transports.Console({
 			level: 'debug',
 			format: format.combine(format.colorize(), format.simple()),
 		}));
-		client.logger.info('Logger is in DEBUG mode')
+		logger.info('Logger is in DEBUG mode')
 	} else if (process.env.NODE_ENV !== 'production') {
-		client.logger.add(new transports.Console({
+		logger.add(new transports.Console({
 			level: 'verbose',
 			format: format.combine(format.colorize(), format.simple()),
 		}));
-		client.logger.info('Logger is in VERBOSE mode')
+		logger.info('Logger is in VERBOSE mode')
 	}
+	logger.on('data', async data => {
+		try {
+			if ((data.level == 'error' || data.level == 'warn') && process.env.errorLogChannel) {
+				const embed = new MessageEmbed
+				embed.setTitle(`Logger`)
+				embed.setTimestamp(Date.now())
+				if (data.level == 'error') {
+					embed.setColor('#ff0000')
+				} else {
+					embed.setColor('#ffbf00')
+				}
+				embed.addField(String(data.level).toUpperCase(), data.message)
+				const errorLogChannel = await client.channels.fetch(process.env.errorLogChannel)
+				if (!errorLogChannel.isText) return
+				// @ts-expect-error
+				errorLogChannel.send({ embeds: [embed] })
+			}
+			// eslint-disable-next-line no-empty
+		} catch {
+
+		}
+
+	})
+	saveLogger(logger)
+	client.logger = logger
 	// Registers all the commands in the commands folder
 	// https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
-	client.logger.verbose('Registering commands...')
+	logger.verbose('Registering commands...')
 	registerCommands(client)
-	client.logger.verbose('Registering events...')
+	logger.verbose('Registering events...')
 	registerEvents(client)
 	// Database connections
-	client.logger.verbose('Attempting to connect to database...')
-	const db = await connect(client.logger)
+	logger.verbose('Attempting to connect to database...')
+	const db = await connect(logger)
 	if (!db) {
-		client.logger.error('DB not found')
+		logger.error('DB not found')
 		await stopBot(client, null, 1)
 	} else {
-		client.logger.verbose("Successfully connected to database")
+		logger.verbose("Successfully connected to database")
 	}
 	connectToSatsCollection(returnRawClient())
 	// Events
@@ -92,20 +117,20 @@ import { stopBot } from './functions/util'
 		client.events.get('messageUpdate').register(client, oldMessage, newMessage)
 	})
 	client.on('error', error => {
-		client.logger.error('Error logged: ' + error)
+		logger.error('Error logged: ' + error)
 	})
 	client.on('invalidated', function () {
-		client.logger.error('Client invalidated, quitting...')
+		logger.error('Client invalidated, quitting...')
 		stopBot(client, returnRawClient(), 1)
 	})
 	client.on('guildUnavailable', (guild) => {
-		client.logger.warn(`Guild ${guild.id} has gone offline.`)
+		logger.warn(`Guild ${guild.id} has gone offline.`)
 	})
 	client.on('warn', info => {
-		client.logger.warn(info)
+		logger.warn(info)
 	})
 	client.on('rateLimit', rateLimitInfo => {
-		client.logger.warn(
+		logger.warn(
 			`Rate limit hit. Triggered by ${rateLimitInfo.path}, timeout for ${rateLimitInfo.timeout}. Only ${rateLimitInfo.limit} can be made`
 		)
 	})
@@ -131,18 +156,18 @@ import { stopBot } from './functions/util'
 	}
 	process.on('SIGINT', function () {
 		// Shutdown stuff nicely
-		client.logger.debug('SIGINT received, stopping bot')
+		logger.debug('SIGINT received, stopping bot')
 		stopBot(client, returnRawClient())
 	})
 
 	if (process.env.NODE_ENV == 'production') {
 		process.on('uncaughtException', (error) => {
-			client.logger.error('Unhandled exception caught: ' + error)
+			logger.error('Unhandled exception caught: ' + error)
 		});
 	}
 	// Initialisation
 	client.on('ready', async () => {
-		client.logger.info('Client is READY')
+		logger.info('Client is READY')
 		await registerSlashCommands(client)
 		if (process.env.twitchApiClientId && process.env.twitchApiSecret) {
 			// Only if api tokens are present

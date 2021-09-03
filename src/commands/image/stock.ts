@@ -1,8 +1,10 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import fetch from 'node-fetch'
+import axios from 'axios'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { getLogger } from "../../functions/util"
 
+const logger = getLogger()
 export const name = 'stock'
 export const description = 'Gets a stock image'
 export const usage = 'stock nature'
@@ -19,7 +21,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(false))
 export async function getStockImage(search: string, position: number) {
 	if (!process.env.pexelsApiKey) return
-	const response = await fetch(
+	const response = await axios.get(
 		`https://api.pexels.com/v1/search?query=${encodeURI(search)}&per_page=100`,
 		{
 			headers: {
@@ -27,7 +29,11 @@ export async function getStockImage(search: string, position: number) {
 			},
 		}
 	)
-	const json = await response.json()
+	if (response.status != 200) {
+		logger.warn('stock: Pexels returned non-standard status code: ' + JSON.stringify(response.data))
+		return 'The API seems to be returning errors, please try again later'
+	}
+	const json = response.data
 	const photoPosition = position ?? 1
 	if (1 > position || position > json.photos.length) return `There isn't a stock photo for position: ${position}`
 	const image = json.photos[photoPosition - 1].src.medium // eslint-disable-line no-undef

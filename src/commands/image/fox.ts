@@ -1,6 +1,6 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import fetch from 'node-fetch'
+import axios from 'axios'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'fox'
@@ -11,10 +11,11 @@ export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 async function returnFoxImage() {
-	const { image } = await fetch(
+	const response = await axios.get(
 		'https://randomfox.ca/floof/'
-	).then((response) => response.json())
-	return image || "Unable to get a cute fox, the api's probably down :c"
+	)
+	if (response.status != 200) return 'The API seems to be returning errors, please try again later.'
+	return response.data.image || "Unable to get a cute fox, the api's probably down :c"
 }
 export async function execute(client: BotClient, message: Message, args) {
 	message.channel.send(await returnFoxImage())
