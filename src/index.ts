@@ -3,10 +3,6 @@ process.chdir(__dirname)
 if (!process.env.token) {
 	require('dotenv').config();
 }
-if (process.env.appInsightsToken) {
-	const appInsights = require('applicationinsights')
-	appInsights.setup(process.env.appInsightsToken).start()
-}
 
 import { Client, ClientOptions, Intents } from 'discord.js'
 import { createLogger, transports, format } from "winston";
