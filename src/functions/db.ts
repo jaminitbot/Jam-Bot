@@ -19,7 +19,7 @@ export async function connect(logger: Logger) {
 	}
 	this.rawClient = databaseClient
 	const db = databaseClient.db(process.env.databaseName)
-	this.db = db.collection('guilds')
+	this.db = db
 	this.dbCache = new NodeCache({ stdTTL: 300, checkperiod: 60 })
 	return { setKey: this.setKey, getKey: this.getKey, returnRawClient: this.returnRawClient }
 }
@@ -32,7 +32,7 @@ export async function connect(logger: Logger) {
  * @returns Boolean
  */
 export async function setKey(guildIdInput: string, key: string, value: unknown): Promise<boolean> {
-	const db = this.db
+	const db = this.db.collection('guilds')
 	this.logger.debug(`DB: Updating ${key} to ${value}`)
 	let guildDbObject = await db.findOne({ guildId: guildIdInput }) // Find the guild in db
 	guildDbObject = guildDbObject?.value ?? {}
@@ -52,7 +52,7 @@ export async function setKey(guildIdInput: string, key: string, value: unknown):
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getKey(guildIdInput: string | number, key: string): Promise<any> {
-	const db = this.db
+	const db = this.db.collection('guilds')
 	const cacheValue = await this.dbCache.get(guildIdInput) // Check if guild is already in cache
 	if (cacheValue && cacheValue[key]) {
 		this.logger.debug(`DB: Got ${key} from CACHE with value: ${cacheValue[key]}`)

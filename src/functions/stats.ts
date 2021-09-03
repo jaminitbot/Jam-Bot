@@ -7,9 +7,8 @@ let totalSlashCommandsCreated = 0
 // eslint-disable-next-line prefer-const
 let dbObject = {}
 export async function connectToSatsCollection(databaseClient: MongoClient) {
-	const db = databaseClient.db(process.env.databaseName)
-	this.db = db.collection('stats')
-	const newDb: Collection = this.db
+	this.db = databaseClient.db(process.env.databaseName)
+	const newDb: Collection = this.db.collection('stats')
 	newDb.createIndex({ "date": 1 }, { expireAfterSeconds: 86400 })
 }
 
@@ -61,7 +60,7 @@ export function storeSlashCommandCreate(interaction: CommandInteraction) {
 }
 export async function saveStatsToDB() {
 	const mongoDbObject = { date: new Date, 'totalMessagesCreated': totalMessagesCreated, 'totalMessagesDeleted': totalMessagesDeleted, 'totalMessagesEdited': totalMessagesEdited, 'totalSlashCommandsCreated': totalSlashCommandsCreated, 'guildStats': dbObject }
-	const db: Collection = this.db
+	const db = this.db.collection('stats')
 	db.insertOne(mongoDbObject)
 	dbObject = {}
 	totalMessagesCreated = 0

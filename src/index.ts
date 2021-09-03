@@ -59,6 +59,7 @@ import { saveLogger, stopBot } from './functions/util'
 		}));
 		logger.info('Logger is in VERBOSE mode')
 	}
+	//#region Error reporting
 	logger.on('data', async data => {
 		try {
 			if ((data.level == 'error' || data.level == 'warn') && process.env.errorLogChannel) {
@@ -82,6 +83,7 @@ import { saveLogger, stopBot } from './functions/util'
 		}
 
 	})
+	//#endregion
 	saveLogger(logger)
 	client.logger = logger
 	// Registers all the commands in the commands folder
