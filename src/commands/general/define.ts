@@ -50,10 +50,10 @@ async function returnDefineEmbed(wordToDefine: string) {
 }
 
 export async function execute(client: BotClient, message: Message, args) {
-	// if (!args[0]) return message.reply('Do you just expect me to guess at what you want to define??!!')
-	// const embeds = await returnDefineEmbed(String(args[0]).toLowerCase())
-	// message.channel.send({ embeds: embeds })
-	message.reply('Use slash commands smh')
+	if (!args[0]) return message.reply('Do you just expect me to guess at what you want to define??!!')
+	const embeds = await returnDefineEmbed(String(args[0]).toLowerCase())
+	const sentMessage = await message.channel.send({ content: 'Use slash commands next time smh', embeds: embeds })
+	setTimeout(() => { sentMessage.edit({ content: null }) }, 5 * 1000)
 }
 
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
