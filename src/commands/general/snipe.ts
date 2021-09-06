@@ -2,7 +2,6 @@ import { CommandInteraction, GuildMember, Message, MessageEmbed } from "discord.
 import { BotClient } from '../../customDefinitions'
 import { MessageSniped, returnSnipedMessages, snipeLifetime } from '../../functions/snipe'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { isBotOwner } from '../../functions/util'
 export const name = 'snipe'
 export const description = 'Snipes deleted and edited messages'
 export const permissions = ''
