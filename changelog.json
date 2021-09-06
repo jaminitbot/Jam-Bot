@@ -116,5 +116,10 @@
         "title": "Lookup command!",
         "date": 1630427009569,
         "description": "Works with slash commands now :D and the logic is a licle better"
+    },
+    {
+        "title": "Define Command!",
+        "date": 1630946905931,
+        "description": "There's now a little define command, to define any word you'd like!"
     }
 ]
