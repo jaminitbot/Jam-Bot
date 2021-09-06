@@ -18,7 +18,7 @@ const colours: Array<ColorResolvable> = ['#805D93', '#F49FBC', '#FFD3BA', '#9EBD
 async function returnDefineEmbed(wordToDefine: string) {
 	let response: AxiosResponse
 	try {
-		response = await axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordToDefine)
+		response = await axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(wordToDefine))
 	} catch (err) {
 		if (String(err).includes('404')) {
 			const embed = new MessageEmbed
