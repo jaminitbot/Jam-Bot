@@ -28,7 +28,7 @@ function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId
 		if (snipe.channel != channelId) continue // Not a snipe for that channel
 		if (isBotOwner(snipe.user.id) && !canSnipeOwner) continue // Isn't admin and snipe was by a bot owner
 		if (!type || snipe.type == type) {
-			if (embed.fields.length == 23) { // Discord api limitation
+			if (embed.fields.length == 24) { // Discord api limitation
 				embed.addField('Too many messages have been edited/deleted', 'Only showing the latest 25 edit/deletes')
 				break
 			}

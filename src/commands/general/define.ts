@@ -22,7 +22,7 @@ async function returnDefineEmbed(wordToDefine: string) {
 	} catch (err) {
 		if (String(err).includes('404')) {
 			const embed = new MessageEmbed
-			embed.setDescription('No definitions found for ' + wordToDefine)
+			embed.setDescription('No definitions found for: ' + wordToDefine)
 			embed.setColor(colours[0])
 			return [embed]
 		}
@@ -37,12 +37,12 @@ async function returnDefineEmbed(wordToDefine: string) {
 		for (const definition of meaning.definitions) {
 			embed.addField(`Definition #${definitionNumber}`, `**Definition**: ${capitaliseSentence(definition.definition) ?? '*Not Available*'}`)
 			definitionNumber++
-			if (embed.fields.length == 24) {
+			if (embed.fields.length == 5) {
 				break
 			}
 		}
 		embeds.push(embed)
-		if (embeds.length == 9) {
+		if (embeds.length == 10) {
 			break
 		}
 	}
