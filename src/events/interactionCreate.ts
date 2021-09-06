@@ -3,7 +3,7 @@ import { Interaction } from "discord.js";
 import { getKey } from "../functions/db";
 import { checkPermissions } from "../functions/util";
 import { getErrorMessage, getInvalidPermissionsMessage } from '../functions/messages'
-import { storeSlashCommandCreate } from '../functions/stats'
+import { storeSlashCommandCreate } from '../cron/stats'
 export const name = "interactionCreate"
 
 export async function register(client: BotClient, interaction: Interaction) {
@@ -32,16 +32,16 @@ export async function register(client: BotClient, interaction: Interaction) {
 			client.logger.error('interactionHandler: Command failed with error: ' + error)
 			try {
 				if (interaction.deferred) {
-					interaction.editReply({content: getErrorMessage()})
+					interaction.editReply({ content: getErrorMessage() })
 				} else {
-					interaction.reply({content: getErrorMessage()})
+					interaction.reply({ content: getErrorMessage() })
 				}
-			// eslint-disable-next-line no-empty
+				// eslint-disable-next-line no-empty
 			} catch {
-				
+
 			}
-			
-			
+
+
 		}
 	} else if (interaction.isButton()) {
 		const buttonNameObject = interaction.customId.trim().split('-')

@@ -9,7 +9,7 @@ import { createLogger, transports, format } from "winston";
 import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
 import { registerCommands, registerEvents, registerSlashCommands } from './functions/registerCommands'
-import { saveStatsToDB, connectToSatsCollection } from './functions/stats'
+import { saveStatsToDB, connectToSatsCollection } from './cron/stats'
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'

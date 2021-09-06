@@ -2,7 +2,7 @@ import { Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../customDefinitions'
 import { getKey } from '../functions/db'
 import { inputSnipe } from '../functions/snipe'
-import { storeMessageDelete } from '../functions/stats'
+import { storeMessageDelete } from '../cron/stats'
 export const name = "messageDelete"
 // https://coolors.co/aa8f66-ff0000-ffeedb-61c9a8-121619
 export async function register(client: BotClient, message: Message): Promise<void> {

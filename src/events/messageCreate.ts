@@ -2,7 +2,7 @@ import { checkPermissions, returnInvalidPermissionMessage } from '../functions/u
 import { getKey } from '../functions/db'
 import { BotClient } from '../customDefinitions'
 import { Message, MessageEmbed } from 'discord.js'
-import { storeMessageCreate } from '../functions/stats'
+import { storeMessageCreate } from '../cron/stats'
 import { getErrorMessage } from '../functions/messages'
 const bannedIds = ['']
 export const name = "messageCreate"

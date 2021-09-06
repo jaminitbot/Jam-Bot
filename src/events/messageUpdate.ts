@@ -2,7 +2,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { BotClient } from "src/customDefinitions";
 import { inputSnipe } from '../functions/snipe'
 import { getKey } from '../functions/db'
-import { storeMessageEdit } from '../functions/stats'
+import { storeMessageEdit } from '../cron/stats'
 export const name = "messageUpdate"
 
 export async function register(client: BotClient, oldMessage: Message, newMessage: Message): Promise<void> {

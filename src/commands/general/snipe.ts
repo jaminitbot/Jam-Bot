@@ -17,7 +17,6 @@ export const slashData = new SlashCommandBuilder()
 
 function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId: string, member: GuildMember) {
 	const embed = new MessageEmbed
-	const canSnipeOwner = member.permissions.has('ADMINISTRATOR')
 	if (type) {
 		const ed = type.endsWith('e') ? type.substr(0, type.length - 1) : type
 		embed.setTitle(`Messages ${ed}ed in the last ${snipeLifetime} seconds`)
@@ -26,7 +25,7 @@ function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId
 	}
 	for (const snipe of snipes) {
 		if (snipe.channel != channelId) continue // Not a snipe for that channel
-		if (isBotOwner(snipe.user.id) && !canSnipeOwner) continue // Isn't admin and snipe was by a bot owner
+		if (snipe.isOwner) continue // Don't snipe owners
 		if (!type || snipe.type == type) {
 			if (embed.fields.length == 24) { // Discord api limitation
 				embed.addField('Too many messages have been edited/deleted', 'Only showing the latest 25 edit/deletes')
