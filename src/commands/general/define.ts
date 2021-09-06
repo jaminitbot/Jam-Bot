@@ -49,9 +49,9 @@ async function returnDefineEmbed(wordToDefine: string) {
 	return embeds
 }
 
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	if (!args[0]) return message.reply('Do you just expect me to guess at what you want to define??!!')
-	const embeds = await returnDefineEmbed(String(args[0]).toLowerCase())
+	const embeds = await returnDefineEmbed(String(args.join(' ')).toLowerCase())
 	const sentMessage = await message.channel.send({ content: 'Use slash commands next time smh', embeds: embeds })
 	setTimeout(() => { sentMessage.edit({ content: null }) }, 5 * 1000)
 }
