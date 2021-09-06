@@ -2,7 +2,7 @@ import { CommandInteraction, GuildMember, Message, MessageEmbed } from "discord.
 import { BotClient } from '../../customDefinitions'
 import { MessageSniped, returnSnipedMessages, snipeLifetime } from '../../functions/snipe'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import {isBotOwner} from '../../functions/util'
+import { isBotOwner } from '../../functions/util'
 export const name = 'snipe'
 export const description = 'Snipes deleted and edited messages'
 export const permissions = ''
@@ -15,7 +15,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('(Optional): The type of message (edits or deletes) to snipe')
 			.setRequired(false))
 
-function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId:string, member:GuildMember) {
+function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId: string, member: GuildMember) {
 	const embed = new MessageEmbed
 	const canSnipeOwner = member.permissions.has('ADMINISTRATOR')
 	if (type) {
@@ -28,7 +28,7 @@ function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId
 		if (snipe.channel != channelId) continue // Not a snipe for that channel
 		if (isBotOwner(snipe.user.id) && !canSnipeOwner) continue // Isn't admin and snipe was by a bot owner
 		if (!type || snipe.type == type) {
-			if (embed.fields.length == 24) { // Discord api limitation
+			if (embed.fields.length == 23) { // Discord api limitation
 				embed.addField('Too many messages have been edited/deleted', 'Only showing the latest 25 edit/deletes')
 				break
 			}

@@ -208,3 +208,8 @@ export function saveLogger(logger) {
 export function getLogger(): Logger {
 	return this.logger
 }
+export function capitaliseSentence(string: string) {
+	if (!string) return null
+	const str = String(string)
+	return str.charAt(0).toUpperCase() + str.slice(1)
+}
