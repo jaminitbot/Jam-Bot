@@ -17,15 +17,17 @@ export const slashData = new SlashCommandBuilder()
 const colours: Array<ColorResolvable> = ['#805D93', '#F49FBC', '#FFD3BA', '#9EBD6E', '#169873', '#540D6E', '#EE4266']
 async function returnDefineEmbed(wordToDefine: string) {
 	let response: AxiosResponse
+	let error
 	try {
 		response = await axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(wordToDefine))
 	} catch (err) {
-		if (String(err).includes('404')) {
-			const embed = new MessageEmbed
-			embed.setDescription('No definitions found for: ' + wordToDefine)
-			embed.setColor(colours[0])
-			return [embed]
-		}
+		error = err
+	}
+	if (String(error).includes('404') || response.status != 200) {
+		const embed = new MessageEmbed
+		embed.setDescription('No definitions found for: ' + wordToDefine)
+		embed.setColor(colours[0])
+		return [embed]
 	}
 	const jsonResponse = response.data[0]
 	const embeds = []
