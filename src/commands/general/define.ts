@@ -35,7 +35,7 @@ async function returnDefineEmbed(wordToDefine: string) {
 		embed.setTitle(`${capitaliseSentence(meaning.partOfSpeech)}: ${wordToDefine}`)
 		let definitionNumber = 1
 		for (const definition of meaning.definitions) {
-			embed.addField(`Definition #${definitionNumber}`, `**Definition**: ${capitaliseSentence(definition.definition) ?? '*Not Available*'}`)
+			embed.addField(`Definition #${definitionNumber}`, `${capitaliseSentence(definition.definition) ?? '*Not Available*'}`)
 			definitionNumber++
 			if (embed.fields.length == 5) {
 				break
