@@ -193,6 +193,7 @@ export function removeItemFromArray(arr: Array<any>, value: unknown) {
 	}
 	return arr
 }
+
 /**
  * Checks if a user ID is one of the bot owners
  * @param userId User ID to check
@@ -208,6 +209,12 @@ export function saveLogger(logger) {
 export function getLogger(): Logger {
 	return this.logger
 }
+
+/**
+ * Capitalises the first letter of a sentence
+ * @param string Input string
+ * @returns string
+ */
 export function capitaliseSentence(string: string) {
 	if (!string) return null
 	const str = String(string)
