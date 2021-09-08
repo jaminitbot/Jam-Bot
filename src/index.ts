@@ -13,7 +13,7 @@ import { saveStatsToDB, connectToSatsCollection } from './cron/stats'
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
-import { saveLogger, stopBot } from './functions/util'
+import { saveLogger, stopBot, removeItemFromArray } from './functions/util'
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
 	const clientOptions: ClientOptions = {
@@ -60,9 +60,11 @@ import { saveLogger, stopBot } from './functions/util'
 		logger.info('Logger is in VERBOSE mode')
 	}
 	//#region Error reporting
+	const loggerBuffer = []
 	logger.on('data', async data => {
 		try {
 			if ((data.level == 'error' || data.level == 'warn') && process.env.errorLogChannel) {
+				if (loggerBuffer.includes(data.message)) return
 				const embed = new MessageEmbed
 				embed.setTitle(`Logger`)
 				embed.setTimestamp(Date.now())
@@ -74,8 +76,15 @@ import { saveLogger, stopBot } from './functions/util'
 				embed.addField(String(data.level).toUpperCase(), data.message)
 				const errorLogChannel = await client.channels.fetch(process.env.errorLogChannel)
 				if (!errorLogChannel.isText) return
-				// @ts-expect-error
-				errorLogChannel.send({ embeds: [embed] })
+				loggerBuffer.push(data.message)
+				try {
+					// @ts-expect-error
+					errorLogChannel.send({ embeds: [embed] })
+					// eslint-disable-next-line no-empty
+				} catch {
+
+				}
+				setTimeout(() => removeItemFromArray(loggerBuffer, data.message), 20 * 1000)
 			}
 			// eslint-disable-next-line no-empty
 		} catch {

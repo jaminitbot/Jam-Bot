@@ -23,7 +23,7 @@ async function returnDefineEmbed(wordToDefine: string) {
 	} catch (err) {
 		error = err
 	}
-	if (String(error).includes('404') || response.status != 200) {
+	if (error || response.status != 200) {
 		const embed = new MessageEmbed
 		embed.setDescription('No definitions found for: ' + wordToDefine)
 		embed.setColor(colours[0])
