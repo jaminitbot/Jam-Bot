@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.5.3...v2.6.0) (2021-09-10)
+
+
+### Features
+
+* definition command ([88f3066](https://github.com/jamesatjaminit/Jam-Bot/commit/88f3066e98d769c764c5c3d3e82374d90e88be0e))
+* don't log multiple errors of the same error to error log within 20s ([f4bbfd9](https://github.com/jamesatjaminit/Jam-Bot/commit/f4bbfd920367e9ee9e84b45bc17d101be23c48a8))
+* punishments revamp, mute command, durations ([7a040c7](https://github.com/jamesatjaminit/Jam-Bot/commit/7a040c7eed62d2e3cf8cbe694693649753f7af27))
+
+
+### Bug Fixes
+
+* cap definitions at 5 ([da9ccc1](https://github.com/jamesatjaminit/Jam-Bot/commit/da9ccc1734aa886da2919adaeef87ced5eb5336b))
+* encode uri define command ([9b3d747](https://github.com/jamesatjaminit/Jam-Bot/commit/9b3d7478c8d8165cd9be424e49aeff70f26f52be))
+* fix args joining define command ([6143d2b](https://github.com/jamesatjaminit/Jam-Bot/commit/6143d2bdd3f23cf27e968f1e4d0b501f565f0d6d))
+* fix database handler ([c5e1ee1](https://github.com/jamesatjaminit/Jam-Bot/commit/c5e1ee13fe6717250fed461e2b45ccf3c2f55a5c))
+* fix stats interval again ([2fe0dd1](https://github.com/jamesatjaminit/Jam-Bot/commit/2fe0dd1b5e0645dffd3a82d09daccdca90b5947a))
+* fix typescript build ([8985565](https://github.com/jamesatjaminit/Jam-Bot/commit/898556559f6400901601c7a5a3369cde382b8cf6))
+* formatting in define command ([0a23d82](https://github.com/jamesatjaminit/Jam-Bot/commit/0a23d8215caaff3c75c68713cec06cc01515fc1e))
+* handle non-standard status codes define.ts ([0fc9c11](https://github.com/jamesatjaminit/Jam-Bot/commit/0fc9c1132a81150a4a5debfa467009c9a580090e))
+* im feeling nice ([ce6db3e](https://github.com/jamesatjaminit/Jam-Bot/commit/ce6db3e7e6caa37c32714a1c5e9fafaee70c3987))
+* remove azure deps ([6efda3c](https://github.com/jamesatjaminit/Jam-Bot/commit/6efda3c6c8205c11a37ab1744ab8b4798f6a68fb))
+* revert change allowing snipe of owners ([51251a4](https://github.com/jamesatjaminit/Jam-Bot/commit/51251a42d1c89a4c4c2a7eb93b26045f3909e9a0))
+* use / commands in status ([06372d3](https://github.com/jamesatjaminit/Jam-Bot/commit/06372d3ef4aad67c76a7b1558f482b934e0d9662))
+
 ### [2.5.3](https://github.com/jaminitbot/Jam-Bot/compare/v2.5.2...v2.5.3) (2021-09-02)
 
 ### Features
