@@ -121,5 +121,10 @@
         "title": "Define Command!",
         "date": 1630946905931,
         "description": "There's now a little define command, to define any word you'd like!"
+    },
+    {
+        "title": "Mute command punishment system revamp!",
+        "date": 1631308467318,
+        "description": "Kick and ban have been improved, unban is now a thing, a mute command is now a thing, and all these commands now can have durations instead of just being perms!"
     }
 ]
