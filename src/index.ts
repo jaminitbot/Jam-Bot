@@ -14,6 +14,8 @@ import { saveStatsToDB, connectToSatsCollection } from './cron/stats'
 import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
 import { saveLogger, stopBot, removeItemFromArray } from './functions/util'
+import { processTasks } from './functions/mod'
+
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
 	const clientOptions: ClientOptions = {
@@ -189,6 +191,9 @@ import { saveLogger, stopBot, removeItemFromArray } from './functions/util'
 		}
 		scheduleJob('*/5 * * * *', function () {
 			saveStatsToDB()
+		})
+		scheduleJob('*/10 * * * * *', function () {
+			processTasks(client)
 		})
 	})
 	await client.login(process.env.token)

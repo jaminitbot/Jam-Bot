@@ -16,7 +16,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('lookup')
 			.setDescription('The user/role to lookup')
 			.setRequired(true))
-async function lookupUserOrRole(channel:TextBasedChannels, guild:Guild, member:GuildMember, role:Role) {
+async function lookupUserOrRole(channel: TextBasedChannels, guild: Guild, member: GuildMember, role: Role) {
 	const embed = new MessageEmbed
 	embed.setColor('#007991')
 	if (member && (!role || !role.color) && member.roles) {
@@ -66,12 +66,12 @@ export async function execute(client: BotClient, message: Message, args) {
 	const initiatedUser = message.member.user.tag
 	const initiatedAvatar = message.member.user.avatarURL()
 	embed.setFooter('Command issued by ' + initiatedUser, initiatedAvatar)
-	message.channel.send({embeds: [embed]})
+	message.channel.send({ embeds: [embed] })
 }
-export async function executeSlash(client: BotClient, interaction:CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const userRole = interaction.options.getMentionable('lookup')
 	// @ts-expect-error
 	const embed = await lookupUserOrRole(interaction.channel, interaction.guild, userRole, userRole)
-	interaction.editReply({embeds: [embed]})
+	interaction.editReply({ embeds: [embed] })
 }

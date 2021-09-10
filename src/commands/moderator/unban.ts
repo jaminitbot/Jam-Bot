@@ -1,0 +1,46 @@
+import { CommandInteraction, Message } from "discord.js"
+import { BotClient } from '../../customDefinitions'
+import { SlashCommandBuilder } from '@discordjs/builders'
+import { moddable, unban } from '../../functions/mod'
+
+export const name = 'unban'
+export const description = 'Unbans a user from the server'
+export const permissions = ['BAN_MEMBERS']
+export const usage = 'unban @user'
+export const slashData = new SlashCommandBuilder()
+	.setName(name)
+	.setDescription(description)
+	.addUserOption(option =>
+		option.setName('user')
+			.setDescription('The user to unban')
+			.setRequired(true))
+	.addStringOption(option =>
+		option.setName('reason')
+			.setDescription('(Optional) reason to unban the user for')
+			.setRequired(false))
+export async function execute(client: BotClient, message: Message, args) {
+	message.channel.send('Please use the slash command to unban people!')
+}
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+	if (!interaction.guild.me.permissions.has('BAN_MEMBERS')) return interaction.reply({ content: 'I don\'t have the correct permissions to unban people, ask an admin to check my permissions!' })
+	const targetUser = interaction.options.getUser('user')
+	const isModdable = await moddable(interaction.guild, targetUser.id, interaction.user.id)
+	switch (isModdable) {
+		case 1:
+			return interaction.reply({ content: 'The user you provided was invalid.', ephemeral: true })
+		case 2:
+			return interaction.reply({ content: 'You can\'t unban yourself silly!', ephemeral: true })
+		case 3:
+			return interaction.reply({ content: 'My roles don\'t allow me to do that, ask an admin to make sure my role is higher than the target users!', ephemeral: true })
+		case 4:
+			return interaction.reply({ content: 'Your highest role is lower than the targets! You can\'t unban them!', ephemeral: true })
+	}
+	const reason = interaction.options.getString('reason')
+	const formattedReason = `${interaction.user.tag}: ${reason ?? 'No reason specified.'}`
+	const banResult = await unban(interaction.guild, targetUser.id, interaction.user.id, formattedReason)
+	if (banResult == 0) {
+		interaction.reply(`${targetUser.tag} has been unbanned!`)
+	} else {
+		interaction.reply('There was an unknown error unbanning the user')
+	}
+}
