@@ -19,7 +19,7 @@ export const slashData = new SlashCommandBuilder()
 async function sendSuggestion(client: BotClient, suggestion: string, guildId: string, attachment: string, author) {
 	const suggestionChannelId = await getNestedSetting(guildId, 'suggestions', 'channel')
 	if (!suggestionChannelId) return 1 // Suggestions aren't setup yet
-	if (!getNestedSetting(guildId, 'suggestions', 'enabled')) return 3 // Suggestions are disabled
+	if (!(await getNestedSetting(guildId, 'suggestions', 'enabled'))) return 3 // Suggestions are disabled
 	// @ts-expect-error
 	const suggestionChannel: TextChannel = await client.channels.fetch(suggestionChannelId)
 	if (!suggestionChannel) return 2 // Error finding suggestions channel
