@@ -154,7 +154,6 @@ import { processTasks } from './functions/mod'
 		client.events.get('guildMemberAdd').register(client, member)
 	})
 	client.on('guildMemberRemove', member => {
-		console.log('yes')
 		client.events.get('guildMemberRemove').register(client, member)
 	})
 	// SIGINT STUFF

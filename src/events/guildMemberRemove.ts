@@ -4,7 +4,6 @@ import { postToModlog } from "../functions/mod"
 
 export const name = "guildMemberRemove"
 export async function register(client: BotClient, member: GuildMember) {
-	console.log('pew pew')
 	const embed = new MessageEmbed
 	embed.setAuthor(member.displayName, member.user.displayAvatarURL())
 	embed.setTitle('User Left')

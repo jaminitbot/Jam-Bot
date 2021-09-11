@@ -19,15 +19,6 @@ export async function sendUserToModlog(client: BotClient, member: GuildMember) {
 	postToModlog(client, member.guild.id, { embeds: [embed] }, 'joinLeaves')
 }
 export async function register(client: BotClient, member: GuildMember) {
-	if (!member.pending) {
-		sendUserToModlog(client, member)
-		if (member.guild.id == '779060204528074783') {
-			try {
-				await member.roles.add(process.env.DEFAULT_ROLE)
-				// eslint-disable-next-line no-empty
-			} catch (err) {
-				return
-			}
-		}
-	}
+	if (member.partial) await member.fetch()
+	sendUserToModlog(client, member)
 }
