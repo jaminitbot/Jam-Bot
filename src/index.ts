@@ -192,7 +192,7 @@ import { processTasks } from './functions/mod'
 		scheduleJob('*/5 * * * *', function () {
 			saveStatsToDB()
 		})
-		scheduleJob('* * * * *', function () {
+		scheduleJob('*/30 * * * * *', function () {
 			processTasks(client)
 		})
 	})

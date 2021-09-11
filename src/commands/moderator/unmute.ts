@@ -37,10 +37,10 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	}
 	const reason = interaction.options.getString('reason')
 	const formattedReason = `${interaction.user.tag}: ${reason ?? 'No reason specified.'}`
-	const banResult = await unmute(interaction.guild, targetUser.id, interaction.user.id, formattedReason)
-	if (banResult == 0) {
-		interaction.reply(`${targetUser.tag} has been unmutted!`)
+	const unmuteResult = await unmute(interaction.guild, targetUser.id, interaction.user.id, formattedReason)
+	if (unmuteResult == 0) {
+		interaction.reply(`${targetUser.tag} has been unmuted!`)
 	} else {
-		interaction.reply('There was an unknown error unmutting the user')
+		interaction.reply('There was an unknown error unmuting the user')
 	}
 }

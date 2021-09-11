@@ -30,7 +30,7 @@ export function parseDuration(duration: string) {
 
 export async function postToModlog(client: BotClient, guildId: string, messageContent: string | MessageOptions) {
 	const channelId = await getKey(guildId, 'modLogChannel')
-	if (!channelId) return
+	if (!channelId) return 4
 	let channel: Channel
 	try {
 		channel = await client.channels.fetch(channelId)
@@ -137,6 +137,7 @@ export async function mute(guild: Guild, userId: string, modId: string, reason: 
 	}
 	return 0
 }
+
 export async function unmute(guild: Guild, userId: string, modId: string, reason: string | null) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1
@@ -149,6 +150,7 @@ export async function unmute(guild: Guild, userId: string, modId: string, reason
 	}
 	return 0
 }
+
 export async function moddable(guild: Guild, targetId: string, modId: string) {
 	let targetUser: GuildMember
 	let modUser: GuildMember
