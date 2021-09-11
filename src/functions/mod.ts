@@ -1,8 +1,9 @@
 import { Channel, Guild, GuildMember, MessageOptions } from "discord.js"
 import { BotClient } from "../customDefinitions"
-import { getKey, returnRawClient } from './db'
+import { getNestedSetting, returnRawClient } from './db'
 import ms from 'ms'
 import is_number from "is-number"
+import { capitaliseSentence } from "./util"
 
 type TaskType = 'UNMUTE' | 'UNBAN'
 
@@ -27,10 +28,15 @@ export function parseDuration(duration: string) {
 	}
 	return parsedDuration
 }
-
-export async function postToModlog(client: BotClient, guildId: string, messageContent: string | MessageOptions) {
-	const channelId = await getKey(guildId, 'modLogChannel')
-	if (!channelId) return 4
+type LogType = 'messages' | 'members' | 'server' | 'joinLeaves'
+export async function postToModlog(client: BotClient, guildId: string, messageContent: string | MessageOptions, logType: LogType) {
+	const shouldLog = await getNestedSetting(guildId, 'modlog', 'log' + capitaliseSentence(logType))
+	if (!shouldLog) return 5
+	let channelId = await getNestedSetting(guildId, 'modlog', logType + 'ChannelId')
+	if (!channelId) {
+		channelId = await getNestedSetting(guildId, 'modlog', 'mainChannelId')
+		if (!channelId) return 4
+	}
 	let channel: Channel
 	try {
 		channel = await client.channels.fetch(channelId)

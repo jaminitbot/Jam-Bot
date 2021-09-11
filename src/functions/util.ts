@@ -220,3 +220,11 @@ export function capitaliseSentence(string: string) {
 	const str = String(string)
 	return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
+export function booleanToHuman(booleanToConvert: boolean) {
+	if (booleanToConvert == true) {
+		return 'on'
+	} else {
+		return 'off'
+	}
+}

@@ -79,3 +79,19 @@ export async function getKey(guildIdInput: string | number, key: string): Promis
 export function returnRawClient(): MongoClient {
 	return this.rawClient
 }
+
+export async function getNestedSetting(guildId: string, nestedGroupName: string, key: string) {
+	const nestedGroupRaw = await getKey(guildId, nestedGroupName)
+	if (!nestedGroupRaw) return null
+	return nestedGroupRaw[key]
+}
+
+export async function setNestedSetting(guildId: string, nestedGroupName: string, key: string, value: unknown) {
+	let nestedGroupRaw = await getKey(guildId, nestedGroupName)
+	if (!nestedGroupRaw) {
+		nestedGroupRaw = {}
+	}
+	// eslint-disable-next-line prefer-const
+	nestedGroupRaw[key] = value
+	await setKey(guildId, nestedGroupName, nestedGroupRaw)
+}

@@ -1,9 +1,11 @@
-import { GuildMember, PartialGuildMember } from "discord.js";
-export const name = "guildMemberUpdate"
+import { GuildMember, PartialGuildMember } from "discord.js"
+import { BotClient } from "src/customDefinitions"
+import { sendUserToModlog } from "./guildMemberAdd"
 
-export async function register(oldMember: GuildMember | PartialGuildMember, newMember: GuildMember) {
-	if (newMember.guild.id == '779060204528074783') {
-		if (oldMember.pending && !newMember.pending) {
+export async function register(client: BotClient, oldMember: GuildMember | PartialGuildMember, newMember: GuildMember) {
+	if (oldMember.pending && !newMember.pending) {
+		sendUserToModlog(client, newMember)
+		if (newMember.guild.id == '779060204528074783') {
 			try {
 				await newMember.roles.add(process.env.DEFAULT_ROLE)
 			} catch (err) {

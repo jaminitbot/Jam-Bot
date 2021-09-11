@@ -1,7 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import { BotClient } from "src/customDefinitions";
 import { inputSnipe } from '../functions/snipe'
-import { getKey } from '../functions/db'
 import { storeMessageEdit } from '../cron/stats'
 import { postToModlog } from "../functions/mod"
 export const name = "messageUpdate"
@@ -18,15 +17,13 @@ export async function register(client: BotClient, oldMessage: Message, newMessag
 	if (!(newMessage.channel.type == 'GUILD_TEXT' || newMessage.channel.type == 'GUILD_NEWS')) return
 	if (newMessage.author.bot) return
 	await inputSnipe(newMessage, oldMessage, 'edit')
-	//#region Edit log
-	const logEdits = await getKey(newMessage.guild.id, 'logDeletedMessages')
-	if (logEdits) {
-		const embed = new MessageEmbed
-		embed.setAuthor(newMessage.author.tag, newMessage.author.avatarURL())
-		embed.addField(`Message edited in #${newMessage.channel.name}`, `**Before:** ${oldMessage.content ?? '[No Content]'}\n**After:** ${newMessage.content ?? '[No Content]'}`)
-		embed.setFooter(`User ID: ${newMessage.author.id}, Channel ID: ${newMessage.channel.id}`)
-		embed.setTimestamp(Date.now())
-		embed.setColor('#61C9A8')
-		postToModlog(client, newMessage.guild.id, { embeds: [embed] })
-	}
+	//#region Edit Log
+	const embed = new MessageEmbed
+	embed.setAuthor(newMessage.author.tag, newMessage.author.avatarURL())
+	embed.addField(`Message edited in #${newMessage.channel.name}`, `**Before:** ${oldMessage.content ?? '[No Content]'}\n**After:** ${newMessage.content ?? '[No Content]'}`)
+	embed.setFooter(`User ID: ${newMessage.author.id}, Channel ID: ${newMessage.channel.id}`)
+	embed.setTimestamp(Date.now())
+	embed.setColor('#61C9A8')
+	postToModlog(client, newMessage.guild.id, { embeds: [embed] }, 'messages')
+	//#endregion
 }

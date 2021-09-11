@@ -1,6 +1,5 @@
 import { Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../customDefinitions'
-import { getKey } from '../functions/db'
 import { inputSnipe } from '../functions/snipe'
 import { storeMessageDelete } from '../cron/stats'
 import { postToModlog } from "../functions/mod"
@@ -13,14 +12,11 @@ export async function register(client: BotClient, message: Message): Promise<voi
 	if (message.author.bot) return
 	await inputSnipe(message, null, 'delete')
 	//#region Delete log code
-	const logDeletes = await getKey(message.guild.id, 'logDeletedMessages')
-	if (logDeletes) {
-		const embed = new MessageEmbed
-		embed.setAuthor(message.author.tag, message.author.avatarURL())
-		embed.addField(`Message deleted in #${message.channel.name}`, message.content ?? '[No Content]', false)
-		embed.setColor('#FF0000')
-		embed.setFooter(`User ID: ${message.author.id}, Channel ID: ${message.channel.id}`)
-		postToModlog(client, message.guild.id, { embeds: [embed] })
-	}
+	const embed = new MessageEmbed
+	embed.setAuthor(message.author.tag, message.author.avatarURL())
+	embed.addField(`Message deleted in #${message.channel.name}`, message.content ?? '[No Content]', false)
+	embed.setColor('#FF0000')
+	embed.setFooter(`User ID: ${message.author.id}, Channel ID: ${message.channel.id}`)
+	postToModlog(client, message.guild.id, { embeds: [embed] }, 'messages')
 	//#endregion
 }

@@ -30,7 +30,6 @@ export async function execute(client: BotClient, message: Message, args) {
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const search = interaction.options.getString('search') + ' gif'
-	console.log(search)
 	const position = interaction.options.getInteger('position') || null
 	// @ts-expect-error
 	const isNsfw = interaction.channel.nsfw

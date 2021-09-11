@@ -151,10 +151,10 @@ import { processTasks } from './functions/mod'
 		client.events.get('interactionCreate').register(client, interaction)
 	})
 	client.on('guildMemberUpdate', (oldMember, newMember) => {
-		client.events.get('guildMemberUpdate').register(oldMember, newMember)
+		client.events.get('guildMemberUpdate').register(client, oldMember, newMember)
 	})
 	client.on('guildMemberAdd', member => {
-		client.events.get('guildMemberAdd').register(member)
+		client.events.get('guildMemberAdd').register(client, member)
 	})
 	// SIGINT STUFF
 	if (process.platform === 'win32') {
