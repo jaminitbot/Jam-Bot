@@ -153,6 +153,9 @@ import { processTasks } from './functions/mod'
 	client.on('guildMemberAdd', member => {
 		client.events.get('guildMemberAdd').register(client, member)
 	})
+	client.on('guildMemberRemove', member => {
+		client.events.get('guildMemberRemove').register(client, member)
+	})
 	// SIGINT STUFF
 	if (process.platform === 'win32') {
 		const rl = require('readline').createInterface({

@@ -11,7 +11,7 @@ export const name = "guildMemberAdd"
 export async function sendUserToModlog(client: BotClient, member: GuildMember) {
 	const embed = new MessageEmbed
 	embed.setAuthor(member.displayName, member.user.displayAvatarURL())
-	embed.setTitle('User joined')
+	embed.setTitle('User Joined')
 	embed.setDescription(`User: <@${member.id}>\n` +
 		`Created: ${dayjs.duration(member.user.createdTimestamp, 'ms').humanize()}` +
 		`There is now: ${member.guild.memberCount} users`)
