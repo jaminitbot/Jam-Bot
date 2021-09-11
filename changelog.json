@@ -126,5 +126,15 @@
         "title": "Mute command punishment system revamp!",
         "date": 1631308467318,
         "description": "Kick and ban have been improved, unban is now a thing, a mute command is now a thing, and all these commands now can have durations instead of just being perms!"
+    },
+    {
+        "title": "Settings upgrade",
+        "date": 1631366187142,
+        "description": "Settings are a lot easier to change now with slash commands!"
+    },
+    {
+        "title": "Modlog upgrades!",
+        "date": 1631366221729,
+        "description": "With the help of the settings upgrade, you can now log more events, to seperate channels!"
     }
 ]
