@@ -2,10 +2,8 @@ import { GuildMember, MessageEmbed } from "discord.js"
 import { BotClient } from "src/customDefinitions"
 import { postToModlog } from "../functions/mod"
 import dayjs from "dayjs"
-import duration from 'dayjs/plugin/duration'
-import relativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(duration)
-dayjs.extend(relativeTime)
+import relative from 'dayjs/plugin/relativeTime'
+dayjs.extend(relative)
 
 export const name = "guildMemberAdd"
 export async function sendUserToModlog(client: BotClient, member: GuildMember) {
@@ -13,10 +11,11 @@ export async function sendUserToModlog(client: BotClient, member: GuildMember) {
 	embed.setAuthor(member.displayName, member.user.displayAvatarURL())
 	embed.setTitle('User Joined')
 	embed.setDescription(`User: <@${member.id}>\n` +
-		`Created: ${dayjs.duration(member.user.createdTimestamp, 'ms').humanize()}` +
+		`Created: ${dayjs().to(member.user.createdTimestamp)}\n` +
 		`There is now: ${member.guild.memberCount} users`)
 	embed.setFooter('User ID: ' + member.id)
 	embed.setTimestamp(Date.now())
+	embed.setFooter('#26C485')
 	postToModlog(client, member.guild.id, { embeds: [embed] }, 'joinLeaves')
 }
 export async function register(client: BotClient, member: GuildMember) {

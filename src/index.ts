@@ -22,7 +22,7 @@ import { processTasks } from './functions/mod'
 		allowedMentions: { parse: ['roles', 'everyone'] },
 		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
 		presence: { status: 'online', activities: [{ name: '/help', type: 'WATCHING' }] },
-		partials: ['MESSAGE']
+		partials: ['MESSAGE', 'GUILD_MEMBER']
 	}
 	// @ts-expect-error
 	const client: BotClient = new Client(clientOptions)
@@ -154,6 +154,7 @@ import { processTasks } from './functions/mod'
 		client.events.get('guildMemberAdd').register(client, member)
 	})
 	client.on('guildMemberRemove', member => {
+		console.log('yes')
 		client.events.get('guildMemberRemove').register(client, member)
 	})
 	// SIGINT STUFF

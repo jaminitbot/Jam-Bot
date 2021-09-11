@@ -247,7 +247,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 			const logMembers = interaction.options.getBoolean('members')
 			const logServer = interaction.options.getBoolean('server')
 			const logJoinLeaves = interaction.options.getBoolean('joinleaves')
-			if (typeof logMessages == 'boolean' && typeof logMembers == 'boolean' && typeof logServer == 'boolean' && typeof logJoinLeaves == 'boolean') {
+			if (typeof logMessages != 'boolean' && typeof logMembers != 'boolean' && typeof logServer != 'boolean' && typeof logJoinLeaves != 'boolean') {
 				const currentlogMessagesSetting = await getNestedSetting(interaction.guild.id, 'modlog', 'logMessages') ?? false
 				const currentLogMembersSetting = await getNestedSetting(interaction.guild.id, 'modlog', 'logMembers') ?? false
 				const currentLogServerSetting = await getNestedSetting(interaction.guild.id, 'modlog', 'logSetting') ?? false
