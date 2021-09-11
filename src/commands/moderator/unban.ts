@@ -27,13 +27,13 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const isModdable = await moddable(interaction.guild, targetUser.id, interaction.user.id)
 	switch (isModdable) {
 		case 1:
-			return interaction.reply({ content: 'The user you provided was invalid.', ephemeral: true })
+			break
 		case 2:
 			return interaction.reply({ content: 'You can\'t unban yourself silly!', ephemeral: true })
 		case 3:
-			return interaction.reply({ content: 'My roles don\'t allow me to do that, ask an admin to make sure my role is higher than the target users!', ephemeral: true })
+			break
 		case 4:
-			return interaction.reply({ content: 'Your highest role is lower than the targets! You can\'t unban them!', ephemeral: true })
+			break
 	}
 	const reason = interaction.options.getString('reason')
 	const formattedReason = `${interaction.user.tag}: ${reason ?? 'No reason specified.'}`
