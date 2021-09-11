@@ -23,7 +23,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('command')
 			.setDescription('The command to run')
 			.setRequired(true))
-async function runEvalCommand(commandToRun, logger) {
+async function runEvalCommand(commandToRun, logger, message) {
 	const embed = new MessageEmbed
 	embed.setTitle('Eval')
 	let commandOutput
@@ -61,12 +61,12 @@ export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.channel.send('Do you just expect me to guess at what you want to run?')
 	const command = args.splice(0).join(' ')
 	const sentMessage = await message.channel.send({ content: 'Executing command...' })
-	const embed = await runEvalCommand(command, client.logger)
+	const embed = await runEvalCommand(command, client.logger, message)
 	sentMessage.edit({ content: null, embeds: [embed] })
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const command = interaction.options.getString('command')
-	const embed = await runEvalCommand(command, client.logger)
+	const embed = await runEvalCommand(command, client.logger, interaction)
 	interaction.editReply({ embeds: [embed] })
 }
