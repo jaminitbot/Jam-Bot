@@ -14,10 +14,10 @@ export async function sendUserToModlog(client: BotClient, member: GuildMember) {
 	embed.setTitle('User joined')
 	embed.setDescription(`User: <@${member.id}>\n` +
 		`Created: ${dayjs.duration(member.user.createdTimestamp, 'ms').humanize()}` +
-		`There is now: ${member.guild.memberCount} users` +
-		`embed.setFooter('User ID: ' + member.id)` +
-		`embed.setTimestamp(Date.now())`)
-	postToModlog(client, member.guild.id, { embeds: [embed] }, 'members')
+		`There is now: ${member.guild.memberCount} users`)
+	embed.setFooter('User ID: ' + member.id)
+	embed.setTimestamp(Date.now())
+	postToModlog(client, member.guild.id, { embeds: [embed] }, 'joinLeaves')
 }
 export async function register(client: BotClient, member: GuildMember) {
 	if (!member.pending) {

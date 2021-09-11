@@ -23,7 +23,7 @@ export async function register(guild: Guild) {
 	if (channel.type != 'GUILD_TEXT' && channel.type != 'GUILD_NEWS') return
 	try {
 		// @ts-expect-error
-		channel.send({ embed: await this.generateGuildInfoEmbed(guild) })
+		channel.send({ embeds: [await this.generateGuildInfoEmbed(guild)] })
 		// eslint-disable-next-line no-empty
 	} catch {
 

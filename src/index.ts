@@ -150,9 +150,6 @@ import { processTasks } from './functions/mod'
 	client.on('interactionCreate', interaction => {
 		client.events.get('interactionCreate').register(client, interaction)
 	})
-	client.on('guildMemberUpdate', (oldMember, newMember) => {
-		client.events.get('guildMemberUpdate').register(client, oldMember, newMember)
-	})
 	client.on('guildMemberAdd', member => {
 		client.events.get('guildMemberAdd').register(client, member)
 	})
