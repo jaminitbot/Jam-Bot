@@ -155,7 +155,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 			return
 		} else if (subCommand == 'useable') {
 			const sendSuggestions = interaction.options.getBoolean('on')
-			if (!sendSuggestions) {
+			if (typeof sendSuggestions != 'boolean') {
 				interaction.reply('Suggestions are currently: ' + booleanToHuman(await getNestedSetting(interaction.guild.id, 'suggestions', 'enabled')))
 				return
 			}
