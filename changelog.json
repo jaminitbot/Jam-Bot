@@ -136,5 +136,10 @@
         "title": "Modlog upgrades!",
         "date": 1631366221729,
         "description": "With the help of the settings upgrade, you can now log more events, to seperate channels!"
+    },
+    {
+        "title": "Define command updates",
+        "date": 1631463689390,
+        "description": "The define command now uses buttons and select menus to make it easier to use!"
     }
 ]
