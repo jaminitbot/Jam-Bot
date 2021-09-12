@@ -25,3 +25,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 export async function executeButton(client: BotClient, interaction: ButtonInteraction) {
 
 }
+
+export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction) {
+
+}

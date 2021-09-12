@@ -66,29 +66,44 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 			break
 		}
 	}
-	const pageNumber = Math.ceil(definitionNumberStart / 5)
+	const pageNumber = Math.floor(definitionNumberStart / 5)
+	const pages = Math.ceil(definitionsArray.length / 5)
 	embed.setColor(colours[pageNumber])
-	if (definitionNumberStart < definitionsArray.length || (1 < interactionData['definitionStart'] ?? 1)) {
-		const buttonsRow = new MessageActionRow
-		if (1 < interactionData['definitionStart'] ?? 1) {
-			buttonsRow.addComponents(
-				new MessageButton()
-					.setCustomId('define-button-' + (interactionData['definitionStart'] - 5) + '-' + wordToDefineHiphen)
-					.setLabel('Previous')
-					.setStyle('PRIMARY')
-			)
-		}
-		if (definitionNumberStart < definitionsArray.length) {
-			buttonsRow.addComponents(
-				new MessageButton()
-					.setCustomId('define-button-' + definitionNumberStart + '-' + wordToDefineHiphen)
-					.setLabel('Next')
-					.setStyle('PRIMARY')
-			)
-		}
-		return [embed, [buttonsRow, selectRow]]
+	embed.setFooter(`Page number: ${pageNumber}/${pages}`)
+	const buttonsRow = new MessageActionRow
+	if (1 < interactionData['definitionStart'] ?? 1) {
+		buttonsRow.addComponents(
+			new MessageButton()
+				.setCustomId('define-button-' + (interactionData['definitionStart'] - 5) + '-' + wordToDefineHiphen)
+				.setLabel('Previous')
+				.setStyle('PRIMARY')
+		)
+	} else {
+		buttonsRow.addComponents(
+			new MessageButton()
+				.setCustomId('define-button-disabled')
+				.setDisabled(true)
+				.setLabel('Previous')
+				.setStyle('PRIMARY')
+		)
 	}
-	return [embed, [selectRow]]
+	if (definitionNumberStart < definitionsArray.length) {
+		buttonsRow.addComponents(
+			new MessageButton()
+				.setCustomId('define-button-' + definitionNumberStart + '-' + wordToDefineHiphen)
+				.setLabel('Next')
+				.setStyle('PRIMARY')
+		)
+	} else {
+		buttonsRow.addComponents(
+			new MessageButton()
+				.setCustomId('define-button-disabled2')
+				.setDisabled(true)
+				.setLabel('Next')
+				.setStyle('PRIMARY')
+		)
+	}
+	return [embed, [buttonsRow, selectRow]]
 }
 
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
