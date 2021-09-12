@@ -1,10 +1,11 @@
-import { ButtonInteraction, Client, Collection, CommandInteraction, Message, PermissionString } from "discord.js"
+import { ButtonInteraction, Client, Collection, CommandInteraction, Message, PermissionString, SelectMenuInteraction } from "discord.js"
 import { Logger } from "winston";
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 type Permission = PermissionString | 'OWNER'
 
 export interface Command {
+	executeSelectMenu: (client: BotClient, interaction: SelectMenuInteraction) => Promise<void>
 	executeSlash: (client: BotClient, interaction: CommandInteraction) => Promise<void>
 	executeButton: (client: BotClient, interaction: ButtonInteraction) => Promise<void>
 	slashData: SlashCommandBuilder

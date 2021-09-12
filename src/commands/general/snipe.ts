@@ -4,7 +4,6 @@ import { MessageSniped, returnSnipedMessages, snipeLifetime } from '../../functi
 import { SlashCommandBuilder } from '@discordjs/builders'
 export const name = 'snipe'
 export const description = 'Snipes deleted and edited messages'
-export const permissions = ''
 export const usage = 'snipe (deletes|edits)'
 export const slashData = new SlashCommandBuilder()
 	.setName(name)

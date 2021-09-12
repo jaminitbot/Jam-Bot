@@ -54,5 +54,16 @@ export async function register(client: BotClient, interaction: Interaction) {
 				client.logger.error('interactionHandler: Command button failed with error: ' + error)
 			}
 		}
+	} else if (interaction.isSelectMenu()) {
+		const selectNameObject = interaction.customId.trim().split('-')
+		const command = client.commands.get(selectNameObject[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(selectNameObject[0]))
+		if (command) {
+			try {
+				command.executeSelectMenu(client, interaction)
+			} catch (error) {
+				// Error running command
+				client.logger.error('interactionHandler: Command button failed with error: ' + error)
+			}
+		}
 	}
 }
