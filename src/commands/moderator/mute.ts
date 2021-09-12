@@ -56,9 +56,9 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	if (muteResult == 0) {
 		if (duration) {
 			const humanDuration = dayjs.duration(parsedDuration, "ms").humanize()
-			interaction.reply(`${targetUser.tag} has been muted for ${humanDuration}!`)
+			interaction.reply(`${targetUser.tag} has been muted for ${humanDuration} with reason: ${reason ?? 'None'}.`)
 		} else {
-			interaction.reply(`${targetUser.tag} has been muted!`)
+			interaction.reply(`${targetUser.tag} has been muted with reason: ${reason}.`)
 		}
 	} else if (muteResult == 3) {
 		interaction.reply({ content: 'There isn\'t a role named `Muted`! Ask an admin to make it!', ephemeral: true })

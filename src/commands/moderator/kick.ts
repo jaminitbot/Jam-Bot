@@ -44,7 +44,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const formattedReason = `${interaction.user.tag}: ${reason ?? 'No reason specified.'}`
 	const kickResult = await kick(interaction.guild, targetUser.id, interaction.user.id, formattedReason)
 	if (kickResult == 0) {
-		interaction.reply(`${targetUser.tag} has been kicked!`)
+		interaction.reply(`${targetUser.tag} has been kicked with reason: ${reason ?? 'None'}.`)
 	} else {
 		interaction.reply('There was an unknown error kicking the user')
 	}

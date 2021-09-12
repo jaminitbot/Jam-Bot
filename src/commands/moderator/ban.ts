@@ -52,9 +52,9 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	if (banResult == 0) {
 		if (duration) {
 			const humanDuration = dayjs.duration(parsedDuration, "ms").humanize()
-			interaction.reply(`${targetUser.tag} has been banned for ${humanDuration}!`)
+			interaction.reply(`${targetUser.tag} has been banned for ${humanDuration} with reason: ${reason ?? 'None'}.`)
 		} else {
-			interaction.reply(`${targetUser.tag} has been banned!`)
+			interaction.reply(`${targetUser.tag} has been banned with reason: with reason: ${reason ?? 'None'}.`)
 		}
 	} else {
 		interaction.reply('There was an unknown error banning the user')
