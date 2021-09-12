@@ -35,8 +35,18 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 		case 4:
 			break
 	}
-	const bans = await interaction.guild.bans.fetch()
-	if (!bans.get(targetUser.id)) return interaction.reply({ content: `${targetUser.tag} is not banned!`, ephemeral: true })
+	try {
+		await interaction.guild.bans.fetch(targetUser.id)
+	} catch (err) {
+		if (String(err).includes('Unknown Ban')) {
+			interaction.reply({ content: `${targetUser.tag} is not banned!`, ephemeral: true })
+			return
+		} else {
+			interaction.reply('There was an unknown error unbanning the user')
+			client.logger.warn('Unknown error when fetching bans: ' + err)
+			return
+		}
+	}
 	const reason = interaction.options.getString('reason')
 	const formattedReason = `${interaction.user.tag}: ${reason ?? 'No reason specified.'}`
 	const banResult = await unban(interaction.guild, targetUser.id, interaction.user.id, formattedReason)
