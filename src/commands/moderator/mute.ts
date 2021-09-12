@@ -42,11 +42,11 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 		case 1:
 			return interaction.reply({ content: 'The user you provided was invalid.', ephemeral: true })
 		case 2:
-			return interaction.reply({ content: 'You can\'t kick yourself silly!', ephemeral: true })
+			return interaction.reply({ content: 'You can\'t mute yourself silly!', ephemeral: true })
 		case 3:
 			return interaction.reply({ content: 'My roles don\'t allow me to do that, ask an admin to make sure my role is higher than the target users!', ephemeral: true })
 		case 4:
-			return interaction.reply({ content: 'Your highest role is lower than the targets! You can\'t kick them!', ephemeral: true })
+			return interaction.reply({ content: 'Your highest role is lower than the targets! You can\'t mute them!', ephemeral: true })
 	}
 	const reason = interaction.options.getString('reason')
 	const formattedReason = `${interaction.user.tag}: ${reason ?? 'No reason specified.'}`
