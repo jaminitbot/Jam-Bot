@@ -35,6 +35,8 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 		case 4:
 			break
 	}
+	const bans = await interaction.guild.bans.fetch()
+	if (!bans.get(targetUser.id)) return interaction.reply({ content: `${targetUser.tag} is not banned!`, ephemeral: true })
 	const reason = interaction.options.getString('reason')
 	const formattedReason = `${interaction.user.tag}: ${reason ?? 'No reason specified.'}`
 	const banResult = await unban(interaction.guild, targetUser.id, interaction.user.id, formattedReason)
