@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 // @ts-nocheck
-import { ButtonInteraction, CommandInteraction, Message } from "discord.js"
+import { ButtonInteraction, CommandInteraction, SelectMenuInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 

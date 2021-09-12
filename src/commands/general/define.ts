@@ -29,12 +29,17 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 			error = err
 		}
 		if (error || response.status != 200) {
-			const embed = new MessageEmbed
-			embed.setDescription('No definitions found for: ' + wordToDefine)
-			embed.setColor(colours[0])
-			return embed
+			cache.set(wordToDefine, 'NOT_FOUND')
+		} else {
+			cache.set(wordToDefine, response.data[0])
 		}
-		cache.set(wordToDefine, response.data[0])
+
+	}
+	if (cache.get(wordToDefine) == 'NOT_FOUND') {
+		const embed = new MessageEmbed
+		embed.setDescription('No definitions found for: ' + wordToDefine)
+		embed.setColor(colours[0])
+		return [[embed], null]
 	}
 	const jsonResponse = cache.get(wordToDefine) ?? response.data[0]
 	const partOfSpeechTypes = []
@@ -66,10 +71,11 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 			break
 		}
 	}
-	const pageNumber = Math.floor(definitionNumberStart / 5)
+	let pageNumber = Math.floor(definitionNumberStart / 5)
+	if (pageNumber <= 0) pageNumber = 1
 	const pages = Math.ceil(definitionsArray.length / 5)
 	embed.setColor(colours[pageNumber])
-	embed.setFooter(`Page number: ${pageNumber}/${pages}`)
+	embed.setFooter(`Page: ${pageNumber}/${pages}`)
 	const buttonsRow = new MessageActionRow
 	if (1 < interactionData['definitionStart'] ?? 1) {
 		buttonsRow.addComponents(
@@ -103,7 +109,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 				.setStyle('PRIMARY')
 		)
 	}
-	return [embed, [buttonsRow, selectRow]]
+	return [[embed], [buttonsRow, selectRow]]
 }
 
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
@@ -114,7 +120,8 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	await interaction.deferReply()
 	const wordToDefine = interaction.options.getString('word')
 	const embed = await returnDefineEmbed(wordToDefine.toLowerCase(), {})
-	interaction.editReply({ embeds: [embed[0]], components: embed[1] })
+	// @ts-expect-error
+	interaction.editReply({ embeds: embed[0], components: embed[1] })
 }
 
 export async function executeButton(client: BotClient, interaction: ButtonInteraction) {
@@ -122,7 +129,8 @@ export async function executeButton(client: BotClient, interaction: ButtonIntera
 	const interactionData = { 'definitionStart': parseInt(interactionNameObject[2]) }
 	const wordToDefine = interactionNameObject.splice(3).join(' ')
 	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData)
-	interaction.update({ embeds: [defineEmbedData[0]], components: defineEmbedData[1] })
+	// @ts-expect-error
+	interaction.update({ embeds: defineEmbedData[0], components: defineEmbedData[1] })
 }
 
 export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction) {
@@ -130,5 +138,6 @@ export async function executeSelectMenu(client: BotClient, interaction: SelectMe
 	const wordToDefine = interactionNameObject.splice(2).join(' ')
 	const interactionData = { 'definitionType': interaction.values[0] }
 	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData)
-	interaction.update({ embeds: [defineEmbedData[0]], components: defineEmbedData[1] })
+	// @ts-expect-error
+	interaction.update({ embeds: defineEmbedData[0], components: defineEmbedData[1] })
 }
