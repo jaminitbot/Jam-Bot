@@ -18,7 +18,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The word you\'d like to define')
 			.setRequired(true))
 const colours: Array<ColorResolvable> = ['#805D93', '#F49FBC', '#FFD3BA', '#9EBD6E', '#169873', '#540D6E', '#EE4266']
-async function returnDefineEmbed(wordToDefine: string, interactionData) {
+async function returnDefineEmbed(wordToDefine: string, interactionData, userId: string) {
 	let response: AxiosResponse
 	let error
 	const cachedValue = cache.get(wordToDefine)
@@ -54,7 +54,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 	const selectRow = new MessageActionRow()
 		.addComponents(
 			new MessageSelectMenu()
-				.setCustomId('define-selectmenu-' + wordToDefineHiphen)
+				.setCustomId('define-selectmenu-' + userId + '-' + wordToDefineHiphen)
 				.setPlaceholder(capitaliseSentence(wordType))
 				.addOptions(partOfSpeechTypes)
 		)
@@ -81,7 +81,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 	if (1 < interactionData['definitionStart'] ?? 1) {
 		buttonsRow.addComponents(
 			new MessageButton()
-				.setCustomId('define-button-' + (interactionData['definitionStart'] - 5) + '-' + wordType + '-' + wordToDefineHiphen)
+				.setCustomId('define-button-' + (interactionData['definitionStart'] - 5) + '-' + wordType + '-' + userId + '-' + wordToDefineHiphen)
 				.setLabel('Previous')
 				.setStyle('PRIMARY')
 		)
@@ -97,7 +97,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 	if (definitionNumberStart < definitionsArray.length) {
 		buttonsRow.addComponents(
 			new MessageButton()
-				.setCustomId('define-button-' + definitionNumberStart + '-' + wordType + '-' + wordToDefineHiphen)
+				.setCustomId('define-button-' + definitionNumberStart + '-' + wordType + '-' + userId + '-' + wordToDefineHiphen)
 				.setLabel('Next')
 				.setStyle('PRIMARY')
 		)
@@ -114,13 +114,13 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 }
 
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	message.channel.send('Use slash commands')
+	message.channel.send('Use slash commands smh')
 }
 
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const wordToDefine = interaction.options.getString('word')
-	const embed = await returnDefineEmbed(wordToDefine.toLowerCase(), {})
+	const embed = await returnDefineEmbed(wordToDefine.toLowerCase(), {}, interaction.user.id)
 	// @ts-expect-error
 	interaction.editReply({ embeds: embed[0], components: embed[1] })
 }
@@ -128,17 +128,30 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 export async function executeButton(client: BotClient, interaction: ButtonInteraction) {
 	const interactionNameObject = interaction.customId.split('-')
 	const interactionData = { 'definitionStart': parseInt(interactionNameObject[2]), 'definitionType': interactionNameObject[3] }
-	const wordToDefine = interactionNameObject.splice(4).join(' ')
-	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData)
-	// @ts-expect-error
-	interaction.update({ embeds: defineEmbedData[0], components: defineEmbedData[1] })
+	const eph = interactionNameObject[4] == interaction.user.id ? false : true
+	const wordToDefine = interactionNameObject.splice(5).join(' ')
+	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id)
+	if (eph) {
+		// @ts-expect-error
+		await interaction.reply({ embeds: defineEmbedData[0], components: defineEmbedData[1], ephemeral: true })
+	} else {
+		// @ts-expect-error
+		await interaction.update({ embeds: defineEmbedData[0], components: defineEmbedData[1] })
+	}
+
 }
 
 export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction) {
 	const interactionNameObject = interaction.customId.split('-')
-	const wordToDefine = interactionNameObject.splice(2).join(' ')
 	const interactionData = { 'definitionType': interaction.values[0] }
-	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData)
-	// @ts-expect-error
-	interaction.update({ embeds: defineEmbedData[0], components: defineEmbedData[1] })
+	const eph = interactionNameObject[2] == interaction.user.id ? false : true
+	const wordToDefine = interactionNameObject.splice(3).join(' ')
+	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id)
+	if (eph) {
+		// @ts-expect-error
+		await interaction.reply({ embeds: defineEmbedData[0], components: defineEmbedData[1], ephemeral: true })
+	} else {
+		// @ts-expect-error
+		await interaction.update({ embeds: defineEmbedData[0], components: defineEmbedData[1] })
+	}
 }
