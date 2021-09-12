@@ -49,12 +49,13 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 		partOfSpeechTypes.push({ label: capitaliseSentence(meaning.partOfSpeech), value: meaning.partOfSpeech })
 		meaningsJson[meaning.partOfSpeech] = meaning.definitions
 	}
+	const wordType = interactionData['definitionType'] ?? partOfSpeechTypes[0]['value']
 	const wordToDefineHiphen = wordToDefine.split(' ').join('-')
 	const selectRow = new MessageActionRow()
 		.addComponents(
 			new MessageSelectMenu()
 				.setCustomId('define-selectmenu-' + wordToDefineHiphen)
-				.setPlaceholder(capitaliseSentence(interactionData['definitionType']) ?? partOfSpeechTypes[0]['label'])
+				.setPlaceholder(capitaliseSentence(wordType))
 				.addOptions(partOfSpeechTypes)
 		)
 	const embed = new MessageEmbed
@@ -62,9 +63,9 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 	if (1 > definitionNumberStart) definitionNumberStart = 1
 	embed.setTitle(`${capitaliseSentence(interactionData['definitionType'] ?? partOfSpeechTypes[0]['value'])}: ${capitaliseSentence(wordToDefine)}`)
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const definitionsArray: Array<any> = meaningsJson[interactionData['definitionType'] ?? partOfSpeechTypes[0]['value']]
+	const definitionsArray: Array<any> = meaningsJson[wordType]
 	while (definitionNumberStart <= definitionsArray.length) {
-		const definition = meaningsJson[interactionData['definitionType'] ?? partOfSpeechTypes[0]['value']][definitionNumberStart - 1]
+		const definition = meaningsJson[wordType][definitionNumberStart - 1]
 		embed.addField(`Definition #${definitionNumberStart}`, `${capitaliseSentence(definition.definition) ?? '*Not Available*'}`)
 		definitionNumberStart++
 		if (embed.fields.length == 5) {
@@ -80,7 +81,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 	if (1 < interactionData['definitionStart'] ?? 1) {
 		buttonsRow.addComponents(
 			new MessageButton()
-				.setCustomId('define-button-' + (interactionData['definitionStart'] - 5) + '-' + wordToDefineHiphen)
+				.setCustomId('define-button-' + (interactionData['definitionStart'] - 5) + '-' + wordType + '-' + wordToDefineHiphen)
 				.setLabel('Previous')
 				.setStyle('PRIMARY')
 		)
@@ -96,7 +97,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData) {
 	if (definitionNumberStart < definitionsArray.length) {
 		buttonsRow.addComponents(
 			new MessageButton()
-				.setCustomId('define-button-' + definitionNumberStart + '-' + wordToDefineHiphen)
+				.setCustomId('define-button-' + definitionNumberStart + '-' + wordType + '-' + wordToDefineHiphen)
 				.setLabel('Next')
 				.setStyle('PRIMARY')
 		)
@@ -126,8 +127,8 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 
 export async function executeButton(client: BotClient, interaction: ButtonInteraction) {
 	const interactionNameObject = interaction.customId.split('-')
-	const interactionData = { 'definitionStart': parseInt(interactionNameObject[2]) }
-	const wordToDefine = interactionNameObject.splice(3).join(' ')
+	const interactionData = { 'definitionStart': parseInt(interactionNameObject[2]), 'definitionType': interactionNameObject[3] }
+	const wordToDefine = interactionNameObject.splice(4).join(' ')
 	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData)
 	// @ts-expect-error
 	interaction.update({ embeds: defineEmbedData[0], components: defineEmbedData[1] })
