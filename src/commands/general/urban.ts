@@ -46,6 +46,7 @@ async function returnDefineEmbed(wordToDefine: string) {
 		return embed
 	}
 	const embed = new MessageEmbed
+	console.log(jsonResponse[0])
 	embed.setColor(colours[randomInt(0, colours.length - 1)])
 	embed.setTitle(`Urban Dictionary: ${wordToDefine}`)
 	let definition = String(jsonResponse[0].definition).replace(/\[|\]/g, '')
@@ -53,11 +54,12 @@ async function returnDefineEmbed(wordToDefine: string) {
 	embed.addField('Definition', definition)
 	let example = String(jsonResponse[0].example).replace(/\[|\]/g, '')
 	if (example.length > 1024) example = example.substring(0, 1024 - 3) + '...'
-	embed.addField('Example', example)
+	example && embed.addField('Example', example)
 	return embed
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.reply('Use slash commands smh')
+	// message.channel.send({ embeds: [await returnDefineEmbed(args[0])] })
 }
 
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
