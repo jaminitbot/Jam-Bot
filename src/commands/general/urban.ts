@@ -48,9 +48,11 @@ async function returnDefineEmbed(wordToDefine: string) {
 	const embed = new MessageEmbed
 	embed.setColor(colours[randomInt(0, colours.length - 1)])
 	embed.setTitle(`Urban Dictionary: ${wordToDefine}`)
-	const definition = String(jsonResponse[0].definition).replace(/\[|\]/g, '')
+	let definition = String(jsonResponse[0].definition).replace(/\[|\]/g, '')
+	if (definition.length > 1024) definition = definition.substring(0, 1024 - 3) + '...'
 	embed.addField('Definition', definition)
-	const example = String(jsonResponse[0].example).replace(/\[|\]/g, '')
+	let example = String(jsonResponse[0].example).replace(/\[|\]/g, '')
+	if (example.length > 1024) example = example.substring(0, 1024 - 3) + '...'
 	embed.addField('Example', example)
 	return embed
 }
