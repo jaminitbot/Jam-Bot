@@ -46,7 +46,6 @@ async function returnDefineEmbed(wordToDefine: string) {
 		return embed
 	}
 	const embed = new MessageEmbed
-	console.log(jsonResponse[0])
 	embed.setColor(colours[randomInt(0, colours.length - 1)])
 	embed.setTitle(`Urban Dictionary: ${wordToDefine}`)
 	let definition = String(jsonResponse[0].definition).replace(/\[|\]/g, '')
