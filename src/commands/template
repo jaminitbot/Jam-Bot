@@ -14,7 +14,7 @@ export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 
 }
 

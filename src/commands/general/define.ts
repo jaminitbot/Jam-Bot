@@ -20,9 +20,9 @@ export const slashData = new SlashCommandBuilder()
 const colours: Array<ColorResolvable> = ['#805D93', '#F49FBC', '#FFD3BA', '#9EBD6E', '#169873', '#540D6E', '#EE4266']
 async function returnDefineEmbed(wordToDefine: string, interactionData, userId: string) {
 	let response: AxiosResponse
-	let error
 	const cachedValue = cache.get(wordToDefine)
 	if (!cachedValue) {
+		let error: string
 		try {
 			response = await axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(wordToDefine))
 		} catch (err) {
@@ -38,7 +38,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData, userId: 
 	if (cache.get(wordToDefine) == 'NOT_FOUND') {
 		const embed = new MessageEmbed
 		embed.setDescription('No definitions found for: ' + wordToDefine)
-		embed.setColor(colours[0])
+		embed.setColor(colours[colours.length - 1])
 		return [[embed], null]
 	}
 	const jsonResponse = cache.get(wordToDefine) ?? response.data[0]
