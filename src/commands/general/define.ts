@@ -7,7 +7,7 @@ import NodeCache from "node-cache"
 const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
 interface PhoneticsObject {
 	text: string
-	audio: URL | undefined
+	audio: string | undefined
 }
 
 interface DefinitionsObject {

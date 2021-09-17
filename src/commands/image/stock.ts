@@ -19,6 +19,33 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('position')
 			.setDescription('The specific position to get')
 			.setRequired(false))
+
+interface PhotosObject {
+	id: number
+	width: number
+	height: number
+	url: string
+	photographer: string
+	photographer_url: string
+	photographer_id: number
+	avg_color: string
+	src: {
+		original: string
+		large2x: string
+		large: string
+		medium: string
+		small: string
+		portrait: string
+		landscape: string
+		tiny: string
+	}
+	liked: boolean
+}
+interface PexelsResponse {
+	page: number
+	per_page: number
+	photos: Array<PhotosObject>
+}
 export async function getStockImage(search: string, position: number) {
 	if (!process.env.pexelsApiKey) return
 	const response = await request(
@@ -33,7 +60,7 @@ export async function getStockImage(search: string, position: number) {
 		logger.warn('stock: Pexels returned non-standard status code')
 		return 'The API seems to be returning errors, please try again later'
 	}
-	const json = await response.body.json()
+	const json: PexelsResponse = await response.body.json()
 	const photoPosition = position ?? 1
 	if (1 > position || position > json.photos.length) return `There isn't a stock photo for position: ${position}`
 	const image = json.photos[photoPosition - 1].src.medium // eslint-disable-line no-undef

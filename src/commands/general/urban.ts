@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-// @ts-nocheck
-import { ButtonInteraction, CommandInteraction, SelectMenuInteraction, Message, ColorResolvable, MessageEmbed } from "discord.js"
+import { CommandInteraction, Message, ColorResolvable, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request, Dispatcher } from 'undici'
@@ -8,7 +7,22 @@ import NodeCache from "node-cache"
 import { randomInt } from '../../functions/util'
 
 const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
-
+interface Definition {
+	definition: string
+	permalink: string
+	thumbs_up: number
+	sound_urls: Array<string> | null
+	author: string | null
+	word: string
+	defid: string
+	current_vote: string | null
+	written_on: Date
+	example: string | null
+	thumbs_down: number
+}
+interface UrbanDictionaryResponse {
+	list: Array<Definition>
+}
 export const name = 'urban'
 export const description = 'Defines a word using urban dictionary'
 export const usage = 'urban word'
@@ -28,18 +42,18 @@ async function returnDefineEmbed(wordToDefine: string) {
 	if (!cachedValue) {
 		let error: string
 		try {
-			response = await request('https://api.urbandictionary.com/v0/define?term=' + encodeURI(wordToDefine))
+			response = await request('https://api.urbandictionary.com/v0/define?term=' + encodeURIComponent(wordToDefine))
 		} catch (err) {
 			error = err
 		}
 		if (error || response.statusCode != 200) {
 			cache.set(wordToDefine, 'NOT_FOUND')
 		} else {
-			cache.set(wordToDefine, (await response.body.json()).list)
+			cache.set(wordToDefine, (await response.body.json()))
 		}
 	}
-	const jsonResponse = cache.get(wordToDefine)
-	if (jsonResponse == 'NOT_FOUND' || !jsonResponse[0]) {
+	const jsonResponse: UrbanDictionaryResponse | 'NOT_FOUND' = cache.get(wordToDefine)
+	if (jsonResponse == 'NOT_FOUND' || !jsonResponse.list[0]) {
 		const embed = new MessageEmbed
 		embed.setDescription('No definitions found for: ' + wordToDefine)
 		embed.setColor(colours[colours.length - 1])
@@ -48,10 +62,10 @@ async function returnDefineEmbed(wordToDefine: string) {
 	const embed = new MessageEmbed
 	embed.setColor(colours[randomInt(0, colours.length - 1)])
 	embed.setTitle(`Urban Dictionary: ${wordToDefine}`)
-	let definition = String(jsonResponse[0].definition).replace(/\[|\]/g, '')
+	let definition = String(jsonResponse.list[0].definition).replace(/\[|\]/g, '')
 	if (definition.length > 1024) definition = definition.substring(0, 1024 - 3) + '...'
 	embed.addField('Definition', definition)
-	let example = String(jsonResponse[0].example).replace(/\[|\]/g, '')
+	let example = String(jsonResponse.list[0].example).replace(/\[|\]/g, '')
 	if (example.length > 1024) example = example.substring(0, 1024 - 3) + '...'
 	example && embed.addField('Example', example)
 	return embed
