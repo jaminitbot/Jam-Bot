@@ -1,6 +1,6 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import axios from 'axios'
+import { request } from "undici"
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'shorten'
@@ -23,10 +23,7 @@ export const slashCommandOptions = [{
 const urlRegex = new RegExp(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w\-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)/)
 async function shortenUrl(url: string) {
 	if (url.match(urlRegex)) {
-		const data = await axios.get(
-			'https://is.gd/create.php?format=json&url=' +
-			encodeURIComponent(url)
-		).then((r) => r.data)
+		const data = await (await request('https://is.gd/create.php?format=json&url=' + encodeURIComponent(url))).body.json()
 		return data.shorturl || null
 	}
 	return 'That isn\'t a valid url! (Did you forget https)'

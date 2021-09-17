@@ -3,7 +3,7 @@
 import { ButtonInteraction, CommandInteraction, SelectMenuInteraction, Message, ColorResolvable, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import axios, { AxiosResponse } from 'axios'
+import { request, Dispatcher } from 'undici'
 import NodeCache from "node-cache"
 import { randomInt } from '../../functions/util'
 
@@ -23,19 +23,19 @@ export const slashData = new SlashCommandBuilder()
 
 const colours: Array<ColorResolvable> = ['#805D93', '#F49FBC', '#FFD3BA', '#9EBD6E', '#169873', '#540D6E', '#EE4266']
 async function returnDefineEmbed(wordToDefine: string) {
-	let response: AxiosResponse
+	let response: Dispatcher.ResponseData
 	const cachedValue = cache.get(wordToDefine)
 	if (!cachedValue) {
 		let error: string
 		try {
-			response = await axios.get('https://api.urbandictionary.com/v0/define?term=' + encodeURI(wordToDefine))
+			response = await request('https://api.urbandictionary.com/v0/define?term=' + encodeURI(wordToDefine))
 		} catch (err) {
 			error = err
 		}
-		if (error || response.status != 200) {
+		if (error || response.statusCode != 200) {
 			cache.set(wordToDefine, 'NOT_FOUND')
 		} else {
-			cache.set(wordToDefine, response.data?.list)
+			cache.set(wordToDefine, (await response.body.json()).list)
 		}
 	}
 	const jsonResponse = cache.get(wordToDefine)

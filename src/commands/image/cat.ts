@@ -1,6 +1,6 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import axios from 'axios'
+import { request } from 'undici'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'cat'
@@ -11,11 +11,11 @@ export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 async function returnCatImage() {
-	const response = await axios.get(
+	const response = await request(
 		'https://aws.random.cat/meow'
 	)
-	if (response.status != 200) return 'The API seems to be returning errors, please try again later'
-	return response.data.file || "Unable to get a kitty cat, the api's probably down"
+	if (response.statusCode != 200) return 'The API seems to be returning errors, please try again later'
+	return (await response.body.json()).file || "Unable to get a kitty cat, the api's probably down"
 }
 export async function execute(client: BotClient, message: Message, args) {
 	message.channel.send(await returnCatImage())

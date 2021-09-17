@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import axios from 'axios'
+import { request } from 'undici'
 import NodeCache from "node-cache"
 const cache = new NodeCache({ stdTTL: 600, checkperiod: 60 })
 
@@ -35,7 +35,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	if (!log) {
 		client.logger.debug('Cache not hit, attempting to retrieve changelog from github...')
 		try {
-			log = await axios.get(process.env.changelogLink).then((r) => r.data)
+			log = await (await request(process.env.changelogLink)).body.json()
 			cache.set('log', log)
 		} catch (e) {
 			embed.setDescription('There was an error downloading the changelog, sorry about that :(')

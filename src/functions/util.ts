@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb"
 import { BotClient, Permission } from "../customDefinitions"
 import { getInvalidPermissionsMessage } from './messages'
 import is_number = require("is-number")
-import axios from 'axios'
+import { request } from 'undici'
 import { Logger } from "winston"
 
 /**
@@ -164,11 +164,12 @@ export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Pr
 	}
 	const hasteLocation = process.env.hasteBinHost ?? 'https://hastebin.com'
 	try {
-		const response = await axios.post(hasteLocation + '/documents', {
-			data: dataToUpload,
+		const response = await request(hasteLocation + '/documents', {
+			method: 'POST',
+			body: dataToUpload,
 		})
-		if (response.status != 200) return null
-		const responseData = response.data
+		if (response.statusCode != 200) return null
+		const responseData = await response.body.json()
 		if (responseData.key) return `${hasteLocation}/${responseData.key}`
 	} catch (err) {
 		if (logger) logger.error('hasteUploader: Failed uploading to hastebin with error: ' + err)
