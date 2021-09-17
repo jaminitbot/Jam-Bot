@@ -141,5 +141,10 @@
         "title": "Define command updates",
         "date": 1631463689390,
         "description": "The define command now uses buttons and select menus to make it easier to use!"
+    },
+    {
+        "title": "Urban Dictionary Command",
+        "date": 1631817660000,
+        "description": "You can now search urban dictionary, just use /urban!"
     }
 ]
