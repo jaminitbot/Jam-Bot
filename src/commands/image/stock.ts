@@ -23,7 +23,7 @@ export async function getStockImage(search: string, position: number) {
 	if (!process.env.pexelsApiKey) return
 	const response = await request(
 		`https://api.pexels.com/v1/search?query=${encodeURIComponent(search)}&per_page=100`, {
-		method: 'GETf',
+		method: 'GET',
 		headers: {
 			Authorization: process.env.pexelsApiKey
 		}
