@@ -2,6 +2,60 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.5.3...v2.7.0) (2021-09-17)
+
+
+### Features
+
+* buttons and select menus, define command ([aee81d6](https://github.com/jamesatjaminit/Jam-Bot/commit/aee81d6a4e17ec1d03854428aa5015395635ff3e))
+* definition command ([88f3066](https://github.com/jamesatjaminit/Jam-Bot/commit/88f3066e98d769c764c5c3d3e82374d90e88be0e))
+* don't log multiple errors of the same error to error log within 20s ([f4bbfd9](https://github.com/jamesatjaminit/Jam-Bot/commit/f4bbfd920367e9ee9e84b45bc17d101be23c48a8))
+* modlogs upgrade, settings upgrade ([bf6fc3d](https://github.com/jamesatjaminit/Jam-Bot/commit/bf6fc3dadeceb1080f46240820f4269932d8af4c))
+* page numbers in define command ([f6bd2b9](https://github.com/jamesatjaminit/Jam-Bot/commit/f6bd2b9ddbaccda611c0aaa3430d533894c515b8))
+* punishments revamp, mute command, durations ([7a040c7](https://github.com/jamesatjaminit/Jam-Bot/commit/7a040c7eed62d2e3cf8cbe694693649753f7af27))
+* urban dictionary command ([9f43b72](https://github.com/jamesatjaminit/Jam-Bot/commit/9f43b72f8efd35ecbe2e70616754c65809b9102f))
+* user leave event ([ee1510e](https://github.com/jamesatjaminit/Jam-Bot/commit/ee1510e7a8ca2c1179b41cec55fd69c526612c04))
+
+
+### Bug Fixes
+
+* add timestamp to message delete logs ([ff87f3a](https://github.com/jamesatjaminit/Jam-Bot/commit/ff87f3a316174c2941e69a804a7b05c26fde0f4f))
+* allow message to be used in eval ([3e97755](https://github.com/jamesatjaminit/Jam-Bot/commit/3e977553d2ffbd19cd23f597927d90d4e87317e3))
+* bug fixes ([ffaa331](https://github.com/jamesatjaminit/Jam-Bot/commit/ffaa3315d7805305149b99cab53ce02d17778b98))
+* cap definitions at 5 ([da9ccc1](https://github.com/jamesatjaminit/Jam-Bot/commit/da9ccc1734aa886da2919adaeef87ced5eb5336b))
+* check if user is not banned in unban command ([4ce7a17](https://github.com/jamesatjaminit/Jam-Bot/commit/4ce7a17a139cdfc5a6ebe9320af1863c0321b8e1))
+* clarify invalid permission messages ([7357e07](https://github.com/jamesatjaminit/Jam-Bot/commit/7357e0786d2760788d49a9fc3fe79d881e258217))
+* encode uri define command ([9b3d747](https://github.com/jamesatjaminit/Jam-Bot/commit/9b3d7478c8d8165cd9be424e49aeff70f26f52be))
+* fix args joining define command ([6143d2b](https://github.com/jamesatjaminit/Jam-Bot/commit/6143d2bdd3f23cf27e968f1e4d0b501f565f0d6d))
+* fix database handler ([c5e1ee1](https://github.com/jamesatjaminit/Jam-Bot/commit/c5e1ee13fe6717250fed461e2b45ccf3c2f55a5c))
+* fix guildMemberRemove logs ([ce2f488](https://github.com/jamesatjaminit/Jam-Bot/commit/ce2f4886f151419678a9a1fd15839b2e059e8a7a))
+* fix itteration define command ([d99373a](https://github.com/jamesatjaminit/Jam-Bot/commit/d99373a45076923268040625fdbbd9ad67c96811))
+* fix null ([9a235e4](https://github.com/jamesatjaminit/Jam-Bot/commit/9a235e466265023b9bc4664af3287b9e0306c52e))
+* fix settings permission ([2746e5e](https://github.com/jamesatjaminit/Jam-Bot/commit/2746e5eaca81ba704ee509eb01ad8bea7f192593))
+* fix settings permission ([0b603d0](https://github.com/jamesatjaminit/Jam-Bot/commit/0b603d063a855ee8671c01a395786f53e110b9cb))
+* fix stats interval again ([2fe0dd1](https://github.com/jamesatjaminit/Jam-Bot/commit/2fe0dd1b5e0645dffd3a82d09daccdca90b5947a))
+* fix suggestions if disabled ([621ea70](https://github.com/jamesatjaminit/Jam-Bot/commit/621ea70db639f5c41f8906f1718a951b8b780907))
+* fix suggestions useable command ([0fb1031](https://github.com/jamesatjaminit/Jam-Bot/commit/0fb1031d0bf67e72cb4f46d766f8aecd9d10f569))
+* fix tasks duration ([bb09cc4](https://github.com/jamesatjaminit/Jam-Bot/commit/bb09cc49bfd43c1b0a2bbab0bbd715264fdf10ab))
+* fix typescript build ([8985565](https://github.com/jamesatjaminit/Jam-Bot/commit/898556559f6400901601c7a5a3369cde382b8cf6))
+* fix word type on switching pages ([0cfec35](https://github.com/jamesatjaminit/Jam-Bot/commit/0cfec35d828908dac5c29abf3d11aa3a250d2fda))
+* fix wording mute command ([55a1027](https://github.com/jamesatjaminit/Jam-Bot/commit/55a1027b9d337399bced229f2c479ffd86f88eb9))
+* formatting in define command ([0a23d82](https://github.com/jamesatjaminit/Jam-Bot/commit/0a23d8215caaff3c75c68713cec06cc01515fc1e))
+* handle no example urban dict ([44e8d33](https://github.com/jamesatjaminit/Jam-Bot/commit/44e8d33081262ffe39e070b87c230d2998210828))
+* handle non-standard status codes define.ts ([0fc9c11](https://github.com/jamesatjaminit/Jam-Bot/commit/0fc9c1132a81150a4a5debfa467009c9a580090e))
+* im feeling nice ([ce6db3e](https://github.com/jamesatjaminit/Jam-Bot/commit/ce6db3e7e6caa37c32714a1c5e9fafaee70c3987))
+* include reason in punishment message ([6821efe](https://github.com/jamesatjaminit/Jam-Bot/commit/6821efed04c5c7d088f94652610eb432fdb457da))
+* make invalid permission message ephemeral ([26a7b5b](https://github.com/jamesatjaminit/Jam-Bot/commit/26a7b5b79e8602f6297bd833fdefece216717444))
+* not found caching, define.ts ([f36c2eb](https://github.com/jamesatjaminit/Jam-Bot/commit/f36c2eb3a17468bbb1dfb8623801a8ac2de2b923))
+* only allow define command to be changed by original user ([b58ce63](https://github.com/jamesatjaminit/Jam-Bot/commit/b58ce63a0a564f5434b53aac15b4ab067fa462e9))
+* remove autorole ([63efc91](https://github.com/jamesatjaminit/Jam-Bot/commit/63efc9106d306eb8caeea41423f5c4a7e3fdcb2f))
+* remove azure deps ([6efda3c](https://github.com/jamesatjaminit/Jam-Bot/commit/6efda3c6c8205c11a37ab1744ab8b4798f6a68fb))
+* remove console.log ([afcc4b4](https://github.com/jamesatjaminit/Jam-Bot/commit/afcc4b402aa65c8f80cbe2c0944de78146e2fb87))
+* revert change allowing snipe of owners ([51251a4](https://github.com/jamesatjaminit/Jam-Bot/commit/51251a42d1c89a4c4c2a7eb93b26045f3909e9a0))
+* skip moddable checks for unban ([3407d45](https://github.com/jamesatjaminit/Jam-Bot/commit/3407d4550f20956442ee619a5ea884ae828a80bb))
+* truncate definition and example ([f28e2d7](https://github.com/jamesatjaminit/Jam-Bot/commit/f28e2d72d6a2f099a84ea1ae3efe4e0a4f3945d0))
+* use / commands in status ([06372d3](https://github.com/jamesatjaminit/Jam-Bot/commit/06372d3ef4aad67c76a7b1558f482b934e0d9662))
+
 ## [2.6.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.5.3...v2.6.0) (2021-09-10)
 
 
