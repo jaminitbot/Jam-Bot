@@ -14,7 +14,7 @@ export async function register(client: BotClient, message: Message): Promise<voi
 	//#region Delete log code
 	const embed = new MessageEmbed
 	embed.setAuthor(message.author.tag, message.author.avatarURL())
-	embed.addField(`Message deleted in #${message.channel.name}`, message.content ?? '[No Content]', false)
+	embed.addField(`Message deleted in #${message.channel.name}`, message.content || '[No Content]', false)
 	embed.setColor('#FF0000')
 	embed.setTimestamp(Date.now())
 	embed.setFooter(`User ID: ${message.author.id}, Channel ID: ${message.channel.id}`)
