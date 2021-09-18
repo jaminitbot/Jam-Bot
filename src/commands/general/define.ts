@@ -40,7 +40,11 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The word you\'d like to define')
 			.setRequired(true))
 const colours: Array<ColorResolvable> = ['#805D93', '#F49FBC', '#FFD3BA', '#9EBD6E', '#169873', '#540D6E', '#EE4266']
-async function returnDefineEmbed(wordToDefine: string, interactionData, userId: string) {
+interface InteractionData {
+	definitionStart?: number
+	definitionType?: string
+}
+async function returnDefineEmbed(wordToDefine: string, interactionData: InteractionData, userId: string) {
 	let response: Dispatcher.ResponseData
 	const cachedValue = cache.get(wordToDefine)
 	if (!cachedValue) {
@@ -50,7 +54,6 @@ async function returnDefineEmbed(wordToDefine: string, interactionData, userId: 
 		} else {
 			cache.set(wordToDefine, (await response.body.json())[0])
 		}
-
 	}
 	if (cache.get(wordToDefine) == 'NOT_FOUND') {
 		const embed = new MessageEmbed
@@ -155,7 +158,6 @@ export async function executeButton(client: BotClient, interaction: ButtonIntera
 		// @ts-expect-error
 		await interaction.update({ embeds: defineEmbedData[0], components: defineEmbedData[1] })
 	}
-
 }
 
 export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction) {
