@@ -10,7 +10,7 @@ export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-function createLatencyEmbed(incomingMessageTimestamp, sentMessageTimestamp, client) {
+function createLatencyEmbed(incomingMessageTimestamp: number, sentMessageTimestamp: number, client: BotClient) {
 	const embed = new MessageEmbed
 	embed.setDescription(`:stopwatch: ${sentMessageTimestamp - incomingMessageTimestamp}ms :hourglass: ${Math.round(client.ws.ping)}ms`)
 	embed.setFooter('Roundtrip and api latency')

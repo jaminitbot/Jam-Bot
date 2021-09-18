@@ -2,6 +2,7 @@ import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { getKey } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { isBotOwner } from '../../functions/util'
 
 export const name = 'help'
 export const description = 'Displays information on a specific command'
@@ -14,13 +15,13 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('command')
 			.setDescription('(Optional) the command you\'d like to get help on')
 			.setRequired(false))
-async function returnHelpEmbed(client: BotClient, commandToGet, prefix) {
+async function returnHelpEmbed(client: BotClient, commandToGet: string, prefix: string, userId: string) {
 	const embed = new MessageEmbed
 	embed.setColor('#439A86')
 	if (commandToGet) {
 		commandToGet = String(commandToGet).toLowerCase()
 		const command = client.commands.get(commandToGet) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandToGet))
-		if (command) {
+		if (command && !(command.permissions && command.permissions.includes('OWNER') && !isBotOwner(userId))) {
 			embed.setTitle('Help: ' + prefix + command.name ?? commandToGet)
 			const description = command.description ?? 'None'
 			const usage = command.usage ? prefix + command.usage : prefix + commandToGet
@@ -44,11 +45,11 @@ export async function execute(client: BotClient, message: Message, args) {
 	const commandToFind = args[0]
 	const guildId = message.guild ? message.guild.id : 0
 	const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
-	const embed = await returnHelpEmbed(client, commandToFind, prefix)
+	const embed = await returnHelpEmbed(client, commandToFind, prefix, message.author.id)
 	message.channel.send({ embeds: [embed] })
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const commandToGet = interaction.options.getString('command')
-	const embed = await returnHelpEmbed(client, commandToGet, '/')
+	const embed = await returnHelpEmbed(client, commandToGet, '/', interaction.user.id)
 	interaction.reply({ embeds: [embed] })
 }

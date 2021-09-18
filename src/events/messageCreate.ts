@@ -31,6 +31,7 @@ export async function register(client: BotClient, message: Message) {
 			if (!checkPermissions(message.member, [...command.permissions])) {
 				// User doesn't have specified permissions to run command
 				client.logger.debug(`messageHandler: User ${message.author.tag} doesn't have the required permissions to run command ${commandRequested ?? 'NULL'}, returning invalid permission message`)
+				if (command.permissions.includes('OWNER')) return
 				return returnInvalidPermissionMessage(message)
 			}
 		}
