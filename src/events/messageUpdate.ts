@@ -23,7 +23,7 @@ export async function register(client: BotClient, oldMessage: Message, newMessag
 	const embed = new MessageEmbed
 	embed.setAuthor(newMessage.author.tag, newMessage.author.avatarURL())
 	embed.addField(`Message edited in #${newMessage.channel.name}`, `**Before:** ${oldMessage.content || '[No Content]'}\n**After:** ${newMessage.content || '[No Content]'}`)
-	embed.setFooter(`User ID: ${newMessage.author.id}, Channel ID: ${newMessage.channel.id}`)
+	embed.setFooter(`User ID: ${newMessage.author.id} | Channel ID: ${newMessage.channel.id}`)
 	embed.setTimestamp(Date.now())
 	embed.setColor('#61C9A8')
 	postToModlog(client, newMessage.guild.id, { embeds: [embed] }, 'messages')

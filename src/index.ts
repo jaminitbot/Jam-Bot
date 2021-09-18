@@ -189,7 +189,7 @@ import { processTasks } from './functions/mod'
 				sendTwitchNotifications(client)
 			})
 		}
-		scheduleJob('*/5 * * * *', function () {
+		scheduleJob('0 * * * *', function () {
 			saveStatsToDB()
 		})
 		scheduleJob('*/30 * * * * *', function () {

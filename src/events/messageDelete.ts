@@ -19,7 +19,7 @@ export async function register(client: BotClient, message: Message): Promise<voi
 	embed.addField(`Message deleted in #${message.channel.name}`, message.content || '[No Content]', false)
 	embed.setColor('#FF0000')
 	embed.setTimestamp(Date.now())
-	embed.setFooter(`User ID: ${message.author.id}, Channel ID: ${message.channel.id}`)
+	embed.setFooter(`User ID: ${message.author.id} | Channel ID: ${message.channel.id}`)
 	postToModlog(client, message.guild.id, { embeds: [embed] }, 'messages')
 	//#endregion
 }
