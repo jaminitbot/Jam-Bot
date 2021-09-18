@@ -24,7 +24,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	const search = args.join(' ') + ' gif'
 	// @ts-expect-error
 	const isNsfw = message.channel.nsfw
-	const imageUrl = await searchForImage(search, 0, false, 'gif')
+	const imageUrl = await searchForImage(search, 0, false, 'gif', client.logger)
 	sentMessage.edit(imageUrl)
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
@@ -33,6 +33,6 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const position = interaction.options.getInteger('position') || null
 	// @ts-expect-error
 	const isNsfw = interaction.channel.nsfw
-	const imageUrl = await searchForImage(search, position, isNsfw, 'gif')
+	const imageUrl = await searchForImage(search, position, isNsfw, 'gif', client.logger)
 	interaction.editReply(imageUrl)
 }

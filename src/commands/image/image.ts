@@ -4,6 +4,7 @@ import isImageUrl = require('is-image-url')
 import isNumber = require('is-number')
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request } from 'undici'
+import { Logger } from "winston"
 
 const apiHost = 'https://api.bing.microsoft.com/v7.0/images/search'
 const subscriptionKey = process.env.bingImageSearchKey
@@ -24,7 +25,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('position')
 			.setDescription('The specific position to get')
 			.setRequired(false))
-export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string): Promise<string> {
+export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string, logger: Logger): Promise<string> {
 	if (position && position < 1) {
 		return 'You cannot get an image for a position less than one!'
 	}
@@ -40,7 +41,7 @@ export async function searchForImage(search: string, position: number, nsfw: boo
 		}
 	})
 	if (response.statusCode != 200) {
-		console.log(await response.body.json())
+		logger.warn('image: Bing image search is returning non-standard status codes')
 		return 'The API is returning errors, please try again later.'
 	}
 	const responseData = (await response.body.json()).value
@@ -75,20 +76,11 @@ export async function execute(client: BotClient, message: Message, args) {
 		splitBy = 1 // Make sure we don't include the position in the search
 		position = args[0]
 	}
-	let imageType: string
-	//#region Janky Gif Code
-	if (args[args.length - 1] == 'gif') {
-		// Gif commands also uses google image search, update wording accordingly
-		imageType = 'gif'
-	} else {
-		imageType = 'image'
-	}
-	//#endregion
 	const sentMessage = await message.channel.send(`:mag_right: Finding image...`)
 	const search = args.splice(splitBy).join(' ')
 	// @ts-expect-error
 	const isNsfw = message.channel.nsfw
-	const imageUrl = await searchForImage(search, position, isNsfw, imageType)
+	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger)
 	sentMessage.edit(imageUrl)
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
@@ -97,6 +89,6 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const position = interaction.options.getInteger('position')
 	// @ts-expect-error
 	const isNsfw = interaction.channel.nsfw
-	const imageUrl = await searchForImage(search, position, isNsfw, 'image')
+	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger)
 	interaction.editReply({ content: imageUrl })
 }
