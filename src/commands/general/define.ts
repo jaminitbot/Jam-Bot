@@ -102,7 +102,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 			new MessageButton()
 				.setCustomId('define-button-' + (interactionData['definitionStart'] - 5) + '-' + wordType + '-' + userId + '-' + wordToDefineHiphen)
 				.setLabel('Previous')
-				.setStyle('PRIMARY')
+				.setStyle('SECONDARY')
 		)
 	} else {
 		buttonsRow.addComponents(
@@ -110,7 +110,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 				.setCustomId('define-button-disabled')
 				.setDisabled(true)
 				.setLabel('Previous')
-				.setStyle('PRIMARY')
+				.setStyle('SECONDARY')
 		)
 	}
 	if (definitionNumberStart < definitionsArray.length) {
