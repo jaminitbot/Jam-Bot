@@ -13,7 +13,7 @@ export async function register(client: BotClient, message: Message) {
 	storeMessageCreate(message)
 	if (bannedIds.includes(message.author.id)) return
 	const guildId = message.guild ? message.guild.id : 0
-	const prefix = String(await getKey(guildId, 'prefix')) || process.env.defaultPrefix
+	const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
 	const args = message.content.slice(prefix.length).trim().split(/ +/)
 	const commandRequested = args.shift().toLowerCase()
 	const command = client.commands.get(commandRequested) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandRequested));
