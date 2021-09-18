@@ -174,8 +174,8 @@ import { processTasks } from './functions/mod'
 	})
 
 	if (process.env.NODE_ENV == 'production') {
-		process.on('uncaughtException', (error) => {
-			logger.error('Unhandled exception caught: ' + error)
+		process.on('uncaughtException', (error, source) => {
+			logger.error('Unhandled exception caught: ' + error + '\n' + source)
 		});
 	}
 	// Initialisation
