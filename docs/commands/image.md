@@ -24,9 +24,9 @@ Usage: `/fox`
 Searches for a gif  
 Usage: `/gif hello there`
 
-## Google Image Search
+## Image Search
 
-Searches google for images  
+Searches the web for images  
 Usage: `/image cute dogs`
 
 ## Koala

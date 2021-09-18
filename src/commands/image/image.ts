@@ -10,9 +10,8 @@ const apiHost = 'https://api.bing.microsoft.com/v7.0/images/search'
 const subscriptionKey = process.env.bingImageSearchKey
 
 export const name = 'image'
-export const description = 'Searches google for an image'
+export const description = 'Searches the web for an image'
 export const usage = 'image duck'
-export const aliases = ['gis'] // GoogleImageSearch
 export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
