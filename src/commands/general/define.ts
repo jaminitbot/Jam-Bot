@@ -92,8 +92,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 			break
 		}
 	}
-	let pageNumber = Math.floor(definitionNumberStart / 5)
-	if (pageNumber <= 0) pageNumber = 1
+	const pageNumber = Math.round(definitionNumberStart / 5)
 	const pages = Math.ceil(definitionsArray.length / 5)
 	embed.setColor(colours[pageNumber])
 	embed.setFooter(`Page: ${pageNumber}/${pages}`)
