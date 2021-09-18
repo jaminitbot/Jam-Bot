@@ -3,6 +3,7 @@ import { BotClient } from "src/customDefinitions";
 import { inputSnipe } from '../functions/snipe'
 import { storeMessageEdit } from '../cron/stats'
 import { postToModlog } from "../functions/mod"
+import { isBotOwner } from "../functions/util"
 export const name = "messageUpdate"
 
 export async function register(client: BotClient, oldMessage: Message, newMessage: Message): Promise<void> {
@@ -17,6 +18,7 @@ export async function register(client: BotClient, oldMessage: Message, newMessag
 	if (!(newMessage.channel.type == 'GUILD_TEXT' || newMessage.channel.type == 'GUILD_NEWS')) return
 	if (newMessage.author.bot) return
 	await inputSnipe(newMessage, oldMessage, 'edit')
+	if (isBotOwner(newMessage.author.id)) return
 	//#region Edit Log
 	const embed = new MessageEmbed
 	embed.setAuthor(newMessage.author.tag, newMessage.author.avatarURL())

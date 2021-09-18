@@ -3,6 +3,7 @@ import { BotClient } from '../customDefinitions'
 import { inputSnipe } from '../functions/snipe'
 import { storeMessageDelete } from '../cron/stats'
 import { postToModlog } from "../functions/mod"
+import { isBotOwner } from "../functions/util"
 export const name = "messageDelete"
 // https://coolors.co/aa8f66-ff0000-ffeedb-61c9a8-121619
 export async function register(client: BotClient, message: Message): Promise<void> {
@@ -11,6 +12,7 @@ export async function register(client: BotClient, message: Message): Promise<voi
 	if (!(message.channel.type == 'GUILD_NEWS' || message.channel.type == 'GUILD_TEXT')) return
 	if (message.author.bot) return
 	await inputSnipe(message, null, 'delete')
+	if (isBotOwner(message.author.id)) return
 	//#region Delete log code
 	const embed = new MessageEmbed
 	embed.setAuthor(message.author.tag, message.author.avatarURL())
