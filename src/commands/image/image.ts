@@ -1,9 +1,12 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import gis = require('g-i-s')
 import isImageUrl = require('is-image-url')
 import isNumber = require('is-number')
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { request } from 'undici'
+
+const apiHost = 'https://api.bing.microsoft.com/v7.0/images/search'
+const subscriptionKey = process.env.bingImageSearchKey
 
 export const name = 'image'
 export const description = 'Searches google for an image'
@@ -22,37 +25,41 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The specific position to get')
 			.setRequired(false))
 export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string): Promise<string> {
-	return new Promise(function (resolve, reject) {
-		if (!position) position = 1
-		if (position < 1) {
-			resolve('You cannot get an image for a position less than one!')
+	if (position && position < 1) {
+		return 'You cannot get an image for a position less than one!'
+	}
+	let safeSearchType = 'Off'
+	if (!nsfw) { // Non-nsfw channels can't bypass safe search
+		safeSearchType = 'Strict'
+	}
+	const validImageUrls = []
+	const response = await request(apiHost + '?safeSearch=' + safeSearchType + '&q=' + encodeURIComponent(search), {
+		method: 'GET',
+		headers: {
+			'Ocp-Apim-Subscription-Key': subscriptionKey
 		}
-		// eslint-disable-next-line prefer-const
-		let searchOptions = {
-			searchTerm: search
+	})
+	if (response.statusCode != 200) {
+		console.log(await response.body.json())
+		return 'The API is returning errors, please try again later.'
+	}
+	const responseData = (await response.body.json()).value
+	for (const result of responseData) {
+		if (isImageUrl(result.contentUrl)) {
+			validImageUrls.push(result.contentUrl)
 		}
-		// @ts-ignore
-		if (!nsfw) {
-			// Nsfw channels can bypass safe search
-			// @ts-expect-error
-			searchOptions.queryStringAddition = '&safe=active' // Enable safe search, better than nothing, filters most things
+		if (!position && validImageUrls.length) {
+			break
+		} else if (position <= validImageUrls.length) {
+			break
 		}
-		const validImageUrls = []
-		gis(searchOptions, function (error: unknown, results: Array<Record<string, unknown>>) {
-			if (error) return
-			results.forEach((element) => {
-				if (isImageUrl(element.url)) {
-					validImageUrls.push(element.url)
-				}
-			})
-			if (position) {
-				// Get specific image at position
-				resolve(validImageUrls[position - 1] || `There isn't an ${imageType} for position: ${position}`)
-			} else {
-				resolve(validImageUrls[0] || `No ${imageType} found for your search.`)
-			}
-		})
-	});
+	}
+	if (position) {
+		// Get specific image at position
+		return validImageUrls[position - 1] || `There isn't an ${imageType} for position: ${position}`
+	} else {
+		return validImageUrls[0] || `No ${imageType} found for your search.`
+	}
 }
 export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('you need to specify what to search for!')
