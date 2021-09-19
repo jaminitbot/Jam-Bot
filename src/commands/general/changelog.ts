@@ -1,9 +1,10 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js"
+import { CommandInteraction, Guild, Message, MessageEmbed, User } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request } from 'undici'
 import NodeCache from "node-cache"
 import { Logger } from "winston"
+import * as Sentry from "@sentry/node"
 const cache = new NodeCache({ stdTTL: 600, checkperiod: 60 })
 
 function generateDateFromEntry(entry) {
@@ -33,7 +34,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('changeid')
 			.setDescription('(Optional) the specific change you\'d like to get')
 			.setRequired(false))
-async function returnChangelogEmbed(changeNumber = null, logger: Logger) {
+async function returnChangelogEmbed(changeNumber = null, logger: Logger, user: User, guild: Guild, type: string, transaction) {
 	const embed = new MessageEmbed()
 	embed.setTitle('Changelog')
 	if (!process.env.changelogLink) {
@@ -47,6 +48,7 @@ async function returnChangelogEmbed(changeNumber = null, logger: Logger) {
 		if (response.statusCode != 200) {
 			logger.warn('changelog: github seems to be returning non-standard status codes')
 			embed.setDescription('There was an error downloading the changelog, sorry about that :(')
+			Sentry.captureMessage('Github returned non-standard status code')
 			return [embed, true]
 		}
 		log = await response.body.json()
@@ -71,12 +73,12 @@ async function returnChangelogEmbed(changeNumber = null, logger: Logger) {
 	embed.setDescription(`More comprehensive changelogs can be found [here](https://jambot.jaminit.co.uk/#/changelog)`)
 	return [embed, false]
 }
-export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
 	message.channel.send('Use slash commands smh')
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	const changelogEntryNumber = interaction.options.getInteger('changeid')
-	const embedObject = await returnChangelogEmbed(changelogEntryNumber, client.logger)
+	const embedObject = await returnChangelogEmbed(changelogEntryNumber, client.logger, interaction.user, interaction.guild, 'slash', transaction)
 	// @ts-expect-error
-	interaction.reply({ embeds: [embedObject[0]], ephemeral: embedObject[1] })
+	await interaction.reply({ embeds: [embedObject[0]], ephemeral: embedObject[1] })
 }

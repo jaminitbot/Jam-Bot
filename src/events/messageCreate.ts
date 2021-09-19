@@ -1,9 +1,10 @@
-import { checkPermissions, returnInvalidPermissionMessage } from '../functions/util'
+import { capitaliseSentence, checkPermissions, returnInvalidPermissionMessage } from '../functions/util'
 import { getKey } from '../functions/db'
 import { BotClient } from '../customDefinitions'
 import { Message, MessageEmbed } from 'discord.js'
 import { storeMessageCreate } from '../cron/stats'
 import { getErrorMessage } from '../functions/messages'
+import * as Sentry from "@sentry/node"
 const bannedIds = ['']
 export const name = "messageCreate"
 
@@ -18,9 +19,15 @@ export async function register(client: BotClient, message: Message) {
 	const commandRequested = args.shift().toLowerCase()
 	const command = client.commands.get(commandRequested) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandRequested));
 	if (message.content.startsWith(prefix)) {
-		if (!command) return client.logger.debug(`messageHandler: Command ${commandRequested ?? 'NULL'} doesn't exist, not continuing...`)// Doesn't have specified command
+		if (!command) {
+			client.logger.debug(`messageHandler: Command ${commandRequested ?? 'NULL'} doesn't exist, not continuing...`)// Doesn't have specified command
+			return
+		}
 		client.logger.verbose(`messageHandler: Command ${commandRequested ?? 'NULL'} has been requested by ${message.author.tag}, executing command...`)
-		if (message.channel.type == 'DM' && !command.allowInDm) return message.channel.send('Sorry, that command can only be run in a server!')
+		if (message.channel.type == 'DM' && !command.allowInDm) {
+			await message.channel.send('Sorry, that command can only be run in a server!')
+			return
+		}
 		// if (typeof command.executeSlash == 'function' && !command.exposeSlash && mentionSlash) {
 		//     const slashCommandMessage = await message.reply(`Hey! There's this posh new thing called slash commands, and that command can be used with it! Try doing \`/${command.name}\`! They're so much easier to use :) \n*Dismissing this message for 20 seconds*`)
 		//     mentionSlash = false
@@ -32,15 +39,36 @@ export async function register(client: BotClient, message: Message) {
 				// User doesn't have specified permissions to run command
 				client.logger.debug(`messageHandler: User ${message.author.tag} doesn't have the required permissions to run command ${commandRequested ?? 'NULL'}, returning invalid permission message`)
 				if (command.permissions.includes('OWNER')) return
-				return returnInvalidPermissionMessage(message)
+				returnInvalidPermissionMessage(message)
+				return
 			}
 		}
+		const transaction = Sentry.startTransaction({
+			op: command.name + 'Command',
+			name: capitaliseSentence(command.name) + ' Command',
+		})
+		Sentry.configureScope(async scope => {
+			scope.setSpan(transaction)
+			scope.setUser({ id: message.author.id, username: message.author.tag })
+			scope.setContext('Guild', {
+				name: guildId != 0 ? (await client.guilds.fetch(guildId)).name ?? 'N/A' : 'N/A',
+				id: guildId,
+				prefix: prefix
+			})
+			scope.setContext('Message', {
+				id: message.id
+			})
+			scope.setTags({ type: 'prefix' })
+		})
 		try {
-			await command.execute(client, message, args)
+			await command.execute(client, message, args, transaction)
 		} catch (error) {
 			// Error running command
+			Sentry.captureException(error)
 			client.logger.error('messageHandler: Command failed with error: ' + error)
-			message.reply(getErrorMessage())
+			await message.reply(getErrorMessage())
+		} finally {
+			transaction.finish()
 		}
 	} else {
 		if (message.channel.type == 'DM' && process.env.dmChannel) {
@@ -53,7 +81,7 @@ export async function register(client: BotClient, message: Message) {
 			embed.setFooter(`User ID: ${message.author.id}`)
 			embed.setTimestamp(Date.now())
 			// @ts-expect-error
-			if (dmChannel.type == 'text' || dmChannel.type == 'news') dmChannel.send(embed)
+			if (dmChannel.type == 'text' || dmChannel.type == 'news') await dmChannel.send(embed)
 		}
 	}
 }

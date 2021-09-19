@@ -30,7 +30,7 @@ async function returnGetKeyEmbed(guild, key) {
 	embed.setTimestamp(Date.now())
 	return embed
 }
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	let guild
 	let key
 	if (!isNumber(args[0]) && !args[1]) { // Getting key without guild input
@@ -46,7 +46,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	embed.setFooter(`Initiated by ${message.author.tag}`, message.author.displayAvatarURL())
 	message.channel.send({ embeds: [embed] })
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	const guildId = interaction.options.getString('guildid') ?? interaction.guild.id
 	const key = interaction.options.getString('key')
 	const embed = await returnGetKeyEmbed(guildId, key)

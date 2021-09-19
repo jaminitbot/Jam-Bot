@@ -12,7 +12,7 @@ export const permissions = ['OWNER']
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	let logFilePath = args[0]?.toString().toLowerCase()
 	if (!logFilePath) {
 		logFilePath = 'combined.log'

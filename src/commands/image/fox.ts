@@ -17,10 +17,10 @@ async function returnFoxImage() {
 	if (response.statusCode != 200) return 'The API seems to be returning errors, please try again later.'
 	return (await response.body.json()).image ?? "Unable to get a cute fox, the api's probably down :c"
 }
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	message.channel.send(await returnFoxImage())
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	await interaction.deferReply()
 	interaction.editReply(await returnFoxImage())
 }

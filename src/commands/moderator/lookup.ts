@@ -1,4 +1,4 @@
-import { CommandInteraction, Guild, GuildMember, Message, MessageEmbed, Role, TextBasedChannels } from "discord.js"
+import { CommandInteraction, Guild, GuildMember, Message, MessageEmbed, Role, TextBasedChannels, User } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import dayjs from "dayjs"
@@ -16,7 +16,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('lookup')
 			.setDescription('The user/role to lookup')
 			.setRequired(true))
-async function lookupUserOrRole(channel: TextBasedChannels, guild: Guild, member: GuildMember, role: Role) {
+async function lookupUserOrRole(channel: TextBasedChannels, guild: Guild, member: GuildMember, role: Role, initiatingUser: User, type: string, transaction) {
 	const embed = new MessageEmbed
 	embed.setColor('#007991')
 	if (member && (!role || !role.color) && member.roles) {
@@ -37,7 +37,6 @@ async function lookupUserOrRole(channel: TextBasedChannels, guild: Guild, member
 		embed.addField('Bot', isBot, true)
 		embed.addField('Roles', roles, true)
 		embed.setAuthor('User: ' + userName, avatar)
-
 	} else {
 		// Didn't get a valid user, maybe its a role?
 		if (role && role.color) {
@@ -58,20 +57,20 @@ async function lookupUserOrRole(channel: TextBasedChannels, guild: Guild, member
 	embed.setTimestamp(Date.now())
 	return embed
 }
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	if (!args[0]) return message.reply('Usage: ' + this.usage)
 	const user = await getUserFromString(message.guild, args[0])
 	const role = await getRoleFromString(message.guild, args[0])
-	const embed = await lookupUserOrRole(message.channel, message.guild, user, role)
+	const embed = await lookupUserOrRole(message.channel, message.guild, user, role, message.author, 'prefix', transaction)
 	const initiatedUser = message.member.user.tag
 	const initiatedAvatar = message.member.user.avatarURL()
 	embed.setFooter('Command issued by ' + initiatedUser, initiatedAvatar)
-	message.channel.send({ embeds: [embed] })
+	await message.channel.send({ embeds: [embed] })
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	await interaction.deferReply()
 	const userRole = interaction.options.getMentionable('lookup')
 	// @ts-expect-error
-	const embed = await lookupUserOrRole(interaction.channel, interaction.guild, userRole, userRole)
-	interaction.editReply({ embeds: [embed] })
+	const embed = await lookupUserOrRole(interaction.channel, interaction.guild, userRole, userRole, interaction.user, 'slash')
+	await interaction.editReply({ embeds: [embed] })
 }

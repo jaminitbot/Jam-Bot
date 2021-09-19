@@ -56,9 +56,9 @@ const rickRollCodes = [
 	'soceYqv9Dtw',
 	'lypGLHSpWa0'
 ]
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	message.channel.send(`<https://youtu.be/${rickRollCodes[randomInt(0, rickRollCodes.length - 1)]}>`)
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	interaction.reply(`<https://youtu.be/${rickRollCodes[randomInt(0, rickRollCodes.length - 1)]}>`)
 }

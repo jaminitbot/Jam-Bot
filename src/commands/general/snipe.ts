@@ -2,6 +2,7 @@ import { CommandInteraction, GuildMember, Message, MessageEmbed } from "discord.
 import { BotClient } from '../../customDefinitions'
 import { MessageSniped, returnSnipedMessages, snipeLifetime } from '../../functions/snipe'
 import { SlashCommandBuilder } from '@discordjs/builders'
+
 export const name = 'snipe'
 export const description = 'Snipes deleted and edited messages'
 export const usage = 'snipe (deletes|edits)'
@@ -13,7 +14,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('(Optional): The type of message (edits or deletes) to snipe')
 			.setRequired(false))
 
-function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId: string, member: GuildMember) {
+function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId: string, member: GuildMember, messageType: string, transaction) {
 	const embed = new MessageEmbed
 	if (type) {
 		const ed = type.endsWith('e') ? type.substr(0, type.length - 1) : type
@@ -44,7 +45,7 @@ function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId
 	return embed
 }
 
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	const snipes = returnSnipedMessages()
 	let type = args[0] ?? null
 	if (type) type = type.substring(0, type.length - 1)
@@ -53,25 +54,17 @@ export async function execute(client: BotClient, message: Message, args) {
 	} else {
 		type = null
 	}
-	const embed = returnSnipesEmbed(snipes, type, message.channel.id, message.member)
+	const embed = returnSnipesEmbed(snipes, type, message.channel.id, message.member, 'prefix', transaction)
 	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL()) // Add sniped by since author is not shown when using legacy prefix commands
-	try {
-		await message.channel.send({ embeds: [embed] })
-	} catch {
-		return
-	}
+	await message.channel.send({ embeds: [embed] })
 }
 
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	const snipes = returnSnipedMessages()
 	let type = interaction.options.getString('type') ?? null
 	if (type) type = type.substring(0, type.length - 1)
 	if (type && type != 'edit' && type != 'delete') return interaction.reply({ content: 'Type has to be either `deletes` or `edits`', ephemeral: true })
 	// @ts-expect-error
-	const embed = returnSnipesEmbed(snipes, type, interaction.channel.id, interaction.member)
-	try {
-		await interaction.reply({ embeds: [embed] })
-	} catch {
-		return
-	}
+	const embed = returnSnipesEmbed(snipes, type, interaction.channel.id, interaction.member, 'slash')
+	await interaction.reply({ embeds: [embed] })
 }

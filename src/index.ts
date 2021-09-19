@@ -10,11 +10,13 @@ import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
 import { registerCommands, registerEvents, registerSlashCommands } from './functions/registerCommands'
 import { saveStatsToDB, connectToSatsCollection } from './cron/stats'
+
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
 import { saveLogger, stopBot, removeItemFromArray } from './functions/util'
 import { processTasks } from './functions/mod'
+import * as Sentry from '@sentry/node'
 
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
@@ -24,6 +26,12 @@ import { processTasks } from './functions/mod'
 		presence: { status: 'online', activities: [{ name: '/help', type: 'WATCHING' }] },
 		partials: ['MESSAGE', 'GUILD_MEMBER']
 	}
+	Sentry.init({
+		dsn: process.env.sentryUrl,
+		tracesSampleRate: 1.0,
+		environment: process.env.NODE_ENV ?? 'development',
+		debug: true
+	});
 	// @ts-expect-error
 	const client: BotClient = new Client(clientOptions)
 	// Logging

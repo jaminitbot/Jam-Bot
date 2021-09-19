@@ -17,11 +17,11 @@ async function createInvite(channel: TextBasedChannels, guild: Guild) {
 		return 'An unknown error happened when trying to create that invite'
 	}
 }
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	const invite = await createInvite(message.channel, message.guild)
 	message.channel.send(invite)
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	const invite = await createInvite(interaction.channel, interaction.guild)
 	interaction.reply(invite)
 }

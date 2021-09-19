@@ -1,10 +1,11 @@
-import { CommandInteraction, Message } from "discord.js"
+import { CommandInteraction, Guild, Message, User } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import isImageUrl = require('is-image-url')
 import isNumber = require('is-number')
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request } from 'undici'
 import { Logger } from "winston"
+import * as Sentry from "@sentry/node"
 
 const apiHost = 'https://api.bing.microsoft.com/v7.0/images/search'
 const subscriptionKey = process.env.bingImageSearchKey
@@ -24,7 +25,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('position')
 			.setDescription('The specific position to get')
 			.setRequired(false))
-export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string, logger: Logger): Promise<string> {
+export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string, logger: Logger, user: User, guild: Guild, type: string, transaction) {
 	if (position && position < 1) {
 		return 'You cannot get an image for a position less than one!'
 	}
@@ -41,6 +42,7 @@ export async function searchForImage(search: string, position: number, nsfw: boo
 	})
 	if (response.statusCode != 200) {
 		logger.warn('image: Bing image search is returning non-standard status codes')
+		Sentry.captureMessage('Bing images is returning non-standard status codes')
 		return 'The API is returning errors, please try again later.'
 	}
 	const responseData = (await response.body.json()).value
@@ -61,7 +63,7 @@ export async function searchForImage(search: string, position: number, nsfw: boo
 		return validImageUrls[0] || `No ${imageType} found for your search.`
 	}
 }
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	if (!args[0]) return message.reply('you need to specify what to search for!')
 	let splitBy = 0
 	let position
@@ -79,15 +81,15 @@ export async function execute(client: BotClient, message: Message, args) {
 	const search = args.splice(splitBy).join(' ')
 	// @ts-expect-error
 	const isNsfw = message.channel.nsfw
-	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger)
-	sentMessage.edit(imageUrl)
+	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger, message.author, message.guild, 'prefix', transaction)
+	await sentMessage.edit(imageUrl)
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	await interaction.deferReply()
 	const search = interaction.options.getString('search')
 	const position = interaction.options.getInteger('position')
 	// @ts-expect-error
 	const isNsfw = interaction.channel.nsfw
-	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger)
-	interaction.editReply({ content: imageUrl })
+	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger, interaction.user, interaction.guild, 'slash', transaction)
+	await interaction.editReply({ content: imageUrl })
 }

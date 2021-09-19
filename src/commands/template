@@ -2,7 +2,20 @@ import { ButtonInteraction, CommandInteraction, SelectMenuInteraction, Message }
 // @ts-expect-error
 import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-
+import * as Sentry from "@sentry/node"
+// Sentry.configureScope(scope => {
+// 	scope.setSpan(transaction)
+// 	scope.setUser({ id: user.id, username: user.tag })
+// 	scope.setContext('Guild', {
+// 		name: guild.name,
+// 		id: guild.id
+// 	})
+// scope.setContext('Context', {
+// 	suggestion: suggestion,
+// 	attachmentUrl: attachment
+// })
+// 	scope.setTags({ type: type })
+// })
 export const name = 'debug'
 export const description = 'Displays debug information'
 export const permissions: Permissions = ['ADMINISTRATOR']
@@ -13,18 +26,30 @@ export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 
-export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	// Code
+export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
+	// const transaction = Sentry.startTransaction({
+	// 	op: "urbanCommand",
+	// 	name: "Urban Dictionary Command",
+	// })
 }
 
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
-	// Code
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+	// const transaction = Sentry.startTransaction({
+	// 	op: "urbanCommand",
+	// 	name: "Urban Dictionary Command",
+	// })
 }
 
-export async function executeButton(client: BotClient, interaction: ButtonInteraction) {
-	// Code
+export async function executeButton(client: BotClient, interaction: ButtonInteraction, transaction) {
+	// const transaction = Sentry.startTransaction({
+	// 	op: "urbanCommand",
+	// 	name: "Urban Dictionary Command",
+	// })
 }
 
-export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction) {
-	// Code
+export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction, transaction) {
+	// const transaction = Sentry.startTransaction({
+	// 	op: "urbanCommand",
+	// 	name: "Urban Dictionary Command",
+	// })
 }

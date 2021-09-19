@@ -9,7 +9,7 @@ export const usage = 'debug'
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	const sentMessage = await message.channel.send('Loading...')
 	const uptimeDate = dayjs(Date.now() - client.uptime).format("HH:mm:ss [-] DD/MM/YYYY")
 	const embed = new MessageEmbed

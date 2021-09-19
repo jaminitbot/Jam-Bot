@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { CommandInteraction, Message, ColorResolvable, MessageEmbed } from "discord.js"
+import { CommandInteraction, Message, ColorResolvable, MessageEmbed, User, Guild } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request, Dispatcher } from 'undici'
 import NodeCache from "node-cache"
 import { randomInt } from '../../functions/util'
+import * as Sentry from "@sentry/node"
 
 const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
 interface Definition {
@@ -36,7 +37,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(true))
 
 const colours: Array<ColorResolvable> = ['#805D93', '#F49FBC', '#FFD3BA', '#9EBD6E', '#169873', '#540D6E', '#EE4266']
-async function returnDefineEmbed(wordToDefine: string) {
+async function returnDefineEmbed(wordToDefine: string, user: User, guild: Guild, type: string, transaction) {
 	let response: Dispatcher.ResponseData
 	const cachedValue = cache.get(wordToDefine)
 	if (!cachedValue) {
@@ -44,6 +45,7 @@ async function returnDefineEmbed(wordToDefine: string) {
 		try {
 			response = await request('https://api.urbandictionary.com/v0/define?term=' + encodeURIComponent(wordToDefine))
 		} catch (err) {
+			Sentry.captureException(err)
 			error = err
 		}
 		if (error || response.statusCode != 200) {
@@ -70,14 +72,14 @@ async function returnDefineEmbed(wordToDefine: string) {
 	example && embed.addField('Example', example)
 	return embed
 }
-export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
 	message.reply('Use slash commands smh')
 	// message.channel.send({ embeds: [await returnDefineEmbed(args[0])] })
 }
 
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	await interaction.deferReply()
 	const word = interaction.options.getString('word')
-	const embed = await returnDefineEmbed(word)
-	interaction.editReply({ embeds: [embed] })
+	const embed = await returnDefineEmbed(word, interaction.user, interaction.guild, 'slash', transaction)
+	await interaction.editReply({ embeds: [embed] })
 }

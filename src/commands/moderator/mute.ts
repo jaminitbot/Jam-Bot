@@ -30,11 +30,11 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('reason')
 			.setDescription('(Optional) reason to mute the user for')
 			.setRequired(false))
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	message.channel.send('Please use the slash command to mute people!')
 }
 
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	if (!interaction.guild.me.permissions.has('MANAGE_ROLES')) return interaction.reply({ content: 'I don\'t have permission to manage roles! Ask an admin to check my permissions!', ephemeral: true })
 	const targetUser = interaction.options.getUser('user')
 	const isModdable = await moddable(interaction.guild, targetUser.id, interaction.user.id)

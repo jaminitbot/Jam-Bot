@@ -39,7 +39,7 @@ async function moveVoiceChannel(client: BotClient, fromChannel: VoiceChannel, to
 	}
 	return `Successfully moved ${count} user(s) from ${fromChannel.name} to ${toChannel.name}.`
 }
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args, transaction) {
 	if (!args[0] || !args[1]) return message.channel.send('You need to specify two channels!')
 	//@ts-expect-error
 	const fromChannel: VoiceChannel = await getChannelFromString(message.guild, args[0])
@@ -49,7 +49,7 @@ export async function execute(client: BotClient, message: Message, args) {
 	message.channel.send(result)
 }
 
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	await interaction.deferReply()
 	// @ts-expect-error
 	const fromChannel: VoiceChannel = interaction.options.getChannel('from')

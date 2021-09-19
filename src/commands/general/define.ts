@@ -1,9 +1,11 @@
-import { ColorResolvable, CommandInteraction, Message, MessageEmbed, MessageActionRow, MessageSelectMenu, SelectMenuInteraction, MessageButton, ButtonInteraction } from "discord.js"
+import { ColorResolvable, CommandInteraction, Message, MessageEmbed, MessageActionRow, MessageSelectMenu, SelectMenuInteraction, MessageButton, ButtonInteraction, Guild } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request, Dispatcher } from 'undici'
 import { capitaliseSentence } from '../../functions/util'
 import NodeCache from "node-cache"
+import * as Sentry from "@sentry/node"
+import { Transaction } from "@sentry/types"
 const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
 interface PhoneticsObject {
 	text: string
@@ -44,13 +46,19 @@ interface InteractionData {
 	definitionStart?: number
 	definitionType?: string
 }
-async function returnDefineEmbed(wordToDefine: string, interactionData: InteractionData, userId: string) {
+async function returnDefineEmbed(wordToDefine: string, interactionData: InteractionData, userId: string, tag: string, guild: Guild, type: string, transaction: Transaction) {
 	let response: Dispatcher.ResponseData
 	const cachedValue = cache.get(wordToDefine)
 	if (!cachedValue) {
 		response = await request('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(wordToDefine))
-		if (response.statusCode != 200) {
+		if (response.statusCode == 404) {
 			cache.set(wordToDefine, 'NOT_FOUND')
+		} else if (response.statusCode != 200) {
+			Sentry.captureMessage('Dictionary API returned non-standard status code')
+			const embed = new MessageEmbed
+			embed.setDescription('The API returned a non-standard response, please try again later.')
+			embed.setColor(colours[colours.length - 1])
+			return [[embed], null]
 		} else {
 			cache.set(wordToDefine, (await response.body.json())[0])
 		}
@@ -132,24 +140,24 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 	return [[embed], [buttonsRow, selectRow]]
 }
 
-export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
 	message.channel.send('Use slash commands smh')
 }
 
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	await interaction.deferReply()
 	const wordToDefine = interaction.options.getString('word')
-	const embed = await returnDefineEmbed(wordToDefine.toLowerCase(), {}, interaction.user.id)
+	const embed = await returnDefineEmbed(wordToDefine.toLowerCase(), {}, interaction.user.id, interaction.user.tag, interaction.guild, 'slash', transaction)
 	// @ts-expect-error
-	interaction.editReply({ embeds: embed[0], components: embed[1] })
+	await interaction.editReply({ embeds: embed[0], components: embed[1] })
 }
 
-export async function executeButton(client: BotClient, interaction: ButtonInteraction) {
+export async function executeButton(client: BotClient, interaction: ButtonInteraction, transaction) {
 	const interactionNameObject = interaction.customId.split('-')
 	const interactionData = { 'definitionStart': parseInt(interactionNameObject[2]), 'definitionType': interactionNameObject[3] }
 	const eph = interactionNameObject[4] == interaction.user.id ? false : true
 	const wordToDefine = interactionNameObject.splice(5).join(' ')
-	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id)
+	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id, interaction.user.tag, interaction.guild, 'button', transaction)
 	if (eph) {
 		// @ts-expect-error
 		await interaction.reply({ embeds: defineEmbedData[0], components: defineEmbedData[1], ephemeral: true })
@@ -159,15 +167,16 @@ export async function executeButton(client: BotClient, interaction: ButtonIntera
 	}
 }
 
-export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction) {
+export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction, transaction) {
 	const interactionNameObject = interaction.customId.split('-')
 	const interactionData = { 'definitionType': interaction.values[0] }
 	const eph = interactionNameObject[2] == interaction.user.id ? false : true
 	const wordToDefine = interactionNameObject.splice(3).join(' ')
-	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id)
+	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id, interaction.user.tag, interaction.guild, 'selectMenu', transaction)
 	if (eph) {
 		// @ts-expect-error
 		await interaction.reply({ embeds: defineEmbedData[0], components: defineEmbedData[1], ephemeral: true })
+
 	} else {
 		// @ts-expect-error
 		await interaction.update({ embeds: defineEmbedData[0], components: defineEmbedData[1] })

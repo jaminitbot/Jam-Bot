@@ -1,13 +1,14 @@
 import { ButtonInteraction, Client, Collection, CommandInteraction, Message, PermissionString, SelectMenuInteraction } from "discord.js"
 import { Logger } from "winston";
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { Transaction } from "@sentry/types";
 
 type Permission = PermissionString | 'OWNER'
 export type Permissions = Array<Permission>
 export interface Command {
-	executeSelectMenu: (client: BotClient, interaction: SelectMenuInteraction) => Promise<void>
-	executeSlash: (client: BotClient, interaction: CommandInteraction) => Promise<void>
-	executeButton: (client: BotClient, interaction: ButtonInteraction) => Promise<void>
+	executeSelectMenu: (client: BotClient, interaction: SelectMenuInteraction, transaction: Transaction) => Promise<void>
+	executeSlash: (client: BotClient, interaction: CommandInteraction, transaction: Transaction) => Promise<void>
+	executeButton: (client: BotClient, interaction: ButtonInteraction, transaction: Transaction) => Promise<void>
 	slashData: SlashCommandBuilder
 	allowInDm: boolean
 	aliases: Array<string>
@@ -15,7 +16,7 @@ export interface Command {
 	description: string,
 	permissions: Array<Permission>
 	usage: string
-	execute: (client: BotClient, message: Message, args: Array<unknown>) => Promise<void>
+	execute: (client: BotClient, message: Message, args: Array<unknown>, transaction: Transaction) => Promise<void>
 }
 interface Event {
 	name: string

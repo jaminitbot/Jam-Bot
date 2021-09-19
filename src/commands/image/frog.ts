@@ -12,12 +12,12 @@ export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export async function execute(client: BotClient, message: Message, args) {
-	const imageUrl = await searchForImage('frog', randomInt(1, 25), false, 'frog', client.logger)
-	message.channel.send(imageUrl)
+export async function execute(client: BotClient, message: Message, args, transaction) {
+	const imageUrl = await searchForImage('frog', randomInt(1, 25), false, 'frog', client.logger, message.author, message.guild, 'prefix', transaction)
+	await message.channel.send(imageUrl)
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	await interaction.deferReply()
-	const imageUrl = await searchForImage('frog', randomInt(1, 25), false, 'frog', client.logger)
-	interaction.editReply(imageUrl)
+	const imageUrl = await searchForImage('frog', randomInt(1, 25), false, 'frog', client.logger, interaction.user, interaction.guild, 'slash', transaction)
+	await interaction.editReply(imageUrl)
 }

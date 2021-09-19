@@ -17,7 +17,10 @@
         "forceConsistentCasingInFileNames": true,
         "baseUrl": ".",
 		"importHelpers": true,
-        "noImplicitUseStrict": true
+        "noImplicitUseStrict": true,
+		"sourceMap": true,
+ 		"inlineSources": true,
+    	"sourceRoot": "/"
     },
     "exclude": ["node_modules"],
     "include": ["./src/**/*.tsx", "./src/**/*.ts"]

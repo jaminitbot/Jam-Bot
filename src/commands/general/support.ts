@@ -27,13 +27,13 @@ async function returnSupportEmbed() {
 	)
 	return [embed, row]
 }
-export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
 	const embedObject = await returnSupportEmbed()
 	// @ts-expect-error
 	message.channel.send({ embeds: [embedObject[0]], components: [embedObject[1]] })
 }
 
-export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	// @ts-expect-error
 	interaction.reply({ embeds: [embedObject[0]], components: embedObject[1] })
 }
