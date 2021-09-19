@@ -1,4 +1,14 @@
 process.chdir(__dirname)
+declare global {
+	// eslint-disable-next-line @typescript-eslint/no-namespace
+	namespace NodeJS {
+		interface Global {
+			__rootdir__: string;
+		}
+	}
+}
+
+global.__rootdir__ = __dirname || process.cwd();
 // Mr imports
 if (!process.env.token) {
 	require('dotenv').config();
