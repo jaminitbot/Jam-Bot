@@ -4,7 +4,7 @@ import { BotClient } from '../customDefinitions'
 import { Message, MessageEmbed } from 'discord.js'
 import { storeMessageCreate } from '../cron/stats'
 import { getErrorMessage } from '../functions/messages'
-import * as Sentry from "@sentry/node"
+import Sentry from '../functions/sentry'
 const bannedIds = ['']
 export const name = "messageCreate"
 
@@ -43,33 +43,22 @@ export async function register(client: BotClient, message: Message) {
 				return
 			}
 		}
-		const transaction = Sentry.startTransaction({
-			op: command.name + 'Command',
-			name: capitaliseSentence(command.name) + ' Command',
-		})
-		Sentry.configureScope(async scope => {
-			scope.setSpan(transaction)
-			scope.setUser({ id: message.author.id, username: message.author.tag })
-			scope.setContext('Guild', {
-				name: guildId != 0 ? (await client.guilds.fetch(guildId)).name ?? 'N/A' : 'N/A',
-				id: guildId,
-				prefix: prefix
+		Sentry.withMessageScope(message, async () => {
+			const transaction = Sentry.startTransaction({
+				op: command.name + 'Command',
+				name: capitaliseSentence(command.name) + ' Command',
 			})
-			scope.setContext('Message', {
-				id: message.id
-			})
-			scope.setTags({ type: 'prefix' })
+			try {
+				await command.execute(client, message, args, transaction)
+			} catch (error) {
+				// Error running command
+				Sentry.captureException(error)
+				client.logger.error('messageHandler: Command failed with error: ' + error)
+				await message.reply(getErrorMessage())
+			} finally {
+				transaction.finish()
+			}
 		})
-		try {
-			await command.execute(client, message, args, transaction)
-		} catch (error) {
-			// Error running command
-			Sentry.captureException(error)
-			client.logger.error('messageHandler: Command failed with error: ' + error)
-			await message.reply(getErrorMessage())
-		} finally {
-			transaction.finish()
-		}
 	} else {
 		if (message.channel.type == 'DM' && process.env.dmChannel) {
 			client.logger.verbose(`messageHandler: Received a DM from ${message.author.tag}, attempting to notify in the correct channel...`)

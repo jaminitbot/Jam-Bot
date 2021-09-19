@@ -18,6 +18,8 @@ async function getKoalaImage() {
 	return (await response.body.json()).link || "Unable to get a koala, the api's probably down"
 }
 export async function execute(client: BotClient, message: Message, args, transaction) {
+	//@ts-expect-error
+	console.log(message.thing())
 	message.channel.send(await getKoalaImage())
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {

@@ -6,6 +6,8 @@ import isImageUrl = require('is-image-url')
 const messages = require('../functions/messages')
 import sha1 = require('sha1')
 import dayjs = require('dayjs')
+import Sentry from '../functions/sentry'
+
 export default async function execute(client: BotClient) {
 	if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsUsername) return
 	let response: Dispatcher.ResponseData
@@ -23,10 +25,12 @@ export default async function execute(client: BotClient) {
 		)
 	} catch (err) {
 		client.logger.error('twitchNotificiations: failed fetching twich information with error: ' + err)
+		Sentry.captureException(err)
 		return
 	}
 	if (response.statusCode != 200) {
 		client.logger.warn('Twitch returned a non-standard response code, skipping live checks')
+		Sentry.captureMessage('Twitch API returned non-standard status code')
 		return
 	}
 	const json = await response.body.json()

@@ -3,7 +3,7 @@ import { CommandInteraction, Guild, Message, MessageEmbed, TextChannel, User } f
 import { BotClient } from '../../customDefinitions'
 import { getNestedSetting, setNestedSetting } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import * as Sentry from "@sentry/node"
+import Sentry from '../../functions/sentry'
 
 import delay from 'delay'
 

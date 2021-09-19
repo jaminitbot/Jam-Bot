@@ -4,7 +4,7 @@ import { getKey } from "../functions/db";
 import { capitaliseSentence, checkPermissions } from "../functions/util";
 import { getErrorMessage, getInvalidPermissionsMessage } from '../functions/messages'
 import { storeSlashCommandCreate } from '../cron/stats'
-import * as Sentry from "@sentry/node"
+import Sentry from '../functions/sentry'
 
 export const name = "interactionCreate"
 
@@ -31,100 +31,68 @@ export async function register(client: BotClient, interaction: Interaction) {
 				return
 			}
 		}
-		const transaction = Sentry.startTransaction({
-			op: command.name + 'Command',
-			name: capitaliseSentence(command.name) + ' Command',
-		})
-		Sentry.configureScope(async scope => {
-			scope.setSpan(transaction)
-			scope.setUser({ id: interaction.user.id, username: interaction.user.tag })
-			scope.setContext('Guild', {
-				name: guildId != 0 ? (await client.guilds.fetch(guildId)).name ?? 'N/A' : 'N/A',
-				id: guildId
+		Sentry.withInteractionScope(interaction, async () => {
+			const transaction = Sentry.startTransaction({
+				op: command.name + 'Command',
+				name: capitaliseSentence(command.name) + ' Command',
 			})
-			scope.setContext('Interaction', {
-				name: interaction.commandName,
-				id: interaction.id
-			})
-			scope.setTags({ type: 'slash' })
-		})
-		try {
-			await command.executeSlash(client, interaction, transaction)
-		} catch (error) {
-			Sentry.captureException(error)
-			// Error running command
-			client.logger.error('interactionHandler: Command failed with error: ' + error)
 			try {
-				if (interaction.deferred) {
-					interaction.editReply({ content: getErrorMessage() })
-				} else {
-					interaction.reply({ content: getErrorMessage() })
+				await command.executeSlash(client, interaction, transaction)
+			} catch (error) {
+				Sentry.captureException(error)
+				// Error running command
+				client.logger.error('interactionHandler: Command failed with error: ' + error)
+				try {
+					if (interaction.deferred) {
+						interaction.editReply({ content: getErrorMessage() })
+					} else {
+						interaction.reply({ content: getErrorMessage() })
+					}
+					// eslint-disable-next-line no-empty
+				} catch (err) {
+					Sentry.captureException(err)
 				}
-				// eslint-disable-next-line no-empty
-			} catch (err) {
-				Sentry.captureException(err)
+			} finally {
+				transaction.finish()
 			}
-		} finally {
-			transaction.finish()
-		}
+		})
 	} else if (interaction.isButton()) {
 		const buttonNameObject = interaction.customId.trim().split('-')
 		const command = client.commands.get(buttonNameObject[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(buttonNameObject[0]))
 		if (!command) return
-		const transaction = Sentry.startTransaction({
-			op: command.name + 'Command',
-			name: capitaliseSentence(command.name) + ' Command',
-		})
-		Sentry.configureScope(async scope => {
-			scope.setSpan(transaction)
-			scope.setUser({ id: interaction.user.id, username: interaction.user.tag })
-			scope.setContext('Guild', {
-				name: guildId != 0 ? (await client.guilds.fetch(guildId)).name ?? 'N/A' : 'N/A',
-				id: guildId
+		Sentry.withInteractionScope(interaction, async () => {
+			const transaction = Sentry.startTransaction({
+				op: command.name + 'Command',
+				name: capitaliseSentence(command.name) + ' Command',
 			})
-			scope.setContext('Interaction', {
-				name: interaction.customId,
-				id: interaction.id
-			})
-			scope.setTags({ type: 'button' })
+			try {
+				command.executeButton(client, interaction, transaction)
+			} catch (error) {
+				Sentry.captureException(error)
+				// Error running command
+				client.logger.error('interactionHandler: Command button failed with error: ' + error)
+			} finally {
+				transaction.finish()
+			}
 		})
-		try {
-			command.executeButton(client, interaction, transaction)
-		} catch (error) {
-			Sentry.captureException(error)
-			// Error running command
-			client.logger.error('interactionHandler: Command button failed with error: ' + error)
-		} finally {
-			transaction.finish()
-		}
+
 	} else if (interaction.isSelectMenu()) {
 		const selectNameObject = interaction.customId.trim().split('-')
 		const command = client.commands.get(selectNameObject[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(selectNameObject[0]))
 		if (!command) return
-		const transaction = Sentry.startTransaction({
-			op: command.name + 'Command',
-			name: capitaliseSentence(command.name) + ' Command',
-		})
-		Sentry.configureScope(async scope => {
-			scope.setSpan(transaction)
-			scope.setUser({ id: interaction.user.id, username: interaction.user.tag })
-			scope.setContext('Guild', {
-				name: guildId != 0 ? (await client.guilds.fetch(guildId)).name ?? 'N/A' : 'N/A',
-				id: guildId
+		Sentry.withInteractionScope(interaction, async () => {
+			const transaction = Sentry.startTransaction({
+				op: command.name + 'Command',
+				name: capitaliseSentence(command.name) + ' Command',
 			})
-			scope.setContext('Interaction', {
-				name: interaction.customId,
-				id: interaction.id
-			})
-			scope.setTags({ type: 'selectMenu' })
+			try {
+				command.executeSelectMenu(client, interaction, transaction)
+			} catch (error) {
+				// Error running command
+				client.logger.error('interactionHandler: Command button failed with error: ' + error)
+			} finally {
+				transaction.finish()
+			}
 		})
-		try {
-			command.executeSelectMenu(client, interaction, transaction)
-		} catch (error) {
-			// Error running command
-			client.logger.error('interactionHandler: Command button failed with error: ' + error)
-		} finally {
-			transaction.finish()
-		}
 	}
 }

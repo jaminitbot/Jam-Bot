@@ -3,7 +3,7 @@ import { BotClient } from '../../customDefinitions'
 import { request } from 'undici'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { getLogger } from "../../functions/util"
-import * as Sentry from "@sentry/node"
+import Sentry from '../../functions/sentry'
 
 const logger = getLogger()
 export const name = 'stock'

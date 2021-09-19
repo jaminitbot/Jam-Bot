@@ -2,7 +2,8 @@ import { ButtonInteraction, CommandInteraction, SelectMenuInteraction, Message }
 // @ts-expect-error
 import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import * as Sentry from "@sentry/node"
+// @ts-expect-error
+import Sentry from '../../functions/sentry'
 // Sentry.configureScope(scope => {
 // 	scope.setSpan(transaction)
 // 	scope.setUser({ id: user.id, username: user.tag })

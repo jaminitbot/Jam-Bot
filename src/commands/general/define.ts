@@ -1,10 +1,10 @@
-import { ColorResolvable, CommandInteraction, Message, MessageEmbed, MessageActionRow, MessageSelectMenu, SelectMenuInteraction, MessageButton, ButtonInteraction, Guild } from "discord.js"
+import { ColorResolvable, CommandInteraction, Message, MessageEmbed, MessageActionRow, MessageSelectMenu, SelectMenuInteraction, MessageButton, ButtonInteraction } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request, Dispatcher } from 'undici'
 import { capitaliseSentence } from '../../functions/util'
 import NodeCache from "node-cache"
-import * as Sentry from "@sentry/node"
+import Sentry from '../../functions/sentry'
 import { Transaction } from "@sentry/types"
 const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
 interface PhoneticsObject {
@@ -46,7 +46,7 @@ interface InteractionData {
 	definitionStart?: number
 	definitionType?: string
 }
-async function returnDefineEmbed(wordToDefine: string, interactionData: InteractionData, userId: string, tag: string, guild: Guild, type: string, transaction: Transaction) {
+async function returnDefineEmbed(wordToDefine: string, interactionData: InteractionData, userId: string, transaction: Transaction) {
 	let response: Dispatcher.ResponseData
 	const cachedValue = cache.get(wordToDefine)
 	if (!cachedValue) {
@@ -147,7 +147,7 @@ export async function execute(client: BotClient, message: Message, args: Array<u
 export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	await interaction.deferReply()
 	const wordToDefine = interaction.options.getString('word')
-	const embed = await returnDefineEmbed(wordToDefine.toLowerCase(), {}, interaction.user.id, interaction.user.tag, interaction.guild, 'slash', transaction)
+	const embed = await returnDefineEmbed(wordToDefine.toLowerCase(), {}, interaction.user.id, transaction)
 	// @ts-expect-error
 	await interaction.editReply({ embeds: embed[0], components: embed[1] })
 }
@@ -157,7 +157,7 @@ export async function executeButton(client: BotClient, interaction: ButtonIntera
 	const interactionData = { 'definitionStart': parseInt(interactionNameObject[2]), 'definitionType': interactionNameObject[3] }
 	const eph = interactionNameObject[4] == interaction.user.id ? false : true
 	const wordToDefine = interactionNameObject.splice(5).join(' ')
-	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id, interaction.user.tag, interaction.guild, 'button', transaction)
+	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id, transaction)
 	if (eph) {
 		// @ts-expect-error
 		await interaction.reply({ embeds: defineEmbedData[0], components: defineEmbedData[1], ephemeral: true })
@@ -172,7 +172,7 @@ export async function executeSelectMenu(client: BotClient, interaction: SelectMe
 	const interactionData = { 'definitionType': interaction.values[0] }
 	const eph = interactionNameObject[2] == interaction.user.id ? false : true
 	const wordToDefine = interactionNameObject.splice(3).join(' ')
-	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id, interaction.user.tag, interaction.guild, 'selectMenu', transaction)
+	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id, transaction)
 	if (eph) {
 		// @ts-expect-error
 		await interaction.reply({ embeds: defineEmbedData[0], components: defineEmbedData[1], ephemeral: true })

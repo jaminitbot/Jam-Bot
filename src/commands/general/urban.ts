@@ -5,7 +5,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import { request, Dispatcher } from 'undici'
 import NodeCache from "node-cache"
 import { randomInt } from '../../functions/util'
-import * as Sentry from "@sentry/node"
+import Sentry from '../../functions/sentry'
 
 const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
 interface Definition {

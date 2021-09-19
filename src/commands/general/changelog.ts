@@ -4,7 +4,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import { request } from 'undici'
 import NodeCache from "node-cache"
 import { Logger } from "winston"
-import * as Sentry from "@sentry/node"
+import Sentry from '../../functions/sentry'
 const cache = new NodeCache({ stdTTL: 600, checkperiod: 60 })
 
 function generateDateFromEntry(entry) {

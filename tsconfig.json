@@ -16,7 +16,6 @@
         "resolveJsonModule": true,
         "forceConsistentCasingInFileNames": true,
         "baseUrl": ".",
-		"importHelpers": true,
         "noImplicitUseStrict": true,
 		"sourceMap": true,
  		"inlineSources": true,

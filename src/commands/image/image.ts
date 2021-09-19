@@ -5,7 +5,7 @@ import isNumber = require('is-number')
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request } from 'undici'
 import { Logger } from "winston"
-import * as Sentry from "@sentry/node"
+import Sentry from '../../functions/sentry'
 
 const apiHost = 'https://api.bing.microsoft.com/v7.0/images/search'
 const subscriptionKey = process.env.bingImageSearchKey
