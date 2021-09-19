@@ -3,7 +3,7 @@ import { Logger } from "winston";
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 type Permission = PermissionString | 'OWNER'
-
+export type Permissions = Array<Permission>
 export interface Command {
 	executeSelectMenu: (client: BotClient, interaction: SelectMenuInteraction) => Promise<void>
 	executeSlash: (client: BotClient, interaction: CommandInteraction) => Promise<void>

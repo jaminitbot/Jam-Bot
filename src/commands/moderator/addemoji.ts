@@ -1,11 +1,11 @@
 import { Emoji, Message } from "discord.js"
-import { BotClient } from '../../customDefinitions'
+import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 export const name = 'addemoji'
 export const description = 'Adds an emoji to the server'
 export const usage = 'addemoji EmojiName'
-export const permissions = ['MANAGE_EMOJIS']
+export const permissions: Permissions = ['MANAGE_EMOJIS_AND_STICKERS']
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
@@ -27,9 +27,8 @@ export async function execute(client: BotClient, message: Message, args) {
 				})
 		})
 		.catch((error) => {
-			client.logger.error(error)
 			message.reply(
-				'uwu senpai, loowks like youwr image is a liwttle too big!'
+				'There was an unknown error uploading that emoji, check the image size!'
 			)
 		})
 }
