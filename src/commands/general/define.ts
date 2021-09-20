@@ -141,7 +141,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 }
 
 export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
-	message.channel.send('Use slash commands smh')
+	message.channel.send('This command can only be used with slash commands.')
 }
 
 export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {

@@ -74,7 +74,7 @@ async function returnChangelogEmbed(changeNumber = null, logger: Logger, user: U
 	return [embed, false]
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
-	message.channel.send('Use slash commands smh')
+	message.channel.send('This command can only be used with slash commands.')
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	const changelogEntryNumber = interaction.options.getInteger('changeid')

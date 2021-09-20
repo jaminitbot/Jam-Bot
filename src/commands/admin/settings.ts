@@ -108,7 +108,7 @@ async function validTextChannel(client: BotClient, channelId: string) {
 	return channel
 }
 export async function execute(client: BotClient, message: Message, args, transaction) {
-	message.channel.send('Use slash commands smh')
+	message.channel.send('This command can only be used with slash commands.')
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	const subCommandGroup = interaction.options.getSubcommandGroup()

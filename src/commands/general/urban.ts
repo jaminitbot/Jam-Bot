@@ -73,7 +73,7 @@ async function returnDefineEmbed(wordToDefine: string, user: User, guild: Guild,
 	return embed
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
-	message.reply('Use slash commands smh')
+	message.reply('This command can only be used with slash commands.')
 	// message.channel.send({ embeds: [await returnDefineEmbed(args[0])] })
 }
 
