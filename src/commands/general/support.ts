@@ -36,5 +36,5 @@ export async function execute(client: BotClient, message: Message, args: Array<u
 export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	const embedObject = await returnSupportEmbed()
 	// @ts-expect-error
-	interaction.reply({ embeds: [embedObject[0]], components: embedObject[1] })
+	interaction.reply({ embeds: [embedObject[0]], components: [embedObject[1]] })
 }
