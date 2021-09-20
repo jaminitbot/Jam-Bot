@@ -23,7 +23,7 @@ async function returnSupportEmbed() {
 		new MessageButton()
 			.setStyle('LINK')
 			.setLabel('Support Server')
-			.setURL('https://discord.gg/XpNeCGhTfx')
+			.setURL('https://discord.gg/AP8ajhMBZK')
 	)
 	return [embed, row]
 }
