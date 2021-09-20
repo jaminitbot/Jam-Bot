@@ -4,7 +4,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import dayjs from "dayjs"
 export const name = 'debug'
 export const description = 'Displays debug information'
-export const permissions = ['ADMINISTRATOR']
+export const permissions = ['MANAGE_GUILD']
 export const usage = 'debug'
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
