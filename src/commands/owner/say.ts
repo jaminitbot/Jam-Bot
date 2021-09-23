@@ -14,9 +14,9 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('message')
 			.setDescription('Message to send')
 			.setRequired(true))
-	.addChannelOption(option =>
+	.addStringOption(option =>
 		option.setName('channel')
-			.setDescription('(Optional) channel to use')
+			.setDescription('Channel ID to use')
 			.setRequired(false))
 async function sayInChannel(thingToSay, channel) {
 	if (!(channel.type == 'GUILD_TEXT' || channel.type == 'GUILD_NEWS')) return 'Channel wasn\'t a text channel, not continuing'
@@ -38,6 +38,6 @@ export async function execute(client: BotClient, message: Message, args, transac
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
 	const thingToSay = interaction.options.getString('message')
-	const channel = interaction.options.getChannel('channel') ?? interaction.channel
+	const channel = await getChannelFromString(interaction.guild, interaction.options.getString('channel')) ?? interaction.channel
 	interaction.reply({ content: await sayInChannel(thingToSay, channel), ephemeral: true })
 }

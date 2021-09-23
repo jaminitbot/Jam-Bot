@@ -11,7 +11,7 @@ export const slashData = new SlashCommandBuilder()
 	.setDescription(description)
 	.addStringOption(option =>
 		option.setName('type')
-			.setDescription('(Optional): The type of message (edits or deletes) to snipe')
+			.setDescription('The type of message (edits or deletes) to snipe')
 			.setRequired(false))
 
 function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId: string, member: GuildMember, messageType: string, transaction) {

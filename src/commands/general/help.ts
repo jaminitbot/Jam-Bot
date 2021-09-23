@@ -14,7 +14,7 @@ export const slashData = new SlashCommandBuilder()
 	.setDescription(description)
 	.addStringOption(option =>
 		option.setName('command')
-			.setDescription('(Optional) the command you\'d like to get help on')
+			.setDescription('The command you\'d like to get help on')
 			.setRequired(false))
 async function returnHelpEmbed(client: BotClient, commandToGet: string, prefix: string, userId: string, tag: string, guild: Guild, type: string, transaction: Transaction) {
 	const embed = new MessageEmbed

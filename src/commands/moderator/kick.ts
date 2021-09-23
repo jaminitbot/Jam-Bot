@@ -21,7 +21,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(true))
 	.addStringOption(option =>
 		option.setName('reason')
-			.setDescription('(Optional) reason to kick the user for')
+			.setDescription('Reason to kick the user for')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args, transaction) {
 	message.channel.send('Please use the slash command to kick people!')

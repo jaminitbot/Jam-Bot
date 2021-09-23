@@ -12,7 +12,7 @@ export const slashData = new SlashCommandBuilder()
 	.setDescription(description)
 	.addStringOption(option =>
 		option.setName('breed')
-			.setDescription('(Optional) the breed of the dog to search for')
+			.setDescription('The breed of the dog to search for')
 			.setRequired(false))
 async function getDogPhoto(breed) {
 	let response: Dispatcher.ResponseData

@@ -21,11 +21,11 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(true))
 	.addStringOption(option =>
 		option.setName('duration')
-			.setDescription('(Optional) duration to ban the user for')
+			.setDescription('Duration to ban the user for')
 			.setRequired(false))
 	.addStringOption(option =>
 		option.setName('reason')
-			.setDescription('(Optional) reason to ban the user for')
+			.setDescription('Reason to ban the user for')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args, transaction) {
 	message.channel.send('Please use the slash command to ban people!')

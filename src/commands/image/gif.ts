@@ -16,7 +16,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(true))
 	.addIntegerOption(option =>
 		option.setName('position')
-			.setDescription('(Optional) the specific gif to get')
+			.setDescription('The specific gif to get')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args, transaction) {
 	if (!args[0]) return message.reply('you need to specify what to search for!')

@@ -21,7 +21,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(true))
 	.addStringOption(option =>
 		option.setName('guild')
-			.setDescription('(Optional) guild id')
+			.setDescription('Guild ID')
 			.setRequired(false))
 async function returnSetKeyEmbed(guildId, key, value) {
 	try {
