@@ -19,8 +19,9 @@ export async function register(client: BotClient, interaction: Interaction) {
 		if (interaction.channel.type == 'GUILD_PUBLIC_THREAD' || interaction.channel.type == 'GUILD_PRIVATE_THREAD') {
 			try {
 				await interaction.channel.join()
+				// eslint-disable-next-line no-empty
 			} catch {
-				return
+
 			}
 		}
 		if (typeof command.executeSlash != 'function') {
