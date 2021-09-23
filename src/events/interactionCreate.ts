@@ -16,6 +16,13 @@ export async function register(client: BotClient, interaction: Interaction) {
 			return
 		}
 		storeSlashCommandCreate(interaction)
+		if (interaction.channel.type == 'GUILD_PUBLIC_THREAD' || interaction.channel.type == 'GUILD_PRIVATE_THREAD') {
+			try {
+				await interaction.channel.join()
+			} catch {
+				return
+			}
+		}
 		if (typeof command.executeSlash != 'function') {
 			const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
 			await interaction.reply({ content: `This command hasn't been setup for slash commands yet, please use \`${prefix}${command.name}\` for the time being!`, ephemeral: true })
