@@ -46,9 +46,19 @@ export async function register(client: BotClient, interaction: Interaction) {
 				client.logger.error('interactionHandler: Command failed with error: ' + error)
 				try {
 					if (interaction.deferred) {
-						interaction.editReply({ content: getErrorMessage() })
+						try {
+							interaction.editReply({ content: getErrorMessage() })
+							// eslint-disable-next-line no-empty
+						} catch {
+
+						}
 					} else {
-						interaction.reply({ content: getErrorMessage() })
+						try {
+							interaction.reply({ content: getErrorMessage() })
+							// eslint-disable-next-line no-empty
+						} catch {
+
+						}
 					}
 					// eslint-disable-next-line no-empty
 				} catch (err) {

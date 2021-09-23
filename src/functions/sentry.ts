@@ -3,7 +3,7 @@ import { Interaction, Message } from 'discord.js'
 import { RewriteFrames } from "@sentry/integrations"
 
 export default (() => {
-	if (process.env.NODE_ENV === 'production') {
+	if (process.env.NODE_ENV === 'production' && process.env.sentryUrl) {
 		Sentry.init({
 			dsn: process.env.sentryUrl,
 			tracesSampleRate: 1.0,

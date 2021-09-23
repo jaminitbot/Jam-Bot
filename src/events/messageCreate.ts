@@ -24,8 +24,20 @@ export async function register(client: BotClient, message: Message) {
 			return
 		}
 		client.logger.verbose(`messageHandler: Command ${commandRequested ?? 'NULL'} has been requested by ${message.author.tag}, executing command...`)
+		if (message.channel.type == 'GUILD_PUBLIC_THREAD' || message.channel.type == 'GUILD_PRIVATE_THREAD') {
+			try {
+				await message.channel.join()
+			} catch {
+				return
+			}
+		}
 		if (message.channel.type == 'DM' && !command.allowInDm) {
-			await message.channel.send('Sorry, that command can only be run in a server!')
+			try {
+				await message.channel.send('Sorry, that command can only be run in a server!')
+				// eslint-disable-next-line no-empty
+			} catch {
+
+			}
 			return
 		}
 		// if (typeof command.executeSlash == 'function' && !command.exposeSlash && mentionSlash) {
@@ -39,7 +51,12 @@ export async function register(client: BotClient, message: Message) {
 				// User doesn't have specified permissions to run command
 				client.logger.debug(`messageHandler: User ${message.author.tag} doesn't have the required permissions to run command ${commandRequested ?? 'NULL'}, returning invalid permission message`)
 				if (command.permissions.includes('OWNER')) return
-				returnInvalidPermissionMessage(message)
+				try {
+					returnInvalidPermissionMessage(message)
+					// eslint-disable-next-line no-empty
+				} catch {
+
+				}
 				return
 			}
 		}
@@ -54,7 +71,13 @@ export async function register(client: BotClient, message: Message) {
 				// Error running command
 				Sentry.captureException(error)
 				client.logger.error('messageHandler: Command failed with error: ' + error)
-				await message.reply(getErrorMessage())
+				try {
+					await message.reply(getErrorMessage())
+					// eslint-disable-next-line no-empty
+				} catch {
+
+				}
+
 			} finally {
 				transaction.finish()
 			}

@@ -26,6 +26,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The specific position to get')
 			.setRequired(false))
 export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string, logger: Logger) {
+	if (!process.env.bingImageSearchKey) return 'Image search hasn\'t been setup on this instance of the bot :('
 	if (position && position < 1) {
 		return 'You cannot get an image for a position less than one!'
 	}

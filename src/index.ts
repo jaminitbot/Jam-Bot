@@ -14,7 +14,7 @@ if (!process.env.token) {
 	require('dotenv').config();
 }
 
-import { Client, ClientOptions, Intents, MessageEmbed } from 'discord.js'
+import { Client, ClientOptions, Intents, MessageEmbed, WebhookClient } from 'discord.js'
 import { createLogger, transports, format } from "winston";
 import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
@@ -75,7 +75,9 @@ import { processTasks } from './functions/mod'
 	const loggerBuffer = []
 	logger.on('data', async data => {
 		try {
-			if ((data.level == 'error' || data.level == 'warn') && process.env.errorLogChannel) {
+			if (String(data.message).includes('DiscordAPIError: Missing Access')) return
+			if ((data.level == 'error' || data.level == 'warn') && process.env.errorLogWebhookUrl) {
+				const loggerWebhookClient = new WebhookClient({ url: process.env.errorLogWebhookUrl })
 				if (loggerBuffer.includes(data.message)) return
 				const embed = new MessageEmbed
 				embed.setTitle(`Logger`)
@@ -86,12 +88,9 @@ import { processTasks } from './functions/mod'
 					embed.setColor('#ffbf00')
 				}
 				embed.addField(String(data.level).toUpperCase(), data.message)
-				const errorLogChannel = await client.channels.fetch(process.env.errorLogChannel)
-				if (!errorLogChannel.isText) return
 				loggerBuffer.push(data.message)
 				try {
-					// @ts-expect-error
-					errorLogChannel.send({ embeds: [embed] })
+					loggerWebhookClient.send({ username: client.user.username, avatarURL: client.user.avatarURL(), embeds: [embed] })
 					// eslint-disable-next-line no-empty
 				} catch {
 
