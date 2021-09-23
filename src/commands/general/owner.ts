@@ -9,9 +9,9 @@ export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send(process.env.ownerName ?? 'Appears to be unknown')
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	interaction.reply(process.env.ownerName ?? 'Appears to be unknown')
 }

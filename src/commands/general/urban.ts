@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { CommandInteraction, Message, ColorResolvable, MessageEmbed, User, Guild } from "discord.js"
+import { CommandInteraction, Message, ColorResolvable, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request, Dispatcher } from 'undici'
@@ -37,7 +37,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(true))
 
 const colours: Array<ColorResolvable> = ['#805D93', '#F49FBC', '#FFD3BA', '#9EBD6E', '#169873', '#540D6E', '#EE4266']
-async function returnDefineEmbed(wordToDefine: string, user: User, guild: Guild, type: string, transaction) {
+async function returnDefineEmbed(wordToDefine: string) {
 	let response: Dispatcher.ResponseData
 	const cachedValue = cache.get(wordToDefine)
 	if (!cachedValue) {
@@ -72,14 +72,14 @@ async function returnDefineEmbed(wordToDefine: string, user: User, guild: Guild,
 	example && embed.addField('Example', example)
 	return embed
 }
-export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.reply('This command can only be used with slash commands.')
 	// message.channel.send({ embeds: [await returnDefineEmbed(args[0])] })
 }
 
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const word = interaction.options.getString('word')
-	const embed = await returnDefineEmbed(word, interaction.user, interaction.guild, 'slash', transaction)
+	const embed = await returnDefineEmbed(word)
 	await interaction.editReply({ embeds: [embed] })
 }

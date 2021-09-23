@@ -3,17 +3,19 @@ import { Interaction, Message } from 'discord.js'
 import { RewriteFrames } from "@sentry/integrations"
 
 export default (() => {
-	Sentry.init({
-		dsn: process.env.sentryUrl,
-		tracesSampleRate: 1.0,
-		environment: process.env.NODE_ENV ?? 'development',
-		debug: process.env.NODE_ENV ? false : true,
-		integrations: [
-			new RewriteFrames({
-				root: global.__rootdir__,
-			}),
-		],
-	})
+	if (process.env.NODE_ENV === 'production') {
+		Sentry.init({
+			dsn: process.env.sentryUrl,
+			tracesSampleRate: 1.0,
+			environment: process.env.NODE_ENV ?? 'development',
+			debug: process.env.NODE_ENV ? false : true,
+			integrations: [
+				new RewriteFrames({
+					root: global.__rootdir__,
+				}),
+			],
+		})
+	}
 	return {
 		...Sentry,
 		/**

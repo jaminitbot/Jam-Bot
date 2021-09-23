@@ -21,7 +21,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 			await interaction.reply({ content: `This command hasn't been setup for slash commands yet, please use \`${prefix}${command.name}\` for the time being!`, ephemeral: true })
 			return
 		}
-		if (!command.allowInDm === true) {
+		if ((!interaction.channel || interaction.channel.type == 'DM') && !command.allowInDm === true) {
 			return interaction.reply('This command can only be used in a server!')
 		}
 		if (command.permissions) {
@@ -39,7 +39,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 				name: capitaliseSentence(command.name) + ' Command',
 			})
 			try {
-				await command.executeSlash(client, interaction, transaction)
+				await command.executeSlash(client, interaction)
 			} catch (error) {
 				Sentry.captureException(error)
 				// Error running command
@@ -68,7 +68,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 				name: capitaliseSentence(command.name) + ' Command',
 			})
 			try {
-				command.executeButton(client, interaction, transaction)
+				command.executeButton(client, interaction)
 			} catch (error) {
 				Sentry.captureException(error)
 				// Error running command
@@ -88,7 +88,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 				name: capitaliseSentence(command.name) + ' Command',
 			})
 			try {
-				command.executeSelectMenu(client, interaction, transaction)
+				command.executeSelectMenu(client, interaction)
 			} catch (error) {
 				// Error running command
 				client.logger.error('interactionHandler: Command button failed with error: ' + error)

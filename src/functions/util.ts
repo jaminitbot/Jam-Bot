@@ -73,23 +73,24 @@ export function returnInvalidPermissionMessage(message: Message): void {
  * @param text Text to get the user from
  * @returns GuildMember
  */
-export async function getUserFromString(guild: Guild, text: string): Promise<GuildMember> {
+export async function getUserFromString(guild: Guild, text: unknown): Promise<GuildMember> {
 	try {
 		if (!text) return null
-		if (text.startsWith('<@') && text.endsWith('>')) { // Mention
-			text = text.slice(2, -1);
-			if (text.startsWith('!')) {
-				text = text.slice(1);
+		let stringText = String(text)
+		if (stringText.startsWith('<@') && stringText.endsWith('>')) { // Mention
+			stringText = stringText.slice(2, -1);
+			if (stringText.startsWith('!')) {
+				stringText = stringText.slice(1);
 			}
-			if (text.startsWith('&')) { // Role
+			if (stringText.startsWith('&')) { // Role
 				return null
 			}
-			if (text.startsWith('<#')) { // Channel
+			if (stringText.startsWith('<#')) { // Channel
 				return null
 			}
-			return await guild.members.fetch(text)
+			return await guild.members.fetch(stringText)
 		} else if (is_number(text)) { // Plain ID
-			return await guild.members.fetch(text)
+			return await guild.members.fetch(stringText)
 		}
 	} catch {
 		// eslint-disable-next-line no-empty
@@ -103,21 +104,22 @@ export async function getUserFromString(guild: Guild, text: string): Promise<Gui
  * @param text Text to get the user from
  * @returns GuildMember
  */
-export async function getRoleFromString(guild: Guild, text: string): Promise<Role> {
+export async function getRoleFromString(guild: Guild, text: unknown): Promise<Role> {
 	try {
 		if (!text) return null
-		if (text.startsWith('<@') && text.endsWith('>')) { // Mention
-			text = text.slice(2, -1);
-			if (text.startsWith('<#')) { // Channel
+		let stringText = String(text)
+		if (stringText.startsWith('<@') && stringText.endsWith('>')) { // Mention
+			stringText = stringText.slice(2, -1);
+			if (stringText.startsWith('<#')) { // Channel
 				return null
 			}
-			if (text.startsWith('&')) { // Role
-				text = text.slice(1)
+			if (stringText.startsWith('&')) { // Role
+				stringText = stringText.slice(1)
 			}
 
-			return await guild.roles.fetch(text)
-		} else if (is_number(text)) { // Plain ID
-			return await guild.roles.fetch(text)
+			return await guild.roles.fetch(stringText)
+		} else if (is_number(stringText)) { // Plain ID
+			return await guild.roles.fetch(stringText)
 		}
 	} catch {
 		// eslint-disable-next-line no-empty
@@ -131,20 +133,21 @@ export async function getRoleFromString(guild: Guild, text: string): Promise<Rol
  * @param text Text to get channel from
  * @returns Channel
  */
-export async function getChannelFromString(guild: Guild, text: string): Promise<Channel> {
+export async function getChannelFromString(guild: Guild, text: unknown): Promise<Channel> {
 	try {
 		if (!text) return null
-		if (text.startsWith('<@')) { // User or role
+		let stringText = String(text)
+		if (stringText.startsWith('<@')) { // User or role
 			return null
 		}
-		if (text.startsWith('<#') && text.endsWith('>')) {
-			text = text.slice(2, -1);
-			return await guild.client.channels.fetch(text)
-		} else if (is_number(text)) {
-			return await guild.client.channels.fetch(text)
+		if (stringText.startsWith('<#') && stringText.endsWith('>')) {
+			stringText = stringText.slice(2, -1);
+			return await guild.client.channels.fetch(stringText)
+		} else if (is_number(stringText)) {
+			return await guild.client.channels.fetch(stringText)
 		} else {
 			return guild.channels.cache.find(
-				channel => channel.name.toLowerCase() === text
+				channel => channel.name.toLowerCase() === stringText
 			)
 		}
 	} catch {

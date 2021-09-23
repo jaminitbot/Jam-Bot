@@ -40,7 +40,7 @@ async function returnSetKeyEmbed(guildId, key, value) {
 	embed.setTimestamp(Date.now())
 	return embed
 }
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	let guild
 	let key
 	let value
@@ -59,7 +59,7 @@ export async function execute(client: BotClient, message: Message, args, transac
 	embed.setFooter(`Intiated by ${message.author.tag}`, message.author.displayAvatarURL())
 	message.channel.send({ embeds: [embed] })
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const guildId = interaction.options.getString('guildid') ?? interaction.guild.id
 	const key = interaction.options.getString('key')
 	const value = interaction.options.getString('value')

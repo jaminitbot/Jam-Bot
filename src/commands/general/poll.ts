@@ -22,7 +22,7 @@ function createPollEmbed(pollContent: string) {
 	embed.setColor('#167C6A')
 	return embed
 }
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	if (!args[0])
 		return message.reply(
 			'you need to specify what to make the poll about!'
@@ -41,7 +41,7 @@ export async function execute(client: BotClient, message: Message, args, transac
 	}
 
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const pollContent = interaction.options.getString('question')
 	const embed = createPollEmbed(pollContent)
 	const sent = await interaction.reply({ embeds: [embed], fetchReply: true })

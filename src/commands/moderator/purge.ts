@@ -38,13 +38,13 @@ async function bulkDeleteMessages(channel: TextBasedChannels, NumOfMessagesToDel
 	})
 	return `Successfully deleted ${deleteCount} messages.`
 }
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	if (!args[0]) return message.reply('You need to specify how many messages to purge!')
 	if (!isNumber(args[0])) return message.reply('you need to specify a number!')
 	await message.delete()
 	await message.channel.send(await bulkDeleteMessages(message.channel, args[0]))
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const numOfMessages = interaction.options.getInteger('number')
 	await interaction.reply({ content: await bulkDeleteMessages(interaction.channel, numOfMessages), ephemeral: true })
 }

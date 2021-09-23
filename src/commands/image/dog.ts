@@ -33,7 +33,7 @@ async function getDogPhoto(breed) {
 	if (response.statusCode != 200) return 'The API seems to be returning errors, please try again later'
 	return (await response.body.json()).message || "Unable to get a doggy, the api's probably down"
 }
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	let data
 	if (args[0]) {
 		if (args[1]) {
@@ -49,7 +49,7 @@ export async function execute(client: BotClient, message: Message, args, transac
 	}
 	message.channel.send(data)
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const breed = interaction.options.getString('breed') ?? null
 	interaction.editReply(await getDogPhoto(breed))

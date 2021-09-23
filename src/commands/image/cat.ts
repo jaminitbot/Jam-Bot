@@ -17,10 +17,10 @@ async function returnCatImage() {
 	if (response.statusCode != 200) return 'The API seems to be returning errors, please try again later'
 	return (await response.body.json()).file || "Unable to get a kitty cat, the api's probably down"
 }
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send(await returnCatImage())
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	interaction.editReply(await returnCatImage())
 }

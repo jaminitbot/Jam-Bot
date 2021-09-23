@@ -1,4 +1,4 @@
-import { CommandInteraction, Guild, Message, User } from "discord.js"
+import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import isImageUrl = require('is-image-url')
 import isNumber = require('is-number')
@@ -25,7 +25,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('position')
 			.setDescription('The specific position to get')
 			.setRequired(false))
-export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string, logger: Logger, user: User, guild: Guild, type: string, transaction) {
+export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string, logger: Logger) {
 	if (position && position < 1) {
 		return 'You cannot get an image for a position less than one!'
 	}
@@ -63,7 +63,7 @@ export async function searchForImage(search: string, position: number, nsfw: boo
 		return validImageUrls[0] || `No ${imageType} found for your search.`
 	}
 }
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	if (!args[0]) return message.reply('you need to specify what to search for!')
 	let splitBy = 0
 	let position
@@ -81,15 +81,15 @@ export async function execute(client: BotClient, message: Message, args, transac
 	const search = args.splice(splitBy).join(' ')
 	// @ts-expect-error
 	const isNsfw = message.channel.nsfw
-	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger, message.author, message.guild, 'prefix', transaction)
+	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger)
 	await sentMessage.edit(imageUrl)
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const search = interaction.options.getString('search')
 	const position = interaction.options.getInteger('position')
 	// @ts-expect-error
 	const isNsfw = interaction.channel.nsfw
-	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger, interaction.user, interaction.guild, 'slash', transaction)
+	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger)
 	await interaction.editReply({ content: imageUrl })
 }

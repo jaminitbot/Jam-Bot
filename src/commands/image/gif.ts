@@ -18,21 +18,21 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('position')
 			.setDescription('The specific gif to get')
 			.setRequired(false))
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	if (!args[0]) return message.reply('you need to specify what to search for!')
 	const sentMessage = await message.channel.send(`:mag_right: Finding gif...`)
 	const search = args.join(' ') + ' gif'
 	// @ts-expect-error
 	const isNsfw = message.channel.nsfw
-	const imageUrl = await searchForImage(search, 0, false, 'gif', client.logger, message.author, message.guild, 'prefix', transaction)
+	const imageUrl = await searchForImage(search, 0, isNsfw, 'gif', client.logger)
 	await sentMessage.edit(imageUrl)
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const search = interaction.options.getString('search') + ' gif'
 	const position = interaction.options.getInteger('position') || null
 	// @ts-expect-error
 	const isNsfw = interaction.channel.nsfw
-	const imageUrl = await searchForImage(search, position, isNsfw, 'gif', client.logger, interaction.user, interaction.guild, 'slash', transaction)
+	const imageUrl = await searchForImage(search, position, isNsfw, 'gif', client.logger)
 	await interaction.editReply(imageUrl)
 }

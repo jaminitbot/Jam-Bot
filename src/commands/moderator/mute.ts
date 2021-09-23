@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 // @ts-nocheck
-import { ButtonInteraction, CommandInteraction, Message } from "discord.js"
+import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { mute, moddable, parseDuration } from "../../functions/mod"
@@ -30,11 +30,11 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('reason')
 			.setDescription('Reason to mute the user for')
 			.setRequired(false))
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send('Please use the slash command to mute people!')
 }
 
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	if (!interaction.guild.me.permissions.has('MANAGE_ROLES')) return interaction.reply({ content: 'I don\'t have permission to manage roles! Ask an admin to check my permissions!', ephemeral: true })
 	const targetUser = interaction.options.getUser('user')
 	const isModdable = await moddable(interaction.guild, targetUser.id, interaction.user.id)

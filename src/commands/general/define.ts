@@ -5,7 +5,6 @@ import { request, Dispatcher } from 'undici'
 import { capitaliseSentence } from '../../functions/util'
 import NodeCache from "node-cache"
 import Sentry from '../../functions/sentry'
-import { Transaction } from "@sentry/types"
 const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
 interface PhoneticsObject {
 	text: string
@@ -46,7 +45,7 @@ interface InteractionData {
 	definitionStart?: number
 	definitionType?: string
 }
-async function returnDefineEmbed(wordToDefine: string, interactionData: InteractionData, userId: string, transaction: Transaction) {
+async function returnDefineEmbed(wordToDefine: string, interactionData: InteractionData, userId: string) {
 	let response: Dispatcher.ResponseData
 	const cachedValue = cache.get(wordToDefine)
 	if (!cachedValue) {
@@ -140,24 +139,24 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 	return [[embed], [buttonsRow, selectRow]]
 }
 
-export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send('This command can only be used with slash commands.')
 }
 
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const wordToDefine = interaction.options.getString('word')
-	const embed = await returnDefineEmbed(wordToDefine.toLowerCase(), {}, interaction.user.id, transaction)
+	const embed = await returnDefineEmbed(wordToDefine.toLowerCase(), {}, interaction.user.id)
 	// @ts-expect-error
 	await interaction.editReply({ embeds: embed[0], components: embed[1] })
 }
 
-export async function executeButton(client: BotClient, interaction: ButtonInteraction, transaction) {
+export async function executeButton(client: BotClient, interaction: ButtonInteraction) {
 	const interactionNameObject = interaction.customId.split('-')
 	const interactionData = { 'definitionStart': parseInt(interactionNameObject[2]), 'definitionType': interactionNameObject[3] }
 	const eph = interactionNameObject[4] == interaction.user.id ? false : true
 	const wordToDefine = interactionNameObject.splice(5).join(' ')
-	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id, transaction)
+	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id)
 	if (eph) {
 		// @ts-expect-error
 		await interaction.reply({ embeds: defineEmbedData[0], components: defineEmbedData[1], ephemeral: true })
@@ -167,12 +166,12 @@ export async function executeButton(client: BotClient, interaction: ButtonIntera
 	}
 }
 
-export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction, transaction) {
+export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction) {
 	const interactionNameObject = interaction.customId.split('-')
 	const interactionData = { 'definitionType': interaction.values[0] }
 	const eph = interactionNameObject[2] == interaction.user.id ? false : true
 	const wordToDefine = interactionNameObject.splice(3).join(' ')
-	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id, transaction)
+	const defineEmbedData = await returnDefineEmbed(wordToDefine, interactionData, interaction.user.id)
 	if (eph) {
 		// @ts-expect-error
 		await interaction.reply({ embeds: defineEmbedData[0], components: defineEmbedData[1], ephemeral: true })

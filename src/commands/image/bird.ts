@@ -19,10 +19,10 @@ async function returnBirdUrl() {
 	return (await response.body.json()).link || "Unable to get a birb, the api's probably down"
 
 }
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send(await returnBirdUrl())
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	interaction.editReply(await returnBirdUrl())
 }

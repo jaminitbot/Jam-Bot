@@ -49,7 +49,7 @@ export async function register(client: BotClient, message: Message) {
 				name: capitaliseSentence(command.name) + ' Command',
 			})
 			try {
-				await command.execute(client, message, args, transaction)
+				await command.execute(client, message, args)
 			} catch (error) {
 				// Error running command
 				Sentry.captureException(error)

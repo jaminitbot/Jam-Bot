@@ -17,10 +17,10 @@ async function getKoalaImage() {
 	if (response.statusCode != 200) return 'The API seems to be returning errors, please try again later'
 	return (await response.body.json()).link || "Unable to get a koala, the api's probably down"
 }
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send(await getKoalaImage())
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	interaction.editReply(await getKoalaImage())
 }

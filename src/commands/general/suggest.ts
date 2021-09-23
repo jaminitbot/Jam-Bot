@@ -1,9 +1,8 @@
 // TODO: Improve suggestions to allow for editing and implementation
-import { CommandInteraction, Guild, Message, MessageEmbed, TextChannel, User } from "discord.js"
+import { CommandInteraction, Message, MessageEmbed, TextChannel, User } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { getNestedSetting, setNestedSetting } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import Sentry from '../../functions/sentry'
 
 import delay from 'delay'
 
@@ -17,7 +16,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('suggestion')
 			.setDescription('The thing to suggest')
 			.setRequired(true))
-async function sendSuggestion(client: BotClient, suggestion: string, guildId: string, attachment: string, author: User, guild: Guild, type: string, transaction) {
+async function sendSuggestion(client: BotClient, suggestion: string, guildId: string, attachment: string, author: User) {
 	const suggestionChannelId = await getNestedSetting(guildId, 'suggestions', 'channel')
 	if (!suggestionChannelId) return 1 // Suggestions aren't setup yet
 	if (!(await getNestedSetting(guildId, 'suggestions', 'enabled'))) return 3 // Suggestions are disabled
@@ -49,14 +48,10 @@ async function sendSuggestion(client: BotClient, suggestion: string, guildId: st
 }
 export async function execute(client: BotClient, message: Message, args) {
 	if (!args[0]) return message.reply('You need to specify what to suggest!')
-	const transaction = Sentry.startTransaction({
-		op: "suggestCommand",
-		name: "Suggestion Command",
-	})
 	message.delete()
 	const suggestionDescription = args.join(' ')
 	const attachment = message.attachments.first() ? message.attachments.first().url : null
-	const result = await sendSuggestion(client, suggestionDescription, message.guild.id, attachment, message.author, message.guild, 'prefix', transaction)
+	const result = await sendSuggestion(client, suggestionDescription, message.guild.id, attachment, message.author)
 	if (result == 0) {
 		await message.channel.send('Suggestion logged!')
 	} else if (result == 1) {
@@ -67,9 +62,9 @@ export async function execute(client: BotClient, message: Message, args) {
 		await message.channel.send('Whoops, suggestions are disabled in this server!')
 	}
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const suggestionDescription = interaction.options.getString('suggestion')
-	const result = await sendSuggestion(client, suggestionDescription, interaction.guild.id, null, interaction.user, interaction.guild, 'slash', transaction)
+	const result = await sendSuggestion(client, suggestionDescription, interaction.guild.id, null, interaction.user)
 	if (result == 0) {
 		await interaction.reply({ content: 'Suggestion logged!', ephemeral: true })
 	} else if (result == 1) {

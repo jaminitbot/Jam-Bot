@@ -27,7 +27,7 @@ async function sayInChannel(thingToSay, channel) {
 		return 'Unknown error sending message.'
 	}
 }
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	// @ts-expect-error
 	const channel: TextChannel = await getChannelFromString(message.guild, args[0])
 	if (!channel) return message.reply('you need to specify a valid channel')
@@ -36,7 +36,7 @@ export async function execute(client: BotClient, message: Message, args, transac
 	const thingToSay = args.splice(1).join(' ')
 	sayInChannel(thingToSay, channel)
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const thingToSay = interaction.options.getString('message')
 	const channel = await getChannelFromString(interaction.guild, interaction.options.getString('channel')) ?? interaction.channel
 	interaction.reply({ content: await sayInChannel(thingToSay, channel), ephemeral: true })

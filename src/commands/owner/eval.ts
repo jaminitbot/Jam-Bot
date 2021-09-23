@@ -57,14 +57,14 @@ async function runEvalCommand(commandToRun, logger, message) {
 	}
 	return embed
 }
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	if (!args[0]) return message.channel.send('Do you just expect me to guess at what you want to run?')
 	const command = args.splice(0).join(' ')
 	const sentMessage = await message.channel.send({ content: 'Executing command...' })
 	const embed = await runEvalCommand(command, client.logger, message)
 	sentMessage.edit({ content: null, embeds: [embed] })
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const command = interaction.options.getString('command')
 	const embed = await runEvalCommand(command, client.logger, interaction)

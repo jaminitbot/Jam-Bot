@@ -10,11 +10,11 @@ export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	const timeDate = dayjs().format("HH:mm:ss [-] DD/MM/YYYY")
 	message.channel.send('The bot has been up since: ' + timeDate)
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const timeDate = dayjs().format("HH:mm:ss [-] DD/MM/YYYY")
 	interaction.reply('The bot has been up since: ' + timeDate)
 }

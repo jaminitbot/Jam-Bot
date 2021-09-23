@@ -1,4 +1,4 @@
-import { CommandInteraction, Guild, Message, MessageEmbed, User } from "discord.js"
+import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request } from 'undici'
@@ -34,7 +34,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('changeid')
 			.setDescription('The specific change you\'d like to get')
 			.setRequired(false))
-async function returnChangelogEmbed(changeNumber = null, logger: Logger, user: User, guild: Guild, type: string, transaction) {
+async function returnChangelogEmbed(changeNumber = null, logger: Logger) {
 	const embed = new MessageEmbed()
 	embed.setTitle('Changelog')
 	if (!process.env.changelogLink) {
@@ -73,12 +73,12 @@ async function returnChangelogEmbed(changeNumber = null, logger: Logger, user: U
 	embed.setDescription(`More comprehensive changelogs can be found [here](https://jambot.jaminit.co.uk/#/changelog)`)
 	return [embed, false]
 }
-export async function execute(client: BotClient, message: Message, args: Array<unknown>, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send('This command can only be used with slash commands.')
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const changelogEntryNumber = interaction.options.getInteger('changeid')
-	const embedObject = await returnChangelogEmbed(changelogEntryNumber, client.logger, interaction.user, interaction.guild, 'slash', transaction)
+	const embedObject = await returnChangelogEmbed(changelogEntryNumber, client.logger)
 	// @ts-expect-error
 	await interaction.reply({ embeds: [embedObject[0]], ephemeral: embedObject[1] })
 }

@@ -10,12 +10,12 @@ export const permissions = ['OWNER']
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-export async function execute(client: BotClient, message: Message, args, transaction) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	await message.channel.send('Shutting Down...')
 	// @ts-expect-error
 	process.emit('SIGINT')
 }
-export async function executeSlash(client: BotClient, interaction: CommandInteraction, transaction) {
+export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.reply('Shutting down...')
 	// @ts-expect-error
 	process.emit('SIGINT')
