@@ -146,5 +146,10 @@
         "title": "Urban Dictionary Command",
         "date": 1631817660000,
         "description": "You can now search urban dictionary, just use /urban!"
+    },
+    {
+        "title": "Threads!",
+        "date": 1632430782562,
+        "description": "The bot can now respond in threads!"
     }
 ]
