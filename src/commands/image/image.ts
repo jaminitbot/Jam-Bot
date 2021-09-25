@@ -6,6 +6,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import { request } from 'undici'
 import { Logger } from "winston"
 import Sentry from '../../functions/sentry'
+import i18next from "i18next"
 
 const apiHost = 'https://api.bing.microsoft.com/v7.0/images/search'
 const subscriptionKey = process.env.bingImageSearchKey
@@ -26,9 +27,9 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The specific position to get')
 			.setRequired(false))
 export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string, logger: Logger) {
-	if (!process.env.bingImageSearchKey) return 'Image search hasn\'t been setup on this instance of the bot :('
+	if (!process.env.bingImageSearchKey) return i18next.t('NO_API_KEY')
 	if (position && position < 1) {
-		return 'You cannot get an image for a position less than one!'
+		return i18next.t('image.POSITION_TOO_LOW')
 	}
 	let safeSearchType = 'Off'
 	if (!nsfw) { // Non-nsfw channels can't bypass safe search
@@ -44,7 +45,7 @@ export async function searchForImage(search: string, position: number, nsfw: boo
 	if (response.statusCode != 200) {
 		logger.warn('image: Bing image search is returning non-standard status codes')
 		Sentry.captureMessage('Bing images is returning non-standard status codes')
-		return 'The API is returning errors, please try again later.'
+		return i18next.t('general:API_ERROR')
 	}
 	const responseData = (await response.body.json()).value
 	for (const result of responseData) {
@@ -59,26 +60,20 @@ export async function searchForImage(search: string, position: number, nsfw: boo
 	}
 	if (position) {
 		// Get specific image at position
-		return validImageUrls[position - 1] || `There isn't an ${imageType} for position: ${position}`
+		return validImageUrls[position - 1] || i18next.t('image.NO_IMAGE_FOR_POSITION', { position: position })
 	} else {
-		return validImageUrls[0] || `No ${imageType} found for your search.`
+		return validImageUrls[0] || i18next.t('image.NO_IMAGE_FOUND')
 	}
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	if (!args[0]) return message.reply('you need to specify what to search for!')
+	if (!args[0]) return message.reply(i18next.t('image.NO_ARGUMENTS_SPECIFIED'))
 	let splitBy = 0
 	let position
 	if (isNumber(args[0])) {
-		// User wants to get a specific result
-		if (args[0] < 1) {
-			return message.reply(
-				"you can't get a position less than one silly!"
-			)
-		}
 		splitBy = 1 // Make sure we don't include the position in the search
 		position = args[0]
 	}
-	const sentMessage = await message.channel.send(`:mag_right: Finding image...`)
+	const sentMessage = await message.channel.send(i18next.t('image.SEARCH_LOADING'))
 	const search = args.splice(splitBy).join(' ')
 	// @ts-expect-error
 	const isNsfw = message.channel.nsfw

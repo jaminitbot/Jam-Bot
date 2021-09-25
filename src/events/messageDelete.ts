@@ -4,6 +4,7 @@ import { inputSnipe } from '../functions/snipe'
 import { storeMessageDelete } from '../cron/stats'
 import { postToModlog } from "../functions/mod"
 import { isBotOwner } from "../functions/util"
+import i18next from "i18next"
 export const name = "messageDelete"
 // https://coolors.co/aa8f66-ff0000-ffeedb-61c9a8-121619
 export async function register(client: BotClient, message: Message): Promise<void> {
@@ -16,10 +17,10 @@ export async function register(client: BotClient, message: Message): Promise<voi
 	//#region Delete log code
 	const embed = new MessageEmbed
 	embed.setAuthor(message.author.tag, message.author.avatarURL())
-	embed.addField(`Message deleted in #${message.channel.name}`, message.content || '[No Content]', false)
+	embed.addField(i18next.t('events:messageLogs.EMBED_TITLE', { channel: message.channel.name, type: 'deleted' }), message.content || i18next.t('events:messageLogs.NO_CONTENT'), false)
 	embed.setColor('#FF0000')
 	embed.setTimestamp(Date.now())
-	embed.setFooter(`User ID: ${message.author.id} | Channel ID: ${message.channel.id}`)
+	embed.setFooter(i18next.t('events:messageLogs.EMBED_FOOTER', { userId: message.author.id, channelId: message.channel.id }))
 	postToModlog(client, message.guild.id, { embeds: [embed] }, 'messages')
 	//#endregion
 }

@@ -2,6 +2,7 @@ import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { setKey } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 const isNumber = require('is-number')
 
 export const name = 'setkey'
@@ -28,15 +29,15 @@ async function returnSetKeyEmbed(guildId, key, value) {
 		await setKey(guildId, key, value)
 	} catch (err) {
 		const embed = new MessageEmbed()
-		embed.setDescription('Something went wrong :(')
+		embed.setDescription(i18next.t('general:UNKNOWN_ERROR'))
 		return embed
 	}
 	const embed = new MessageEmbed
-	embed.setTitle('SetKey')
-	embed.setDescription('Successfully set key')
-	embed.addField('Guild', guildId, true)
-	embed.addField('Key', key, true)
-	embed.addField('Value', value, true)
+	embed.setTitle(i18next.t('setkey.SET_KEY'))
+	embed.setDescription(i18next.t('setkey.SUCCESSFULLY_SET_KEY'))
+	embed.addField(i18next.t('setkey.GUILD_ID'), guildId, true)
+	embed.addField(i18next.t('setkey.KEY'), key, true)
+	embed.addField(i18next.t('setkey.VALU_SET'), value, true)
 	embed.setTimestamp(Date.now())
 	return embed
 }
@@ -49,14 +50,14 @@ export async function execute(client: BotClient, message: Message, args: Array<u
 		key = args[0]
 		value = args[1]
 	} else if (isNumber(args[0]) && !args[2]) { // Guild ID inputted but no value to set
-		return message.reply('You need to input a value to set!')
+		return message.reply(i18next.t('setkey.NO_VALUE_SPECIFIED'))
 	} else { // Using guild id
 		guild = args[0]
 		key = args[1]
 		value = args[2]
 	}
 	const embed = await returnSetKeyEmbed(guild, key, value)
-	embed.setFooter(`Intiated by ${message.author.tag}`, message.author.displayAvatarURL())
+	embed.setFooter(i18next.t('general:INITIATED_BY', { tag: message.author.tag }), message.author.displayAvatarURL())
 	message.channel.send({ embeds: [embed] })
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {

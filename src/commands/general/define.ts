@@ -5,6 +5,7 @@ import { request, Dispatcher } from 'undici'
 import { capitaliseSentence } from '../../functions/util'
 import NodeCache from "node-cache"
 import Sentry from '../../functions/sentry'
+import i18next from "i18next"
 const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
 interface PhoneticsObject {
 	text: string
@@ -55,7 +56,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 		} else if (response.statusCode != 200) {
 			Sentry.captureMessage('Dictionary API returned non-standard status code')
 			const embed = new MessageEmbed
-			embed.setDescription('The API returned a non-standard response, please try again later.')
+			embed.setDescription(i18next.t('general:API_ERROR'))
 			embed.setColor(colours[colours.length - 1])
 			return [[embed], null]
 		} else {
@@ -64,7 +65,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 	}
 	if (cache.get(wordToDefine) == 'NOT_FOUND') {
 		const embed = new MessageEmbed
-		embed.setDescription('No definitions found for: ' + wordToDefine)
+		embed.setDescription(i18next.t('define.NO_DEFINITIONS', { word: wordToDefine }))
 		embed.setColor(colours[colours.length - 1])
 		return [[embed], null]
 	}
@@ -93,22 +94,22 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 	const definitionsArray: Array<any> = meaningsJson[wordType]
 	while (definitionNumberStart <= definitionsArray.length) {
 		const definition = meaningsJson[wordType][definitionNumberStart - 1]
-		embed.addField(`Definition #${definitionNumberStart}`, `${capitaliseSentence(definition.definition) ?? '*Not Available*'}`)
+		embed.addField(i18next.t('define.DEFINITION_TITLE', { definitionNumber: definitionNumberStart }), `${capitaliseSentence(definition.definition) ?? '*Not Available*'}`)
 		definitionNumberStart++
 		if (embed.fields.length == 5) {
 			break
 		}
 	}
-	const pageNumber = Math.round(definitionNumberStart / 5)
-	const pages = Math.ceil(definitionsArray.length / 5)
-	embed.setColor(colours[pageNumber])
-	embed.setFooter(`Page: ${pageNumber}/${pages}`)
+	const currentPage = Math.round(definitionNumberStart / 5)
+	const totalPages = Math.ceil(definitionsArray.length / 5)
+	embed.setColor(colours[currentPage])
+	embed.setFooter(i18next.t('define.PAGE_NUMBER', { currentPage: currentPage, totalPages: totalPages }))
 	const buttonsRow = new MessageActionRow
 	if (1 < interactionData['definitionStart'] ?? 1) {
 		buttonsRow.addComponents(
 			new MessageButton()
 				.setCustomId('define-button-' + (interactionData['definitionStart'] - 5) + '-' + wordType + '-' + userId + '-' + wordToDefineHiphen)
-				.setLabel('Previous')
+				.setLabel(i18next.t('define.PREVIOUS_PAGE'))
 				.setStyle('SECONDARY')
 		)
 	} else {
@@ -116,7 +117,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 			new MessageButton()
 				.setCustomId('define-button-disabled')
 				.setDisabled(true)
-				.setLabel('Previous')
+				.setLabel(i18next.t('define.PREVIOUS_PAGE'))
 				.setStyle('SECONDARY')
 		)
 	}
@@ -124,7 +125,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 		buttonsRow.addComponents(
 			new MessageButton()
 				.setCustomId('define-button-' + definitionNumberStart + '-' + wordType + '-' + userId + '-' + wordToDefineHiphen)
-				.setLabel('Next')
+				.setLabel(i18next.t('define.NEXT_PAGE'))
 				.setStyle('PRIMARY')
 		)
 	} else {
@@ -132,7 +133,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 			new MessageButton()
 				.setCustomId('define-button-disabled2')
 				.setDisabled(true)
-				.setLabel('Next')
+				.setLabel(i18next.t('define.NEXT_PAGE'))
 				.setStyle('PRIMARY')
 		)
 	}
@@ -140,7 +141,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 }
 
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	message.channel.send('This command can only be used with slash commands.')
+	message.channel.send(i18next.t('ONLY_SLASH_COMMAND', { command: name }))
 }
 
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {

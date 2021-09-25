@@ -2,6 +2,7 @@ import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { moddable, unban } from '../../functions/mod'
+import i18next from "i18next"
 
 export const name = 'unban'
 export const description = 'Unbans a user from the server'
@@ -29,7 +30,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 		case 1:
 			break
 		case 2:
-			return interaction.reply({ content: 'You can\'t unban yourself silly!', ephemeral: true })
+			return interaction.reply({ content: i18next.t('mod.SAME_USER', { action: 'unban' }), ephemeral: true })
 		case 3:
 			break
 		case 4:
@@ -39,20 +40,20 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 		await interaction.guild.bans.fetch(targetUser.id)
 	} catch (err) {
 		if (String(err).includes('Unknown Ban')) {
-			interaction.reply({ content: `${targetUser.tag} is not banned!`, ephemeral: true })
+			interaction.reply({ content: i18next.t('unban.TARGET_USER_NOT_BANNED', { tag: targetUser.tag }), ephemeral: true })
 			return
 		} else {
-			interaction.reply('There was an unknown error unbanning the user')
+			interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
 			client.logger.warn('Unknown error when fetching bans: ' + err)
 			return
 		}
 	}
 	const reason = interaction.options.getString('reason')
-	const formattedReason = `${interaction.user.tag}: ${reason ?? 'No reason specified.'}`
+	const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')}`
 	const banResult = await unban(interaction.guild, targetUser.id, interaction.user.id, formattedReason)
 	if (banResult == 0) {
-		interaction.reply(`${targetUser.tag} has been unbanned!`)
+		interaction.reply(i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'unbanned', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
 	} else {
-		interaction.reply('There was an unknown error unbanning the user')
+		interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
 	}
 }

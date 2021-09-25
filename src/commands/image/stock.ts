@@ -4,6 +4,7 @@ import { request } from 'undici'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { getLogger } from "../../functions/util"
 import Sentry from '../../functions/sentry'
+import i18next from "i18next"
 
 const logger = getLogger()
 export const name = 'stock'
@@ -60,19 +61,19 @@ export async function getStockImage(search: string, position: number, user: User
 	if (response.statusCode != 200) {
 		logger.warn('stock: Pexels returned non-standard status code')
 		Sentry.captureMessage('Pexels is returning non-standard status codes')
-		return 'The API seems to be returning errors, please try again later'
+		return i18next.t('general:API_ERROR')
 	}
 	const json: PexelsResponse = await response.body.json()
 	const photoPosition = position ?? 1
 	if (1 > position || position > json.photos.length) {
-		return `There isn't a stock photo for position: ${position}`
+		return i18next.t('image.NO_IMAGE_FOR_POSITION', { position: position })
 	}
 	const image = json.photos[photoPosition - 1].src.medium // eslint-disable-line no-undef
-	return image || 'Unable to get a stock photo, the api\'s probably down'
+	return image || i18next.t('general:API_ERROR')
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	if (!args[0]) return message.reply('You need to specify what to search for!')
-	const sent = await message.channel.send(':mag_right: Finding image...')
+	if (!args[0]) return message.reply(i18next.t('image.NO_ARGUMENTS_SPECIFIED'))
+	const sent = await message.channel.send(i18next.t('image.SEARCH_LOADING'))
 	const search = args.join(' ')
 	await sent.edit(await getStockImage(search, 1, message.author, message.guild, 'prefix'))
 }

@@ -1,0 +1,189 @@
+{
+	"debug": {
+		"DEBUG_INFORMATION": "Debug Information",
+		"ROUNDTRIP": "Roundtrip",
+		"API_LATENCY": "API Latency",
+		"UPTIME": "Bot Uptime",
+		"GUILD_ID": "Server ID"
+	},
+	"settings": {
+		"CURRENT_PREFIX": "The current prefix is: {{prefix}}",
+		"PREFIX_TOO_LONG": "You can't have a prefix longer than {{length}} characters",
+		"SET_PREFIX_SUCCESS": "Successfully set prefix to: {{prefix}}",
+		"CURRENT_SUGGESTIONS_CHANNEL": "The current suggestion channel is: {{channel}}",
+		"SET_SUGGESTIONS_CHANNEL_SUCCESS": "Successfully set the suggestions channel to: {{channel}}",
+		"SUGGESTIONS_ENABLED_DISABLED_CURRENT": "Suggestions are currently turned {{toggle}}",
+		"SET_SUGGESTIONS_ENABLED_DISABLED_SUCCESS": "Successfully turned suggestions: {{toggle}}",
+		"CURRENT_MODLOG_CHANNEL": "{{modLogType, capitalise}} log: {{channel}}",
+		"MODLOG_CHANNEL_INVALID": "{{modLogType, capitalise}} log channel was not a valid text channel, skipping",
+		"SET_MODLOG_CHANNEL_SUCCESS": "{{modLogType, capitalise}} channel changed to {{channel}}",
+		"CURRENT_MODLOG_EVENTS_ENABLED_DISABLED": "Logging of {{event}} events: {{toggle}}",
+		"SET_MODLOG_EVENTS_ENABLED_DISABLED_SUCCESS": "Set logging of {{event}} events: {{toggle}}"
+	},
+	"changelog": {
+		"CHANGELOG": "Changelog",
+		"ERROR_DOWNLOADING": "There was an unknown error downloading the changelog, please try again later.",
+		"CHANGE_TITLE": "Change #{{id}}: {{title}}",
+		"CHANGE_DESCRIPTION": "Changed: {{date}}\n{{description}}",
+		"NO_CHANGE_FOUND_POSITION": "There wasn't a entry for position: {{position}}",
+		"MORE_DETAILED_CHANGELOG": "More detailed changelogs can be found [here]({{url}})"
+	},
+	"define": {
+		"NO_DEFINITIONS": "There was no definitions for {{word}}",
+		"DEFINITION_TITLE": "Definition #{{definitionNumber}}",
+		"PAGE_NUMBER": "Page: {{currentPage}}/{{totalPages}}",
+		"NEXT_PAGE": "Next Page",
+		"PREVIOUS_PAGE": "Previous Page"
+	},
+	"help": {
+		"HELP_TITLE": "Help: {{commandName}}",
+		"NO_DESCRIPTION": "None",
+		"DESCRIPTION": "Description",
+		"USAGE": "Usage",
+		"ALIASES": "Aliases",
+		"PERMISSIONS_REQUIRED": "Permissions needed",
+		"COMMAND_UNKNOWN": "The command requested doesn't exist",
+		"VIEW_COMMAND_DOCS": "You can view a full list of commands [here]({{url}})"
+	},
+	"owner": {
+		"NOT_FOUND": "Appears to be unknown"
+	},
+	"ping": {
+		"PING_FOOTER": "Roundtrip and API latency"
+	},
+	"poll": {
+		"NO_ARGUMENTS_SPECIFIED": "You need to specify what to make the poll about",
+		"POLL_FOOTER": "A poll by {{tag}}",
+		"REACTION_ERROR": "I was unable to react to the message, please ask an admin to check my permissions"
+	},
+	"shorten": {
+		"NO_ARGUMENTS_SPECIFIED": "You need to specify a URL to shorten",
+		"INVALID_URL": "That isn't a valid URL! Did you miss out https?"
+	},
+	"snipe": {
+		"SNIPE_TITLE": "Messages edited/deleted in the last {{snipeLifetime}} seconds",
+		"SNIPE_TITLE_SPECIFIC": "Messages {{snipeType}} in the last {{snipeLifetime}} seconds",
+		"EMBED_LIMIT_REACHED_BREIF": "Too many messages have been edited/deleted",
+		"EMBED_LIMIT_REACHED_DESCRIPTION": "Only showing the latest 25 edit/deletes",
+		"ENTRY_TITLE": "Message {{snipeType}} by {{tag}}",
+		"NO_MESSAGES": "No {{snipeType}} messages in the last {{snipeLifetime}} seconds",
+		"INVALID_SNIPE_TYPE": "Snipe type must be either `edits` or `deletes`"
+	},
+	"suggest": {
+		"SUGGESTION_TITLE": "Suggestion #{{suggestionId}}",
+		"DESCRIPTION": "Description",
+		"SUGGESTION_FOOTER": "Suggestion by {{tag}}",
+		"NO_ARGUMENTS_SPECFIED": "You need to specify what to suggest",
+		"SUGGESTION_SUCCESSFUL": "Your suggestion has been logged",
+		"NO_SUGGESTION_CHANNEL": "Suggestions haven't been setup on this server",
+		"ERROR_FINDING_CHANNEL": "There was an error finding the suggestions channel",
+		"SUGGESTIONS_DISABLED": "Suggestions have been disabled on this server"
+	},
+	"support": {
+		"SUPPORT_TITLE": "Support Information",
+		"SUPPORT_DESCRIPTION": "Use the links below to view the documentation or join our support server",
+		"COMMAND_DOCS": "Documentation",
+		"SUPPORT_SERVER": "Support Server"
+	},
+	"uptime": {
+		"UPTIME_MESSAGE": "Jam-Bot has been online since {{date}}"
+	},
+	"urban": {
+		"URBAN_TITLE": "Urban Dictionary: {{word, capitalise}}",
+		"DEFINITION": "Definition",
+		"EXAMPLE": "Example"
+	},
+	"image": {
+		"NO_API_KEY": "Image search hasn't been setup on this instance of the bot",
+		"POSITION_TOO_LOW": "You cannot get a position less than one",
+		"NO_IMAGE_FOR_POSITION": "There isn't an image for position: {{position}}",
+		"NO_IMAGE_FOUND": "There wasn't an image for that search",
+		"NO_ARGUMENTS_SPECIFIED": "You need to specify what to search for",
+		"SEARCH_LOADING": "Finding image..."
+	},
+	"addemoji": {
+		"NO_ARGUMENTS_SPECIFIED": "You need to specify a name for your emoji",
+		"NO_ATTACHMENT": "You need to attach the emoji to your message",
+		"AUDIT_REASON": "Uploaded by {{tag}}",
+		"CREATION_SUCCESSFUL": "The emoji \"{{emojiName}}\" was sucessfully created",
+		"UNKNOWN_ERROR": "There was an unknown error uploading your emoji, check the file size"
+	},
+	"mod": {
+		"INVALID_USER": "The user you provided was invalid",
+		"SAME_USER": "You can't {{action}} yourself",
+		"BOT_ROLE_TOO_LOW": "My role is lower than the target user's, ask an admin to move my role higher",
+		"USER_ROLE_TOO_LOW": "Your roles are lower than the target user's",
+		"NO_REASON_SPECIFIED": "No reason specified",
+		"ACTION_SUCCESSFUL": "{{tag}} has been successfully {{action}} with reason: {{reason}}",
+		"ACTION_SUCCESSFUL_WITH_DURATION": "{{tag}} has been successfully {{action}} for {{duration}}, with reason: {{reason}}"
+	},
+	"lookup": {
+		"USER_NICKNAME": "Nickname",
+		"USER_CREATION": "Account Creation",
+		"USER_ID": "User ID",
+		"USER_IS_BOT": "Is Bot",
+		"USER_ROLES": "User Roles",
+		"USER_FOOTER": "User: {{tag}}",
+		"ROLE_TITLE": "Role: {{name}}",
+		"ROLE_ID": "Role ID",
+		"ROLE_IS_MENTIONABLE": "Is Mentionable",
+		"ROLE_CREATED_AT": "Created At",
+		"LOOKUP_INVALID_USER_ROLE": "Invalid user/role specified",
+		"NO_ARGUMENTS_SPECIFIED": "You need to specify a user/role to search for"
+	},
+	"move": {
+		"ARGUMENTS_NOT_SPECIFIED": "You need to specify two voice channels",
+		"AUDIT_REASON": "Bulk moved members from {{fromChannel}} to {{toChannel}} Initiated by {{initiatedUserTag}}",
+		"CHANNELS_NOT_IN_GUILD": "Both of the channels need to be in this server",
+		"NO_USERS_MOVED": "There was no users to move",
+		"SUCCESS_MOVED_USERS": "Successfully moved {{numberOfUsers}} user(s) from {{fromChannel}} to {{toChannel}}"
+	},
+	"mute": {
+		"NO_MUTED_ROLE": "There isn't a role named `muted`, ask an admin to make it"
+	},
+	"purge": {
+		"DELETE_COUNT_TOO_LOW": "You can't delete less than one message",
+		"DELETE_COUNT_TOO_HIGH": "You can't delete more than 100 messages",
+		"DELETE_SUCESSFUL": "Successfully deleted {{count}} messages",
+		"NO_ARGUMENTS_SPECIFIED": "You need to specify how many messages to delete",
+		"DELETE_COUNT_INVALID": "You need to specify a valid number"
+	},
+	"unban": {
+		"TARGET_USER_NOT_BANNED": "{{tag}} is not banned"
+	},
+	"unmute": {
+		"USER_NOT_MUTED": "The user isn't muted"
+	},
+	"eval": {
+		"SECRET": "[secret]",
+		"COMMAND": "Command",
+		"TOO_LARGE": "The {{type}} was too large for discord",
+		"TOO_LARGE_UPLOADED_SUCCESS": "$(eval.COMMAND_TOO_LARGE), uploaded to hastebin: {{url}}",
+		"TOO_LARGE_UPLOADED_FAILURE": "$(eval.COMMAND_TOO_LARGE), but I failed to upload it to hastebin",
+		"OUTPUT": "Output",
+		"NO_ARGUMENTS_SPECIFIED": "You need to specify a command to run",
+		"COMMAND_RUNNING": "Executing command..."
+	},
+	"getkey": {
+		"NO_VALUE_SPECIFIED": "You need to specify a key to get"
+	},
+	"log": {
+		"INVALID_LOG_TYPE": "That isn't a valid log type",
+		"LOG_EMPTY": "The log was empty, not uploading",
+		"UPLOAD_SUCCESS": "Successfully uploaded log: {{url}}"
+	},
+	"say": {
+		"NO_MESSAGE_SPECIFIED": "You need to specify what to say"
+	},
+	"setkey": {
+		"SET_KEY": "Set Key",
+		"SUCCESSFULLY_SET_KEY": "Success",
+		"GUILD_ID": "Guild ID",
+		"KEY": "Key",
+		"VALUE_SET": "Value",
+		"NO_VALUE_SPECIFIED": "You need to specify a value to set"
+	},
+	"shutdown": {
+		"SHUTTING_DOWN": "Shutting down..."
+	}
+}

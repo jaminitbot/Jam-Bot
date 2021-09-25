@@ -2,6 +2,7 @@ import { CommandInteraction, Message, VoiceChannel } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { getChannelFromString } from '../../functions/util'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'move'
 export const description = 'Moves users from one vc to another'
@@ -20,27 +21,26 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The channel to move users to')
 			.setRequired(true))
 async function moveVoiceChannel(client: BotClient, fromChannel: VoiceChannel, toChannel: VoiceChannel, guildId: string, intiatingTag: string) {
-	if (!fromChannel || !toChannel) return 'One of those channels weren\'t valid!'
-	if (!toChannel.guild.me.permissions.has('MOVE_MEMBERS')) return 'I don\'t have permission to move people, ask an admin to check my permissions!'
-	if (fromChannel.type != 'GUILD_VOICE' || toChannel.type != 'GUILD_VOICE') return 'One or more of those channels weren\'t a voice channel!'
-	if (fromChannel.guild.id != guildId || toChannel.guild.id != guildId) return 'Hey! Both of the channels need to be in the same server!'
+	if (!fromChannel || !toChannel) return i18next.t('move.ARGUMENTS_NOT_SPECIFIED')
+	if (!toChannel.guild.me.permissions.has('MOVE_MEMBERS')) return i18next.t('general:BOT_INVALID_PERMISSION', { friendlyPermissionName: 'move members', permissionName: permissions[0] })
+	if (fromChannel.type != 'GUILD_VOICE' || toChannel.type != 'GUILD_VOICE') return i18next.t('general:INVALID_CHANNEL_TYPE', { count: 2, correctType: 'voice' })
+	if (fromChannel.guild.id != guildId || toChannel.guild.id != guildId) return i18next.t('move.CHANNELS_NOT_IN_GUILD')
 	let count = 0
 	try {
 		fromChannel.members.each(member => {
 			count++
-			member.voice.setChannel(toChannel, `Bulk moved members from ${fromChannel.name} to ${toChannel.name}. Initiated by ${intiatingTag}`)
+			member.voice.setChannel(toChannel, i18next.t('move.AUDIT_REASON', { fromChannel: fromChannel.name, toChannel: toChannel.name, initiatedUserTag: intiatingTag }))
 		})
 		if (count == 0) {
-			return 'There was no users to move.'
+			return i18next.t('move.NO_USERS_MOVED')
 		}
 	} catch (err) {
 		client.logger.warn('moveCommand: Potentional error: ' + err)
-		return 'There was an unknown error when trying to perform that action, sorry :('
+		return i18next.t('general:UNKNOWN_ERROR')
 	}
-	return `Successfully moved ${count} user(s) from ${fromChannel.name} to ${toChannel.name}.`
+	return i18next.t('move.SUCESS_MOVED_USERS', { numberOfUsers: count, fromChannel: fromChannel.name, toChannel: toChannel.name })
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	if (!args[0] || !args[1]) return message.channel.send('You need to specify two channels!')
 	//@ts-expect-error
 	const fromChannel: VoiceChannel = await getChannelFromString(message.guild, args[0])
 	//@ts-expect-error

@@ -20,11 +20,13 @@ import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
 import { registerCommands, registerEvents, registerSlashCommands } from './functions/registerCommands'
 import { saveStatsToDB, connectToSatsCollection } from './cron/stats'
+import i18next from 'i18next'
+import i18nextBackend from 'i18next-fs-backend'
 
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
 import { connect, returnRawClient } from './functions/db'
-import { saveLogger, stopBot, removeItemFromArray } from './functions/util'
+import { saveLogger, stopBot, removeItemFromArray, capitaliseSentence } from './functions/util'
 import { processTasks } from './functions/mod'
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
@@ -106,6 +108,20 @@ import { processTasks } from './functions/mod'
 	//#endregion
 	saveLogger(logger)
 	client.logger = logger
+	i18next.use(i18nextBackend).init({
+		lng: 'en',
+		ns: ['general', 'commands', 'events'],
+		defaultNS: 'commands',
+		backend: {
+			loadPath: '../locales/{{lng}}/{{ns}}.json'
+		},
+		interpolation: {
+			escapeValue: false,
+			format: function (value, format, lng) {
+				if (format === 'capitalise') return capitaliseSentence(value)
+			}
+		}
+	})
 	// Registers all the commands in the commands folder
 	// https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
 	logger.verbose('Registering commands...')

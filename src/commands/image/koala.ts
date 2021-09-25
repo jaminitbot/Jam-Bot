@@ -2,6 +2,7 @@ import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { request } from 'undici'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'koala'
 export const description = 'Koala'
@@ -14,8 +15,8 @@ async function getKoalaImage() {
 	const response = await request(
 		'https://some-random-api.ml/img/koala'
 	)
-	if (response.statusCode != 200) return 'The API seems to be returning errors, please try again later'
-	return (await response.body.json()).link || "Unable to get a koala, the api's probably down"
+	if (response.statusCode != 200) return i18next.t('general:API_ERROR')
+	return (await response.body.json()).link || i18next.t('general:API_ERROR')
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send(await getKoalaImage())

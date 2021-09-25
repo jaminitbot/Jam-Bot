@@ -5,6 +5,7 @@ import { capitaliseSentence, checkPermissions } from "../functions/util";
 import { getErrorMessage, getInvalidPermissionsMessage } from '../functions/messages'
 import { storeSlashCommandCreate } from '../cron/stats'
 import Sentry from '../functions/sentry'
+import i18next from "i18next";
 
 export const name = "interactionCreate"
 
@@ -26,11 +27,11 @@ export async function register(client: BotClient, interaction: Interaction) {
 		}
 		if (typeof command.executeSlash != 'function') {
 			const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
-			await interaction.reply({ content: `This command hasn't been setup for slash commands yet, please use \`${prefix}${command.name}\` for the time being!`, ephemeral: true })
+			await interaction.reply({ content: i18next.t('events:interactionCreate.SLASH_FUNCTION_NULL', { prefix: prefix, command: command.name }), ephemeral: true })
 			return
 		}
 		if ((!interaction.channel || interaction.channel.type == 'DM') && !command.allowInDm === true) {
-			return interaction.reply('This command can only be used in a server!')
+			return interaction.reply(i18next.t('events:interactionCreate.DISABLED_IN_DMS'))
 		}
 		if (command.permissions) {
 			// @ts-expect-error

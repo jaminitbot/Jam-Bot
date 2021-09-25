@@ -6,6 +6,7 @@ import { request, Dispatcher } from 'undici'
 import NodeCache from "node-cache"
 import { randomInt } from '../../functions/util'
 import Sentry from '../../functions/sentry'
+import i18next from "i18next"
 
 const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
 interface Definition {
@@ -57,23 +58,23 @@ async function returnDefineEmbed(wordToDefine: string) {
 	const jsonResponse: UrbanDictionaryResponse | 'NOT_FOUND' = cache.get(wordToDefine)
 	if (jsonResponse == 'NOT_FOUND' || !jsonResponse.list[0]) {
 		const embed = new MessageEmbed
-		embed.setDescription('No definitions found for: ' + wordToDefine)
+		embed.setDescription(i18next.t('define.NO_DEFINITIONS'))
 		embed.setColor(colours[colours.length - 1])
 		return embed
 	}
 	const embed = new MessageEmbed
 	embed.setColor(colours[randomInt(0, colours.length - 1)])
-	embed.setTitle(`Urban Dictionary: ${wordToDefine}`)
+	embed.setTitle(i18next.t('urban.URBAN_TITLE', { word: wordToDefine }))
 	let definition = String(jsonResponse.list[0].definition).replace(/\[|\]/g, '')
 	if (definition.length > 1024) definition = definition.substring(0, 1024 - 3) + '...'
-	embed.addField('Definition', definition)
+	embed.addField(i18next.t('urban.DEFINITION'), definition)
 	let example = String(jsonResponse.list[0].example).replace(/\[|\]/g, '')
 	if (example.length > 1024) example = example.substring(0, 1024 - 3) + '...'
-	example && embed.addField('Example', example)
+	example && embed.addField(i18next.t('urban.EXAMPLE'), example)
 	return embed
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	message.reply('This command can only be used with slash commands.')
+	message.reply(i18next.t('general:ONLY_SLASH_COMMAND'))
 	// message.channel.send({ embeds: [await returnDefineEmbed(args[0])] })
 }
 

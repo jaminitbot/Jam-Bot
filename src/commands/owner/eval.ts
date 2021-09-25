@@ -2,6 +2,7 @@ import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { uploadToHasteBin } from '../../functions/util'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 const secrets = [
 	process.env.token,
@@ -33,34 +34,34 @@ async function runEvalCommand(commandToRun, logger, message) {
 		commandOutput = error
 	}
 	commandOutput = String(commandOutput)
-		.replace(secretsRegex, '[secret]')
+		.replace(secretsRegex, i18next.t('eval.SECRET'))
 	commandOutput = String(commandOutput)
 	if (commandToRun.length > 1024) {
 		const uploadedHasteLocation = await uploadToHasteBin(logger, commandToRun)
 		if (uploadedHasteLocation) {
-			embed.addField('Command', `Command was too large for discord, uploaded to hastebin: ${uploadedHasteLocation}`)
+			embed.addField(i18next.t('eval.COMMAND'), i18next.t('eval.TOO_LARGE_UPLOADED', { context: 'SUCCESS', url: uploadedHasteLocation, type: 'command' }))
 		} else {
-			embed.addField('Command', 'Command was too large for discord, but we failed uploading it to hastebin :(')
+			embed.addField(i18next.t('eval.COMMAND'), i18next.t('eval.TOO_LARGE_UPLOADED', { context: 'FAILURE', type: 'command' }))
 		}
 	} else {
-		embed.addField('Command', commandToRun)
+		embed.addField(i18next.t('eval.COMMAND'), commandToRun)
 	}
 	if (commandOutput.length > 1024) {
 		const uploadedHasteLocation = await uploadToHasteBin(logger, commandOutput)
 		if (uploadedHasteLocation) {
-			embed.addField('Output', `Output was too large for discord, uploaded to hastebin: ${uploadedHasteLocation}`)
+			embed.addField(i18next.t('eval.OUTPUT'), i18next.t('eval.TOO_LARGE_UPLOADED', { context: 'SUCCESS', url: uploadedHasteLocation, type: 'output' }))
 		} else {
-			embed.addField('Output', 'Output was too large for discord, but we failed uploading it to hastebin :(')
+			embed.addField(i18next.t('eval.OUTPUT'), i18next.t('eval.TOO_LARGE_UPLOADED', { context: 'FAILURE', type: 'output' }))
 		}
 	} else {
-		embed.addField('Output', commandOutput)
+		embed.addField(i18next.t('eval.OUTPUT'), commandOutput)
 	}
 	return embed
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	if (!args[0]) return message.channel.send('Do you just expect me to guess at what you want to run?')
+	if (!args[0]) return message.reply(i18next.t('eval.NO_ARGUMENTS_SPECIFIED'))
 	const command = args.splice(0).join(' ')
-	const sentMessage = await message.channel.send({ content: 'Executing command...' })
+	const sentMessage = await message.channel.send({ content: i18next.t('eval.COMMAND_RUNNING') })
 	const embed = await runEvalCommand(command, client.logger, message)
 	sentMessage.edit({ content: null, embeds: [embed] })
 }

@@ -3,6 +3,7 @@ import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { setKey, getNestedSetting, setNestedSetting, getKey } from "../../functions/db"
 import { booleanToHuman } from '../../functions/util'
+import i18next from 'i18next'
 
 export const name = 'settings'
 export const description = "Configures the bot's settings"
@@ -108,7 +109,7 @@ async function validTextChannel(client: BotClient, channelId: string) {
 	return channel
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	message.channel.send('This command can only be used with slash commands.')
+	message.channel.send(i18next.t('general:ONLY_SLASH_COMMAND', { command: name }))
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const subCommandGroup = interaction.options.getSubcommandGroup()
@@ -117,14 +118,15 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 		if (subCommand == 'prefix') {
 			const newPrefix = interaction.options.getString('prefix')
 			if (!newPrefix) {
-				interaction.reply({ content: 'The current prefix is: ' + await getKey(interaction.guild.id, 'prefix') ?? process.env.defaultPrefix })
+				const currentPrefix = await getKey(interaction.guild.id, 'prefix') ?? process.env.defaultPrefix
+				interaction.reply({ content: i18next.t('settings.CURRENT_PREFIX', { prefix: currentPrefix }) })
 				return
 			}
 			if (newPrefix.length > 10) {
-				interaction.reply({ content: 'You can\'t have a prefix longer than 10 characters!', ephemeral: true })
+				interaction.reply({ content: i18next.t('settings.PREFIX_TOO_LONG', { length: 10 }), ephemeral: true })
 			} else {
 				await setKey(interaction.guild.id, 'prefix', newPrefix)
-				interaction.reply({ content: 'Successfully set prefix to: ' + newPrefix })
+				interaction.reply({ content: i18next.t('settings.SET_PREFIX_SUCCESS', { prefix: newPrefix }) })
 			}
 			return
 		}
@@ -133,34 +135,28 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 			const newSuggestionsChannel = interaction.options.getChannel('channel')
 			if (!newSuggestionsChannel) {
 				const currentSuggestionChannelId = await getNestedSetting(interaction.guild.id, 'suggestions', 'channel')
-				const mentionedSuggestionChannel = currentSuggestionChannelId ? `<#${currentSuggestionChannelId}>` : 'Not Set'
-				interaction.reply('The current suggestion channel is: ' + mentionedSuggestionChannel)
+				const currentSuggestionsChannel = currentSuggestionChannelId ? `<#${currentSuggestionChannelId}>` : 'not set'
+				interaction.reply(i18next.t('settings.CURRENT_SUGGESTIONS_CHANNEL', { channel: currentSuggestionsChannel }))
 				return
 			}
 			const newChannel = await client.channels.fetch(newSuggestionsChannel.id)
 			if (!newChannel.isText || newChannel.type == 'DM') {
-				interaction.reply({ content: 'The channel specified must be a text channel!', ephemeral: true })
+				interaction.reply({ content: i18next.t('general:INVALID_CHANNEL_TYPE', { correctType: 'text' }), ephemeral: true })
 			} else {
 				await setNestedSetting(interaction.guild.id, 'suggestions', 'channel', newChannel.id)
 				await setNestedSetting(interaction.guild.id, 'suggestions', 'enabled', true)
-				try {
-					// @ts-expect-error
-					await newChannel.send('Suggestions will be sent here!')
-				} catch {
-					interaction.reply('It looks like I don\'t have permission for that channel! Check my permissions!')
-					return
-				}
-				interaction.reply(`Sucessfully set suggestion channel to <#${newChannel.id}>`)
+				const newSuggestionsChannel = `<#${newChannel.id}>`
+				interaction.reply(i18next.t('settings.SET_SUGGESTIONS_CHANNEL_SUCCESS', { channel: newSuggestionsChannel }))
 			}
 			return
 		} else if (subCommand == 'useable') {
 			const sendSuggestions = interaction.options.getBoolean('on')
 			if (typeof sendSuggestions != 'boolean') {
-				interaction.reply('Suggestions are currently: ' + booleanToHuman(await getNestedSetting(interaction.guild.id, 'suggestions', 'enabled')))
+				interaction.reply(i18next.t('settings.SUGGESTIONS_ENABLED_DISABLED_CURRENT', { toggle: booleanToHuman(await getNestedSetting(interaction.guild.id, 'suggestions', 'enabled')) }))
 				return
 			}
 			await setNestedSetting(interaction.guild.id, 'suggestions', 'enabled', sendSuggestions)
-			interaction.reply('Succesfully turned suggestions: ' + booleanToHuman(sendSuggestions))
+			interaction.reply(i18next.t('settings.SET_SUGGESTIONS_ENABLED_DISABLED_SUCCESS', { toggle: booleanToHuman(sendSuggestions) }))
 			return
 		}
 	} else if (subCommandGroup == 'modlog') {
@@ -182,61 +178,62 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 				const currentJoinLeavesChannelId = await getNestedSetting(interaction.guild.id, 'modlog', 'joinLeavesChannelId')
 				const currentJoinLeavesChannelMentioned = currentJoinLeavesChannelId ? `<#${currentJoinLeavesChannelId}>` : 'Not Set'
 				interaction.reply({
-					content: `Main log channel: ${currentMainChannelMentioned}\n` +
-						`Messages log channel: ${currentMessagesChannelMentioned}\n` +
-						`Members log channel: ${currentMembersChannelMentioned}\n` +
-						`Server log channel: ${currentServerChannelMentioned}\n` +
-						`Join/Leaves log channel: ${currentJoinLeavesChannelMentioned}`
+					content: i18next.t('settings.CURRENT_MODLOG_CHANNEL', { modLogType: 'default', channel: currentMainChannelMentioned }) + '\n' +
+						i18next.t('settings.CURRENT_MODLOG_CHANNEL', { modLogType: 'message', channel: currentMessagesChannelMentioned }) + '\n' +
+						i18next.t('settings.CURRENT_MODLOG_CHANNEL', { modLogType: 'member', channel: currentMembersChannelMentioned }) + '\n' +
+						i18next.t('settings.CURRENT_MODLOG_CHANNEL', { modLogType: 'server', channel: currentServerChannelMentioned }) + '\n' +
+						i18next.t('settings.CURRENT_MODLOG_CHANNEL', { modLogType: 'join/leaves', channel: currentJoinLeavesChannelMentioned })
 				})
 			} else {
 				let response = ""
 				if (mainChannelRaw) {
 					const newMainChannel = await validTextChannel(client, mainChannelRaw.id)
 					if (!newMainChannel) {
-						response += 'Main log channel specified was not a valid text channel, not changed'
+						response += i18next.t('settings.MODLOG_CHANNEL_INVALID', { modLogType: 'default' })
 					} else {
 						await setNestedSetting(interaction.guild.id, 'modlog', 'mainChannelId', newMainChannel.id)
-						response += `Main log channel changed to <#${newMainChannel.id}>`
+						response += i18next.t('settings.SET_MODLOG_CHANNEL_SUCCESS', { modLogType: 'default', channel: `<#${newMainChannel.id}>` })
 					}
 				}
 				if (messagesChannelRaw) {
 					const newMessagesChannel = await validTextChannel(client, messagesChannelRaw.id)
 					if (!newMessagesChannel) {
-						response += '\nMessages log channel specified was not a valid text channel, not changed'
+						response += '\n' + i18next.t('settings.MODLOG_CHANNEL_INVALID', { modLogType: 'message' })
 					} else {
 						await setNestedSetting(interaction.guild.id, 'modlog', 'messagesChannelId', newMessagesChannel.id)
 						await setNestedSetting(interaction.guild.id, 'modlog', 'logMessages', true)
-						response += `\nMessages log channel changed to <#${newMessagesChannel.id}>`
+						response += '\n' + i18next.t('settings.SET_MODLOG_CHANNEL_SUCCESS', { modLogType: 'message', channel: `<#${newMessagesChannel.id}>` })
+
 					}
 				}
 				if (membersChannelRaw) {
 					const newMembersChannel = await validTextChannel(client, membersChannelRaw.id)
 					if (!newMembersChannel) {
-						response += '\nMember log channel specified was not a valid text channel, not changed'
+						response += '\n' + i18next.t('settings.MODLOG_CHANNEL_INVALID', { modLogType: 'member' })
 					} else {
 						await setNestedSetting(interaction.guild.id, 'modlog', 'membersChannelId', newMembersChannel.id)
 						await setNestedSetting(interaction.guild.id, 'modlog', 'logMembers', true)
-						response += `\nMember log channel changed to <#${newMembersChannel.id}>`
+						response += '\n' + i18next.t('settings.SET_MODLOG_CHANNEL_SUCCESS', { modLogType: 'member', channel: `<#${newMembersChannel.id}>` })
 					}
 				}
 				if (serverChannelRaw) {
 					const newServerChannel = await validTextChannel(client, serverChannelRaw.id)
 					if (!newServerChannel) {
-						response += '\nServer log channel specified was not a valid text channel, not changed'
+						response += '\n' + i18next.t('settings.MODLOG_CHANNEL_INVALID', { modLogType: 'server' })
 					} else {
 						await setNestedSetting(interaction.guild.id, 'modlog', 'serverChannelId', newServerChannel.id)
 						await setNestedSetting(interaction.guild.id, 'modlog', 'logServer', true)
-						response += `\nServer log channel changed to <#${newServerChannel.id}>`
+						response += '\n' + i18next.t('settings.SET_MODLOG_CHANNEL_SUCCESS', { modLogType: 'server', channel: `<#${newServerChannel.id}>` })
 					}
 				}
 				if (joinLeavesChannelRaw) {
 					const newJoinLeavesChannel = await validTextChannel(client, joinLeavesChannelRaw.id)
 					if (!newJoinLeavesChannel) {
-						response += '\nJoin/Leaves log channel specified was not a valid text channel, not changed'
+						response += '\n' + i18next.t('settings.MODLOG_CHANNEL_INVALID', { modLogType: 'join/leaves' })
 					} else {
 						await setNestedSetting(interaction.guild.id, 'modlog', 'joinLeavesChannelId', newJoinLeavesChannel.id)
 						await setNestedSetting(interaction.guild.id, 'modlog', 'logJoinLeaves', true)
-						response += `\nJoin/leaves log channel changed to <#${newJoinLeavesChannel.id}>`
+						response += '\n' + i18next.t('settings.SET_MODLOG_CHANNEL_SUCCESS', { modLogType: 'join/leave', channel: `<#${newJoinLeavesChannel.id}>` })
 					}
 				}
 				interaction.reply({ content: response })
@@ -250,31 +247,31 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 			if (typeof logMessages != 'boolean' && typeof logMembers != 'boolean' && typeof logServer != 'boolean' && typeof logJoinLeaves != 'boolean') {
 				const currentlogMessagesSetting = await getNestedSetting(interaction.guild.id, 'modlog', 'logMessages') ?? false
 				const currentLogMembersSetting = await getNestedSetting(interaction.guild.id, 'modlog', 'logMembers') ?? false
-				const currentLogServerSetting = await getNestedSetting(interaction.guild.id, 'modlog', 'logSetting') ?? false
+				const currentLogServerSetting = await getNestedSetting(interaction.guild.id, 'modlog', 'logServer') ?? false
 				const currentLogJoinLeavesSetting = await getNestedSetting(interaction.guild.id, 'modlog', 'logJoinLeaves') ?? false
 				interaction.reply({
-					content: `Log message events: ${booleanToHuman(currentlogMessagesSetting)}\n` +
-						`Log member events: ${booleanToHuman(currentLogMembersSetting)}\n` +
-						`Log server events: ${booleanToHuman(currentLogServerSetting)}\n` +
-						`Log join/leaves: ${booleanToHuman(currentLogJoinLeavesSetting)}`
+					content: i18next.t('settings.CURRENT_MODLOG_EVENTS_ENABLED_DISABLED', { event: 'message', toggle: booleanToHuman(currentlogMessagesSetting) }) + '\n' +
+						i18next.t('settings.CURRENT_MODLOG_EVENTS_ENABLED_DISABLED', { event: 'member', toggle: booleanToHuman(currentLogMembersSetting) }) + '\n' +
+						i18next.t('settings.CURRENT_MODLOG_EVENTS_ENABLED_DISABLED', { event: 'server', toggle: booleanToHuman(currentLogServerSetting) }) + '\n' +
+						i18next.t('settings.CURRENT_MODLOG_EVENTS_ENABLED_DISABLED', { event: 'join/leave', toggle: booleanToHuman(currentLogJoinLeavesSetting) })
 				})
 			} else {
 				let response = ""
 				if (typeof logMessages == 'boolean') {
 					await setNestedSetting(interaction.guild.id, 'modlog', 'logMessages', logMessages)
-					response += 'Turned logging of message events: ' + booleanToHuman(logMessages)
+					response += i18next.t('settings.SET_MODLOG_EVENTS_ENABLED_DISABLED_SUCCESS', { event: 'message', toggle: booleanToHuman(logMessages) })
 				}
 				if (typeof logMembers == 'boolean') {
 					await setNestedSetting(interaction.guild.id, 'modlog', 'logMembers', logMembers)
-					response += '\nTurned logging of member events: ' + booleanToHuman(logMembers)
+					response += '\n' + i18next.t('settings.SET_MODLOG_EVENTS_ENABLED_DISABLED_SUCCESS', { event: 'member', toggle: booleanToHuman(logMembers) })
 				}
 				if (typeof logServer == 'boolean') {
 					await setNestedSetting(interaction.guild.id, 'modlog', 'logServer', logServer)
-					response += '\nTurned logging of server events: ' + booleanToHuman(logServer)
+					response += '\n' + i18next.t('settings.SET_MODLOG_EVENTS_ENABLED_DISABLED_SUCCESS', { event: 'server', toggle: booleanToHuman(logServer) })
 				}
 				if (typeof logJoinLeaves == 'boolean') {
 					await setNestedSetting(interaction.guild.id, 'modlog', 'logJoinLeaves', logJoinLeaves)
-					response += '\nTurned logging of join/leave events: ' + booleanToHuman(logJoinLeaves)
+					response += '\n' + i18next.t('settings.SET_MODLOG_EVENTS_ENABLED_DISABLED_SUCCESS', { event: 'join/leave', toggle: booleanToHuman(logJoinLeaves) })
 				}
 				interaction.reply({ content: response })
 				return

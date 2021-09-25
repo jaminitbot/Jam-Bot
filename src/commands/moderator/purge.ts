@@ -1,6 +1,7 @@
 import { CommandInteraction, Message, TextBasedChannels } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 const messages = require('../../functions/messages')
 const isNumber = require('is-number')
@@ -25,22 +26,22 @@ export const slashCommandOptions = [{
 }]
 async function bulkDeleteMessages(channel: TextBasedChannels, NumOfMessagesToDelete) {
 	if (channel.type != 'GUILD_TEXT' && channel.type != 'GUILD_NEWS') return
-	if (!channel.guild.me.permissions.has(['MANAGE_MESSAGES'])) return 'I don\'t have permission to delete messages, ask an admin to check my permissions!'
+	if (!channel.guild.me.permissions.has(['MANAGE_MESSAGES'])) return i18next.t('general:BOT_INVALID_PERMISSION', { friendlyPermissionName: 'manage messages', permissionName: permissions[0] })
 	const deleteCount = parseInt(NumOfMessagesToDelete)
 	if (deleteCount < 1) {
-		return "You can't delete less than one message silly!"
+		return i18next.t('purge.DELETE_COUNT_TOO_LOW')
 	} else if (deleteCount > 100) {
 		// Discord api doesn't let us do more than 100
-		return "You can't delete more than 100 messages in one go!"
+		return i18next.t('purge.DELETE_COUNT_TOO_HIGH')
 	}
 	await channel.bulkDelete(deleteCount).catch((error) => {
 		return messages.getErrorMessage()
 	})
-	return `Successfully deleted ${deleteCount} messages.`
+	return i18next.t('purge.DELETE_SUCCESSFUL', { count: deleteCount })
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	if (!args[0]) return message.reply('You need to specify how many messages to purge!')
-	if (!isNumber(args[0])) return message.reply('you need to specify a number!')
+	if (!args[0]) return message.reply(i18next.t('purge.NO_ARGUMENTS_SPECIFIED'))
+	if (!isNumber(args[0])) return message.reply(i18next.t('purge.DELETE_COUNT_INVALID'))
 	await message.delete()
 	await message.channel.send(await bulkDeleteMessages(message.channel, args[0]))
 }

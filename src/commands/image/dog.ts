@@ -2,6 +2,7 @@ import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { request, Dispatcher } from 'undici'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'dog'
 export const description = 'Gets a random dog picture, or a specific breed'
@@ -30,8 +31,8 @@ async function getDogPhoto(breed) {
 			`https://dog.ceo/api/breed/${breedArray[0]}/images/random`
 		)
 	}
-	if (response.statusCode != 200) return 'The API seems to be returning errors, please try again later'
-	return (await response.body.json()).message || "Unable to get a doggy, the api's probably down"
+	if (response.statusCode != 200) return i18next.t('general:API_ERROR')
+	return (await response.body.json()).message || i18next.t('general:API_ERROR')
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	let data

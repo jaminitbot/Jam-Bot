@@ -1,6 +1,7 @@
-import { ButtonInteraction, CommandInteraction, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js"
+import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'ping'
 export const description = 'Displays various latency information'
@@ -13,7 +14,7 @@ export const slashData = new SlashCommandBuilder()
 function createLatencyEmbed(incomingMessageTimestamp: number, sentMessageTimestamp: number, client: BotClient) {
 	const embed = new MessageEmbed
 	embed.setDescription(`:stopwatch: ${sentMessageTimestamp - incomingMessageTimestamp}ms :hourglass: ${Math.round(client.ws.ping)}ms`)
-	embed.setFooter('Roundtrip and api latency')
+	embed.setFooter(i18next.t('ping.PING_FOOTER'))
 	embed.setColor('#FB21CB')
 	return embed
 }
@@ -26,33 +27,5 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const reply = await interaction.deferReply({ fetchReply: true })
 	// @ts-expect-error
 	const embed = createLatencyEmbed(interaction.createdTimestamp, reply.createdTimestamp, client)
-	// eslint-disable-next-line prefer-const
-	let options = {
-		embeds: null,
-		components: null
-	}
-	// @ts-expect-error
-	if (!interaction.noButton) {
-		const row = new MessageActionRow()
-			.addComponents(
-				new MessageButton()
-					.setCustomId('ping-againButton')
-					.setLabel('Ping again!')
-					.setStyle('PRIMARY')
-			)
-
-		options.components = [row]
-	} else {
-		embed.setFooter('Requested again by ' + interaction.user.tag, interaction.user.avatarURL())
-	}
-	options.embeds = [embed]
-	interaction.editReply(options)
-}
-export async function executeButton(client: BotClient, interaction: ButtonInteraction) {
-	if (interaction.customId == 'ping-againButton') {
-		// @ts-expect-error
-		interaction.noButton = true
-		// @ts-expect-error
-		executeSlash(client, interaction)
-	}
+	interaction.editReply({ embeds: [embed] })
 }
