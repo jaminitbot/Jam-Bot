@@ -7,6 +7,8 @@ import { request } from 'undici'
 import { Logger } from "winston"
 import Sentry from '../../functions/sentry'
 import i18next from "i18next"
+import NodeCache from "node-cache"
+const cache = new NodeCache({ stdTTL: 604800, checkperiod: 3600 })
 
 const apiHost = 'https://api.bing.microsoft.com/v7.0/images/search'
 const subscriptionKey = process.env.bingImageSearchKey
@@ -35,19 +37,24 @@ export async function searchForImage(search: string, position: number, nsfw: boo
 	if (!nsfw) { // Non-nsfw channels can't bypass safe search
 		safeSearchType = 'Strict'
 	}
-	const validImageUrls = []
-	const response = await request(apiHost + '?safeSearch=' + safeSearchType + '&q=' + encodeURIComponent(search), {
-		method: 'GET',
-		headers: {
-			'Ocp-Apim-Subscription-Key': subscriptionKey
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let responseData: any = cache.get(search)
+	if (!responseData) {
+		const response = await request(apiHost + '?safeSearch=' + safeSearchType + '&q=' + encodeURIComponent(search), {
+			method: 'GET',
+			headers: {
+				'Ocp-Apim-Subscription-Key': subscriptionKey
+			}
+		})
+		if (response.statusCode != 200) {
+			logger.warn('image: Bing image search is returning non-standard status codes')
+			Sentry.captureMessage('Bing images is returning non-standard status codes')
+			return i18next.t('general:API_ERROR')
 		}
-	})
-	if (response.statusCode != 200) {
-		logger.warn('image: Bing image search is returning non-standard status codes')
-		Sentry.captureMessage('Bing images is returning non-standard status codes')
-		return i18next.t('general:API_ERROR')
+		cache.set(search, (await response.body.json()).value)
+		responseData = cache.get(search)
 	}
-	const responseData = (await response.body.json()).value
+	const validImageUrls = []
 	for (const result of responseData) {
 		if (isImageUrl(result.contentUrl)) {
 			validImageUrls.push(result.contentUrl)
