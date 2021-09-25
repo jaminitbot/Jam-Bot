@@ -81,6 +81,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 		const buttonNameObject = interaction.customId.trim().split('-')
 		const command = client.commands.get(buttonNameObject[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(buttonNameObject[0]))
 		if (!command) return
+		if (typeof command.executeButton != 'function') return
 		Sentry.withInteractionScope(interaction, async () => {
 			const transaction = Sentry.startTransaction({
 				op: command.name + 'Command',
@@ -101,6 +102,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 		const selectNameObject = interaction.customId.trim().split('-')
 		const command = client.commands.get(selectNameObject[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(selectNameObject[0]))
 		if (!command) return
+		if (typeof command.executeSelectMenu != 'function') return
 		Sentry.withInteractionScope(interaction, async () => {
 			const transaction = Sentry.startTransaction({
 				op: command.name + 'Command',
