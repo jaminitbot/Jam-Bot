@@ -7,6 +7,7 @@ import { mute, moddable, parseDuration } from "../../functions/mod"
 import dayjs from "dayjs"
 import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import i18next from "i18next"
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
@@ -40,29 +41,29 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const isModdable = await moddable(interaction.guild, targetUser.id, interaction.user.id)
 	switch (isModdable) {
 		case 1:
-			return interaction.reply({ content: 'The user you provided was invalid.', ephemeral: true })
+			return interaction.reply({ content: i18next.t('mod.INVALID_USER'), ephemeral: true })
 		case 2:
-			return interaction.reply({ content: 'You can\'t mute yourself silly!', ephemeral: true })
+			return interaction.reply({ content: i18next.t('mod.SAME_USER', { action: 'mute' }), ephemeral: true })
 		case 3:
-			return interaction.reply({ content: 'My roles don\'t allow me to do that, ask an admin to make sure my role is higher than the target users!', ephemeral: true })
+			return interaction.reply({ content: i18next.t('mod.BOT_ROLE_TOO_LOW'), ephemeral: true })
 		case 4:
-			return interaction.reply({ content: 'Your highest role is lower than the targets! You can\'t mute them!', ephemeral: true })
+			return interaction.reply({ content: i18next.t('USER_ROLE_TOO_LOW'), ephemeral: true })
 	}
 	const reason = interaction.options.getString('reason')
-	const formattedReason = `${interaction.user.tag}: ${reason ?? 'No reason specified.'}`
+	const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')}`
 	const duration = interaction.options.getString('duration')
 	const parsedDuration = parseDuration(duration)
 	const muteResult = await mute(interaction.guild, targetUser.id, interaction.user.id, formattedReason, parsedDuration)
 	if (muteResult == 0) {
 		if (duration) {
 			const humanDuration = dayjs.duration(parsedDuration, "ms").humanize()
-			interaction.reply(`${targetUser.tag} has been muted for ${humanDuration} with reason: ${reason ?? 'None'}.`)
+			interaction.reply(i18next.t('mod.ACTION_SUCCESSFUL_WITH_DURATION', { tag: targetUser.tag, action: 'muted', duration: humanDuration, reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
 		} else {
-			interaction.reply(`${targetUser.tag} has been muted with reason: ${reason ?? 'None'}.`)
+			interaction.reply(i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'muted', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
 		}
 	} else if (muteResult == 3) {
-		interaction.reply({ content: 'There isn\'t a role named `Muted`! Ask an admin to make it!', ephemeral: true })
+		interaction.reply({ content: i18next.t('mute.NO_MUTED_ROLE'), ephemeral: true })
 	} else {
-		interaction.reply('There was an unknown error muting the user')
+		interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
 	}
 }

@@ -5,6 +5,7 @@ import { getNestedSetting, setNestedSetting } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 import delay from 'delay'
+import i18next from "i18next"
 
 export const name = 'suggest'
 export const description = 'Suggests something'
@@ -18,23 +19,23 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(true))
 async function sendSuggestion(client: BotClient, suggestion: string, guildId: string, attachment: string, author: User) {
 	const suggestionChannelId = await getNestedSetting(guildId, 'suggestions', 'channel')
-	if (!suggestionChannelId) return 1 // Suggestions aren't setup yet
-	if (!(await getNestedSetting(guildId, 'suggestions', 'enabled'))) return 3 // Suggestions are disabled
+	if (!suggestionChannelId) return i18next.t('suggest.NO_SUGGESTION_CHANNEL') // Suggestions aren't setup yet
+	if (!(await getNestedSetting(guildId, 'suggestions', 'enabled'))) return i18next.t('suggest.SUGGESTIONS_DISABLED') // Suggestions are disabled
 	// @ts-expect-error
 	const suggestionChannel: TextChannel = await client.channels.fetch(suggestionChannelId)
-	if (!suggestionChannel) return 2 // Error finding suggestions channel
+	if (!suggestionChannel) return i18next.t('suggest.ERROR_FINDING_CHANNEL') // Error finding suggestions channel
 	let suggestionCount = await getNestedSetting(guildId, 'suggestions', 'suggestionCount')
 	if (!suggestionCount) suggestionCount = 0
 	suggestionCount = parseInt(suggestionCount)
 	await setNestedSetting(guildId, 'suggestions', 'suggestionCount', suggestionCount + 1)
 	const embed = new MessageEmbed
-	embed.setTitle(`Suggestion #${suggestionCount + 1}`)
-	embed.addField('Description', suggestion)
+	embed.setTitle(i18next.t('suggest.SUGGESTION_TITLE', { suggestionId: suggestionCount + 1 }))
+	embed.addField(i18next.t('suggest.DESCRIPTION'), suggestion)
 	if (attachment) {
 		embed.setImage(attachment)
 	}
 	embed.setColor('#E9D985')
-	embed.setFooter('Suggestion by ' + author.tag, author.displayAvatarURL())
+	embed.setFooter(i18next.t('suggest.SUGGESTION_FOOTER', { tag: author.tag }), author.displayAvatarURL())
 	embed.setTimestamp(Date.now())
 	const suggestionMessage = await suggestionChannel.send({ embeds: [embed] })
 	try {
@@ -44,34 +45,18 @@ async function sendSuggestion(client: BotClient, suggestion: string, guildId: st
 	} catch {
 		// Code
 	}
-	return 0
+	return i18next.t('suggest.SUGGESTION_SUCCESSFUL')
 }
 export async function execute(client: BotClient, message: Message, args) {
-	if (!args[0]) return message.reply('You need to specify what to suggest!')
+	if (!args[0]) return message.reply(i18next.t('NO_ARGUMENTS_SPECFIED'))
 	message.delete()
 	const suggestionDescription = args.join(' ')
 	const attachment = message.attachments.first() ? message.attachments.first().url : null
 	const result = await sendSuggestion(client, suggestionDescription, message.guild.id, attachment, message.author)
-	if (result == 0) {
-		await message.channel.send('Suggestion logged!')
-	} else if (result == 1) {
-		await message.channel.send('Whoops, suggestions aren\'t setup in this server yet!')
-	} else if (result == 2) {
-		await message.channel.send('There was an error finding the suggestions channel.')
-	} else if (result == 3) {
-		await message.channel.send('Whoops, suggestions are disabled in this server!')
-	}
+	message.channel.send(result)
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const suggestionDescription = interaction.options.getString('suggestion')
 	const result = await sendSuggestion(client, suggestionDescription, interaction.guild.id, null, interaction.user)
-	if (result == 0) {
-		await interaction.reply({ content: 'Suggestion logged!', ephemeral: true })
-	} else if (result == 1) {
-		await interaction.reply({ content: 'Whoops, suggestions aren\'t setup in this server yet!', ephemeral: true })
-	} else if (result == 2) {
-		await interaction.reply('There was an error finding the suggestions channel.')
-	} else if (result == 3) {
-		await interaction.reply({ content: 'Whoops, suggestions are disabled in this server!', ephemeral: true })
-	}
+	interaction.reply({ content: result, ephemeral: true })
 }

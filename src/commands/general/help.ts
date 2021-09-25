@@ -3,6 +3,7 @@ import { BotClient } from '../../customDefinitions'
 import { getKey } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { isBotOwner } from '../../functions/util'
+import i18next from "i18next"
 
 export const name = 'help'
 export const description = 'Displays information on a specific command'
@@ -22,22 +23,22 @@ async function returnHelpEmbed(client: BotClient, commandToGet: string, prefix: 
 		commandToGet = String(commandToGet).toLowerCase()
 		const command = client.commands.get(commandToGet) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandToGet))
 		if (command && !(command.permissions && command.permissions.includes('OWNER') && !isBotOwner(userId))) {
-			embed.setTitle('Help: ' + prefix + command.name ?? commandToGet)
-			const description = command.description ?? 'None'
+			embed.setTitle(i18next.t('help.HELP_TITLE', { commandName: command.name ?? commandToGet }))
+			const description = command.description ?? i18next.t('help.NO_DESCRIPTION')
 			const usage = command.usage ? prefix + command.usage : prefix + commandToGet
-			embed.addField('Description', description, true)
-			embed.addField('Usage', usage, true)
-			if (command.aliases && prefix != '/') embed.addField('Aliases', command.aliases.toString(), true)
+			embed.addField(i18next.t('help.DESCRIPTION'), description, true)
+			embed.addField(i18next.t('help.USAGE'), usage, true)
+			if (command.aliases && prefix != '/') embed.addField(i18next.t('help.ALIASES'), command.aliases.toString(), true)
 			if (command.permissions) {
 				const permissionsNeeded = command.permissions.toString()
-				embed.addField('Permissions Needed', permissionsNeeded, true)
+				embed.addField(i18next.t('help.PERMISSIONS_REQUIRED'), permissionsNeeded, true)
 			}
 		} else {
-			embed.setDescription('Specified command doesn\'t exist :(')
+			embed.setDescription(i18next.t('help.COMMAND_UNKNOWN'))
 		}
 	} else {
 		// Generic help command
-		embed.setDescription('You can view a list of commands [here](https://jambot.jaminit.co.uk/#/commands/basic)')
+		embed.setDescription(i18next.t('help.VIEW_COMMAND_DOCS', { url: 'https://jambot.jaminit.co.uk/#/commands/basic' }))
 	}
 	return embed
 }

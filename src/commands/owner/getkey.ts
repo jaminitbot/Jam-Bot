@@ -2,6 +2,7 @@ import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { getKey } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 const isNumber = require('is-number')
 
@@ -37,13 +38,13 @@ export async function execute(client: BotClient, message: Message, args: Array<u
 		guild = message.guild.id // Use current guild
 		key = args[0]
 	} else if (isNumber(args[0]) && !args[1]) { // Guild ID inputted but no key to get
-		return message.reply('You need to input a value to set!')
+		return message.reply(i18next.t('getkey.NO_KEY_SPECIFIED'))
 	} else { // Using guild id
 		guild = args[0]
 		key = args[1]
 	}
 	const embed = await returnGetKeyEmbed(guild, key)
-	embed.setFooter(`Initiated by ${message.author.tag}`, message.author.displayAvatarURL())
+	embed.setFooter(i18next.t('general:INITIATED_BY', { tag: message.author.tag }), message.author.displayAvatarURL())
 	message.channel.send({ embeds: [embed] })
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {

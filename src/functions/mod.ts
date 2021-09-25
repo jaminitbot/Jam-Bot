@@ -149,6 +149,7 @@ export async function unmute(guild: Guild, userId: string, modId: string, reason
 	if (!target) return 1
 	const role = guild.roles.cache.find(role => role.name == 'Muted')
 	if (!role) return 3
+	if (!target.roles.cache.get(role.id)) return 4
 	try {
 		await target.roles.remove(role)
 	} catch {

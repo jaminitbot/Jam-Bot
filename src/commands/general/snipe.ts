@@ -2,6 +2,7 @@ import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { MessageSniped, returnSnipedMessages, snipeLifetime } from '../../functions/snipe'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'snipe'
 export const description = 'Snipes deleted and edited messages'
@@ -16,29 +17,30 @@ export const slashData = new SlashCommandBuilder()
 
 function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string, channelId: string) {
 	const embed = new MessageEmbed
+	let ed
 	if (type) {
-		const ed = type.endsWith('e') ? type.substr(0, type.length - 1) : type
-		embed.setTitle(`Messages ${ed}ed in the last ${snipeLifetime} seconds`)
+		ed = type.endsWith('e') ? type.substr(0, type.length - 1) : type
+		embed.setTitle(i18next.t('snipe.SNIPE_TITLE', { context: 'SPECIFIC', snipeType: ed + 'ed', snipeLifetime: snipeLifetime }))
 	} else {
-		embed.setTitle(`Messages edited/deleted in the last ${snipeLifetime} seconds`)
+		embed.setTitle(i18next.t('snipe.SNIPE_TITLE', { snipeLifetime: snipeLifetime }))
 	}
 	for (const snipe of snipes) {
 		if (snipe.channel != channelId) continue // Not a snipe for that channel
 		if (snipe.isOwner) continue // Don't snipe owners
 		if (!type || snipe.type == type) {
 			if (embed.fields.length == 24) { // Discord api limitation
-				embed.addField('Too many messages have been edited/deleted', 'Only showing the latest 25 edit/deletes')
+				embed.addField(i18next.t('snipe.EMBED_LIMIT_REACHED_BREIF'), i18next.t('snipe.EMBED_LIMIT_REACHED_DESCRIPTION'))
 				break
 			}
 			if (snipe.type == 'delete') {
-				embed.addField(`Message deleted by ${snipe.user.tag}`, snipe.newMessage)
+				embed.addField(i18next.t('snipe.ENTRY_TITLE', { snipeType: 'deleted', tag: snipe.user.tag }), snipe.newMessage)
 			} else if (snipe.type == 'edit') {
-				embed.addField(`Message edited by ${snipe.user.tag}`, `**Before:** ${snipe.oldMessage}\n**+After:** ${snipe.newMessage}`)
+				embed.addField(i18next.t('snipe.ENTRY_TITLE', { snipeType: 'edited', tag: snipe.user.tag }), i18next.t('events:messageLogs.EDIT_ENTRY', { before: snipe.oldMessage ?? i18next.t('events:messageLogs.NO_CONTENT'), after: snipe.newMessage ?? i18next.t('events:messageLogs.NO_CONTENT') }))
 			}
 		}
 	}
 	if (embed.fields.length == 0) {
-		embed.setDescription(`No edits/deletes in the last ${snipeLifetime} seconds`)
+		embed.setDescription(i18next.t('snipe.NO_MESSAGES', { snipeType: ed ? ed + 'ed' : 'edited/deleted', snipeLifetime: snipeLifetime }))
 	}
 	embed.setTimestamp(Date.now())
 	embed.setColor('#BCD8C1')
@@ -52,7 +54,7 @@ export async function execute(client: BotClient, message: Message, args: Array<u
 		type = type.substring(0, type.length - 1)
 	}
 	if (type) {
-		if (type != 'delete' && type != 'edit') return message.reply('Type has to be either `deletes` or `edits`')
+		if (type != 'delete' && type != 'edit') return message.reply(i18next.t('snipe.INVALID_SNIPE_TYPE'))
 	}
 	const embed = returnSnipesEmbed(snipes, type, message.channel.id)
 	embed.setFooter(`Sniped by ${message.author.username}`, message.author.avatarURL()) // Add sniped by since author is not shown when using legacy prefix commands
@@ -63,7 +65,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const snipes = returnSnipedMessages()
 	let type = interaction.options.getString('type') ?? null
 	if (type) type = type.substring(0, type.length - 1)
-	if (type && type != 'edit' && type != 'delete') return interaction.reply({ content: 'Type has to be either `deletes` or `edits`', ephemeral: true })
+	if (type && type != 'edit' && type != 'delete') return interaction.reply({ content: i18next.t('snipe.INVALID_SNIPE_TYPE'), ephemeral: true })
 	const embed = returnSnipesEmbed(snipes, type, interaction.channel.id)
 	await interaction.reply({ embeds: [embed] })
 }

@@ -2,6 +2,7 @@ import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { request } from 'undici'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'cat'
 export const description = 'Purrrr'
@@ -14,8 +15,8 @@ async function returnCatImage() {
 	const response = await request(
 		'https://aws.random.cat/meow'
 	)
-	if (response.statusCode != 200) return 'The API seems to be returning errors, please try again later'
-	return (await response.body.json()).file || "Unable to get a kitty cat, the api's probably down"
+	if (response.statusCode != 200) return i18next.t('general:API_ERROR')
+	return (await response.body.json()).file || i18next.t('general:API_ERROR')
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send(await returnCatImage())

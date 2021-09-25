@@ -5,6 +5,7 @@ import { request } from 'undici'
 import NodeCache from "node-cache"
 import { Logger } from "winston"
 import Sentry from '../../functions/sentry'
+import i18next from 'i18next'
 const cache = new NodeCache({ stdTTL: 600, checkperiod: 60 })
 
 function generateDateFromEntry(entry) {
@@ -36,7 +37,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(false))
 async function returnChangelogEmbed(changeNumber = null, logger: Logger) {
 	const embed = new MessageEmbed()
-	embed.setTitle('Changelog')
+	embed.setTitle(i18next.t('changelog.CHANGELOG'))
 	if (!process.env.changelogLink) {
 		embed.setDescription('No changelog URL specified :(')
 		return [embed, true]
@@ -47,7 +48,7 @@ async function returnChangelogEmbed(changeNumber = null, logger: Logger) {
 		const response = await request(process.env.changelogLink)
 		if (response.statusCode != 200) {
 			logger.warn('changelog: github seems to be returning non-standard status codes')
-			embed.setDescription('There was an error downloading the changelog, sorry about that :(')
+			embed.setDescription(i18next.t('changelog.ERROR_DOWNLOADING'))
 			Sentry.captureMessage('Github returned non-standard status code')
 			return [embed, true]
 		}
@@ -59,22 +60,23 @@ async function returnChangelogEmbed(changeNumber = null, logger: Logger) {
 		// @ts-ignore
 		for (let i = log.length - 1; i >= 0; i -= 1) {
 			count++
-			embed.addField(`Change #${i + 1}: ${log[i].title}`, `Changed: ${generateDateFromEntry(log[i])}\n${log[i].description}`)
+			embed.addField(i18next.t('changelog.CHANGE_TITLE', { id: i + 1, title: log[i].title }), i18next.t('changelog.CHANGE_DESCRIPTION', { date: generateDateFromEntry(log[i]), description: log[i].description }))
 			if (count == 3) break
 		}
 	} else {
 		if (log[changeNumber - 1]) {
-			embed.addField(`Change ${changeNumber}: ${log[changeNumber - 1].title}`, `Changed: ${generateDateFromEntry(log[changeNumber - 1])} \n${log[changeNumber - 1].description}`)
+			// Changed: ${generateDateFromEntry(log[changeNumber - 1])} \n${log[changeNumber - 1].description}
+			embed.addField(i18next.t('changelog.CHANGE_TITLE', { id: changeNumber, title: log[changeNumber - 1].title }), i18next.t('changelog.CHANGE_DESCRIPTION', { date: generateDateFromEntry(log[changeNumber - 1]), description: log[changeNumber - 1].description }))
 		} else {
-			embed.setDescription('There wasn\'t a changelog for position: ' + changeNumber)
+			embed.setDescription(i18next.t('changelog.NO_CHANGE_FOUND_POSITION', { position: changeNumber }))
 			return [embed, false]
 		}
 	}
-	embed.setDescription(`More comprehensive changelogs can be found [here](https://jambot.jaminit.co.uk/#/changelog)`)
+	embed.setDescription(i18next.t('changelog.MORE_DETAILED_CHANGELOG', { url: 'https://jambot.jaminit.co.uk/#/changelog' }))
 	return [embed, false]
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	message.channel.send('This command can only be used with slash commands.')
+	message.channel.send(i18next.t('general:ONLY_SLASH_COMMAND', { command: name }))
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const changelogEntryNumber = interaction.options.getInteger('changeid')

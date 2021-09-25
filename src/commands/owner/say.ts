@@ -1,7 +1,8 @@
-import { CommandInteraction, Message, TextChannel } from "discord.js"
+import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { getChannelFromString } from '../../functions/util'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'say'
 export const description = 'Say'
@@ -28,10 +29,9 @@ async function sayInChannel(thingToSay, channel) {
 	}
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	// @ts-expect-error
-	const channel: TextChannel = await getChannelFromString(message.guild, args[0])
-	if (!channel) return message.reply('you need to specify a valid channel')
-	if (!args[1]) return message.reply('you can\'t say nothing!')
+	const channel = await getChannelFromString(message.guild, args[0])
+	if (!channel || (channel.type != 'GUILD_TEXT' && channel.type != 'GUILD_NEWS')) return message.reply(i18next.t('general:INVALID_CHANNEL_TYPE', { correctType: 'text' }))
+	if (!args[1]) return message.reply(i18next.t('say.NO_MESSAGE_SPECIFIED'))
 	await message.delete()
 	const thingToSay = args.splice(1).join(' ')
 	sayInChannel(thingToSay, channel)

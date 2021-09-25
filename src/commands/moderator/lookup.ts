@@ -3,6 +3,7 @@ import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import dayjs from "dayjs"
 import { getRoleFromString, getUserFromString } from "../../functions/util"
+import i18next from "i18next"
 
 export const name = 'lookup'
 export const description = 'Displays information about a specific user or role'
@@ -31,26 +32,24 @@ async function lookupUserOrRole(channel: TextBasedChannels, guild: Guild, member
 		member.roles.cache.forEach((role) => {
 			roles = `${roles} ${role.name},`
 		})
-		embed.addField('Nickname', nickName, true)
-		embed.addField('Account Creation', createdAt, true)
-		embed.addField('Id', id, true)
-		embed.addField('Bot', isBot, true)
-		embed.addField('Roles', roles, true)
-		embed.setAuthor('User: ' + userName, avatar)
+		embed.addField(i18next.t('lookup.USER_NICKNAME'), nickName, true)
+		embed.addField(i18next.t('lookup.USER_CREATION'), createdAt, true)
+		embed.addField(i18next.t('lookup.USER_ID'), id, true)
+		embed.addField(i18next.t('lookup.USER_IS_BOT'), isBot, true)
+		embed.addField(i18next.t('lookup.USER_ROLES'), roles, true)
+		embed.setAuthor(i18next.t('lookup.USER_FOOTER', { tag: userName }), avatar)
 	} else {
 		// Didn't get a valid user, maybe its a role?
 		if (role && role.color) {
 			// Valid role
-			const { id, position, createdAt, name, mentionable } = role
-			embed.addField('ID', id, true)
-			embed.addField('Mentionable', String(mentionable), true)
-			embed.addField('Position', position.toString(), true)
-			embed.addField('Created At', createdAt.toDateString(), true)
-			embed.setTitle('Role: ' + name)
+			const { id, createdAt, name, mentionable } = role
+			embed.setTitle(i18next.t('lookup.ROLE_TITLE', { name: name }))
+			embed.addField(i18next.t('lookup.ROLE_ID'), id, true)
+			embed.addField(i18next.t('lookup.ROLE_IS_MENTIONABLE'), String(mentionable), true)
+			embed.addField(i18next.t('lookup.ROLE_CREATED_AT'), createdAt.toDateString(), true)
 		} else {
 			// No role or user found
-			embed.setTitle('Lookup: Failed')
-			embed.setDescription('No user/role specified!')
+			embed.setDescription(i18next.t('lookup.LOOKUP_INVALID_USER_ROLE'))
 			return embed
 		}
 	}
@@ -58,7 +57,7 @@ async function lookupUserOrRole(channel: TextBasedChannels, guild: Guild, member
 	return embed
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	if (!args[0]) return message.reply('Usage: ' + this.usage)
+	if (!args[0]) return i18next.t('lookup.NO_ARGUMENTS_SPECIFIED')
 	const user = await getUserFromString(message.guild, args[0])
 	const role = await getRoleFromString(message.guild, args[0])
 	const embed = await lookupUserOrRole(message.channel, message.guild, user, role)

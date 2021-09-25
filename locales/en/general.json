@@ -1,0 +1,9 @@
+{
+	"INITIATED_BY": "Initiated by {{tag}}",
+	"ONLY_SLASH_COMMAND": "This command can only be used with slash commands, please use /{{command}}",
+	"INVALID_CHANNEL_TYPE": "The channel specified must be a {{correctType}} channel",
+	"INVALID_CHANNEL_TYPE_PLURAL": "The channels specified must be a {{correctType}} channel",
+	"API_ERROR": "The API is returning errors, please try again later",
+	"BOT_INVALID_PERMISSION": "I don't have permission to {{friendlyPermissionName}} check with an admin to see if I have the {{permissionName}} permission",
+	"UNKNOWN_ERROR": "An unknown error occured"
+}

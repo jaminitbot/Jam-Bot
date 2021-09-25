@@ -1,6 +1,7 @@
 import { Emoji, Message } from "discord.js"
 import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'addemoji'
 export const description = 'Adds an emoji to the server'
@@ -10,25 +11,23 @@ export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	if (!message.guild.me.permissions.has('MANAGE_EMOJIS_AND_STICKERS')) return message.channel.send('I don\'t have permission to manage emojis, ask an admin to check my permissions!')
-	if (!args[0]) return message.reply('you need to specify a name for your emoji!')
+	if (!message.guild.me.permissions.has('MANAGE_EMOJIS_AND_STICKERS')) return message.channel.send(i18next.t('general:BOT_INVALID_PERMISSION', { friendlyPermissionName: 'manage emojis', permissionName: permissions[0] }))
+	if (!args[0]) return message.reply(i18next.t('addemoji.NO_ARGUMENTS_SPECIFIED'))
 	const url = message.attachments.first()
-	if (!url) return message.reply('you need to attach the image of the emoji!')
+	if (!url) return message.reply(i18next.t('addemoji.NO_ATTACHMENT'))
 	message.guild.emojis
 		.create(url.url, String(args[0]), {
-			reason: `Uploaded by: ${message.author.tag}, ${message.author.id}`,
+			reason: i18next.t('addemoji.AUDIT_REASON', { tag: message.author.tag }),
 		})
 		.then((emoji: Emoji) => {
 			message.channel
-				.send(`The emoji "${emoji.name}" was created!`)
+				.send(i18next.t('addemoji.CREATION_SUCCESSFUL', { emojiName: emoji.name }))
 				.then((sent) => {
 					sent.react(emoji.identifier)
 					message.react(emoji.identifier)
 				})
 		})
 		.catch((error) => {
-			message.reply(
-				'There was an unknown error uploading that emoji, check the image size!'
-			)
+			message.reply(i18next.t('addemoji.UNKNOWN_ERROR'))
 		})
 }

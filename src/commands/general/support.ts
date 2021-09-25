@@ -1,6 +1,7 @@
 import { MessageButton, Message, MessageEmbed, MessageActionRow, CommandInteraction } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'support'
 export const description = 'Shows various support information'
@@ -12,17 +13,17 @@ export const slashData = new SlashCommandBuilder()
 
 async function returnSupportEmbed() {
 	const embed = new MessageEmbed
-	embed.setTitle('Support information')
-	embed.setDescription('Click the links below to see the command docs or join our support server!')
+	embed.setTitle(i18next.t('support.SUPPORT_TITLE'))
+	embed.setDescription(i18next.t('support.SUPPORT_DESCRIPTION'))
 	const row = new MessageActionRow
 	row.addComponents(
 		new MessageButton()
 			.setStyle('LINK')
-			.setLabel('Command Docs')
+			.setLabel(i18next.t('support.COMMAND_DOCS'))
 			.setURL('https://jambot.jaminit.co.uk/#/'),
 		new MessageButton()
 			.setStyle('LINK')
-			.setLabel('Support Server')
+			.setLabel(i18next.t('support.SUPPORT_SERVER'))
 			.setURL('https://discord.gg/AP8ajhMBZK')
 	)
 	return [embed, row]

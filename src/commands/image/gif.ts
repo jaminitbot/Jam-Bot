@@ -2,6 +2,7 @@ import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { searchForImage } from './image'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'gif'
 export const description = 'Gets a gif'
@@ -19,8 +20,8 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The specific gif to get')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	if (!args[0]) return message.reply('you need to specify what to search for!')
-	const sentMessage = await message.channel.send(`:mag_right: Finding gif...`)
+	if (!args[0]) return message.reply(i18next.t('image.NO_ARGUMENTS_SPECIFIED'))
+	const sentMessage = await message.channel.send(i18next.t('image.SEARCH_LOADING'))
 	const search = args.join(' ') + ' gif'
 	// @ts-expect-error
 	const isNsfw = message.channel.nsfw

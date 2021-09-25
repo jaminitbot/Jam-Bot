@@ -5,6 +5,7 @@ import { moddable, ban, parseDuration } from '../../functions/mod'
 import dayjs from "dayjs"
 import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import i18next from "i18next"
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
@@ -28,36 +29,36 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('Reason to ban the user for')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	message.channel.send('Please use the slash command to ban people!')
+	message.channel.send(i18next.t('general:ONLY_SLASH_COMMAND'))
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
-	if (!interaction.guild.me.permissions.has('BAN_MEMBERS')) return interaction.reply({ content: 'I don\'t have the correct permissions to ban people, ask an admin to check my permissions!' })
+	if (!interaction.guild.me.permissions.has('BAN_MEMBERS')) return interaction.reply({ content: i18next.t('general:BOT_INVALID_PERMISSION', { friendlyPermissionName: 'ban members', permissionName: permissions[0] }), ephemeral: true })
 	const targetUser = interaction.options.getUser('user')
 	const isModdable = await moddable(interaction.guild, targetUser.id, interaction.user.id)
 	switch (isModdable) {
 		case 1:
-			return interaction.reply({ content: 'The user you provided was invalid.', ephemeral: true })
+			return interaction.reply({ content: i18next.t('mod.INVALID_USER'), ephemeral: true })
 		case 2:
-			return interaction.reply({ content: 'You can\'t ban yourself silly!', ephemeral: true })
+			return interaction.reply({ content: i18next.t('mod.SAME_USER', { action: 'ban' }), ephemeral: true })
 		case 3:
-			return interaction.reply({ content: 'My roles don\'t allow me to do that, ask an admin to make sure my role is higher than the target users!', ephemeral: true })
+			return interaction.reply({ content: i18next.t('mod.BOT_ROLE_TOO_LOW'), ephemeral: true })
 		case 4:
-			return interaction.reply({ content: 'Your highest role is lower than the targets! You can\'t ban them!', ephemeral: true })
+			return interaction.reply({ content: i18next.t('USER_ROLE_TOO_LOW'), ephemeral: true })
 	}
 	const reason = interaction.options.getString('reason')
-	const formattedReason = `${interaction.user.tag}: ${reason ?? 'No reason specified.'}`
+	const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')}`
 	const duration = interaction.options.getString('duration')
 	const parsedDuration = parseDuration(duration)
 	const banResult = await ban(interaction.guild, targetUser.id, interaction.user.id, formattedReason, parsedDuration)
 	if (banResult == 0) {
 		if (duration) {
 			const humanDuration = dayjs.duration(parsedDuration, "ms").humanize()
-			interaction.reply(`${targetUser.tag} has been banned for ${humanDuration} with reason: ${reason ?? 'None'}.`)
+			interaction.reply(i18next.t('mod.ACTION_SUCESSFUL_WITH_DURATION', { tag: targetUser.tag, action: 'banned', duration: humanDuration, reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
 		} else {
-			interaction.reply(`${targetUser.tag} has been banned with reason: with reason: ${reason ?? 'None'}.`)
+			interaction.reply(i18next.t('mod.ACTION_SUCESSFUL', { tag: targetUser.tag, action: 'banned', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
 		}
 	} else {
-		interaction.reply('There was an unknown error banning the user')
+		interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
 	}
 }
 

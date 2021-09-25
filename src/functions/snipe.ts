@@ -1,5 +1,6 @@
 import { Message, User } from "discord.js"
-import {isBotOwner} from './util'
+import i18next from "i18next"
+import { isBotOwner } from './util'
 
 export const snipeLifetime = 20
 
@@ -28,8 +29,8 @@ export async function inputSnipe(message: Message, oldMessage: Message, type: st
 	const isOwner = isBotOwner(message.author.id)
 	const messageObject: MessageSniped = {
 		channel: message.channel.id,
-		oldMessage: oldMessage.content || '[No content]',
-		newMessage: message.content || '[No content]',
+		oldMessage: oldMessage.content || i18next.t('events:messageLogs.NO_CONTENT'),
+		newMessage: message.content || i18next.t('events:messageLogs.NO_CONTENT'),
 		user: message.author,
 		type: type,
 		isOwner: isOwner

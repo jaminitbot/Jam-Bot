@@ -2,6 +2,7 @@ import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { request } from 'undici'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import i18next from "i18next"
 
 export const name = 'fox'
 export const description = 'Fox'
@@ -14,8 +15,8 @@ async function returnFoxImage() {
 	const response = await request(
 		'https://randomfox.ca/floof/'
 	)
-	if (response.statusCode != 200) return 'The API seems to be returning errors, please try again later.'
-	return (await response.body.json()).image ?? "Unable to get a cute fox, the api's probably down :c"
+	if (response.statusCode != 200) return i18next.t('general: API_ERROR')
+	return (await response.body.json()).image ?? i18next.t('general:API_ERROR')
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send(await returnFoxImage())

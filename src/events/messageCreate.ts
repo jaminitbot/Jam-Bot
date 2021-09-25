@@ -5,6 +5,7 @@ import { Message, MessageEmbed } from 'discord.js'
 import { storeMessageCreate } from '../cron/stats'
 import { getErrorMessage } from '../functions/messages'
 import Sentry from '../functions/sentry'
+import i18next from 'i18next'
 const bannedIds = ['']
 export const name = "messageCreate"
 
@@ -33,7 +34,7 @@ export async function register(client: BotClient, message: Message) {
 		}
 		if (message.channel.type == 'DM' && !command.allowInDm) {
 			try {
-				await message.channel.send('Sorry, that command can only be run in a server!')
+				await message.channel.send(i18next.t('events:interactionCreate.DISABLED_IN_DMS'))
 				// eslint-disable-next-line no-empty
 			} catch {
 
