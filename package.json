@@ -15,14 +15,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/jamesatjaminit/Jam-Bot.git"
+        "url": "git+https://github.com/jaminitbot/Jam-Bot.git"
     },
     "author": "James Cook",
     "license": "MPL-2.0",
     "bugs": {
-        "url": "https://github.com/jamesatjaminit/Jam-Bot/issues"
+        "url": "https://github.com/jaminitbot/Jam-Bot/issues"
     },
-    "homepage": "https://github.com/jamesatjaminit/Jam-Bot#readme",
+    "homepage": "https://github.com/jaminitbot/Jam-Bot#readme",
     "dependencies": {
         "@discordjs/rest": "^0.1.0-canary.0",
         "@sentry/integrations": "^6.13.2",

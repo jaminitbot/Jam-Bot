@@ -2,55 +2,55 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [2.8.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.7.1...v2.8.0) (2021-09-25)
+## [2.8.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.7.1...v2.8.0) (2021-09-25)
 
 
 ### Features
 
-* image command caching ([b273901](https://github.com/jamesatjaminit/Jam-Bot/commit/b273901535ecc27e41541c3f38e598e14724689f))
-* localisation ([#83](https://github.com/jamesatjaminit/Jam-Bot/issues/83)) ([732280d](https://github.com/jamesatjaminit/Jam-Bot/commit/732280d7164a43cd57460d05eeeafbacb5ece2b9))
+* image command caching ([b273901](https://github.com/jaminitbot/Jam-Bot/commit/b273901535ecc27e41541c3f38e598e14724689f))
+* localisation ([#83](https://github.com/jaminitbot/Jam-Bot/issues/83)) ([732280d](https://github.com/jaminitbot/Jam-Bot/commit/732280d7164a43cd57460d05eeeafbacb5ece2b9))
 
 
 ### Bug Fixes
 
-* update dockerfile ([79959a3](https://github.com/jamesatjaminit/Jam-Bot/commit/79959a330ed1f413f060b808cf976690898ff459))
+* update dockerfile ([79959a3](https://github.com/jaminitbot/Jam-Bot/commit/79959a330ed1f413f060b808cf976690898ff459))
 
-### [2.7.1](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.7.0...v2.7.1) (2021-09-23)
+### [2.7.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.7.0...v2.7.1) (2021-09-23)
 
 
 ### Features
 
-* changelog slash command ([320d0ad](https://github.com/jamesatjaminit/Jam-Bot/commit/320d0ad5b1280032ca9de1b7abf60c518612e8d8))
-* error log uses webhooks, env cleanup ([de52f10](https://github.com/jamesatjaminit/Jam-Bot/commit/de52f10f654ae05c8e57d7a490af77cc3734c2e8))
-* hide owner commands from non-owners ([8d58993](https://github.com/jamesatjaminit/Jam-Bot/commit/8d58993729dd172df75908a7ccac3e25d6ea6aa8))
-* sentry ([40bc5ff](https://github.com/jamesatjaminit/Jam-Bot/commit/40bc5ff09b2ff4b18ae4b6f25aad65289b1049d3))
-* support command ([3209094](https://github.com/jamesatjaminit/Jam-Bot/commit/3209094deadc6affebc39b1aac3932e196416ce6))
+* changelog slash command ([320d0ad](https://github.com/jaminitbot/Jam-Bot/commit/320d0ad5b1280032ca9de1b7abf60c518612e8d8))
+* error log uses webhooks, env cleanup ([de52f10](https://github.com/jaminitbot/Jam-Bot/commit/de52f10f654ae05c8e57d7a490af77cc3734c2e8))
+* hide owner commands from non-owners ([8d58993](https://github.com/jaminitbot/Jam-Bot/commit/8d58993729dd172df75908a7ccac3e25d6ea6aa8))
+* sentry ([40bc5ff](https://github.com/jaminitbot/Jam-Bot/commit/40bc5ff09b2ff4b18ae4b6f25aad65289b1049d3))
+* support command ([3209094](https://github.com/jaminitbot/Jam-Bot/commit/3209094deadc6affebc39b1aac3932e196416ce6))
 
 
 ### Bug Fixes
 
-* allow slash commands even if the bot doens't have permissions ([7e9ab31](https://github.com/jamesatjaminit/Jam-Bot/commit/7e9ab3100153a9e983d73fffd0343312a7d0787c))
-* attempt to fix sentry ([2e33d63](https://github.com/jamesatjaminit/Jam-Bot/commit/2e33d6324ff47481077f03f9c3d25ee62611af67))
-* change button style define.ts ([50d6bd3](https://github.com/jamesatjaminit/Jam-Bot/commit/50d6bd39b0eb87c1739bbd0f112e7a05e28f70d0))
-* change stats interval ([387acf0](https://github.com/jamesatjaminit/Jam-Bot/commit/387acf00066998782c872eb65e4792cd22b3ca5a))
-* change support url ([d05267c](https://github.com/jamesatjaminit/Jam-Bot/commit/d05267c95c2a529f232122a4986f656523d23282))
-* don't log bot owner ([5e28f65](https://github.com/jamesatjaminit/Jam-Bot/commit/5e28f65794d6126b222f9bdbb70212293c71a4c1))
-* fix debug permissions ([2ee8143](https://github.com/jamesatjaminit/Jam-Bot/commit/2ee81436f4286596160d40b18cfaa0111dc0667e))
-* fix emoji command permissions ([629e4c4](https://github.com/jamesatjaminit/Jam-Bot/commit/629e4c42188cdb6d4a6a563c65c6b521eb8045e9))
-* fix modlogs with empty message ([e45685d](https://github.com/jamesatjaminit/Jam-Bot/commit/e45685d36e03d3860ca4a91470c375fe19e8be0c))
-* fix pages define command ([59eb743](https://github.com/jamesatjaminit/Jam-Bot/commit/59eb74310f6ba55cecaf2b63db76b0d1c0428084))
-* improve logging on image command ([153a89b](https://github.com/jamesatjaminit/Jam-Bot/commit/153a89b08087c69647551f2c19cb792df3fdb512))
-* improve slash command message ([388d244](https://github.com/jamesatjaminit/Jam-Bot/commit/388d244d838e80a1c7cd0f342721b60ff7ebeaba))
-* include source in unhandled error ([e325d58](https://github.com/jamesatjaminit/Jam-Bot/commit/e325d580355d5d63758cfd6069727ea81a6751e5))
-* join channel interactions ([41f8d50](https://github.com/jamesatjaminit/Jam-Bot/commit/41f8d50db035fd1211b2c48fc5fef4d6bc082b7e))
-* more typescript sentry fixes ([bd36302](https://github.com/jamesatjaminit/Jam-Bot/commit/bd3630236801f4a83a5d334dbf9ceddd58ec4f41))
-* parse prefix as string messageHandler ([bd8eaef](https://github.com/jamesatjaminit/Jam-Bot/commit/bd8eaef9cf380a0f547571ecca35701e954b4587))
-* prefix ([20f6c6e](https://github.com/jamesatjaminit/Jam-Bot/commit/20f6c6ef58fda8226ae2aba58985263ce31480e7))
-* remove optional from arg descriptions ([8e30f66](https://github.com/jamesatjaminit/Jam-Bot/commit/8e30f66000e2d3ba34e92426e8c43da89b2dcd0c))
-* sentry cleanup ([450fe87](https://github.com/jamesatjaminit/Jam-Bot/commit/450fe87039347fd9a0f1b5861eab740cacc1ff3a))
-* sentry with typescript ([1a623e4](https://github.com/jamesatjaminit/Jam-Bot/commit/1a623e43430b5136ae358b21dec4a8ff934c9887))
-* support command ([d5a1d36](https://github.com/jamesatjaminit/Jam-Bot/commit/d5a1d36002394100fff38fa4b35402f6b8ec4ad7))
-* support command v2 ([81fca67](https://github.com/jamesatjaminit/Jam-Bot/commit/81fca67c971817cf23a8088e80423642f88d64d1))
+* allow slash commands even if the bot doens't have permissions ([7e9ab31](https://github.com/jaminitbot/Jam-Bot/commit/7e9ab3100153a9e983d73fffd0343312a7d0787c))
+* attempt to fix sentry ([2e33d63](https://github.com/jaminitbot/Jam-Bot/commit/2e33d6324ff47481077f03f9c3d25ee62611af67))
+* change button style define.ts ([50d6bd3](https://github.com/jaminitbot/Jam-Bot/commit/50d6bd39b0eb87c1739bbd0f112e7a05e28f70d0))
+* change stats interval ([387acf0](https://github.com/jaminitbot/Jam-Bot/commit/387acf00066998782c872eb65e4792cd22b3ca5a))
+* change support url ([d05267c](https://github.com/jaminitbot/Jam-Bot/commit/d05267c95c2a529f232122a4986f656523d23282))
+* don't log bot owner ([5e28f65](https://github.com/jaminitbot/Jam-Bot/commit/5e28f65794d6126b222f9bdbb70212293c71a4c1))
+* fix debug permissions ([2ee8143](https://github.com/jaminitbot/Jam-Bot/commit/2ee81436f4286596160d40b18cfaa0111dc0667e))
+* fix emoji command permissions ([629e4c4](https://github.com/jaminitbot/Jam-Bot/commit/629e4c42188cdb6d4a6a563c65c6b521eb8045e9))
+* fix modlogs with empty message ([e45685d](https://github.com/jaminitbot/Jam-Bot/commit/e45685d36e03d3860ca4a91470c375fe19e8be0c))
+* fix pages define command ([59eb743](https://github.com/jaminitbot/Jam-Bot/commit/59eb74310f6ba55cecaf2b63db76b0d1c0428084))
+* improve logging on image command ([153a89b](https://github.com/jaminitbot/Jam-Bot/commit/153a89b08087c69647551f2c19cb792df3fdb512))
+* improve slash command message ([388d244](https://github.com/jaminitbot/Jam-Bot/commit/388d244d838e80a1c7cd0f342721b60ff7ebeaba))
+* include source in unhandled error ([e325d58](https://github.com/jaminitbot/Jam-Bot/commit/e325d580355d5d63758cfd6069727ea81a6751e5))
+* join channel interactions ([41f8d50](https://github.com/jaminitbot/Jam-Bot/commit/41f8d50db035fd1211b2c48fc5fef4d6bc082b7e))
+* more typescript sentry fixes ([bd36302](https://github.com/jaminitbot/Jam-Bot/commit/bd3630236801f4a83a5d334dbf9ceddd58ec4f41))
+* parse prefix as string messageHandler ([bd8eaef](https://github.com/jaminitbot/Jam-Bot/commit/bd8eaef9cf380a0f547571ecca35701e954b4587))
+* prefix ([20f6c6e](https://github.com/jaminitbot/Jam-Bot/commit/20f6c6ef58fda8226ae2aba58985263ce31480e7))
+* remove optional from arg descriptions ([8e30f66](https://github.com/jaminitbot/Jam-Bot/commit/8e30f66000e2d3ba34e92426e8c43da89b2dcd0c))
+* sentry cleanup ([450fe87](https://github.com/jaminitbot/Jam-Bot/commit/450fe87039347fd9a0f1b5861eab740cacc1ff3a))
+* sentry with typescript ([1a623e4](https://github.com/jaminitbot/Jam-Bot/commit/1a623e43430b5136ae358b21dec4a8ff934c9887))
+* support command ([d5a1d36](https://github.com/jaminitbot/Jam-Bot/commit/d5a1d36002394100fff38fa4b35402f6b8ec4ad7))
+* support command v2 ([81fca67](https://github.com/jaminitbot/Jam-Bot/commit/81fca67c971817cf23a8088e80423642f88d64d1))
 
 ## [2.7.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.5.3...v2.7.0) (2021-09-17)
 
