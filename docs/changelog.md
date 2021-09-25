@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.7.1...v2.8.0) (2021-09-25)
+
+
+### Features
+
+* image command caching ([b273901](https://github.com/jamesatjaminit/Jam-Bot/commit/b273901535ecc27e41541c3f38e598e14724689f))
+* localisation ([#83](https://github.com/jamesatjaminit/Jam-Bot/issues/83)) ([732280d](https://github.com/jamesatjaminit/Jam-Bot/commit/732280d7164a43cd57460d05eeeafbacb5ece2b9))
+
+
+### Bug Fixes
+
+* update dockerfile ([79959a3](https://github.com/jamesatjaminit/Jam-Bot/commit/79959a330ed1f413f060b808cf976690898ff459))
+
 ### [2.7.1](https://github.com/jamesatjaminit/Jam-Bot/compare/v2.7.0...v2.7.1) (2021-09-23)
 
 
