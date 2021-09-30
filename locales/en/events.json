@@ -11,7 +11,7 @@
 		"USER_LEFT": "User Left"
 	},
 	"interactionCreate": {
-		"SLASH_FUNCTION_NULL": "This command hasn't been setup for slash commands yet, please use {{prefix}}{{command}} for the time being",
+		"SLASH_FUNCTION_NULL": "This command hasn't been setup for slash commands yet, please use `{{prefix}}{{command}}` for the time being",
 		"DISABLED_IN_DMS": "This command can only be used in a server"
 	},
 	"messageLogs": {
