@@ -25,7 +25,7 @@ export async function execute(client: BotClient, message: Message, args) {
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const reply = await interaction.deferReply({ fetchReply: true })
-	// @ts-expect-error
+	if (reply.type != 'APPLICATION_COMMAND') return
 	const embed = createLatencyEmbed(interaction.createdTimestamp, reply.createdTimestamp, client)
 	interaction.editReply({ embeds: [embed] })
 }
