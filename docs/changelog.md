@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.8.0...v2.8.1) (2021-09-30)
+
+
+### Features
+
+* debug command slash command ([06b698c](https://github.com/jaminitbot/Jam-Bot/commit/06b698ce3c4dc69c2a0269339a1847c8f626a143))
+* make descriptions of commands clearer ([50ce8e6](https://github.com/jaminitbot/Jam-Bot/commit/50ce8e6a092f6b3bfb52744d6fc02c17edb3b768))
+
+
+### Bug Fixes
+
+* fix debug command ping ([aeafd80](https://github.com/jaminitbot/Jam-Bot/commit/aeafd80470589f96857a3766052362b44de5cd4c))
+* handle button/select function not existing ([a452348](https://github.com/jaminitbot/Jam-Bot/commit/a452348d971c8f1ca3416f0f609354b5e029b789))
+
 ## [2.8.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.7.1...v2.8.0) (2021-09-25)
 
 
