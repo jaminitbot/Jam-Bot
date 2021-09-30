@@ -5,6 +5,7 @@ import { getInvalidPermissionsMessage } from './messages'
 import is_number = require("is-number")
 import { request } from 'undici'
 import { Logger } from "winston"
+import i18next from "i18next"
 
 /**
  * Checks permissions against a guild member
@@ -227,8 +228,8 @@ export function capitaliseSentence(string: string) {
 
 export function booleanToHuman(booleanToConvert: boolean) {
 	if (booleanToConvert == true) {
-		return 'on'
+		return i18next.t('misc:ON')
 	} else {
-		return 'off'
+		return i18next.t('misc:OFF')
 	}
 }

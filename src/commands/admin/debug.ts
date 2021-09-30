@@ -33,6 +33,6 @@ export async function execute(client: BotClient, message: Message, args: Array<u
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const initiatedSlash = await interaction.deferReply({ fetchReply: true })
 	if (initiatedSlash.type != 'APPLICATION_COMMAND') return
-	const embed = returnDebugEmbed(interaction.createdTimestamp, initiatedSlash.createdTimestamp, client.uptime, client.ws.ping, interaction.guild.id)
+	const embed = returnDebugEmbed(initiatedSlash.createdTimestamp, interaction.createdTimestamp, client.uptime, client.ws.ping, interaction.guild.id)
 	interaction.editReply({ embeds: [embed] })
 }

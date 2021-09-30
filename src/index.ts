@@ -110,7 +110,7 @@ import { processTasks } from './functions/mod'
 	client.logger = logger
 	i18next.use(i18nextBackend).init({
 		lng: 'en',
-		ns: ['general', 'commands', 'events'],
+		ns: ['general', 'commands', 'events', 'misc'],
 		defaultNS: 'commands',
 		backend: {
 			loadPath: '../locales/{{lng}}/{{ns}}.json'
