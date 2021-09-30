@@ -5,7 +5,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
 export const name = 'dog'
-export const description = 'Gets a random dog picture, or a specific breed'
+export const description = 'Gets a random image of a dog'
 export const usage = 'dog'
 export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
@@ -13,7 +13,7 @@ export const slashData = new SlashCommandBuilder()
 	.setDescription(description)
 	.addStringOption(option =>
 		option.setName('breed')
-			.setDescription('The breed of the dog to search for')
+			.setDescription('The breed of the dog')
 			.setRequired(false))
 async function getDogPhoto(breed) {
 	let response: Dispatcher.ResponseData

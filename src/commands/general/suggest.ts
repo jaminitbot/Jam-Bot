@@ -15,7 +15,7 @@ export const slashData = new SlashCommandBuilder()
 	.setDescription(description)
 	.addStringOption(option =>
 		option.setName('suggestion')
-			.setDescription('The thing to suggest')
+			.setDescription('A description of your suggestion')
 			.setRequired(true))
 async function sendSuggestion(client: BotClient, suggestion: string, guildId: string, attachment: string, author: User) {
 	const suggestionChannelId = await getNestedSetting(guildId, 'suggestions', 'channel')

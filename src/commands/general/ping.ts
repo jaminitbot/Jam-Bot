@@ -4,7 +4,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
 export const name = 'ping'
-export const description = 'Displays various latency information'
+export const description = 'Displays latency information'
 export const usage = 'ping'
 export const aliases = ['latency', 'pong']
 export const allowInDm = true

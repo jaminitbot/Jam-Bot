@@ -26,7 +26,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(false))
 	.addStringOption(option =>
 		option.setName('reason')
-			.setDescription('Reason to ban the user for')
+			.setDescription('The reason for banning the user')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send(i18next.t('general:ONLY_SLASH_COMMAND'))

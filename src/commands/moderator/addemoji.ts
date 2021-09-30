@@ -4,7 +4,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
 export const name = 'addemoji'
-export const description = 'Adds an emoji to the server'
+export const description = 'Adds a custom emoji to the server'
 export const usage = 'addemoji EmojiName'
 export const permissions: Permissions = ['MANAGE_EMOJIS_AND_STICKERS']
 export const slashData = new SlashCommandBuilder()

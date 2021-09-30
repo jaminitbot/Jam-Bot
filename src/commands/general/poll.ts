@@ -5,8 +5,8 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
 export const name = 'poll'
-export const description = 'Creates a poll'
-export const usage = 'poll Are chips good?'
+export const description = 'Creates a simple yes/no poll'
+export const usage = 'poll Are chips tasty?'
 export const aliases = ['question']
 export const allowInDm = true
 export const slashData = new SlashCommandBuilder()

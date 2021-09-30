@@ -5,7 +5,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
 export const name = 'koala'
-export const description = 'Koala'
+export const description = 'Gets a random image of a koala'
 export const usage = 'koala'
 export const allowInDm = true
 export const slashData = new SlashCommandBuilder()

@@ -15,20 +15,19 @@ export const slashData = new SlashCommandBuilder()
 	.addSubcommandGroup(group =>
 		group.setName('general')
 			.setDescription('General settings')
-
 			.addSubcommand(command =>
 				command.setName('prefix')
 					.setDescription('Sets the bot\'s prefix')
 					.addStringOption(option =>
 						option.setName('prefix')
-							.setDescription('The new prefix to use')
+							.setDescription('The new prefix')
 							.setRequired(false)
 					)
 			)
 	)
 	.addSubcommandGroup(group =>
 		group.setName('suggestions')
-			.setDescription('Suggestion settings')
+			.setDescription('Suggestion related settings')
 			.addSubcommand(command =>
 				command.setName('channel')
 					.setDescription('Sets the suggestion channel')
@@ -50,30 +49,30 @@ export const slashData = new SlashCommandBuilder()
 	)
 	.addSubcommandGroup(group =>
 		group.setName('modlog')
-			.setDescription('Mod log related settings')
+			.setDescription('Modlog related settings')
 			.addSubcommand(command =>
 				command.setName('channels')
 					.setDescription('Sets the various channels to send modlogs')
 					.addChannelOption(option =>
-						option.setName('main')
-							.setDescription('The main channel for modlogs (used if other channels aren\'t specified')
+						option.setName('default')
+							.setDescription('The default channel for modlogs (used if other channels aren\'t specified and the event is turned on')
 							.setRequired(false)
 					)
 					.addChannelOption(option =>
 						option.setName('messages')
-							.setDescription('Channel to send modlogs relating to messages')
+							.setDescription('Channel to message related modlogs')
 							.setRequired(false))
 					.addChannelOption(option =>
 						option.setName('members')
-							.setDescription('Channel to send modlogs relating to member')
+							.setDescription('Channel to send member related modlogs')
 							.setRequired(false))
 					.addChannelOption(option =>
 						option.setName('server')
-							.setDescription('Channel to send modlogs relating to the server')
+							.setDescription('Channel to send server related modlogs')
 							.setRequired(false))
 					.addChannelOption(option =>
 						option.setName('joinleaves')
-							.setDescription('Channel to send modlogs relating to the joins/leaves')
+							.setDescription('Channel to send join/leave modlogs')
 							.setRequired(false))
 			)
 			.addSubcommand(command =>
@@ -81,22 +80,22 @@ export const slashData = new SlashCommandBuilder()
 					.setDescription('Turns on/off logging of certain events')
 					.addBooleanOption(option =>
 						option.setName('messages')
-							.setDescription('Log events related to messages?')
+							.setDescription('Log message events?')
 							.setRequired(false)
 					)
 					.addBooleanOption(option =>
 						option.setName('members')
-							.setDescription('Log events related to members?')
+							.setDescription('Log member events?')
 							.setRequired(false)
 					)
 					.addBooleanOption(option =>
 						option.setName('server')
-							.setDescription('Log events related to the server?')
+							.setDescription('Log server events?')
 							.setRequired(false)
 					)
 					.addBooleanOption(option =>
 						option.setName('joinleaves')
-							.setDescription('Log events related to joins/leaves?')
+							.setDescription('Log join/leave events?')
 							.setRequired(false)
 					)
 			)
@@ -161,7 +160,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 		}
 	} else if (subCommandGroup == 'modlog') {
 		if (subCommand == 'channels') {
-			const mainChannelRaw = interaction.options.getChannel('main')
+			const mainChannelRaw = interaction.options.getChannel('default')
 			const messagesChannelRaw = interaction.options.getChannel('messages')
 			const membersChannelRaw = interaction.options.getChannel('members')
 			const serverChannelRaw = interaction.options.getChannel('server')

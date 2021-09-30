@@ -4,7 +4,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
 export const name = 'support'
-export const description = 'Shows various support information'
+export const description = 'Displays support information'
 export const usage = 'support'
 export const allowInDm = false
 export const slashData = new SlashCommandBuilder()

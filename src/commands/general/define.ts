@@ -39,7 +39,7 @@ export const slashData = new SlashCommandBuilder()
 	.setDescription(description)
 	.addStringOption(option =>
 		option.setName('word')
-			.setDescription('The word you\'d like to define')
+			.setDescription('The word to define')
 			.setRequired(true))
 const colours: Array<ColorResolvable> = ['#805D93', '#F49FBC', '#FFD3BA', '#9EBD6E', '#169873', '#540D6E', '#EE4266']
 interface InteractionData {

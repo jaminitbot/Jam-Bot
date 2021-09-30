@@ -17,7 +17,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(true))
 	.addStringOption(option =>
 		option.setName('reason')
-			.setDescription('Reason to unban the user for')
+			.setDescription('Reason for unbanning the user')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send('Please use the slash command to unban people!')

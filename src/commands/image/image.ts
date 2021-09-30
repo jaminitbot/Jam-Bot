@@ -14,7 +14,7 @@ const apiHost = 'https://api.bing.microsoft.com/v7.0/images/search'
 const subscriptionKey = process.env.bingImageSearchKey
 
 export const name = 'image'
-export const description = 'Searches the web for an image'
+export const description = 'Searches the internet for an image'
 export const usage = 'image duck'
 export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
@@ -22,7 +22,7 @@ export const slashData = new SlashCommandBuilder()
 	.setDescription(description)
 	.addStringOption(option =>
 		option.setName('search')
-			.setDescription('The text to search for')
+			.setDescription('The term to search for')
 			.setRequired(true))
 	.addIntegerOption(option =>
 		option.setName('position')

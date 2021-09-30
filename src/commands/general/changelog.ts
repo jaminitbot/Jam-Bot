@@ -33,7 +33,7 @@ export const slashData = new SlashCommandBuilder()
 	.setDescription(description)
 	.addIntegerOption(option =>
 		option.setName('changeid')
-			.setDescription('The specific change you\'d like to get')
+			.setDescription('The change ID to get')
 			.setRequired(false))
 async function returnChangelogEmbed(changeNumber = null, logger: Logger) {
 	const embed = new MessageEmbed()

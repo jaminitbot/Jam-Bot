@@ -5,7 +5,7 @@ import dayjs from "dayjs"
 import i18next from "i18next"
 
 export const name = 'uptime'
-export const description = "Displays the bot's current uptime"
+export const description = "Displays the bot's uptime"
 export const usage = 'uptime'
 export const allowInDm = true
 export const slashData = new SlashCommandBuilder()

@@ -5,7 +5,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
 export const name = 'gif'
-export const description = 'Gets a gif'
+export const description = 'Searches the internet for a gif'
 export const usage = 'gif hello'
 export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
@@ -13,11 +13,11 @@ export const slashData = new SlashCommandBuilder()
 	.setDescription(description)
 	.addStringOption(option =>
 		option.setName('search')
-			.setDescription('The text to search for')
+			.setDescription('The search term')
 			.setRequired(true))
 	.addIntegerOption(option =>
 		option.setName('position')
-			.setDescription('The specific gif to get')
+			.setDescription('The specific position to get')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	if (!args[0]) return message.reply(i18next.t('image.NO_ARGUMENTS_SPECIFIED'))

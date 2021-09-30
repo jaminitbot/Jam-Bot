@@ -5,12 +5,13 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
 export const name = 'fox'
-export const description = 'Fox'
+export const description = 'Gets a random image of a fox'
 export const usage = 'fox'
 export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
+
 async function returnFoxImage() {
 	const response = await request(
 		'https://randomfox.ca/floof/'

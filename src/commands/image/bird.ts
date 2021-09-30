@@ -5,13 +5,14 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
 export const name = 'bird'
-export const description = 'Chirp'
+export const description = 'Chirp chirp'
 export const usage = 'bird'
 export const aliases = ['birb']
 export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
+
 async function returnBirdUrl() {
 	const response = await request(
 		'https://some-random-api.ml/img/birb'

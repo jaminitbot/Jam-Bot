@@ -8,14 +8,14 @@ import i18next from "i18next"
 
 const logger = getLogger()
 export const name = 'stock'
-export const description = 'Gets a stock image'
+export const description = 'Searches Pexels for a stock image'
 export const usage = 'stock nature'
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
 	.addStringOption(option =>
 		option.setName('search')
-			.setDescription('The text to search for')
+			.setDescription('The term to search for')
 			.setRequired(true))
 	.addIntegerOption(option =>
 		option.setName('position')

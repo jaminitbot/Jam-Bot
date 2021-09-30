@@ -6,7 +6,7 @@ import { isBotOwner } from '../../functions/util'
 import i18next from "i18next"
 
 export const name = 'help'
-export const description = 'Displays information on a specific command'
+export const description = 'Displays help information on commands'
 export const usage = 'help command'
 export const allowInDm = true
 export const slashData = new SlashCommandBuilder()

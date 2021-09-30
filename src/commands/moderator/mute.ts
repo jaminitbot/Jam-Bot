@@ -29,7 +29,7 @@ export const slashData = new SlashCommandBuilder()
 			.setRequired(false))
 	.addStringOption(option =>
 		option.setName('reason')
-			.setDescription('Reason to mute the user for')
+			.setDescription('Reason for muting the user')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.channel.send('Please use the slash command to mute people!')

@@ -5,7 +5,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
 export const name = 'snipe'
-export const description = 'Snipes deleted and edited messages'
+export const description = 'Shows recent edited/deleted messages'
 export const usage = 'snipe (deletes|edits)'
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
