@@ -3,8 +3,8 @@ import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
-const messages = require('../../functions/messages')
-const isNumber = require('is-number')
+import messages = require('../../functions/messages')
+import isNumber = require('is-number')
 
 export const name = 'purge'
 export const description = 'Bulk deletes messages'

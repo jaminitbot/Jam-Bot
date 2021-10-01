@@ -11,6 +11,7 @@ declare global {
 global.__rootdir__ = __dirname || process.cwd();
 // Mr imports
 if (!process.env.token) {
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	require('dotenv').config();
 }
 
@@ -183,6 +184,7 @@ import { processTasks } from './functions/mod'
 	})
 	// SIGINT STUFF
 	if (process.platform === 'win32') {
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
 		const rl = require('readline').createInterface({
 			input: process.stdin,
 			output: process.stdout,
