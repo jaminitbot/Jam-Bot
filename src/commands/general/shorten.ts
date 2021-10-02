@@ -42,5 +42,5 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 		url = i18next.t('general:API_ERROR')
 		userOnly = true
 	}
-	await interaction.reply({ content: url, ephemeral: userOnly })
+	await interaction.reply({ content: url, ephemeral: userOnly, allowedMentions: { parse: [] } })
 }
