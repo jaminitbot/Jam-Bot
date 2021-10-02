@@ -25,7 +25,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The reason for kicking the user')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	message.channel.send('Please use the slash command to kick people!')
+	message.channel.send(i18next.t('general:ONLY_SLASH_COMMAND', { command: '/mute' }))
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	if (!interaction.guild.me.permissions.has('KICK_MEMBERS')) return interaction.reply({ content: 'I don\'t have the correct permissions to kick people, ask an admin to check my permissions!' })

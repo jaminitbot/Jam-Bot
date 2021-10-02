@@ -20,7 +20,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('Reason for unmuting the user')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	message.channel.send('Please use the slash command to unmute people!')
+	message.channel.send(i18next.t('general:ONLY_SLASH_COMMAND', { command: '/mute' }))
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	if (!interaction.guild.me.permissions.has('MANAGE_ROLES')) return interaction.reply({ content: 'I don\'t have the correct permissions to unmute people, ask an admin to check my permissions!' })

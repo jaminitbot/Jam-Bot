@@ -20,7 +20,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('Reason for unbanning the user')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	message.channel.send('Please use the slash command to unban people!')
+	message.channel.send(i18next.t('general:ONLY_SLASH_COMMAND', { command: '/mute' }))
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	if (!interaction.guild.me.permissions.has('BAN_MEMBERS')) return interaction.reply({ content: 'I don\'t have the correct permissions to unban people, ask an admin to check my permissions!' })

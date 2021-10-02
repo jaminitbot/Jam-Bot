@@ -29,7 +29,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The reason for banning the user')
 			.setRequired(false))
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	message.channel.send(i18next.t('general:ONLY_SLASH_COMMAND'))
+	message.channel.send(i18next.t('general:ONLY_SLASH_COMMAND', { command: '/mute' }))
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	if (!interaction.guild.me.permissions.has('BAN_MEMBERS')) return interaction.reply({ content: i18next.t('general:BOT_INVALID_PERMISSION', { friendlyPermissionName: 'ban members', permissionName: permissions[0] }), ephemeral: true })
