@@ -3,7 +3,7 @@ import { request, Dispatcher } from 'undici'
 import { MessageEmbed, TextChannel } from 'discord.js'
 import { getNestedSetting, setNestedSetting } from '../functions/db'
 import isImageUrl = require('is-image-url')
-const messages = require('../functions/messages')
+import messages = require('../functions/messages')
 import sha1 = require('sha1')
 import dayjs = require('dayjs')
 import Sentry from '../functions/sentry'
