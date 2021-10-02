@@ -43,7 +43,10 @@ export async function execute(client: BotClient, message: Message, args: Array<u
 	if (!args[0]) return message.reply(i18next.t('purge.NO_ARGUMENTS_SPECIFIED'))
 	if (!isNumber(args[0])) return message.reply(i18next.t('purge.DELETE_COUNT_INVALID'))
 	await message.delete()
-	await message.channel.send(await bulkDeleteMessages(message.channel, args[0]))
+	const sentMessage = await message.channel.send(await bulkDeleteMessages(message.channel, args[0]))
+	setTimeout(() => {
+		sentMessage.delete()
+	}, 3 * 1000)
 }
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	const numOfMessages = interaction.options.getInteger('number')
