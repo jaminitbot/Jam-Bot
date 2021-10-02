@@ -49,7 +49,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')}`
 	const duration = interaction.options.getString('duration')
 	const parsedDuration = parseDuration(duration)
-	const banResult = await ban(interaction.guild, targetUser.id, interaction.user.id, formattedReason, parsedDuration)
+	const banResult = await ban(interaction.guild, targetUser.id, formattedReason, parsedDuration)
 	if (banResult == 0) {
 		if (duration) {
 			const humanDuration = dayjs.duration(parsedDuration, "ms").humanize()

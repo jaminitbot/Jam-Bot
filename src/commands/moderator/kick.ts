@@ -43,7 +43,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	}
 	const reason = interaction.options.getString('reason')
 	const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')}`
-	const kickResult = await kick(interaction.guild, targetUser.id, interaction.user.id, formattedReason)
+	const kickResult = await kick(interaction.guild, targetUser.id, formattedReason)
 	if (kickResult == 0) {
 		interaction.reply({ content: i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'kicked', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }), allowedMentions: { parse: [] } }) // 
 	} else {

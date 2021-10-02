@@ -77,14 +77,14 @@ export async function processTasks(client: BotClient) {
 						if (!guild.me.permissions.has('MANAGE_ROLES')) {
 							successful = false
 						} else {
-							unmute(guild, task.targetId, client.user.id, 'Automatically unmuted.')
+							unmute(guild, task.targetId, 'Automatically unmuted.')
 						}
 						break
 					case 'UNBAN':
 						if (!guild.me.permissions.has('BAN_MEMBERS')) {
 							successful = false
 						} else {
-							unban(guild, task.targetId, client.user.id, 'Automatically unbanned.')
+							unban(guild, task.targetId, 'Automatically unbanned.')
 						}
 						break
 				}
@@ -94,7 +94,7 @@ export async function processTasks(client: BotClient) {
 	})
 }
 
-export async function ban(guild: Guild, userId: string, modId: string, reason: string | null, duration: number | null) {
+export async function ban(guild: Guild, userId: string, reason: string | null, duration: number | null) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1
 	try {
@@ -108,16 +108,16 @@ export async function ban(guild: Guild, userId: string, modId: string, reason: s
 	return 0
 }
 
-export async function unban(guild: Guild, userId: string, modId: string, reason: string) {
+export async function unban(guild: Guild, userId: string, reason: string) {
 	try {
-		await guild.bans.remove(userId)
+		await guild.bans.remove(userId, reason)
 	} catch {
 		return 2
 	}
 	return 0
 }
 
-export async function kick(guild: Guild, userId: string, modId: string, reason: string | null) {
+export async function kick(guild: Guild, userId: string, reason: string | null) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1
 	try {
@@ -128,13 +128,13 @@ export async function kick(guild: Guild, userId: string, modId: string, reason: 
 	return 0
 }
 
-export async function mute(guild: Guild, userId: string, modId: string, reason: string | null, duration: number | null) {
+export async function mute(guild: Guild, userId: string, reason: string | null, duration: number | null) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1
 	const role = guild.roles.cache.find(role => role.name == 'Muted')
 	if (!role) return 3
 	try {
-		await target.roles.add(role)
+		await target.roles.add(role, reason)
 	} catch {
 		return 1
 	}
@@ -144,14 +144,14 @@ export async function mute(guild: Guild, userId: string, modId: string, reason: 
 	return 0
 }
 
-export async function unmute(guild: Guild, userId: string, modId: string, reason: string | null) {
+export async function unmute(guild: Guild, userId: string, reason: string | null) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1
 	const role = guild.roles.cache.find(role => role.name == 'Muted')
 	if (!role) return 3
 	if (!target.roles.cache.get(role.id)) return 4
 	try {
-		await target.roles.remove(role)
+		await target.roles.remove(role, reason)
 	} catch {
 		return 1
 	}
