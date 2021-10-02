@@ -53,9 +53,9 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	if (banResult == 0) {
 		if (duration) {
 			const humanDuration = dayjs.duration(parsedDuration, "ms").humanize()
-			interaction.reply(i18next.t('mod.ACTION_SUCESSFUL_WITH_DURATION', { tag: targetUser.tag, action: 'banned', duration: humanDuration, reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
+			interaction.reply({ content: i18next.t('mod.ACTION_SUCESSFUL_WITH_DURATION', { tag: targetUser.tag, action: 'banned', duration: humanDuration, reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }), allowedMentions: { parse: [] } })
 		} else {
-			interaction.reply(i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'banned', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
+			interaction.reply({ content: i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'banned', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }), allowedMentions: { parse: [] } })
 		}
 	} else {
 		interaction.reply(i18next.t('general:UNKNOWN_ERROR'))

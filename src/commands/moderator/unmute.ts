@@ -40,7 +40,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')}`
 	const unmuteResult = await unmute(interaction.guild, targetUser.id, interaction.user.id, formattedReason)
 	if (unmuteResult == 0) {
-		interaction.reply(i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'unmuted', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
+		interaction.reply({ content: i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'unmuted', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }), allowedMentions: { parse: [] } })
 	} else if (unmuteResult == 3) {
 		interaction.reply({ content: i18next.t('mute.NO_MUTED_ROLE'), ephemeral: true })
 	} else if (unmuteResult == 4) {

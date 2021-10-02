@@ -32,7 +32,7 @@ import { processTasks } from './functions/mod'
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
 	const clientOptions: ClientOptions = {
-		allowedMentions: { parse: ['roles', 'everyone'] },
+		allowedMentions: { parse: ['roles', 'users'] },
 		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
 		presence: { status: 'online', activities: [{ name: '/help', type: 'WATCHING' }] },
 		partials: ['MESSAGE', 'GUILD_MEMBER']

@@ -57,9 +57,9 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	if (muteResult == 0) {
 		if (duration) {
 			const humanDuration = dayjs.duration(parsedDuration, "ms").humanize()
-			interaction.reply(i18next.t('mod.ACTION_SUCCESSFUL_WITH_DURATION', { tag: targetUser.tag, action: 'muted', duration: humanDuration, reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
+			interaction.reply({ content: i18next.t('mod.ACTION_SUCCESSFUL_WITH_DURATION', { tag: targetUser.tag, action: 'muted', duration: humanDuration, reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }), allowedMentions: { parse: [] } })
 		} else {
-			interaction.reply(i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'muted', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
+			interaction.reply({ content: i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'muted', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }), allowedMentions: { parse: [] } })
 		}
 	} else if (muteResult == 3) {
 		interaction.reply({ content: i18next.t('mute.NO_MUTED_ROLE'), ephemeral: true })

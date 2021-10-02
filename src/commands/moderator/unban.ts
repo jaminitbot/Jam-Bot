@@ -52,7 +52,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')}`
 	const banResult = await unban(interaction.guild, targetUser.id, interaction.user.id, formattedReason)
 	if (banResult == 0) {
-		interaction.reply(i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'unbanned', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }))
+		interaction.reply({ content: i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'unbanned', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }), allowedMentions: { parse: [] } })
 	} else {
 		interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
 	}
