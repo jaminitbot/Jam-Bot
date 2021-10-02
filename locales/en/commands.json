@@ -144,7 +144,7 @@
 	"purge": {
 		"DELETE_COUNT_TOO_LOW": "You can't delete less than one message",
 		"DELETE_COUNT_TOO_HIGH": "You can't delete more than 100 messages",
-		"DELETE_SUCESSFUL": "Successfully deleted {{count}} messages",
+		"DELETE_SUCCESSFUL": "Successfully deleted {{count}} messages",
 		"NO_ARGUMENTS_SPECIFIED": "You need to specify how many messages to delete",
 		"DELETE_COUNT_INVALID": "You need to specify a valid number"
 	},
