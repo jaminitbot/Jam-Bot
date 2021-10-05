@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+import { REST } from '@discordjs/rest'
+import { Routes } from 'discord-api-types/v9'
 const token = process.env.token
 const rest = new REST({ version: '9' }).setToken(token);
 import { Collection } from 'discord.js';
@@ -11,7 +11,6 @@ import fs = require('fs')
  * @param client Discord client
  */
 export async function registerSlashCommands(client: BotClient) {
-	client.logger.verbose('Registering slash commands...')
 	const commands = client.commands
 	let data = []
 	let devData = []
@@ -38,6 +37,7 @@ export function registerCommands(client: BotClient) {
 		const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'))
 		for (const file of commandFiles) {
 			delete require.cache[require.resolve(`../commands/${folder}/${file}`)]
+			// eslint-disable-next-line @typescript-eslint/no-var-requires
 			const command = require(`../commands/${folder}/${file}`)
 			client.commands.set(command.name, command)
 		}
@@ -48,6 +48,7 @@ export function registerEvents(client: BotClient) {
 	const commandFiles = fs.readdirSync(`./events`).filter(file => file.endsWith('.js'))
 	for (const file of commandFiles) {
 		delete require.cache[require.resolve(`../events/${file}`)]
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
 		const event = require(`../events/${file}`)
 		client.events.set(event.name, event)
 	}

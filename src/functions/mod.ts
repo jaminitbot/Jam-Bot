@@ -6,7 +6,11 @@ import is_number from "is-number"
 import { capitaliseSentence } from "./util"
 
 type TaskType = 'UNMUTE' | 'UNBAN'
-
+/**
+ * 
+ * @param duration duration to parse
+ * @returns parsed duration as number
+ */
 export function parseDuration(duration: string) {
 	if (!duration) return null
 	const durationArray = String(duration).split(' ')
@@ -29,6 +33,14 @@ export function parseDuration(duration: string) {
 	return parsedDuration
 }
 type LogType = 'messages' | 'members' | 'server' | 'joinLeaves'
+/**
+ * Posts a message to a specified modlog
+ * @param client Discord.js client
+ * @param guildId Guild ID
+ * @param messageContent Message/embed to send to the modlog
+ * @param logType Type of modlog
+ * @returns Status code
+ */
 export async function postToModlog(client: BotClient, guildId: string, messageContent: string | MessageOptions, logType: LogType) {
 	const shouldLog = await getNestedSetting(guildId, 'modlog', 'log' + capitaliseSentence(logType))
 	if (!shouldLog) return 5
@@ -54,7 +66,7 @@ export async function postToModlog(client: BotClient, guildId: string, messageCo
 	return 0
 }
 
-export async function scheduleTask(guildId: string, targetId: string, type: TaskType, duration: number) {
+async function scheduleTask(guildId: string, targetId: string, type: TaskType, duration: number) {
 	const collection = returnRawClient().db(process.env.databaseName).collection('tasks')
 	try {
 		await collection.insertOne({ guildId: guildId, targetId: targetId, type: type, time: Date.now() + duration })
@@ -93,7 +105,14 @@ export async function processTasks(client: BotClient) {
 		}
 	})
 }
-
+/**
+ * Bans a member from a guild
+ * @param guild Guild object
+ * @param userId target user ID
+ * @param reason Reason to use
+ * @param duration Duration to use
+ * @returns Status code
+ */
 export async function ban(guild: Guild, userId: string, reason: string | null, duration: number | null) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1
@@ -107,7 +126,13 @@ export async function ban(guild: Guild, userId: string, reason: string | null, d
 	}
 	return 0
 }
-
+/**
+ * Unbans a member from a guild
+ * @param guild Guild object
+ * @param userId Target user ID
+ * @param reason Reason to use
+ * @returns Status code
+ */
 export async function unban(guild: Guild, userId: string, reason: string) {
 	try {
 		await guild.bans.remove(userId, reason)
@@ -116,7 +141,13 @@ export async function unban(guild: Guild, userId: string, reason: string) {
 	}
 	return 0
 }
-
+/**
+ * 
+ * @param guild Guild object
+ * @param userId Target user ID
+ * @param reason Reason to use
+ * @returns Status code
+ */
 export async function kick(guild: Guild, userId: string, reason: string | null) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1
@@ -127,7 +158,14 @@ export async function kick(guild: Guild, userId: string, reason: string | null) 
 	}
 	return 0
 }
-
+/**
+ * Mutes a user in a guild
+ * @param guild Guild object
+ * @param userId Target user ID
+ * @param reason Reason to use
+ * @param duration Duration to use
+ * @returns Status code
+ */
 export async function mute(guild: Guild, userId: string, reason: string | null, duration: number | null) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1
@@ -143,7 +181,13 @@ export async function mute(guild: Guild, userId: string, reason: string | null, 
 	}
 	return 0
 }
-
+/**
+ * Unmutes a member from a guild
+ * @param guild Guild object
+ * @param userId Target user ID
+ * @param reason Reason to use
+ * @returns Status code
+ */
 export async function unmute(guild: Guild, userId: string, reason: string | null) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1
@@ -157,7 +201,13 @@ export async function unmute(guild: Guild, userId: string, reason: string | null
 	}
 	return 0
 }
-
+/**
+ * Checks if a user is moddable by the bot, and the moderator
+ * @param guild Guild object
+ * @param targetId Target user ID
+ * @param modId Moderator ID
+ * @returns Status code
+ */
 export async function moddable(guild: Guild, targetId: string, modId: string) {
 	let targetUser: GuildMember
 	let modUser: GuildMember

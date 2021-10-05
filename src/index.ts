@@ -31,14 +31,6 @@ import { saveLogger, stopBot, removeItemFromArray, capitaliseSentence } from './
 import { processTasks } from './functions/mod'
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
-	const clientOptions: ClientOptions = {
-		allowedMentions: { parse: ['roles', 'users'] },
-		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
-		presence: { status: 'online', activities: [{ name: '/help', type: 'WATCHING' }] },
-		partials: ['MESSAGE', 'GUILD_MEMBER']
-	}
-	// @ts-expect-error
-	const client: BotClient = new Client(clientOptions)
 	// Logging
 	const logger = createLogger({
 		level: 'info',
@@ -106,9 +98,24 @@ import { processTasks } from './functions/mod'
 		}
 
 	})
-	//#endregion
+	if (process.env.NODE_ENV == 'production') {
+		process.on('uncaughtException', (error, source) => {
+			logger.error('Unhandled exception caught: ' + error + '\n' + source)
+		});
+	}
+	logger.info('Bot is starting...')
 	saveLogger(logger)
+	//#endregion
+	const clientOptions: ClientOptions = {
+		allowedMentions: { parse: ['roles', 'users'] },
+		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
+		presence: { status: 'online', activities: [{ name: '/help', type: 'WATCHING' }] },
+		partials: ['MESSAGE', 'GUILD_MEMBER']
+	}
+	// @ts-expect-error
+	const client: BotClient = new Client(clientOptions)
 	client.logger = logger
+	logger.verbose('Registering translations...')
 	i18next.use(i18nextBackend).init({
 		lng: 'en',
 		ns: ['general', 'commands', 'events', 'misc'],
@@ -130,13 +137,11 @@ import { processTasks } from './functions/mod'
 	logger.verbose('Registering events...')
 	registerEvents(client)
 	// Database connections
-	logger.verbose('Attempting to connect to database...')
+	logger.verbose('Connecting to database...')
 	const db = await connect(logger)
 	if (!db) {
 		logger.error('DB not found')
 		await stopBot(client, null, 1)
-	} else {
-		logger.verbose("Successfully connected to database")
 	}
 	connectToSatsCollection(returnRawClient())
 	// Events
@@ -182,7 +187,7 @@ import { processTasks } from './functions/mod'
 	client.on('guildMemberRemove', member => {
 		client.events.get('guildMemberRemove').register(client, member)
 	})
-	// SIGINT STUFF
+	//#region SIGINT WINDOWS
 	if (process.platform === 'win32') {
 		// eslint-disable-next-line @typescript-eslint/no-var-requires
 		const rl = require('readline').createInterface({
@@ -194,21 +199,17 @@ import { processTasks } from './functions/mod'
 			process.emit('SIGINT')
 		})
 	}
+	//#endregion
 	process.on('SIGINT', function () {
 		// Shutdown stuff nicely
 		logger.debug('SIGINT received, stopping bot')
 		stopBot(client, returnRawClient())
 	})
-
-	if (process.env.NODE_ENV == 'production') {
-		process.on('uncaughtException', (error, source) => {
-			logger.error('Unhandled exception caught: ' + error + '\n' + source)
-		});
-	}
 	// Initialisation
 	client.on('ready', async () => {
-		logger.info('Client is READY')
+		logger.verbose('Registering slash commands...')
 		await registerSlashCommands(client)
+		logger.info('Bot is READY')
 		if (process.env.twitchApiClientId && process.env.twitchApiSecret) {
 			// Only if api tokens are present
 			scheduleJob('*/5 * * * * *', function () {
