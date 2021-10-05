@@ -3,12 +3,11 @@ import { CommandInteraction, Message, ColorResolvable, MessageEmbed } from "disc
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request, Dispatcher } from 'undici'
-import NodeCache from "node-cache"
 import { randomInt } from '../../functions/util'
 import Sentry from '../../functions/sentry'
 import i18next from "i18next"
 
-const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
+const cache = new Map()
 interface Definition {
 	definition: string
 	permalink: string

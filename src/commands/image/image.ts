@@ -7,8 +7,7 @@ import { request } from 'undici'
 import { Logger } from "winston"
 import Sentry from '../../functions/sentry'
 import i18next from "i18next"
-import NodeCache from "node-cache"
-const cache = new NodeCache({ stdTTL: 604800, checkperiod: 3600 })
+const cache = new Map()
 
 const apiHost = 'https://api.bing.microsoft.com/v7.0/images/search'
 const subscriptionKey = process.env.bingImageSearchKey

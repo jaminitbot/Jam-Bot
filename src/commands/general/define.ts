@@ -3,10 +3,8 @@ import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request, Dispatcher } from 'undici'
 import { capitaliseSentence } from '../../functions/util'
-import NodeCache from "node-cache"
 import Sentry from '../../functions/sentry'
 import i18next from "i18next"
-const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600 })
 interface PhoneticsObject {
 	text: string
 	audio: string | undefined
@@ -31,6 +29,8 @@ interface WordDefinition {
 	origin: string | undefined
 	meanings: Array<MeaningsObject>
 }
+const cache = new Map()
+
 export const name = 'define'
 export const description = 'Defines a word'
 export const usage = 'define word'
