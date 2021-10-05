@@ -1,18 +1,8 @@
 process.chdir(__dirname)
-declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace
-	namespace NodeJS {
-		interface Global {
-			__rootdir__: string;
-		}
-	}
-}
-
-global.__rootdir__ = __dirname || process.cwd();
 // Mr imports
 if (!process.env.token) {
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	require('dotenv').config();
+	require('dotenv').config({ path: '../.env' })
 }
 
 import { Client, ClientOptions, Intents, MessageEmbed, WebhookClient } from 'discord.js'

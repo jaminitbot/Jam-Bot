@@ -12,7 +12,7 @@ A discord bot designed to be easy to setup, but full of features.
 
 ### Manual
 3. Compile typescript `yarn tsc`
-4. Copy `.env.example` to `built/.env` and fill out
+4. Copy `.env.example` to `.env` and fill out
 5. Run `yarn start`
 
 ## TODO:

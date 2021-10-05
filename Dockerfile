@@ -5,5 +5,4 @@ COPY . /app
 RUN yarn install\
 	&& yarn global add typescript
 RUN tsc
-COPY .env /app/built/
 CMD yarn start
