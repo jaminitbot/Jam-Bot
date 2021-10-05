@@ -2,12 +2,7 @@ import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { moddable, ban, parseDuration } from '../../functions/mod'
-import dayjs from "dayjs"
-import duration from 'dayjs/plugin/duration'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import i18next from "i18next"
-dayjs.extend(duration)
-dayjs.extend(relativeTime)
 
 export const name = 'ban'
 export const description = 'Bans a user from the server'
@@ -52,8 +47,7 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const banResult = await ban(interaction.guild, targetUser.id, formattedReason, parsedDuration)
 	if (banResult == 0) {
 		if (duration) {
-			const humanDuration = dayjs.duration(parsedDuration, "ms").humanize()
-			interaction.reply({ content: i18next.t('mod.ACTION_SUCESSFUL_WITH_DURATION', { tag: targetUser.tag, action: 'banned', duration: humanDuration, reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }), allowedMentions: { parse: [] } })
+			interaction.reply({ content: i18next.t('mod.ACTION_SUCCESSFUL_WITH_DURATION', { tag: targetUser.tag, action: 'banned', duration: parsedDuration, reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }), allowedMentions: { parse: [] } })
 		} else {
 			interaction.reply({ content: i18next.t('mod.ACTION_SUCCESSFUL', { tag: targetUser.tag, action: 'banned', reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED') }), allowedMentions: { parse: [] } })
 		}

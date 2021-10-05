@@ -115,7 +115,7 @@
 		"USER_ROLE_TOO_LOW": "Your roles are lower than the target user's",
 		"NO_REASON_SPECIFIED": "No reason specified",
 		"ACTION_SUCCESSFUL": "{{tag}} has been successfully {{action}} with reason: {{reason}}",
-		"ACTION_SUCCESSFUL_WITH_DURATION": "{{tag}} has been successfully {{action}} for {{duration}}, with reason: {{reason}}"
+		"ACTION_SUCCESSFUL_WITH_DURATION": "{{tag}} has been successfully {{action}} for {{duration, duration}}, with reason: {{reason}}"
 	},
 	"lookup": {
 		"USER_NICKNAME": "Nickname",
