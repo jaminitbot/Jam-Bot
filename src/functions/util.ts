@@ -233,3 +233,7 @@ export function booleanToHuman(booleanToConvert: boolean) {
 		return i18next.t('misc:OFF')
 	}
 }
+
+export async function delay(time: number) {
+	return new Promise((resolve) => setTimeout(resolve, time))
+}

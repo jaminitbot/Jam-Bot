@@ -4,7 +4,7 @@ import { BotClient } from '../../customDefinitions'
 import { getNestedSetting, setNestedSetting } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
-import delay from 'delay'
+import { delay } from '../../functions/util'
 import i18next from "i18next"
 
 export const name = 'suggest'

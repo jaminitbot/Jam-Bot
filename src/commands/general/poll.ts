@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import delay from 'delay'
+import { delay } from '../../functions/util'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
