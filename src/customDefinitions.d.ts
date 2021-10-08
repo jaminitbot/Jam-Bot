@@ -12,7 +12,7 @@ export interface Command {
 	allowInDm: boolean
 	aliases: Array<string>
 	name: string
-	description: string,
+	description: string
 	permissions: Array<Permission>
 	usage: string
 	execute: (client: BotClient, message: Message, args: Array<unknown>) => Promise<void>
