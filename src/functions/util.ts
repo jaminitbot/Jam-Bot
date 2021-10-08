@@ -208,7 +208,7 @@ export function isBotOwner(userId: string) {
 	const owners = process.env.ownerId.split(',')
 	return owners.includes(userId)
 }
-export function saveLogger(logger) {
+export function saveLogger(logger: Logger) {
 	this.logger = logger
 }
 export function getLogger(): Logger {

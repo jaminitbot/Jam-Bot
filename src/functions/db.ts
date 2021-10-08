@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb"
-import NodeCache = require('node-cache');
+import NodeCache = require('node-cache')
 import { stopBot } from './util'
 import { Logger } from "winston"
 

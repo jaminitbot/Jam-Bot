@@ -7,7 +7,6 @@ import { randomInt } from '../../functions/util'
 import Sentry from '../../functions/sentry'
 import i18next from "i18next"
 
-const cache = new Map()
 interface Definition {
 	definition: string
 	permalink: string
@@ -24,6 +23,7 @@ interface Definition {
 interface UrbanDictionaryResponse {
 	list: Array<Definition>
 }
+const cache = new Map<string, UrbanDictionaryResponse>()
 export const name = 'urban'
 export const description = 'Defines a word using urban dictionary'
 export const usage = 'urban word'
@@ -49,12 +49,14 @@ async function returnDefineEmbed(wordToDefine: string) {
 			error = err
 		}
 		if (error || response.statusCode != 200) {
+			// @ts-expect-error
 			cache.set(wordToDefine, 'NOT_FOUND')
 		} else {
 			cache.set(wordToDefine, (await response.body.json()))
 		}
 	}
 	const jsonResponse: UrbanDictionaryResponse | 'NOT_FOUND' = cache.get(wordToDefine)
+	// @ts-expect-error
 	if (jsonResponse == 'NOT_FOUND' || !jsonResponse.list[0]) {
 		const embed = new MessageEmbed
 		embed.setDescription(i18next.t('define.NO_DEFINITIONS'))
@@ -72,6 +74,7 @@ async function returnDefineEmbed(wordToDefine: string) {
 	example && embed.addField(i18next.t('urban.EXAMPLE'), example)
 	return embed
 }
+
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	message.reply(i18next.t('general:ONLY_SLASH_COMMAND'))
 	// message.channel.send({ embeds: [await returnDefineEmbed(args[0])] })

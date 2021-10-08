@@ -1,14 +1,14 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import isImageUrl = require('is-image-url')
-import isNumber = require('is-number')
+import isNumber from 'is-number'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request } from 'undici'
 import { Logger } from "winston"
 import Sentry from '../../functions/sentry'
 import i18next from "i18next"
-const cache = new Map()
 
+const cache = new Map()
 const apiHost = 'https://api.bing.microsoft.com/v7.0/images/search'
 const subscriptionKey = process.env.bingImageSearchKey
 
@@ -27,6 +27,7 @@ export const slashData = new SlashCommandBuilder()
 		option.setName('position')
 			.setDescription('The specific position to get')
 			.setRequired(false))
+
 export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string, logger: Logger) {
 	if (!process.env.bingImageSearchKey) return i18next.t('NO_API_KEY')
 	if (position && position < 1) {
@@ -71,6 +72,7 @@ export async function searchForImage(search: string, position: number, nsfw: boo
 		return validImageUrls[0] || i18next.t('image.NO_IMAGE_FOUND')
 	}
 }
+
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	if (!args[0]) return message.reply(i18next.t('image.NO_ARGUMENTS_SPECIFIED'))
 	let splitBy = 0
@@ -86,6 +88,7 @@ export async function execute(client: BotClient, message: Message, args: Array<u
 	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger)
 	await sentMessage.edit(imageUrl)
 }
+
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
 	await interaction.deferReply()
 	const search = interaction.options.getString('search')

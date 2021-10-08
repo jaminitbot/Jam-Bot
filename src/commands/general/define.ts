@@ -29,7 +29,7 @@ interface WordDefinition {
 	origin: string | undefined
 	meanings: Array<MeaningsObject>
 }
-const cache = new Map()
+const cache = new Map<string, WordDefinition>()
 
 export const name = 'define'
 export const description = 'Defines a word'
@@ -52,6 +52,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 	if (!cachedValue) {
 		response = await request('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(wordToDefine))
 		if (response.statusCode == 404) {
+			// @ts-expect-error
 			cache.set(wordToDefine, 'NOT_FOUND')
 		} else if (response.statusCode != 200) {
 			Sentry.captureMessage('Dictionary API returned non-standard status code')
@@ -63,6 +64,7 @@ async function returnDefineEmbed(wordToDefine: string, interactionData: Interact
 			cache.set(wordToDefine, (await response.body.json())[0])
 		}
 	}
+	// @ts-expect-error
 	if (cache.get(wordToDefine) == 'NOT_FOUND') {
 		const embed = new MessageEmbed
 		embed.setDescription(i18next.t('define.NO_DEFINITIONS', { word: wordToDefine }))
