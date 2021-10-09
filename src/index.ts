@@ -1,8 +1,12 @@
 process.chdir(__dirname)
+if (process.env.NODE_ENV != 'production') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require('dotenv').config({ path: '../.env' })
+}
 
 // Mr imports
 import { Client, ClientOptions, Intents, MessageEmbed, WebhookClient } from 'discord.js'
-import { createLogger, transports, format } from "winston";
+import { createLogger, transports, format } from "winston"
 import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
 import { registerCommands, registerEvents, registerSlashCommands } from './functions/registerCommands'
@@ -42,13 +46,13 @@ import { initTranslations } from './functions/locales'
         logger.add(new transports.Console({
             level: 'debug',
             format: format.combine(format.colorize(), format.simple()),
-        }));
+        }))
         logger.info('Logger is in DEBUG mode')
     } else if (process.env.NODE_ENV !== 'production') {
         logger.add(new transports.Console({
             level: 'verbose',
             format: format.combine(format.colorize(), format.simple()),
-        }));
+        }))
         logger.info('Logger is in VERBOSE mode')
     }
     //#region Error reporting
@@ -86,7 +90,7 @@ import { initTranslations } from './functions/locales'
     if (process.env.NODE_ENV == 'production') {
         process.on('uncaughtException', (error, source) => {
             logger.error('Unhandled exception caught: ' + error + '\n' + source)
-        });
+        })
     }
     logger.info('Bot is starting...')
     saveLogger(logger)

@@ -1,121 +1,145 @@
-import { BotClient } from "../customDefinitions";
-import { Interaction } from "discord.js";
-import { getKey } from "../functions/db";
-import { capitaliseSentence, checkPermissions } from "../functions/util";
+import { BotClient } from "../customDefinitions"
+import { Interaction } from "discord.js"
+import { getKey } from "../functions/db"
+import { capitaliseSentence, checkPermissions } from "../functions/util"
 import { getErrorMessage, getInvalidPermissionsMessage } from '../functions/messages'
 import { storeSlashCommandCreate } from '../cron/stats'
 import Sentry from '../functions/sentry'
-import i18next from "i18next";
+import i18next from "i18next"
 
 export const name = "interactionCreate"
 
 export async function register(client: BotClient, interaction: Interaction) {
-	const guildId = interaction.guild ? interaction.guild.id : 0
-	if (interaction.isCommand()) { // Is a slash command
-		const command = client.commands.get(interaction.commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(interaction.commandName))
-		if (!command) {
-			return
-		}
-		storeSlashCommandCreate(interaction)
-		if (interaction.channel.type == 'GUILD_PUBLIC_THREAD' || interaction.channel.type == 'GUILD_PRIVATE_THREAD') {
-			try {
-				await interaction.channel.join()
-				// eslint-disable-next-line no-empty
-			} catch {
+    const guildId = interaction.guild ? interaction.guild.id : 0
+    let commandName
+    if (interaction.isCommand() || interaction.isContextMenu()) {
+        commandName = interaction.commandName
+    } else if (interaction.isButton() || interaction.isSelectMenu()) {
+        const nameObject = interaction.customId.trim().split('-')
+        commandName = nameObject[0]
+    } else {
+        return
+    }
+    const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
+    if (!command) {
+        return
+    }
+    if (interaction.channel.type == 'GUILD_PUBLIC_THREAD' || interaction.channel.type == 'GUILD_PRIVATE_THREAD') {
+        try {
+            await interaction.channel.join()
+            // eslint-disable-next-line no-empty
+        } catch {
 
-			}
-		}
-		if (typeof command.executeSlash != 'function') {
-			const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
-			await interaction.reply({ content: i18next.t('events:interactionCreate.SLASH_FUNCTION_NULL', { prefix: prefix, command: command.name }), ephemeral: true })
-			return
-		}
-		if ((!interaction.channel || interaction.channel.type == 'DM') && !command.allowInDm === true) {
-			return interaction.reply(i18next.t('events:interactionCreate.DISABLED_IN_DMS'))
-		}
-		if (command.permissions) {
-			// @ts-expect-error
-			if (!checkPermissions(interaction.member, [...command.permissions])) {
-				// User doesn't have specified permissions to run command
-				client.logger.debug(`messageHandler: User ${interaction.user.tag} doesn't have the required permissions to run command ${interaction.commandName ?? 'NULL'}`)
-				await interaction.reply({ content: getInvalidPermissionsMessage(), ephemeral: true })
-				return
-			}
-		}
-		Sentry.withInteractionScope(interaction, async () => {
-			const transaction = Sentry.startTransaction({
-				op: command.name + 'Command',
-				name: capitaliseSentence(command.name) + ' Command',
-			})
-			try {
-				await command.executeSlash(client, interaction)
-			} catch (error) {
-				Sentry.captureException(error)
-				// Error running command
-				client.logger.error('interactionHandler: Command failed with error: ' + error)
-				try {
-					if (interaction.deferred) {
-						try {
-							interaction.editReply({ content: getErrorMessage() })
-							// eslint-disable-next-line no-empty
-						} catch {
+        }
+    }
+    if ((!interaction.channel || interaction.channel.type == 'DM') && !command.allowInDm === true) {
+        if (interaction.isCommand() || interaction.isButton() || interaction.isContextMenu() || interaction.isSelectMenu()) {
+            interaction.reply(i18next.t('events:interactionCreate.DISABLED_IN_DMS'))
+        }
+        return
+    }
+    if (command.permissions) {
+        // @ts-expect-error
+        if (!checkPermissions(interaction.member, [...command.permissions])) {
+            // User doesn't have specified permissions to run command
+            // @ts-expect-error
+            client.logger.debug(`messageHandler: User ${interaction.user.tag} doesn't have the required permissions to run command ${interaction.commandName ?? 'NULL'}`)
+            if (interaction.isCommand() || interaction.isButton() || interaction.isContextMenu() || interaction.isSelectMenu()) {
+                await interaction.reply({ content: getInvalidPermissionsMessage(), ephemeral: true })
+            }
+            return
+        }
+    }
+    if (interaction.isCommand()) { // Is a slash command
+        storeSlashCommandCreate(interaction)
+        if (typeof command.executeSlash != 'function') {
+            const prefix = await getKey(guildId, 'prefix') || process.env.defaultPrefix
+            await interaction.reply({ content: i18next.t('events:interactionCreate.SLASH_FUNCTION_NULL', { prefix: prefix, command: command.name }), ephemeral: true })
+            return
+        }
+        Sentry.withInteractionScope(interaction, async () => {
+            const transaction = Sentry.startTransaction({
+                op: command.name + 'Command',
+                name: capitaliseSentence(command.name) + ' Command',
+            })
+            try {
+                await command.executeSlash(client, interaction)
+            } catch (error) {
+                Sentry.captureException(error)
+                // Error running command
+                client.logger.error('interactionHandler: Command failed with error: ' + error)
+                try {
+                    if (interaction.deferred) {
+                        try {
+                            interaction.editReply({ content: getErrorMessage() })
+                            // eslint-disable-next-line no-empty
+                        } catch {
 
-						}
-					} else {
-						try {
-							interaction.reply({ content: getErrorMessage() })
-							// eslint-disable-next-line no-empty
-						} catch {
+                        }
+                    } else {
+                        try {
+                            interaction.reply({ content: getErrorMessage() })
+                            // eslint-disable-next-line no-empty
+                        } catch {
 
-						}
-					}
-					// eslint-disable-next-line no-empty
-				} catch (err) {
-					Sentry.captureException(err)
-				}
-			} finally {
-				transaction.finish()
-			}
-		})
-	} else if (interaction.isButton()) {
-		const buttonNameObject = interaction.customId.trim().split('-')
-		const command = client.commands.get(buttonNameObject[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(buttonNameObject[0]))
-		if (!command) return
-		if (typeof command.executeButton != 'function') return
-		Sentry.withInteractionScope(interaction, async () => {
-			const transaction = Sentry.startTransaction({
-				op: command.name + 'Command',
-				name: capitaliseSentence(command.name) + ' Command',
-			})
-			try {
-				command.executeButton(client, interaction)
-			} catch (error) {
-				Sentry.captureException(error)
-				// Error running command
-				client.logger.error('interactionHandler: Command button failed with error: ' + error)
-			} finally {
-				transaction.finish()
-			}
-		})
-
-	} else if (interaction.isSelectMenu()) {
-		const selectNameObject = interaction.customId.trim().split('-')
-		const command = client.commands.get(selectNameObject[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(selectNameObject[0]))
-		if (!command) return
-		if (typeof command.executeSelectMenu != 'function') return
-		Sentry.withInteractionScope(interaction, async () => {
-			const transaction = Sentry.startTransaction({
-				op: command.name + 'Command',
-				name: capitaliseSentence(command.name) + ' Command',
-			})
-			try {
-				command.executeSelectMenu(client, interaction)
-			} catch (error) {
-				// Error running command
-				client.logger.error('interactionHandler: Command button failed with error: ' + error)
-			} finally {
-				transaction.finish()
-			}
-		})
-	}
+                        }
+                    }
+                    // eslint-disable-next-line no-empty
+                } catch (err) {
+                    Sentry.captureException(err)
+                }
+            } finally {
+                transaction.finish()
+            }
+        })
+    } else if (interaction.isButton()) {
+        if (typeof command.executeButton != 'function') return
+        Sentry.withInteractionScope(interaction, async () => {
+            const transaction = Sentry.startTransaction({
+                op: command.name + 'Command',
+                name: capitaliseSentence(command.name) + ' Command',
+            })
+            try {
+                command.executeButton(client, interaction)
+            } catch (error) {
+                Sentry.captureException(error)
+                // Error running command
+                client.logger.error('interactionHandler: Command button failed with error: ' + error)
+            } finally {
+                transaction.finish()
+            }
+        })
+    } else if (interaction.isContextMenu()) {
+        if (typeof command.executeContextMenu != 'function') return
+        Sentry.withInteractionScope(interaction, async () => {
+            const transaction = Sentry.startTransaction({
+                op: command.name + 'Command',
+                name: capitaliseSentence(command.name) + ' Command',
+            })
+            try {
+                command.executeContextMenu(client, interaction)
+            } catch (error) {
+                // Error running command
+                client.logger.error('interactionHandler: Command button failed with error: ' + error)
+            } finally {
+                transaction.finish()
+            }
+        })
+    } else if (interaction.isSelectMenu()) {
+        if (typeof command.executeSelectMenu != 'function') return
+        Sentry.withInteractionScope(interaction, async () => {
+            const transaction = Sentry.startTransaction({
+                op: command.name + 'Command',
+                name: capitaliseSentence(command.name) + ' Command',
+            })
+            try {
+                command.executeSelectMenu(client, interaction)
+            } catch (error) {
+                // Error running command
+                client.logger.error('interactionHandler: Command button failed with error: ' + error)
+            } finally {
+                transaction.finish()
+            }
+        })
+    }
 }

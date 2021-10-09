@@ -1,4 +1,4 @@
-import { ButtonInteraction, CommandInteraction, SelectMenuInteraction, Message } from "discord.js"
+import { ButtonInteraction, CommandInteraction, SelectMenuInteraction, Message, ContextMenuInteraction } from "discord.js"
 // @ts-expect-error
 import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
@@ -9,21 +9,24 @@ export const usage = 'debug'
 export const aliases = ['debugthing']
 export const allowInDm = false
 export const slashData = new SlashCommandBuilder()
-	.setName(name)
-	.setDescription(description)
+    .setName(name)
+    .setDescription(description)
 
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-	// Code
+    // Code
 }
 
 export async function executeSlash(client: BotClient, interaction: CommandInteraction) {
-	// Code
+    // Code
 }
 
 export async function executeButton(client: BotClient, interaction: ButtonInteraction) {
-	// Code
+    // Code
 }
 
 export async function executeSelectMenu(client: BotClient, interaction: SelectMenuInteraction) {
-	// Code
+    // Code
+}
+export async function executeContextMenu(client: BotClient, interaction: ContextMenuInteraction) {
+    // Code
 }

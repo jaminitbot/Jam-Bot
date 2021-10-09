@@ -10,16 +10,15 @@ function prompt(question, callback) {
     });
 }
 process.chdir(__dirname)
-const fs = require('fs')
+import { readFileSync, writeFile } from 'fs'
 const filePath = '../changelog.json'
-const data = JSON.parse(fs.readFileSync(filePath, "utf8"))
+const data = JSON.parse(readFileSync(filePath, "utf8"))
 prompt("Enter the title of the change: ", function(inputData) {
     const title = inputData
     prompt("Enter the description of the change: ", function(inputData2) {
         data[data.length] = { title: title, date: Date.now(), description: inputData2 }
-        fs.writeFile(filePath, JSON.stringify(data, null, 4), function(err) {
+        writeFile(filePath, JSON.stringify(data, null, 4), function(err) {
             process.exit()
         })
-
     })
 })
