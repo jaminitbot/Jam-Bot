@@ -79,9 +79,9 @@ export async function getUserFromString(guild: Guild, text: unknown): Promise<Gu
 		if (!text) return null
 		let stringText = String(text)
 		if (stringText.startsWith('<@') && stringText.endsWith('>')) { // Mention
-			stringText = stringText.slice(2, -1);
+			stringText = stringText.slice(2, -1)
 			if (stringText.startsWith('!')) {
-				stringText = stringText.slice(1);
+				stringText = stringText.slice(1)
 			}
 			if (stringText.startsWith('&')) { // Role
 				return null
@@ -110,7 +110,7 @@ export async function getRoleFromString(guild: Guild, text: unknown): Promise<Ro
 		if (!text) return null
 		let stringText = String(text)
 		if (stringText.startsWith('<@') && stringText.endsWith('>')) { // Mention
-			stringText = stringText.slice(2, -1);
+			stringText = stringText.slice(2, -1)
 			if (stringText.startsWith('<#')) { // Channel
 				return null
 			}
@@ -142,7 +142,7 @@ export async function getChannelFromString(guild: Guild, text: unknown): Promise
 			return null
 		}
 		if (stringText.startsWith('<#') && stringText.endsWith('>')) {
-			stringText = stringText.slice(2, -1);
+			stringText = stringText.slice(2, -1)
 			return await guild.client.channels.fetch(stringText)
 		} else if (is_number(stringText)) {
 			return await guild.client.channels.fetch(stringText)
@@ -208,7 +208,7 @@ export function isBotOwner(userId: string) {
 	const owners = process.env.ownerId.split(',')
 	return owners.includes(userId)
 }
-export function saveLogger(logger: Logger) {
+export function saveLogger(logger: Logger): void {
 	this.logger = logger
 }
 export function getLogger(): Logger {
