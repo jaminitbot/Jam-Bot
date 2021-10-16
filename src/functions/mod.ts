@@ -82,20 +82,15 @@ export async function processTasks(client: BotClient) {
 	collection.find().forEach(async task => {
 		if (task.time < Date.now()) {
 			const guild = await client.guilds.fetch(task.guildId)
-			let successful = true
 			if (guild) {
 				switch (task.type) {
 					case 'UNMUTE':
-						if (!guild.me.permissions.has('MANAGE_ROLES')) {
-							successful = false
-						} else {
+						if (guild.me.permissions.has('MANAGE_ROLES')) {
 							unmute(guild, task.targetId, 'Automatically unmuted')
 						}
 						break
 					case 'UNBAN':
-						if (!guild.me.permissions.has('BAN_MEMBERS')) {
-							successful = false
-						} else {
+						if (guild.me.permissions.has('BAN_MEMBERS')) {
 							unban(guild, task.targetId, 'Automatically unbanned')
 						}
 						break
