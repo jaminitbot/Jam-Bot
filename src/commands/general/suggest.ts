@@ -4,7 +4,6 @@ import { BotClient } from '../../customDefinitions'
 import { getNestedSetting, setNestedSetting } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
-import { delay } from '../../functions/util'
 import i18next from "i18next"
 
 export const name = 'suggest'
@@ -40,8 +39,7 @@ async function sendSuggestion(client: BotClient, suggestion: string, guildId: st
 	const suggestionMessage = await suggestionChannel.send({ embeds: [embed] })
 	try {
 		await suggestionMessage.react('✅')
-		await delay(1050)
-		await suggestionMessage.react('❌')
+		suggestionMessage.react('❌')
 	} catch {
 		// Code
 	}

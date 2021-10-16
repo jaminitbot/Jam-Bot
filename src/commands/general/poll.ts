@@ -1,6 +1,5 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js"
 import { BotClient } from '../../customDefinitions'
-import { delay } from '../../functions/util'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
 
@@ -32,7 +31,6 @@ export async function execute(client: BotClient, message: Message, args: Array<u
 	const sent = await message.channel.send({ embeds: [embed] })
 	try {
 		await sent.react('✅')
-		await delay(1010)
 		sent.react('❌')
 	} catch {
 		return
@@ -46,7 +44,6 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	try {
 		// @ts-expect-error
 		await sent.react('✅')
-		await delay(1010)
 		// @ts-expect-error
 		sent.react('❌')
 	} catch (err) {
