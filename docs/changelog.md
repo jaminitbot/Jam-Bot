@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.9.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.8.1...v2.9.0) (2021-10-16)
+
+
+### Features
+
+* move to pnpm and remove the need for dotenv ([bda497b](https://github.com/jaminitbot/Jam-Bot/commit/bda497b769bc52a31722309947cc5d678ab777aa))
+* support for context menu, mute context menu item ([6bf266b](https://github.com/jaminitbot/Jam-Bot/commit/6bf266b461f8d7381cdd21d5893f61b35d627eb4))
+
+
+### Bug Fixes
+
+* ban kick success message ([0b504b5](https://github.com/jaminitbot/Jam-Bot/commit/0b504b52ed6020bb66a9c05036f39711d3afed8d))
+* delete purge command confirmation after x time ([2dfbd04](https://github.com/jaminitbot/Jam-Bot/commit/2dfbd0486ef01b4fc84e1fcef934b973f28fda49))
+* eslint fixes ([609ba42](https://github.com/jaminitbot/Jam-Bot/commit/609ba42864e32078e47d400cbb35385ac9bfdd61))
+* fix allowed mentions ([049c70f](https://github.com/jaminitbot/Jam-Bot/commit/049c70f8b7c3da3f4bd3d95950b24b7368ebfee1))
+* fix ban messages ([0a42f7c](https://github.com/jaminitbot/Jam-Bot/commit/0a42f7c2ffe253429ca5542be3a2b0639cab938b))
+* fix user join modlog text ([f5aee6a](https://github.com/jaminitbot/Jam-Bot/commit/f5aee6ab43dd1c0c1d76b0bde5389b47eb31efb5))
+* I cannot spell successfull ([8501197](https://github.com/jaminitbot/Jam-Bot/commit/850119786ae01a7b8a6e05b0ba24803fcd63351e))
+* move delay to util ([4a53baf](https://github.com/jaminitbot/Jam-Bot/commit/4a53baff8a69fbd26a10de0439228be81386da98))
+* persist caches ([12a5438](https://github.com/jaminitbot/Jam-Bot/commit/12a54380e69750745f3696cc26e11301a18b25ab))
+* remove rate limit handling ([80daf4d](https://github.com/jaminitbot/Jam-Bot/commit/80daf4d77a3175d97c187ad728619a23eee032e6))
+* remove task regardless of result ([ec75cc2](https://github.com/jaminitbot/Jam-Bot/commit/ec75cc26b949c87a907d81b658236dc792503761))
+* use locale slash command only message ([ab6969f](https://github.com/jaminitbot/Jam-Bot/commit/ab6969f0fcf7442f947587bb62f3d90c2670f5fe))
+* use reason for unmutes ([117bd21](https://github.com/jaminitbot/Jam-Bot/commit/117bd21d3a479f1de2d207214e5e71d7d6de54be))
+* use same env file regardless of env ([aaa5c2d](https://github.com/jaminitbot/Jam-Bot/commit/aaa5c2dbdd0489c7442f634cfa710108b1198181))
+
 ### [2.8.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.8.0...v2.8.1) (2021-09-30)
 
 
