@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.9.0...v2.9.1) (2021-10-16)
+
+
+### Bug Fixes
+
+* build ([157909a](https://github.com/jaminitbot/Jam-Bot/commit/157909a4152f5b371ec0e1d6fa6bd3d552aa3587))
+
 ## [2.9.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.8.1...v2.9.0) (2021-10-16)
 
 
