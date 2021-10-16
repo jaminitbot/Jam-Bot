@@ -101,7 +101,7 @@ export async function processTasks(client: BotClient) {
 						break
 				}
 			}
-			if (successful) collection.deleteOne({ _id: task._id })
+			collection.deleteOne({ _id: task._id })
 		}
 	})
 }
