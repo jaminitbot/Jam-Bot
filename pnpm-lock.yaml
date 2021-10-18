@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@discordjs/builders': ^0.6.0
+  '@discordjs/builders': ^0.7.0
   '@discordjs/rest': ^0.1.0-canary.0
   '@sentry/integrations': ^6.13.3
   '@sentry/node': ^6.13.3
@@ -34,13 +34,13 @@ specifiers:
   standard-version: ^9.3.2
   tslib: ^2.3.1
   typescript: ^4.4.4
-  undici: ^4.7.3
+  undici: ^4.8.0
   utf-8-validate: ^5.0.7
   winston: ^3.3.3
   zlib-sync: ^0.1.7
 
 dependencies:
-  '@discordjs/builders': 0.6.0
+  '@discordjs/builders': 0.7.0
   '@discordjs/rest': 0.1.0-canary.0
   '@sentry/integrations': 6.13.3
   '@sentry/node': 6.13.3
@@ -58,7 +58,7 @@ dependencies:
   node-schedule: 2.0.0
   sha1: 1.1.1
   tslib: 2.3.1
-  undici: 4.7.3
+  undici: 4.8.0
   winston: 3.3.3
 
 optionalDependencies:
@@ -125,6 +125,17 @@ packages:
     dependencies:
       '@sindresorhus/is': 4.2.0
       discord-api-types: 0.22.0
+      ow: 0.27.0
+      ts-mixer: 6.0.0
+      tslib: 2.3.1
+    dev: false
+
+  /@discordjs/builders/0.7.0:
+    resolution: {integrity: sha512-0dnRH5ABy6DfyPU+gYeIE16P6+fnc9BSK53r0/jCe0aJiBQIVLcPrA7r/5vBV0MaoQOeuhlRQ2vwoawABDkn5w==}
+    engines: {node: '>=14.0.0', npm: '>=7.0.0'}
+    dependencies:
+      '@sindresorhus/is': 4.2.0
+      discord-api-types: 0.24.0
       ow: 0.27.0
       ts-mixer: 6.0.0
       tslib: 2.3.1
@@ -2823,8 +2834,8 @@ packages:
     dev: true
     optional: true
 
-  /undici/4.7.3:
-    resolution: {integrity: sha512-ecY0KLuZ3EVbiR+Z2kpxh3V3tLGhkxuNv5jhIYskZXO8KgpwcFxqScIMs6JO523VFnfRnN2Fm6yhLxc+BQvezw==}
+  /undici/4.8.0:
+    resolution: {integrity: sha512-+JlCKo5bJ9lMtElHMN2LwFtHqg3ovelCsuS6R4vCIJ/Js3NbP4OE3XOLOQjj9pitXJePi2mr12cteLqcbylpxQ==}
     engines: {node: '>=12.18'}
     dev: false
 

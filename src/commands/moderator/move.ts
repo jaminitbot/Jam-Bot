@@ -3,6 +3,7 @@ import { BotClient } from '../../customDefinitions'
 import { getChannelFromString } from '../../functions/util'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
+import { ChannelType } from "discord-api-types"
 
 export const name = 'move'
 export const description = 'Moves users from one vc to another'
@@ -15,10 +16,12 @@ export const slashData = new SlashCommandBuilder()
 	.addChannelOption(option =>
 		option.setName('from')
 			.setDescription('The channel to move users from')
+			.addChannelType(ChannelType.GuildVoice)
 			.setRequired(true))
 	.addChannelOption(option =>
 		option.setName('to')
 			.setDescription('The channel to move users to')
+			.addChannelType(ChannelType.GuildVoice)
 			.setRequired(true))
 async function moveVoiceChannel(client: BotClient, fromChannel: VoiceChannel, toChannel: VoiceChannel, guildId: string, intiatingTag: string) {
 	if (!fromChannel || !toChannel) return i18next.t('move.ARGUMENTS_NOT_SPECIFIED')
