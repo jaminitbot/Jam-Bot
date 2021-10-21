@@ -1,7 +1,7 @@
 import { CommandInteraction, Message } from "discord.js"
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-const fs = require('fs')
+import fs = require('fs')
 import { uploadToHasteBin } from '../../functions/util'
 import i18next from "i18next"
 import Sentry from "../../functions/sentry"
@@ -38,7 +38,7 @@ function uploadLog(logPath: string, logger: Logger) {
 		} else {
 			return i18next.t('general:UNKNOWN_ERROR')
 		}
-	});
+	})
 }
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	const logFilePath = args[0]?.toString().toLowerCase()

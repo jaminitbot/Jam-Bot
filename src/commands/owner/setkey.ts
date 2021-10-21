@@ -3,7 +3,7 @@ import { BotClient } from '../../customDefinitions'
 import { setKey } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from "i18next"
-const isNumber = require('is-number')
+import isNumber = require('is-number')
 
 export const name = 'setkey'
 export const description = 'Sets a db key'
