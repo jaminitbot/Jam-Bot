@@ -97,7 +97,7 @@ import { initTranslations } from './functions/locales'
 	//#endregion
 	const clientOptions: ClientOptions = {
 		allowedMentions: { parse: ['roles', 'users'] },
-		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
+		intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
 		presence: { status: 'online', activities: [{ name: '/help', type: 'WATCHING' }] },
 		partials: ['MESSAGE', 'GUILD_MEMBER']
 	}

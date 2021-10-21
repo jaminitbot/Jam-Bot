@@ -32,7 +32,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 
 		}
 	}
-	if ((!interaction.channel || interaction.channel.type == 'DM') && !command.allowInDm === true) {
+	if ((!interaction.channel || interaction.channel?.type == 'DM') && command.allowInDm !== true) {
 		if (interaction.isCommand() || interaction.isButton() || interaction.isContextMenu() || interaction.isSelectMenu()) {
 			interaction.reply(i18next.t('events:interactionCreate.DISABLED_IN_DMS'))
 		}
