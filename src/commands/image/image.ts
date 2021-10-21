@@ -15,7 +15,6 @@ const subscriptionKey = process.env.bingImageSearchKey
 export const name = 'image'
 export const description = 'Searches the internet for an image'
 export const usage = 'image duck'
-export const allowInDm = true
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
@@ -28,7 +27,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The specific position to get')
 			.setRequired(false))
 
-export async function searchForImage(search: string, position: number, nsfw: boolean, imageType: string, logger: Logger) {
+export async function searchForImage(search: string, position: number, nsfw: boolean, logger: Logger) {
 	if (!process.env.bingImageSearchKey) return i18next.t('NO_API_KEY')
 	if (position && position < 1) {
 		return i18next.t('image.POSITION_TOO_LOW')
@@ -85,7 +84,7 @@ export async function execute(client: BotClient, message: Message, args: Array<u
 	const search = args.splice(splitBy).join(' ')
 	// @ts-expect-error
 	const isNsfw = message.channel.nsfw
-	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger)
+	const imageUrl = await searchForImage(search, position, isNsfw, client.logger)
 	await sentMessage.edit(imageUrl)
 }
 
@@ -95,6 +94,6 @@ export async function executeSlash(client: BotClient, interaction: CommandIntera
 	const position = interaction.options.getInteger('position')
 	// @ts-expect-error
 	const isNsfw = interaction.channel.nsfw
-	const imageUrl = await searchForImage(search, position, isNsfw, 'image', client.logger)
+	const imageUrl = await searchForImage(search, position, isNsfw, client.logger)
 	await interaction.editReply({ content: imageUrl })
 }
