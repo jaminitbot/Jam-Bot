@@ -32,8 +32,8 @@
 		"NO_DEFINITIONS": "There was no definitions for {{word}}",
 		"DEFINITION_TITLE": "Definition #{{definitionNumber}}",
 		"PAGE_NUMBER": "Page: {{currentPage}}/{{totalPages}}",
-		"NEXT_PAGE": "Next Page",
-		"PREVIOUS_PAGE": "Previous Page"
+		"NEXT_PAGE": "Next",
+		"PREVIOUS_PAGE": "Previous"
 	},
 	"help": {
 		"HELP_TITLE": "Help: {{commandName}}",
