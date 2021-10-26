@@ -158,8 +158,8 @@
 		"SECRET": "[secret]",
 		"COMMAND": "Command",
 		"TOO_LARGE": "The {{type}} was too large for discord",
-		"TOO_LARGE_UPLOADED_SUCCESS": "$(eval.COMMAND_TOO_LARGE), uploaded to hastebin: {{url}}",
-		"TOO_LARGE_UPLOADED_FAILURE": "$(eval.COMMAND_TOO_LARGE), but I failed to upload it to hastebin",
+		"TOO_LARGE_UPLOADED_SUCCESS": "$(eval.TOO_LARGE), uploaded to hastebin: {{url}}",
+		"TOO_LARGE_UPLOADED_FAILURE": "$(eval.TOO_LARGE), but I failed to upload it to hastebin",
 		"OUTPUT": "Output",
 		"NO_ARGUMENTS_SPECIFIED": "You need to specify a command to run",
 		"COMMAND_RUNNING": "Executing command..."
