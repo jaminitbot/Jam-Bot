@@ -1,71 +1,83 @@
 /* eslint-disable prefer-const */
-import { REST } from '@discordjs/rest'
-import { Routes } from 'discord-api-types/v9'
-const token = process.env.token
-const rest = new REST({ version: '9' }).setToken(token)
-import { Collection } from 'discord.js'
-import { BotClient } from '../customDefinitions'
-import fs = require('fs')
+import { REST } from "@discordjs/rest";
+import { Routes } from "discord-api-types/v9";
+const token = process.env.token;
+const rest = new REST({ version: "9" }).setToken(token);
+import { Collection } from "discord.js";
+import { BotClient } from "../customDefinitions";
+import fs = require("fs");
 /**
  * Registers slash commands with discord
  * @param client Discord client
  */
 export async function registerSlashCommands(client: BotClient) {
-	const commands = client.commands
-	let data = []
-	let devData = []
-	commands.forEach(command => {
-		if (typeof command.executeSlash == 'function') {
-			if (command.permissions && command.permissions.includes('OWNER')) {
-				devData.push(command.slashData.toJSON())
+	const commands = client.commands;
+	let data = [];
+	let devData = [];
+	commands.forEach((command) => {
+		if (typeof command.executeSlash == "function") {
+			if (command.permissions && command.permissions.includes("OWNER")) {
+				devData.push(command.slashData.toJSON());
 			} else {
-				data.push(command.slashData.toJSON())
+				data.push(command.slashData.toJSON());
 			}
 		}
-		if (typeof command.executeContextMenu == 'function') {
+		if (typeof command.executeContextMenu == "function") {
 			if (command.interactionType) {
 				const interactionData = {
 					name: command.name,
-					type: command.interactionType
-				}
-				if (command.permissions && command.permissions.includes('OWNER')) {
-					devData.push(interactionData)
+					type: command.interactionType,
+				};
+				if (
+					command.permissions &&
+					command.permissions.includes("OWNER")
+				) {
+					devData.push(interactionData);
 				} else {
-					data.push(interactionData)
+					data.push(interactionData);
 				}
 			}
 		}
-	})
-	await rest.put(
-		Routes.applicationCommands(client.application.id),
-		{ body: data },
-	)
-	if (process.env.devServerId) await rest.put(
-		Routes.applicationGuildCommands(client.application.id, process.env.devServerId),
-		{ body: devData },
-	)
+	});
+	await rest.put(Routes.applicationCommands(client.application.id), {
+		body: data,
+	});
+	if (process.env.devServerId)
+		await rest.put(
+			Routes.applicationGuildCommands(
+				client.application.id,
+				process.env.devServerId
+			),
+			{ body: devData }
+		);
 }
 export function registerCommands(client: BotClient) {
-	client.commands = new Collection
-	const commandFolders = fs.readdirSync('./commands')
+	client.commands = new Collection();
+	const commandFolders = fs.readdirSync("./commands");
 	for (const folder of commandFolders) {
-		const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'))
+		const commandFiles = fs
+			.readdirSync(`./commands/${folder}`)
+			.filter((file) => file.endsWith(".js"));
 		for (const file of commandFiles) {
-			delete require.cache[require.resolve(`../commands/${folder}/${file}`)]
+			delete require.cache[
+				require.resolve(`../commands/${folder}/${file}`)
+			];
 			// eslint-disable-next-line @typescript-eslint/no-var-requires
-			const command = require(`../commands/${folder}/${file}`)
-			if (!command.name) continue
-			client.commands.set(command.name, command)
+			const command = require(`../commands/${folder}/${file}`);
+			if (!command.name) continue;
+			client.commands.set(command.name, command);
 		}
 	}
 }
 export function registerEvents(client: BotClient) {
-	client.events = new Collection
-	const commandFiles = fs.readdirSync(`./events`).filter(file => file.endsWith('.js'))
+	client.events = new Collection();
+	const commandFiles = fs
+		.readdirSync(`./events`)
+		.filter((file) => file.endsWith(".js"));
 	for (const file of commandFiles) {
-		delete require.cache[require.resolve(`../events/${file}`)]
+		delete require.cache[require.resolve(`../events/${file}`)];
 		// eslint-disable-next-line @typescript-eslint/no-var-requires
-		const event = require(`../events/${file}`)
-		client.events.set(event.name, event)
+		const event = require(`../events/${file}`);
+		client.events.set(event.name, event);
 	}
 }

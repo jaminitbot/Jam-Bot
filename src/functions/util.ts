@@ -1,11 +1,11 @@
-import { GuildMember, Message, Guild, Channel, Role } from "discord.js"
-import { MongoClient } from "mongodb"
-import { BotClient, Permission } from "../customDefinitions"
-import { getInvalidPermissionsMessage } from './messages'
-import is_number = require("is-number")
-import { request } from 'undici'
-import { Logger } from "winston"
-import i18next from "i18next"
+import { GuildMember, Message, Guild, Channel, Role } from "discord.js";
+import { MongoClient } from "mongodb";
+import { BotClient, Permission } from "../customDefinitions";
+import { getInvalidPermissionsMessage } from "./messages";
+import is_number = require("is-number");
+import { request } from "undici";
+import { Logger } from "winston";
+import i18next from "i18next";
 
 /**
  * Checks permissions against a guild member
@@ -13,17 +13,20 @@ import i18next from "i18next"
  * @param permissions Permissions required
  * @returns Boolean
  */
-export function checkPermissions(member: GuildMember, permissions: Array<Permission>): boolean {
-	let validPermission = true
-	if (permissions.includes('OWNER')) {
-		permissions = removeItemFromArray(permissions, 'OWNER')
-		if (!isBotOwner(member.id)) validPermission = false
+export function checkPermissions(
+	member: GuildMember,
+	permissions: Array<Permission>
+): boolean {
+	let validPermission = true;
+	if (permissions.includes("OWNER")) {
+		permissions = removeItemFromArray(permissions, "OWNER");
+		if (!isBotOwner(member.id)) validPermission = false;
 	}
 	if (permissions.length != 0) {
 		// @ts-expect-error
-		if (!member.permissions.has(permissions)) validPermission = false
+		if (!member.permissions.has(permissions)) validPermission = false;
 	}
-	return validPermission
+	return validPermission;
 }
 
 /**
@@ -32,18 +35,25 @@ export function checkPermissions(member: GuildMember, permissions: Array<Permiss
  * @param mongoClient Mongo db client
  * @param stopCode Process exit code, default 0
  */
-export async function stopBot(client: BotClient, mongoClient: MongoClient, stopCode = 0): Promise<void> {
+export async function stopBot(
+	client: BotClient,
+	mongoClient: MongoClient,
+	stopCode = 0
+): Promise<void> {
 	try {
 		if (client) {
-			client.logger.warn('util: Received call to stop bot, stopping with code: ' + stopCode)
-			client.destroy()
+			client.logger.warn(
+				"util: Received call to stop bot, stopping with code: " +
+					stopCode
+			);
+			client.destroy();
 		}
 		if (mongoClient) {
-			await mongoClient.close()
+			await mongoClient.close();
 		}
-		process.exit(stopCode)
+		process.exit(stopCode);
 	} catch {
-		process.exit()
+		process.exit();
 	}
 }
 
@@ -51,12 +61,12 @@ export async function stopBot(client: BotClient, mongoClient: MongoClient, stopC
  * Generates a random number between two values
  * @param min Minimum number (inclusive)
  * @param max Maximum number (inclusive)
- * @returns Random number 
+ * @returns Random number
  */
 export function randomInt(min: number, max: number): number {
-	min = Math.ceil(min)
-	max = Math.floor(max)
-	return Math.floor(Math.random() * (max - min + 1) + min) //The maximum is inclusive and the minimum is inclusive
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
 /**
@@ -64,8 +74,8 @@ export function randomInt(min: number, max: number): number {
  * @param message Initiating message
  */
 export function returnInvalidPermissionMessage(message: Message): void {
-	message.react('❌')
-	message.channel.send(getInvalidPermissionsMessage())
+	message.react("❌");
+	message.channel.send(getInvalidPermissionsMessage());
 }
 
 /**
@@ -74,29 +84,36 @@ export function returnInvalidPermissionMessage(message: Message): void {
  * @param text Text to get the user from
  * @returns GuildMember
  */
-export async function getUserFromString(guild: Guild, text: unknown): Promise<GuildMember> {
+export async function getUserFromString(
+	guild: Guild,
+	text: unknown
+): Promise<GuildMember> {
 	try {
-		if (!text) return null
-		let stringText = String(text)
-		if (stringText.startsWith('<@') && stringText.endsWith('>')) { // Mention
-			stringText = stringText.slice(2, -1)
-			if (stringText.startsWith('!')) {
-				stringText = stringText.slice(1)
+		if (!text) return null;
+		let stringText = String(text);
+		if (stringText.startsWith("<@") && stringText.endsWith(">")) {
+			// Mention
+			stringText = stringText.slice(2, -1);
+			if (stringText.startsWith("!")) {
+				stringText = stringText.slice(1);
 			}
-			if (stringText.startsWith('&')) { // Role
-				return null
+			if (stringText.startsWith("&")) {
+				// Role
+				return null;
 			}
-			if (stringText.startsWith('<#')) { // Channel
-				return null
+			if (stringText.startsWith("<#")) {
+				// Channel
+				return null;
 			}
-			return await guild.members.fetch(stringText)
-		} else if (is_number(text)) { // Plain ID
-			return await guild.members.fetch(stringText)
+			return await guild.members.fetch(stringText);
+		} else if (is_number(text)) {
+			// Plain ID
+			return await guild.members.fetch(stringText);
 		}
 	} catch {
 		// eslint-disable-next-line no-empty
 	}
-	return null
+	return null;
 }
 
 /**
@@ -105,27 +122,34 @@ export async function getUserFromString(guild: Guild, text: unknown): Promise<Gu
  * @param text Text to get the user from
  * @returns GuildMember
  */
-export async function getRoleFromString(guild: Guild, text: unknown): Promise<Role> {
+export async function getRoleFromString(
+	guild: Guild,
+	text: unknown
+): Promise<Role> {
 	try {
-		if (!text) return null
-		let stringText = String(text)
-		if (stringText.startsWith('<@') && stringText.endsWith('>')) { // Mention
-			stringText = stringText.slice(2, -1)
-			if (stringText.startsWith('<#')) { // Channel
-				return null
+		if (!text) return null;
+		let stringText = String(text);
+		if (stringText.startsWith("<@") && stringText.endsWith(">")) {
+			// Mention
+			stringText = stringText.slice(2, -1);
+			if (stringText.startsWith("<#")) {
+				// Channel
+				return null;
 			}
-			if (stringText.startsWith('&')) { // Role
-				stringText = stringText.slice(1)
+			if (stringText.startsWith("&")) {
+				// Role
+				stringText = stringText.slice(1);
 			}
 
-			return await guild.roles.fetch(stringText)
-		} else if (is_number(stringText)) { // Plain ID
-			return await guild.roles.fetch(stringText)
+			return await guild.roles.fetch(stringText);
+		} else if (is_number(stringText)) {
+			// Plain ID
+			return await guild.roles.fetch(stringText);
 		}
 	} catch {
 		// eslint-disable-next-line no-empty
 	}
-	return null
+	return null;
 }
 
 /**
@@ -134,25 +158,29 @@ export async function getRoleFromString(guild: Guild, text: unknown): Promise<Ro
  * @param text Text to get channel from
  * @returns Channel
  */
-export async function getChannelFromString(guild: Guild, text: unknown): Promise<Channel> {
+export async function getChannelFromString(
+	guild: Guild,
+	text: unknown
+): Promise<Channel> {
 	try {
-		if (!text) return null
-		let stringText = String(text)
-		if (stringText.startsWith('<@')) { // User or role
-			return null
+		if (!text) return null;
+		let stringText = String(text);
+		if (stringText.startsWith("<@")) {
+			// User or role
+			return null;
 		}
-		if (stringText.startsWith('<#') && stringText.endsWith('>')) {
-			stringText = stringText.slice(2, -1)
-			return await guild.client.channels.fetch(stringText)
+		if (stringText.startsWith("<#") && stringText.endsWith(">")) {
+			stringText = stringText.slice(2, -1);
+			return await guild.client.channels.fetch(stringText);
 		} else if (is_number(stringText)) {
-			return await guild.client.channels.fetch(stringText)
+			return await guild.client.channels.fetch(stringText);
 		} else {
 			return guild.channels.cache.find(
-				channel => channel.name.toLowerCase() === stringText
-			)
+				(channel) => channel.name.toLowerCase() === stringText
+			);
 		}
 	} catch {
-		return null
+		return null;
 	}
 }
 
@@ -162,23 +190,32 @@ export async function getChannelFromString(guild: Guild, text: unknown): Promise
  * @param dataToUpload Text to upload
  * @returns string Uploaded paste location
  */
-export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Promise<string> {
+export async function uploadToHasteBin(
+	logger: Logger,
+	dataToUpload: string
+): Promise<string> {
 	if (!dataToUpload) {
-		if (logger) logger.error('hasteUploader: No content provided to upload, skipping...')
+		if (logger)
+			logger.error(
+				"hasteUploader: No content provided to upload, skipping..."
+			);
 	}
-	const hasteLocation = process.env.hasteBinHost ?? 'https://hastebin.com'
+	const hasteLocation = process.env.hasteBinHost ?? "https://hastebin.com";
 	try {
-		const response = await request(hasteLocation + '/documents', {
-			method: 'POST',
+		const response = await request(hasteLocation + "/documents", {
+			method: "POST",
 			body: dataToUpload,
-		})
-		if (response.statusCode != 200) return null
-		const responseData = await response.body.json()
-		if (responseData.key) return `${hasteLocation}/${responseData.key}`
+		});
+		if (response.statusCode != 200) return null;
+		const responseData = await response.body.json();
+		if (responseData.key) return `${hasteLocation}/${responseData.key}`;
 	} catch (err) {
-		if (logger) logger.error('hasteUploader: Failed uploading to hastebin with error: ' + err)
+		if (logger)
+			logger.error(
+				"hasteUploader: Failed uploading to hastebin with error: " + err
+			);
 	}
-	return null
+	return null;
 }
 
 /**
@@ -188,15 +225,15 @@ export async function uploadToHasteBin(logger: Logger, dataToUpload: string): Pr
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function removeItemFromArray(arr: Array<any>, value: unknown) {
-	let i = 0
+	let i = 0;
 	while (i < arr.length) {
 		if (arr[i] == value) {
-			arr.splice(i, 1)
+			arr.splice(i, 1);
 		} else {
-			++i
+			++i;
 		}
 	}
-	return arr
+	return arr;
 }
 
 /**
@@ -205,14 +242,14 @@ export function removeItemFromArray(arr: Array<any>, value: unknown) {
  * @returns Boolean
  */
 export function isBotOwner(userId: string) {
-	const owners = process.env.ownerId.split(',')
-	return owners.includes(userId)
+	const owners = process.env.ownerId.split(",");
+	return owners.includes(userId);
 }
 export function saveLogger(logger: Logger): void {
-	this.logger = logger
+	this.logger = logger;
 }
 export function getLogger(): Logger {
-	return this.logger
+	return this.logger;
 }
 
 /**
@@ -221,19 +258,19 @@ export function getLogger(): Logger {
  * @returns string
  */
 export function capitaliseSentence(string: string) {
-	if (!string) return null
-	const str = String(string)
-	return str.charAt(0).toUpperCase() + str.slice(1)
+	if (!string) return null;
+	const str = String(string);
+	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export function booleanToHuman(booleanToConvert: boolean) {
 	if (booleanToConvert == true) {
-		return i18next.t('misc:ON')
+		return i18next.t("misc:ON");
 	} else {
-		return i18next.t('misc:OFF')
+		return i18next.t("misc:OFF");
 	}
 }
 
 export async function delay(time: number) {
-	return new Promise((resolve) => setTimeout(resolve, time))
+	return new Promise((resolve) => setTimeout(resolve, time));
 }

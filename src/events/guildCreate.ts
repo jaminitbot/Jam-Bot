@@ -1,9 +1,9 @@
-import { Guild } from "discord.js"
-export const name = "guildCreate"
+import { Guild } from "discord.js";
+export const name = "guildCreate";
 export async function generateGuildInfoEmbed(guild: Guild) {
-	const owner = await guild.fetchOwner()
+	const owner = await guild.fetchOwner();
 	return {
-		title: 'Joined guild',
+		title: "Joined guild",
 		description: `Guild Name: ${guild.name}
 			Guild Id: ${guild.id}
 			Created At: ${guild.createdAt}
@@ -12,21 +12,20 @@ export async function generateGuildInfoEmbed(guild: Guild) {
 			Members: ${guild.memberCount}
 			Partnered: ${guild.partnered}
 			Verified: ${guild.verified}`,
-		color: '#20BE9D',
+		color: "#20BE9D",
 		timestamp: Date.now(),
-	}
+	};
 }
 export async function register(guild: Guild) {
-	if (!process.env.guildLogChannel) return
-	const channel = await guild.client.channels.fetch(process.env.guildLogChannel)
-	if (!channel) return
-	if (channel.type != 'GUILD_TEXT' && channel.type != 'GUILD_NEWS') return
+	if (!process.env.guildLogChannel) return;
+	const channel = await guild.client.channels.fetch(
+		process.env.guildLogChannel
+	);
+	if (!channel) return;
+	if (channel.type != "GUILD_TEXT" && channel.type != "GUILD_NEWS") return;
 	try {
 		// @ts-expect-error
-		channel.send({ embeds: [await this.generateGuildInfoEmbed(guild)] })
+		channel.send({ embeds: [await this.generateGuildInfoEmbed(guild)] });
 		// eslint-disable-next-line no-empty
-	} catch {
-
-	}
-
+	} catch {}
 }
