@@ -194,12 +194,14 @@
 	"shutdown": {
 		"SHUTTING_DOWN": "Shutting down..."
 	},
-	"role": {
+	"roles": {
 		"ROLE_NOT_WHITELISTED": "<@&{{role}}> is not whitelisted, you can't {{type}} that one",
 		"UNKOWN_ERROR": "There was an unknown error managing that role, check with admin to see if I have the correct permissions",
 		"MANAGED_SUCCESS": "Successfully {{type}} <@&{{role}}>",
 		"USER_ALREADY_HAS_ROLE": "You already have <@&{{role}}>, I can't add it again",
 		"USER_DOESNT_HAVE_ROLE": "You don't have <@&{{role}}>, I can't take something you don't have",
-		"ROLE_HIGHER_THAN_ME": "<@&{{role}}> is higher than my role, ask an admin to move my role higher"
+		"ROLE_HIGHER_THAN_ME": "<@&{{role}}> is higher than my role, ask an admin to move my role higher",
+		"ROLES_ON_ALLOW_LIST": "Roles avaliable to self-assign: {{roles}}",
+		"NO_ROLES_ON_ALLOW_LIST": "None"
 	}
 }

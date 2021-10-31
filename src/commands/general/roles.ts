@@ -4,9 +4,10 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
 import { getNestedSetting } from "../../functions/db";
 
-export const name = "role";
-export const description = "Adds or removes self assignable roles";
+export const name = "roles";
+export const description = "Manages your self-assignable roles";
 export const usage = "role";
+export const permissions = ["OWNER"];
 export const allowInDm = false;
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
@@ -34,6 +35,11 @@ export const slashData = new SlashCommandBuilder()
 					)
 					.setRequired(true)
 			)
+	)
+	.addSubcommand((command) =>
+		command
+			.setName("list")
+			.setDescription("Lists the avaliable self-assignable roles")
 	);
 export async function execute(
 	client: BotClient,
@@ -65,26 +71,30 @@ export async function executeSlash(
 		"assignableRoles",
 		"allowedRoles"
 	);
-	if (!allowedRoles || !allowedRoles.includes(role.id)) {
-		return interaction.reply({
-			content: i18next.t("role.ROLE_NOT_WHITELISTED", {
-				type: subCommand,
-				role: role.id,
-			}),
-			ephemeral: true,
-		});
-	}
-	if (role.position > interaction.guild.me.roles.highest.position) {
-		return interaction.reply({
-			content: i18next.t("role.ROLE_HIGHER_THAN_ME", { role: role.id }),
-			ephemeral: true,
-		});
+	if (subCommand == "add" || subCommand == "remove") {
+		if (!allowedRoles || !allowedRoles.includes(role.id)) {
+			return interaction.reply({
+				content: i18next.t("roles.ROLE_NOT_WHITELISTED", {
+					type: subCommand,
+					role: role.id,
+				}),
+				ephemeral: true,
+			});
+		}
+		if (role.position > interaction.guild.me.roles.highest.position) {
+			return interaction.reply({
+				content: i18next.t("roles.ROLE_HIGHER_THAN_ME", {
+					role: role.id,
+				}),
+				ephemeral: true,
+			});
+		}
 	}
 	const member = await interaction.guild.members.fetch(interaction.user.id);
 	if (subCommand == "add") {
 		if (member.roles.cache.has(role.id)) {
 			return interaction.reply({
-				content: i18next.t("role.USER_ALREADY_HAS_ROLE", {
+				content: i18next.t("roles.USER_ALREADY_HAS_ROLE", {
 					role: role.id,
 				}),
 				ephemeral: true,
@@ -93,12 +103,12 @@ export async function executeSlash(
 		try {
 			await member.roles.add(role.id);
 		} catch {
-			return interaction.reply(i18next.t("role.UNKNOWN_ERROR"));
+			return interaction.reply(i18next.t("roles.UNKNOWN_ERROR"));
 		}
 	} else if (subCommand == "remove") {
 		if (!member.roles.cache.has(role.id)) {
 			return interaction.reply({
-				content: i18next.t("role.USER_DOESNT_HAVE_ROLE", {
+				content: i18next.t("roles.USER_DOESNT_HAVE_ROLE", {
 					role: role.id,
 				}),
 				ephemeral: true,
@@ -107,13 +117,34 @@ export async function executeSlash(
 		try {
 			await member.roles.remove(role.id);
 		} catch {
-			return interaction.reply(i18next.t("role.UNKNOWN_ERROR"));
+			return interaction.reply(i18next.t("roles.UNKNOWN_ERROR"));
 		}
+	} else if (subCommand == "list") {
+		let allowListFormatted = "";
+		if (allowedRoles) {
+			for (const roleId of allowedRoles) {
+				const role = await interaction.guild.roles.fetch(roleId);
+				allowListFormatted += `<@&${role.id}>` + ", ";
+			}
+			allowListFormatted = allowListFormatted.substring(
+				0,
+				allowListFormatted.length - 2
+			);
+		} else {
+			allowListFormatted = i18next.t("roles.NO_ROLES_ON_ALLOW_LIST");
+		}
+		return interaction.reply({
+			content: i18next.t("roles.ROLES_ON_ALLOW_LIST", {
+				roles: allowListFormatted,
+			}),
+			ephemeral: true,
+		});
 	}
+	const type = subCommand == "add" ? "added" : "removed";
 	interaction.reply({
-		content: i18next.t("role.MANAGED_SUCCESS", {
+		content: i18next.t("roles.MANAGED_SUCCESS", {
 			role: role.id,
-			type: subCommand,
+			type: type,
 		}),
 		ephemeral: true,
 	});
