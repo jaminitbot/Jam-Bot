@@ -65,11 +65,10 @@ export async function executeSlash(
 		"assignableRoles",
 		"allowedRoles"
 	);
-	const type = subCommand == "add" ? "added" : "removed";
 	if (!allowedRoles || !allowedRoles.includes(role.id)) {
 		return interaction.reply({
 			content: i18next.t("role.ROLE_NOT_WHITELISTED", {
-				type: type,
+				type: subCommand,
 				role: role.id,
 			}),
 			ephemeral: true,
@@ -114,7 +113,7 @@ export async function executeSlash(
 	interaction.reply({
 		content: i18next.t("role.MANAGED_SUCCESS", {
 			role: role.id,
-			type: type,
+			type: subCommand,
 		}),
 		ephemeral: true,
 	});
