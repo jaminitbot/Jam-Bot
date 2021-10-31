@@ -1,8 +1,7 @@
 import { BotClient } from "../customDefinitions";
 import { request, Dispatcher } from "undici";
-import { MessageEmbed, TextChannel } from "discord.js";
+import { MessageAttachment, MessageEmbed, TextChannel } from "discord.js";
 import { getNestedSetting, setNestedSetting } from "../functions/db";
-import isImageUrl = require("is-image-url");
 import messages = require("../functions/messages");
 import sha1 = require("sha1");
 import dayjs = require("dayjs");
@@ -67,6 +66,10 @@ export default async function execute(client: BotClient) {
 		const startedAt = dayjs(liveInfo.started_at).unix();
 		const playingGame = liveInfo.game_name ?? "N/A";
 		const thumbnailUrl = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${liveInfo.user_login}-200x100.jpg`;
+		const thumbnailAttachment = new MessageAttachment(
+			thumbnailUrl,
+			"thumnail.jpg"
+		);
 		const embed = new MessageEmbed();
 		embed.setTitle(
 			`${messages.getHappyMessage()} ${
@@ -77,7 +80,7 @@ export default async function execute(client: BotClient) {
 		embed.setDescription(liveTitle);
 		embed.addField("Playing", playingGame, true);
 		embed.addField("Started", `<t:${startedAt}:R>`, true);
-		if (isImageUrl(thumbnailUrl)) embed.setImage(thumbnailUrl);
+		embed.setImage(thumbnailAttachment.url);
 		embed.setFooter("Updates every 5 seconds.");
 		embed.setColor("#A077FF");
 		const newLiveIdentifier = sha1(liveTitle + playingGame); // NOTE: hash because we don't want the title to contain SQL escaping characters

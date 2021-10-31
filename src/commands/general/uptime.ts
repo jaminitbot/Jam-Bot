@@ -16,7 +16,9 @@ export async function execute(
 	message: Message,
 	args: Array<unknown>
 ) {
-	const timeDate = dayjs(client.uptime).format("HH:mm:ss [-] DD/MM/YYYY");
+	const timeDate = dayjs(Date.now() - client.uptime).format(
+		"HH:mm:ss [-] DD/MM/YYYY"
+	);
 	message.channel.send(
 		i18next.t("uptime.UPTIME_MESSAGE", { date: timeDate })
 	);
