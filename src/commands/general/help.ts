@@ -76,7 +76,7 @@ async function returnHelpEmbed(
 		// Generic help command
 		embed.setDescription(
 			i18next.t("help.VIEW_COMMAND_DOCS", {
-				url: "https://jambot.jaminit.co.uk/#/commands/basic",
+				url: "https://jambot.jaminit.co.uk/#/commands/general",
 			})
 		);
 	}

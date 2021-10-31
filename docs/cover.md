@@ -6,4 +6,4 @@
 -   Tons of commands
 -   Frequent Updates
 
-[Command Docs](/commands/basic)
+[Command Docs](/commands/general)

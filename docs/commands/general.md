@@ -24,6 +24,23 @@ Usage: `/invite`
 Displays the bot owner  
 Usage: `/owner`
 
+## Roles
+
+### Add
+
+Adds a self assignable role to yourself  
+Usage: `/roles add Name`
+
+### Remove
+
+Removes a self assignable role from yourself  
+Usage: `/roles remove Name`
+
+### List
+
+Lists all the self assignable roles in the current server  
+Usage: `/roles list`
+
 ## Ping
 
 Displays latency information  

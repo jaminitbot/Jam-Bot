@@ -1,7 +1,7 @@
 -   [Home](/)
 -   [Changelog](/changelog)
 -   Commands
-    -   [Basic Commands](/commands/basic)
+    -   [General Commands](/commands/general)
     -   [Image Commands](/commands/image)
     -   [Moderation Commands](/commands/moderation)
     -   [Bot settings](/commands/settings)

@@ -8,10 +8,14 @@ Base usage: `/settings`
 General bot related settings  
 Base usage: `/settings general`
 
+## Roles
+Configures various settings relating to self assignable roles  
+Base usage: `/settings roles`
+
 ### Suggestions
 
 Allows you to turn suggestions on and off, and set the channel  
-Usage: `/settings suggestions`
+Base usage: `/settings suggestions`
 
 ### Modlog
 
