@@ -7,7 +7,6 @@ import { getNestedSetting } from "../../functions/db";
 export const name = "role";
 export const description = "Adds or removes self assignable roles";
 export const usage = "role";
-export const permissions = ["OWNER"];
 export const allowInDm = false;
 export const slashData = new SlashCommandBuilder()
 	.setName(name)

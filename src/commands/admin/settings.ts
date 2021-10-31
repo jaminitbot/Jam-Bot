@@ -1,5 +1,5 @@
 import { CommandInteraction, Message } from "discord.js";
-import { BotClient } from "../../customDefinitions";
+import { BotClient, Permissions } from "../../customDefinitions";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
 	setKey,
@@ -12,7 +12,7 @@ import i18next from "i18next";
 
 export const name = "settings";
 export const description = "Configures the bot's settings";
-export const permissions = ["OWNER"];
+export const permissions: Permissions = ["MANAGE_GUILD"];
 export const usage = "settings";
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
