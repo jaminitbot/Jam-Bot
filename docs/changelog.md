@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.10.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.9.1...v2.10.0) (2021-10-31)
+
+
+### Features
+
+* self assignable roles ([19f8d1f](https://github.com/jaminitbot/Jam-Bot/commit/19f8d1f385a475592c0378cf48452d36758a1d11))
+
+
+### Bug Fixes
+
+* attempt to fix direct messages but not fix them ([698d541](https://github.com/jaminitbot/Jam-Bot/commit/698d541a457332a1834ac5987f834996ff923be0))
+* dm channel ([98f2fad](https://github.com/jaminitbot/Jam-Bot/commit/98f2fadd31eb891ad840c9113a8f163f66a4e0d1))
+* dm commands ([cc7d500](https://github.com/jaminitbot/Jam-Bot/commit/cc7d500b343de3ae207ce908cfb5f700e42c3252))
+* filter for voice channels move.ts ([44ebf32](https://github.com/jaminitbot/Jam-Bot/commit/44ebf321465bf0602f22b181c8c369748a2ff88f))
+* fix build ([efed8db](https://github.com/jaminitbot/Jam-Bot/commit/efed8db6f5dca291a6507277312b28ac543b5b9f))
+* remove unneeded args ([07bbd14](https://github.com/jaminitbot/Jam-Bot/commit/07bbd1404e006fe7fe13d0f4cc395fb40045e4ad))
+* role command permissions ([58fc08b](https://github.com/jaminitbot/Jam-Bot/commit/58fc08b5304c45f40011736accd49b5ee9650fd9))
+
 ### [2.9.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.9.0...v2.9.1) (2021-10-16)
 
 
