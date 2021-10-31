@@ -121,7 +121,7 @@ export async function executeSlash(
 		}
 	} else if (subCommand == "list") {
 		let allowListFormatted = "";
-		if (allowedRoles) {
+		if (allowedRoles.length) {
 			for (const roleId of allowedRoles) {
 				const role = await interaction.guild.roles.fetch(roleId);
 				allowListFormatted += `<@&${role.id}>` + ", ";

@@ -24,7 +24,7 @@
 		"ROLE_NOT_ON_ALLOW_LIST": "{{role}} is not on the allow list, so I couldn't remove it",
 		"ROLE_REMOVED_FROM_ALLOW_LIST": "{{role}} was successfully removed from the allow list",
 		"ROLES_ON_ALLOW_LIST": "Roles currently on the allow list: {{roles}}",
-		"NO_ROLES_ON_ALLOW_LIST": "No roles currently on allow list",
+		"NO_ROLES_ON_ALLOW_LIST": "none",
 		"ROLE_HIGHER_THAN_ME": "That role is higher than my role, make sure my role is higher so I can give it to members",
 		"ROLE_IS_MANAGED": "You cannot allow roles which are for a bot"
 	},
@@ -202,6 +202,6 @@
 		"USER_DOESNT_HAVE_ROLE": "You don't have <@&{{role}}>, I can't take something you don't have",
 		"ROLE_HIGHER_THAN_ME": "<@&{{role}}> is higher than my role, ask an admin to move my role higher",
 		"ROLES_ON_ALLOW_LIST": "Roles avaliable to self-assign: {{roles}}",
-		"NO_ROLES_ON_ALLOW_LIST": "None"
+		"NO_ROLES_ON_ALLOW_LIST": "none"
 	}
 }
