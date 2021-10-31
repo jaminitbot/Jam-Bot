@@ -59,10 +59,10 @@ export async function setKey(
  * @returns String
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getKey(
 	guildIdInput: string | number,
 	key: string
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
 	const db = this.db.collection("guilds");
 	const cacheValue = await this.dbCache.get(guildIdInput); // Check if guild is already in cache

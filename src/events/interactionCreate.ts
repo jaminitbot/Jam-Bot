@@ -60,11 +60,11 @@ export async function register(client: BotClient, interaction: Interaction) {
 		// @ts-expect-error
 		if (!checkPermissions(interaction.member, [...command.permissions])) {
 			// User doesn't have specified permissions to run command
-			// @ts-expect-error
 			client.logger.debug(
 				`messageHandler: User ${
 					interaction.user.tag
 				} doesn't have the required permissions to run command ${
+					// @ts-expect-error
 					interaction.commandName ?? "NULL"
 				}`
 			);

@@ -40,9 +40,10 @@ export async function execute(
 	args: Array<unknown>
 ) {
 	const embedObject = await returnSupportEmbed();
-	// @ts-expect-error
 	message.channel.send({
+		// @ts-expect-error
 		embeds: [embedObject[0]],
+		// @ts-expect-error
 		components: [embedObject[1]],
 	});
 }

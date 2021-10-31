@@ -109,10 +109,10 @@ export async function executeSlash(
 ) {
 	await interaction.deferReply();
 	const userRole = interaction.options.getMentionable("lookup");
-	// @ts-expect-error
 	const embed = await lookupUserOrRole(
 		interaction.channel,
 		interaction.guild,
+		// @ts-expect-error
 		userRole,
 		userRole
 	);

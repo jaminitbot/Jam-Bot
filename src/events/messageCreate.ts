@@ -122,11 +122,11 @@ export async function register(client: BotClient, message: Message) {
 			embed.setAuthor(message.author.tag, message.author.avatarURL());
 			embed.setFooter(`User ID: ${message.author.id}`);
 			embed.setTimestamp(Date.now());
-			// @ts-expect-error
 			if (
 				dmChannel.type == "GUILD_TEXT" ||
 				dmChannel.type == "GUILD_NEWS"
 			)
+				// @ts-expect-error
 				await dmChannel.send(embed);
 		}
 	}
