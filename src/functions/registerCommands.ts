@@ -16,7 +16,11 @@ export async function registerSlashCommands(client: BotClient) {
 	let devData = [];
 	commands.forEach((command) => {
 		if (typeof command.executeSlash == "function") {
-			if (command.permissions && command.permissions.includes("OWNER")) {
+			if (
+				(command.permissions &&
+					command.permissions.includes("OWNER")) ||
+				process.env.NODE_ENV != "production"
+			) {
 				devData.push(command.slashData.toJSON());
 			} else {
 				data.push(command.slashData.toJSON());
@@ -29,8 +33,9 @@ export async function registerSlashCommands(client: BotClient) {
 					type: command.interactionType,
 				};
 				if (
-					command.permissions &&
-					command.permissions.includes("OWNER")
+					(command.permissions &&
+						command.permissions.includes("OWNER")) ||
+					process.env.NODE_ENV != "production"
 				) {
 					devData.push(interactionData);
 				} else {
