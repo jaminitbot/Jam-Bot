@@ -7,12 +7,12 @@ import {
 	setNestedSetting,
 	getKey,
 } from "../../functions/db";
-import { booleanToHuman } from "../../functions/util";
+import { booleanToHuman, removeItemFromArray } from "../../functions/util";
 import i18next from "i18next";
 
 export const name = "settings";
 export const description = "Configures the bot's settings";
-export const permissions = ["MANAGE_GUILD"];
+export const permissions = ["OWNER"];
 export const usage = "settings";
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
@@ -139,6 +139,42 @@ export const slashData = new SlashCommandBuilder()
 							.setDescription("Log join/leave events?")
 							.setRequired(false)
 					)
+			)
+	)
+	.addSubcommandGroup((group) =>
+		group
+			.setName("roles")
+			.setDescription(
+				"Manages settings relating to self assignable roles"
+			)
+			.addSubcommand((command) =>
+				command
+					.setName("allow")
+					.setDescription(
+						"Allows a role to be self-assigned by members"
+					)
+					.addRoleOption((option) =>
+						option
+							.setName("role")
+							.setDescription("The role to allow")
+							.setRequired(true)
+					)
+			)
+			.addSubcommand((command) =>
+				command
+					.setName("disallow")
+					.setDescription("Remove a role from the allow list")
+					.addRoleOption((option) =>
+						option
+							.setName("role")
+							.setDescription("The role to remove")
+							.setRequired(true)
+					)
+			)
+			.addSubcommand((command) =>
+				command
+					.setName("list")
+					.setDescription("Lists the currently allowed roles")
 			)
 	);
 async function validTextChannel(client: BotClient, channelId: string) {
@@ -663,6 +699,91 @@ export async function executeSlash(
 				interaction.reply({ content: response });
 				return;
 			}
+		}
+	} else if (subCommandGroup == "roles") {
+		let allowedRoles: Array<string> = await getNestedSetting(
+			interaction.guild.id,
+			"assignableRoles",
+			"allowedRoles"
+		);
+		if (!allowedRoles) allowedRoles = [];
+		if (subCommand == "allow") {
+			const role = interaction.options.getRole("role");
+			if (allowedRoles.includes(role.id)) {
+				return interaction.reply({
+					content: i18next.t("settings.ROLE_ALREADY_ALLOWED", {
+						role: role.name,
+					}),
+					ephemeral: true,
+				});
+			}
+			if (role.managed) {
+				return interaction.reply({
+					content: i18next.t("settings.ROLE_IS_MANAGED"),
+					ephemeral: true,
+				});
+			}
+			if (role.position > interaction.guild.me.roles.highest.position) {
+				return interaction.reply({
+					content: i18next.t("settings.ROLE_HIGHER_THAN_ME"),
+					ephemeral: true,
+				});
+			}
+			allowedRoles.push(role.id);
+			await setNestedSetting(
+				interaction.guild.id,
+				"assignableRoles",
+				"allowedRoles",
+				allowedRoles
+			);
+			interaction.reply({
+				content: i18next.t("settings.ROLE_ADDED_TO_ALLOW_LIST", {
+					role: role.name,
+				}),
+			});
+		} else if (subCommand == "disallow") {
+			const role = interaction.options.getRole("role");
+			if (!allowedRoles.includes(role.id)) {
+				return interaction.reply({
+					content: i18next.t("settings.ROLE_NOT_ON_ALLOW_LIST", {
+						role: role.name,
+					}),
+					ephemeral: true,
+				});
+			}
+			allowedRoles = removeItemFromArray(allowedRoles, role.id);
+			await setNestedSetting(
+				interaction.guild.id,
+				"assignableRoles",
+				"allowedRoles",
+				allowedRoles
+			);
+			interaction.reply({
+				content: i18next.t("settings.ROLE_REMOVED_FROM_ALLOW_LIST", {
+					role: role.name,
+				}),
+			});
+		} else if (subCommand == "list") {
+			let allowListFormatted = "";
+			if (allowedRoles) {
+				for (const roleId of allowedRoles) {
+					const role = await interaction.guild.roles.fetch(roleId);
+					allowListFormatted += role.name + ", ";
+				}
+				allowListFormatted = allowListFormatted.substring(
+					0,
+					allowListFormatted.length - 2
+				);
+			} else {
+				allowListFormatted = i18next.t(
+					"settings.NO_ROLES_ON_ALLOW_LIST"
+				);
+			}
+			interaction.reply({
+				content: i18next.t("settings.ROLES_ON_ALLOW_LIST", {
+					roles: allowListFormatted,
+				}),
+			});
 		}
 	}
 }
