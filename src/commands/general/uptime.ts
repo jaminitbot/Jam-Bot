@@ -27,6 +27,8 @@ export async function executeSlash(
 	client: BotClient,
 	interaction: CommandInteraction
 ) {
-	const timeDate = dayjs(client.uptime).format("HH:mm:ss [-] DD/MM/YYYY");
+	const timeDate = dayjs(Date.now() - client.uptime).format(
+		"HH:mm:ss [-] DD/MM/YYYY"
+	);
 	interaction.reply(i18next.t("uptime.UPTIME_MESSAGE", { date: timeDate }));
 }
