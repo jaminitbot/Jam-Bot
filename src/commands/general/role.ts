@@ -52,8 +52,8 @@ export async function executeSlash(
 	if (!interaction.guild.me.permissions.has("MANAGE_ROLES")) {
 		return interaction.reply({
 			content: i18next.t("general:BOT_INVALID_PERMISSION", {
-				friendlyPermissionName: "ban members",
-				permissionName: permissions[0],
+				friendlyPermissionName: "manage roles",
+				permissionName: "MANAGE_ROLES",
 			}),
 			ephemeral: true,
 		});
