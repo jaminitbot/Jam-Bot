@@ -15,7 +15,7 @@ export const slashData = new SlashCommandBuilder()
 	.addSubcommand((command) =>
 		command
 			.setName("add")
-			.setDescription("Gives you a self asignable role")
+			.setDescription("Gives you a self-assignable role")
 			.addRoleOption((option) =>
 				option
 					.setName("role")
@@ -26,7 +26,7 @@ export const slashData = new SlashCommandBuilder()
 	.addSubcommand((command) =>
 		command
 			.setName("remove")
-			.setDescription("Removes a self asignable role from yourself")
+			.setDescription("Removes a self-assignable role from yourself")
 			.addRoleOption((option) =>
 				option
 					.setName("role")
