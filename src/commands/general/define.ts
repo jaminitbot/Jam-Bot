@@ -147,7 +147,10 @@ async function returnDefineEmbed(
 			break;
 		}
 	}
-	const currentPage = Math.round(definitionNumberStart / 5);
+	const currentPage =
+		Math.round(definitionNumberStart / 5) < 0
+			? 1
+			: Math.round(definitionNumberStart / 5);
 	const totalPages = Math.ceil(definitionsArray.length / 5);
 	embed.setColor(colours[currentPage]);
 	embed.setFooter(
