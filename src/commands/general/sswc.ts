@@ -13,7 +13,6 @@ import { randomInt } from "../../functions/util";
 const rickRollCodes = [
 	"dQw4w9WgXcQ",
 	"iik25wqIuFo",
-	"Lrj2Hq7xqQ8",
 	"HPk-VhRjNI8",
 	"Uj1ykZWtPYI",
 	"EE-xtCF3T94",
