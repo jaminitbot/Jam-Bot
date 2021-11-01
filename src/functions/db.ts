@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { Collection, MongoClient } from "mongodb";
 import NodeCache = require("node-cache");
 import { stopBot } from "./util";
 import { Logger } from "winston";
@@ -41,13 +41,12 @@ export async function setKey(
 	key: string,
 	value: unknown
 ): Promise<boolean> {
-	const db = this.db.collection("guilds");
+	const db: Collection = this.db.collection("guilds");
 	this.logger.debug(`DB: Updating ${key} to ${value}`);
 	let guildDbObject = await db.findOne({ guildId: guildIdInput }); // Find the guild in db
-	guildDbObject = guildDbObject?.value ?? {};
+	if (!guildDbObject) guildDbObject = {};
 	guildDbObject[key] = value; // Set the key to the new value
-	const dbObject = { guildId: guildIdInput, value: guildDbObject }; // Make the mongo object
-	db.replaceOne({ guildId: guildIdInput }, dbObject, { upsert: true }); // Save to DB
+	db.replaceOne({ guildId: guildIdInput }, guildDbObject, { upsert: true }); // Save to DB
 	await this.dbCache.set(guildIdInput, guildDbObject); // Set in cache as well
 	return true;
 }
@@ -72,17 +71,20 @@ export async function getKey(
 		);
 		return cacheValue[key]; // If found in cache, return it
 	}
-	let guildDbObject = await db.findOne(
+	const projection = {};
+	projection[key] = 1;
+	const guildDbObject = await db.findOne(
 		// Find guild in mongo db
 		{ guildId: guildIdInput },
-		{ projection: { _id: 0 } }
+		{ projection: projection }
 	);
 	if (!guildDbObject) return null; // If no guild object is found, return nothing
-	guildDbObject = guildDbObject.value;
 	if (!guildDbObject[key]) {
 		return null; // Key doesn't exist
 	}
-	this.dbCache.set(guildIdInput, guildDbObject); // Put the key into the cache
+	const currentCache = this.dbCache.get(guildIdInput) ?? {};
+	currentCache[key] = guildDbObject[key];
+	this.dbCache.set(guildIdInput, currentCache); // Put the key into the cache
 	this.logger.debug(
 		`DB: Got ${key} from DB with value: ${guildDbObject[key]}`
 	);

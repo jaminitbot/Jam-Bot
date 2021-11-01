@@ -32,15 +32,6 @@ export async function register(client: BotClient, interaction: Interaction) {
 		return;
 	}
 	if (
-		interaction.channel?.type == "GUILD_PUBLIC_THREAD" ||
-		interaction.channel?.type == "GUILD_PRIVATE_THREAD"
-	) {
-		try {
-			await interaction.channel.join();
-			// eslint-disable-next-line no-empty
-		} catch {}
-	}
-	if (
 		(!interaction.channel || interaction.channel?.type == "DM") &&
 		command.allowInDm !== true
 	) {
@@ -55,6 +46,15 @@ export async function register(client: BotClient, interaction: Interaction) {
 			);
 		}
 		return;
+	}
+	if (
+		interaction.channel?.type == "GUILD_PUBLIC_THREAD" ||
+		interaction.channel?.type == "GUILD_PRIVATE_THREAD"
+	) {
+		try {
+			await interaction.channel.join();
+			// eslint-disable-next-line no-empty
+		} catch {}
 	}
 	if (command.permissions) {
 		// @ts-expect-error
@@ -88,7 +88,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 		if (typeof command.executeSlash != "function") {
 			const prefix =
 				(await getKey(guildId, "prefix")) || process.env.defaultPrefix;
-			await interaction.reply({
+			interaction.reply({
 				content: i18next.t(
 					"events:interactionCreate.SLASH_FUNCTION_NULL",
 					{ prefix: prefix, command: command.name }

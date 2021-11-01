@@ -12,7 +12,7 @@ export async function connectToSatsCollection(databaseClient: MongoClient) {
 	newDb.createIndex({ date: 1 }, { expireAfterSeconds: 86400 });
 }
 
-export function storeMessageCreate(message: Message) {
+export async function storeMessageCreate(message: Message) {
 	totalMessagesCreated += 1;
 	const guildId = message.guild ? message.guild.id : 0;
 	if (!dbObject[guildId]) dbObject[guildId] = {};
@@ -24,7 +24,7 @@ export function storeMessageCreate(message: Message) {
 	dbObject[guildId].totalMessagesCreated = prevMessagesCreated + 1;
 }
 
-export function storeMessageDelete(message: Message) {
+export async function storeMessageDelete(message: Message) {
 	totalMessagesDeleted += 1;
 	const guildId = message.guild ? message.guild.id : 0;
 	if (!dbObject[guildId]) dbObject[guildId] = {};
@@ -36,7 +36,7 @@ export function storeMessageDelete(message: Message) {
 	dbObject[guildId].totalMessagesDeleted = prevMessagesDeleted + 1;
 }
 
-export function storeMessageEdit(newMessage: Message) {
+export async function storeMessageEdit(newMessage: Message) {
 	totalMessagesEdited += 1;
 	const guildId = newMessage.guild ? newMessage.guild.id : 0;
 	if (!dbObject[guildId]) dbObject[guildId] = {};
@@ -47,7 +47,7 @@ export function storeMessageEdit(newMessage: Message) {
 	dbObject[guildId].guildId = guildId;
 	dbObject[guildId].totalMessagesEdited = prevMessagesEdited + 1;
 }
-export function storeSlashCommandCreate(interaction: CommandInteraction) {
+export async function storeSlashCommandCreate(interaction: CommandInteraction) {
 	totalSlashCommandsCreated += 1;
 	const guildId = interaction.guild ? interaction.guild.id : 0;
 	let prevSlashCommandsCreated = 0;
