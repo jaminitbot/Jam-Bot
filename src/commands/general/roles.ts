@@ -191,41 +191,18 @@ export async function executeAutocomplete(
 	const input = interaction.options.getFocused();
 	const subCommand = interaction.options.getSubcommand();
 	const matchedChoices = [];
-	if (subCommand == "add") {
-		for (const roleID of allowedRoles) {
-			const role = await interaction.guild.roles.fetch(roleID);
-			if (
-				role.name
-					.toLowerCase()
-					.startsWith(String(input).toLowerCase()) ||
-				!input
-			) {
-				matchedChoices.push({ name: role.name, value: role.id });
-			}
-			if (matchedChoices.length >= 24) {
-				break;
-			}
+	const member = await interaction.guild.members.fetch(interaction.user.id);
+	for (const roleID of allowedRoles) {
+		const role = await interaction.guild.roles.fetch(roleID);
+		if (
+			(role.name.toLowerCase().startsWith(String(input).toLowerCase()) ||
+				!input) &&
+			(member.roles.cache.has(roleID) || subCommand == "add")
+		) {
+			matchedChoices.push({ name: role.name, value: role.id });
 		}
-	} else if (subCommand == "remove") {
-		const member = await interaction.guild.members.fetch(
-			interaction.user.id
-		);
-		const memberRoles = member.roles.cache;
-		for (const roleID of allowedRoles) {
-			if (memberRoles.has(roleID)) {
-				const role = await interaction.guild.roles.fetch(roleID);
-				if (
-					role.name
-						.toLowerCase()
-						.startsWith(String(input).toLowerCase()) ||
-					!input
-				) {
-					matchedChoices.push({ name: role.name, value: role.id });
-				}
-			}
-			if (matchedChoices.length >= 24) {
-				break;
-			}
+		if (matchedChoices.length >= 24) {
+			break;
 		}
 	}
 	interaction.respond(matchedChoices);
