@@ -15,7 +15,11 @@ export const name = "interactionCreate";
 export async function register(client: BotClient, interaction: Interaction) {
 	const guildId = interaction.guild ? interaction.guild.id : 0;
 	let commandName;
-	if (interaction.isCommand() || interaction.isContextMenu()) {
+	if (
+		interaction.isCommand() ||
+		interaction.isContextMenu() ||
+		interaction.isAutocomplete()
+	) {
 		commandName = interaction.commandName;
 	} else if (interaction.isButton() || interaction.isSelectMenu()) {
 		const nameObject = interaction.customId.trim().split("-");
@@ -161,6 +165,25 @@ export async function register(client: BotClient, interaction: Interaction) {
 			});
 			try {
 				command.executeContextMenu(client, interaction);
+			} catch (error) {
+				// Error running command
+				client.logger.error(
+					"interactionHandler: Command button failed with error: " +
+						error
+				);
+			} finally {
+				transaction.finish();
+			}
+		});
+	} else if (interaction.isAutocomplete()) {
+		if (typeof command.executeAutocomplete != "function") return;
+		Sentry.withInteractionScope(interaction, async () => {
+			const transaction = Sentry.startTransaction({
+				op: command.name + "Command",
+				name: capitaliseSentence(command.name) + " Command",
+			});
+			try {
+				command.executeAutocomplete(client, interaction);
 			} catch (error) {
 				// Error running command
 				client.logger.error(

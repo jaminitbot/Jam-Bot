@@ -1,4 +1,5 @@
 import {
+	AutocompleteInteraction,
 	ButtonInteraction,
 	Client,
 	Collection,
@@ -14,6 +15,10 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 type Permission = PermissionString | "OWNER";
 export type Permissions = Array<Permission>;
 export interface Command {
+	executeAutocomplete: (
+		client: BotClient,
+		interaction: AutocompleteInteraction
+	) => Promise<void>;
 	executeSelectMenu: (
 		client: BotClient,
 		interaction: SelectMenuInteraction

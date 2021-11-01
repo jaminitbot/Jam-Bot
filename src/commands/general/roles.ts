@@ -1,4 +1,8 @@
-import { CommandInteraction, Message } from "discord.js";
+import {
+	AutocompleteInteraction,
+	CommandInteraction,
+	Message,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
@@ -9,38 +13,62 @@ export const description = "Manages your self-assignable roles";
 export const usage = "role";
 export const permissions = ["OWNER"];
 export const allowInDm = false;
-export const slashData = new SlashCommandBuilder()
+const slashDataTemp = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
-	.addSubcommand((command) =>
-		command
-			.setName("add")
-			.setDescription("Gives you a self-assignable role")
-			.addRoleOption((option) =>
-				option
-					.setName("role")
-					.setDescription("The role you'd like to give yourself")
-					.setRequired(true)
-			)
+	.addSubcommand(
+		(command) =>
+			command
+				.setName("add")
+				.setDescription("Gives you a self-assignable role")
+		// .addRoleOption((option) =>
+		// 	option
+		// 		.setName("role")
+		// 		.setDescription("The role you'd like to give yourself")
+		// 		.setRequired(true)
+		// )
 	)
-	.addSubcommand((command) =>
-		command
-			.setName("remove")
-			.setDescription("Removes a self-assignable role from yourself")
-			.addRoleOption((option) =>
-				option
-					.setName("role")
-					.setDescription(
-						"The role you'd like to remove from yourself"
-					)
-					.setRequired(true)
-			)
+	.addSubcommand(
+		(command) =>
+			command
+				.setName("remove")
+				.setDescription("Removes a self-assignable role from yourself")
+		// .addRoleOption((option) =>
+		// 	option
+		// 		.setName("role")
+		// 		.setDescription(
+		// 			"The role you'd like to remove from yourself"
+		// 		)
+		// 		.setRequired(true)
+		// )
 	)
 	.addSubcommand((command) =>
 		command
 			.setName("list")
 			.setDescription("Lists the avaliable self-assignable roles")
-	);
+	)
+	.toJSON();
+// @ts-expect-error
+slashDataTemp.options[0].options[0] = {
+	name: "role",
+	description: "The role you'd like to give yourself",
+	type: 3,
+	autocomplete: true,
+	required: true,
+};
+// @ts-expect-error
+slashDataTemp.options[1].options[0] = {
+	name: "role",
+	description: "The role you'd like to remove from yourself",
+	type: 3,
+	autocomplete: true,
+	required: true,
+};
+function toJSON() {
+	return slashDataTemp;
+}
+export const slashData = { toJSON: toJSON };
+
 export async function execute(
 	client: BotClient,
 	message: Message,
@@ -65,12 +93,14 @@ export async function executeSlash(
 		});
 	}
 	const subCommand = interaction.options.getSubcommand();
-	const role = interaction.options.getRole("role");
-	const allowedRoles: Array<string> = await getNestedSetting(
-		interaction.guild.id,
-		"assignableRoles",
-		"allowedRoles"
-	);
+	const roleId = interaction.options.getString("role");
+	const role = await interaction.guild.roles.fetch(roleId);
+	const allowedRoles: Array<string> =
+		(await getNestedSetting(
+			interaction.guild.id,
+			"assignableRoles",
+			"allowedRoles"
+		)) ?? [];
 	if (subCommand == "add" || subCommand == "remove") {
 		if (!allowedRoles || !allowedRoles.includes(role.id)) {
 			return interaction.reply({
@@ -148,4 +178,55 @@ export async function executeSlash(
 		}),
 		ephemeral: true,
 	});
+}
+export async function executeAutocomplete(
+	client: BotClient,
+	interaction: AutocompleteInteraction
+) {
+	const allowedRoles: Array<string> = await getNestedSetting(
+		interaction.guild.id,
+		"assignableRoles",
+		"allowedRoles"
+	);
+	const input = interaction.options.getFocused();
+	const subCommand = interaction.options.getSubcommand();
+	const matchedChoices = [];
+	if (subCommand == "add") {
+		for (const roleID of allowedRoles) {
+			const role = await interaction.guild.roles.fetch(roleID);
+			if (
+				role.name
+					.toLowerCase()
+					.startsWith(String(input).toLowerCase()) ||
+				!input
+			) {
+				matchedChoices.push({ name: role.name, value: role.id });
+			}
+			if (matchedChoices.length >= 24) {
+				break;
+			}
+		}
+	} else if (subCommand == "remove") {
+		const member = await interaction.guild.members.fetch(
+			interaction.user.id
+		);
+		const memberRoles = member.roles.cache;
+		for (const roleID of allowedRoles) {
+			if (memberRoles.has(roleID)) {
+				const role = await interaction.guild.roles.fetch(roleID);
+				if (
+					role.name
+						.toLowerCase()
+						.startsWith(String(input).toLowerCase()) ||
+					!input
+				) {
+					matchedChoices.push({ name: role.name, value: role.id });
+				}
+			}
+			if (matchedChoices.length >= 24) {
+				break;
+			}
+		}
+	}
+	interaction.respond(matchedChoices);
 }
