@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.11.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.10.0...v2.11.0) (2021-11-01)
+
+
+### Features
+
+* register commands to guild if not in production ([41b3a18](https://github.com/jaminitbot/Jam-Bot/commit/41b3a1868d5869b1f35683c4d3fbb2afe7cd08b3))
+* rename role => role and add role list command ([5d0ea30](https://github.com/jaminitbot/Jam-Bot/commit/5d0ea3081f96c8e36eb6b0bc68e78565bf498057))
+* **roles:** autocomplete ([921fd9b](https://github.com/jaminitbot/Jam-Bot/commit/921fd9b918405358734d4f75f08281b370bf83a6))
+
+
+### Bug Fixes
+
+* consistant use of hiphens in self-assignable ([76c9c77](https://github.com/jaminitbot/Jam-Bot/commit/76c9c77e0ce42fc444367a83b521c62d8ec8980e))
+* fix clarity on role messages ([3637ce7](https://github.com/jaminitbot/Jam-Bot/commit/3637ce76a3cbe8d0e21d84b5294debffc81d8601))
+* fix no roles on allow list message ([f4ac682](https://github.com/jaminitbot/Jam-Bot/commit/f4ac68268a43a274a7fc7a69fc1a04ecf6565721))
+* hopefully fix page numbers on define ([3a87bf2](https://github.com/jaminitbot/Jam-Bot/commit/3a87bf207cb6be86b8057b92f51c179053eddf6e))
+* **locales:** fix nested locales ([2fe9013](https://github.com/jaminitbot/Jam-Bot/commit/2fe901376d0360093f08081153158a519cb1cac7))
+* **sswc:** remove broken youtube url ([9eadb0b](https://github.com/jaminitbot/Jam-Bot/commit/9eadb0b9e6c706a74339b1de996400baec381257))
+* **uptime:** actually fix uptime ([3cfb365](https://github.com/jaminitbot/Jam-Bot/commit/3cfb36546474912390dc589f2b0cde931f53ca86))
+* **uptime:** fix time ([d39b78a](https://github.com/jaminitbot/Jam-Bot/commit/d39b78a6dd0a481375b250251d79b219212e397c))
+
 ## [2.10.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.9.1...v2.10.0) (2021-10-31)
 
 
