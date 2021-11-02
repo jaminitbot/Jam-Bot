@@ -99,7 +99,7 @@ export async function executeSlash(
 			interaction.guild.id,
 			"assignableRoles",
 			"allowedRoles"
-		)) ?? [];
+		)) || [];
 	if (subCommand == "add" || subCommand == "remove") {
 		if (!allowedRoles || !allowedRoles.includes(role.id)) {
 			return interaction.reply({
