@@ -2,7 +2,8 @@
 	"name": "jambot",
 	"version": "2.11.0",
 	"description": "Jammy bot",
-	"main": "built/index.js",
+	"main": "dist/index.js",
+	"private": true,
 	"scripts": {
 		"start": "node dist/index.js",
 		"build": "pnpm tsc",
@@ -71,9 +72,5 @@
 	"engineStrict": true,
 	"engines": {
 		"node": "16.x"
-	},
-	"lint-staged": {
-		"*.{js,ts}": "eslint --cache --fix",
-		"*.{js,css,md,ts}": "prettier --write"
 	}
 }

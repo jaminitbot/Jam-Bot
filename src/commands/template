@@ -13,7 +13,6 @@ export const name = "debug";
 export const description = "Displays debug information";
 export const permissions: Permissions = ["ADMINISTRATOR"];
 export const usage = "debug";
-export const aliases = ["debugthing"];
 export const allowInDm = false;
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
