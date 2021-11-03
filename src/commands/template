@@ -1,60 +1,60 @@
 import {
-	ButtonInteraction,
-	CommandInteraction,
-	SelectMenuInteraction,
-	Message,
-	ContextMenuInteraction,
-	AutocompleteInteraction,
-} from "discord.js";
+    ButtonInteraction,
+    CommandInteraction,
+    SelectMenuInteraction,
+    Message,
+    ContextMenuInteraction,
+    AutocompleteInteraction,
+} from 'discord.js'
 // @ts-expect-error
-import { BotClient, Permissions } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
-export const name = "debug";
-export const description = "Displays debug information";
-export const permissions: Permissions = ["ADMINISTRATOR"];
-export const usage = "debug";
-export const allowInDm = false;
+import { BotClient, Permissions } from '../../customDefinitions'
+import { SlashCommandBuilder } from '@discordjs/builders'
+export const name = 'debug'
+export const description = 'Displays debug information'
+export const permissions: Permissions = ['ADMINISTRATOR']
+export const usage = 'debug'
+export const allowInDm = false
 export const slashData = new SlashCommandBuilder()
-	.setName(name)
-	.setDescription(description);
+    .setName(name)
+    .setDescription(description)
 
 export async function execute(
-	client: BotClient,
-	message: Message,
-	args: Array<unknown>
+    client: BotClient,
+    message: Message,
+    args: Array<unknown>
 ) {
-	// Code
+    // Code
 }
 
 export async function executeSlash(
-	client: BotClient,
-	interaction: CommandInteraction
+    client: BotClient,
+    interaction: CommandInteraction
 ) {
-	// Code
+    // Code
 }
 
 export async function executeButton(
-	client: BotClient,
-	interaction: ButtonInteraction
+    client: BotClient,
+    interaction: ButtonInteraction
 ) {
-	// Code
+    // Code
 }
 
 export async function executeSelectMenu(
-	client: BotClient,
-	interaction: SelectMenuInteraction
+    client: BotClient,
+    interaction: SelectMenuInteraction
 ) {
-	// Code
+    // Code
 }
 export async function executeContextMenu(
-	client: BotClient,
-	interaction: ContextMenuInteraction
+    client: BotClient,
+    interaction: ContextMenuInteraction
 ) {
-	// Code
+    // Code
 }
 export async function executeAutocomplete(
-	client: BotClient,
-	interaction: AutocompleteInteraction
+    client: BotClient,
+    interaction: AutocompleteInteraction
 ) {
-	// Code
+    // Code
 }
