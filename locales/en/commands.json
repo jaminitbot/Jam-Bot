@@ -203,5 +203,8 @@
 		"ROLE_HIGHER_THAN_ME": "<@&{{role}}> is higher than my role, ask an admin to move my role higher",
 		"ROLES_ON_ALLOW_LIST": "Roles avaliable to self-assign: {{roles}}",
 		"NO_ROLES_ON_ALLOW_LIST": "none"
+	},
+	"util": {
+		"RELOADED_SLASH_COMMANDS": "Successfully deployed slash commands"
 	}
 }
