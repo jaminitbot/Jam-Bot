@@ -20,4 +20,4 @@ A discord bot designed to be easy to setup, but full of features.
 ## TODO:
 
 -   More modlogs
--               Better settings/web dashboard
+-   Better settings/web dashboard
