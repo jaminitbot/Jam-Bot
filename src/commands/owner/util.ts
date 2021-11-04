@@ -12,7 +12,7 @@ import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { registerSlashCommands } from '../../functions/registerCommands'
 import i18next from 'i18next'
-import { getKey, setKey, getNestedSetting, setNestedSetting } from '../../functions/db'
+import { getKey, setKey, getNestedSetting, setNestedSetting, purgeCache } from '../../functions/db'
 export const name = 'util'
 export const description = 'Various util commands'
 export const permissions: Permissions = ['OWNER']
@@ -97,6 +97,25 @@ export const slashData = new SlashCommandBuilder()
 						option.setName('guildid')
 							.setDescription('Guild ID to to get the key in')
 							.setRequired(true)
+					)
+			)
+			.addSubcommand(command =>
+				command.setName('purgecache')
+					.setDescription('Purges the database cache of a particular key')
+					.addStringOption(option =>
+						option.setName('key')
+							.setDescription('Key to purge')
+							.setRequired(true)
+					)
+					.addStringOption(option =>
+						option.setName('guildid')
+							.setDescription('Guild ID to purge the key in')
+							.setRequired(true)
+					)
+					.addStringOption(option =>
+						option.setName('group')
+							.setDescription('Group to purge the key in')
+							.setRequired(false)
 					)
 			)
 	)
@@ -253,6 +272,13 @@ export async function executeSlash(
 					const embed = returnGetKeyEmbed(guildId, `${groupName}/${key}`, valueReturned)
 					interaction.reply({ embeds: [embed] })
 					break
+				}
+				case 'purgecache': {
+					const key = interaction.options.getString('key')
+					const groupName = interaction.options.getString('group')
+					const guildId = interaction.options.getString('guildid')
+					await purgeCache(guildId, groupName, key)
+					interaction.reply({ content: `Successfully purged the cache of \`${groupName ? groupName + '/' + name : name}\`` })
 				}
 			}
 			break
