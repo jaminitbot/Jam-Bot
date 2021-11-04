@@ -148,7 +148,7 @@ import { initTranslations } from "./functions/locales";
 	connectToSatsCollection(returnRawClient())
 	// Events
 	client.on("guildCreate", (guild) => {
-		client.events.get("guildCreate").register(guild)
+		client.events.get("guildCreate").register(client, guild)
 	})
 	client.on("guildDelete", (guild) => {
 		client.events.get("guildDelete").register(guild)
