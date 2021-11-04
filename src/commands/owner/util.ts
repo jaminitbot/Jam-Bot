@@ -272,23 +272,24 @@ export async function executeSlash(
 					const guildOwner = await guild.fetchOwner()
 					let botPermissions = guild.me.permissions.toArray().join(', ')
 					botPermissions = botPermissions ? botPermissions.substring(0, botPermissions.length) : 'NONE'
+					if (botPermissions.includes('ADMINISTRATOR,')) botPermissions = 'ADMINISTRATOR'
 					const embed = new MessageEmbed
 					embed.setTitle('Guild Lookup')
 						.setAuthor(guild.name, guild.iconURL())
 						.addField('Name', guild.name, true)
 						.addField('ID', guild.id, true)
 						.addField('Created At', guild.createdAt.toUTCString(), true)
-						.addField('Owner Tag', guildOwner.user.tag, true)
+					guild.description && embed.addField('Guild Description', guild.description, true)
+					embed.addField('Owner Tag', guildOwner.user.tag, true)
 						.addField('Owner ID', guildOwner.user.id, true)
 						.addField('Member Count', String(guild.memberCount ?? guild.approximateMemberCount ?? 'Couldn\'t fetch'), true)
 						.addField('Partnered', String(guild.partnered).toUpperCase(), true)
 						.addField('Verified', String(guild.verified).toUpperCase(), true)
 						.addField('Premium Tier', guild.premiumTier, true)
-						.addField('Prefered Locale', guild.preferredLocale, true)
+					guild.vanityURLCode && embed.addField('Vanity URL Code', guild.vanityURLCode, true)
+					embed.addField('Prefered Locale', guild.preferredLocale, true)
 						.addField('Bot Permissions', `\`${botPermissions}\``, false)
 						.addField('Shard ID', String(guild.shardId), true)
-					guild.description && embed.addField('Guild Description', guild.description, true)
-					guild.vanityURLCode && embed.addField('Vanity URL Code', guild.vanityURLCode, true)
 					interaction.reply({ embeds: [embed] })
 					break
 				}
