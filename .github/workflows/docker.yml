@@ -10,12 +10,10 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
-    env:
-      IMAGE_TAG: ${{ github.event.release.tag_name }}
     steps:
-      - uses: actions/checkout@v2.2.0
-        with:
-          fetch-depth: 0
+      - name: Get version
+        id: get_version
+        run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -34,4 +32,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: jamesatjaminit/jam-bot:${{ env.IMAGE_TAG }}
+          tags: jamesatjaminit/jam-bot:${{ env.TAG }}
