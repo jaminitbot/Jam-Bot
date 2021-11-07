@@ -1,4 +1,4 @@
-FROM node:16.13.0-buster
+FROM node:latest
 ENV NODE_ENV=production
 WORKDIR /app
 COPY . /app
