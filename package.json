@@ -9,10 +9,9 @@
 		"build": "pnpm tsc",
 		"dev": "pnpm build && pnpm start",
 		"change": "node devScripts/addChange.js",
-		"release:minor": "pnpm release --release-as minor",
-		"release:patch": "pnpm release --release-as patch",
-		"release:major": "pnpm release --release-as major",
-		"release": "pnpm standard-version -i docs/changelog.md"
+		"release:minor": "pnpm standard-version -i docs/changelog.md --release-as minor",
+		"release:patch": "pnpm standard-version -i docs/changelog.md --release-as patch",
+		"release:major": "pnpm standard-version -i docs/changelog.md --release-as major"
 	},
 	"repository": {
 		"type": "git",
