@@ -11,7 +11,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     env:
-      IMAGE_TAG: ${{ github.event.release.tag_name }
+      IMAGE_TAG: ${{ github.event.release.tag_name }}
     steps:
       - uses: actions/checkout@v2.2.0
         with:
