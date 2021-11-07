@@ -4,18 +4,26 @@ A discord bot designed to be easy to setup, but full of features.
 
 ## Installation:
 
-1. Clone the repo `git clone https://github.com/jamesatjaminit/Jam-Bot`
-2. `cd Jam-Bot`
-3. Copy `.env.example` to `.env` and fill out
-
 ### Docker
 
-4. `docker-compose up -d --build`
+1. Make the `docker-compose.yaml` file: 
+```yaml
+services:
+    bot:
+        image: 'jamesatjaminit/jam-bot:latest'
+        env_file:
+            - .env
+        restart: unless-stopped
+```
+2. Copy the env file from `.env.example` `.env` and fill out
+3. Run the bot: `docker-compose up -d`
 
 ### Manual
-
-4. Compile typescript `yarn tsc`
-5. Run `yarn start`
+1. Clone the repo `git clone https://github.com/jamesatjaminit/Jam-Bot`
+2. Install deps `pnpm install`
+3. Copy the env file from `.env.example` to `.env` and fill out
+4. Compile typescript: `pnpm build`
+5. Run the bot: `pnpm start`
 
 ## TODO:
 
