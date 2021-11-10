@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.11.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.11.0...v2.11.1) (2021-11-10)
+
+
+### Features
+
+* organised and more owner commands ([bc4caf9](https://github.com/jaminitbot/Jam-Bot/commit/bc4caf9417beafaddfbd1ac87c00b4a012e8940c))
+* publish to docker hub ([55a44e7](https://github.com/jaminitbot/Jam-Bot/commit/55a44e7c68e33e4a027fcd8dc63953d5f057a71f))
+* **utilCommand:** purge db cache command ([0a5d7c2](https://github.com/jaminitbot/Jam-Bot/commit/0a5d7c2a6c4873278b4395b0afdb22fdd0150785))
+
+
+### Bug Fixes
+
+* register slash commands on dev server join ([148cd3a](https://github.com/jaminitbot/Jam-Bot/commit/148cd3a7b26de3636f58fce3322c7334e1400fb9))
+* **roles:** fix no allowed roles ([ad54b88](https://github.com/jaminitbot/Jam-Bot/commit/ad54b881d2cf289cfd818b2b41111d08a588c2b8))
+* **roles:** fix permissions, again ([7f55e6d](https://github.com/jaminitbot/Jam-Bot/commit/7f55e6d80873bb03ed7377d8a2bbea627ce9f107))
+* use node 16 ([8690b1f](https://github.com/jaminitbot/Jam-Bot/commit/8690b1f4ab7c0682ddbf8bcd0b553be8fa8a763a))
+* use node latest ([de84b8e](https://github.com/jaminitbot/Jam-Bot/commit/de84b8ef66581f7275ace98005d2413640ddaa7e))
+* **utilCommand:** fix ordering of guild lookup ([f3cfb8d](https://github.com/jaminitbot/Jam-Bot/commit/f3cfb8d232172cc01c3a2de6e561b9242a99f6ce))
+
 ## [2.11.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.10.0...v2.11.0) (2021-11-01)
 
 
