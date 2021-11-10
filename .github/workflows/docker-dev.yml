@@ -7,7 +7,7 @@ on:
       - "devScripts/**"
       - "docs/**"
       - "**.md"
-      - ".github/release-docker.yml"
+      - ".github/**"
       - ".devcontainer/**"
 
 jobs:

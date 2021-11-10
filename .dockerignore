@@ -1,7 +1,8 @@
-dist/
-node_modules/
+.git/
 docs/
 devScripts/
-.vscode/
-.env
-devScripts/
+.github/
+.devcontainer/
+.es*
+.git*
+.prettier*
