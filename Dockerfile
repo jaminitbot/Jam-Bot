@@ -1,5 +1,4 @@
 FROM node:lts
-ENV NODE_ENV=production
 WORKDIR /app
 COPY . /app
 RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
