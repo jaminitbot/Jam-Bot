@@ -9,11 +9,13 @@ import { Message, MessageEmbed } from 'discord.js'
 import { getErrorMessage } from '../functions/messages'
 import Sentry from '../functions/sentry'
 import i18next from 'i18next'
+import { incrementMessageCounter } from 'src/functions/metrics'
 const bannedIds = ['']
 export const name = 'messageCreate'
 
 // let mentionSlash = true
 export async function register(client: BotClient, message: Message) {
+    incrementMessageCounter(message.guild?.id ?? null, message.author.id)
     if (message.author.bot) return
     if (bannedIds.includes(message.author.id)) return
     const guildId = message.guild ? message.guild.id : 0

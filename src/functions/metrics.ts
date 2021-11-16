@@ -15,6 +15,11 @@ const eventsCounter = new Counter({
     help: 'Total number of gateway events received',
     labelNames: ['event_name'] as const
 })
+const messageCounter = new Counter({
+    name: 'message_counter_total',
+    help: 'Total number of messages received',
+    labelNames: ['guild_id', 'user_id'] as const
+})
 export async function initProm() {
     collectDefaultMetrics({
         labels: defaultLabels
@@ -42,5 +47,11 @@ type EventName = 'guild_create' | 'guild_delete' | 'guild_member_add' | 'guild_m
 export function incrementEventsCounter(eventName: EventName) {
     eventsCounter.inc({
         event_name: eventName
+    })
+}
+export function incrementMessageCounter(guildId: string | null, userId: string) {
+    messageCounter.inc({
+        guild_id: guildId ?? undefined,
+        user_id: userId
     })
 }
