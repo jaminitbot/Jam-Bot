@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.12.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.11.2...v2.12.0) (2021-11-16)
+
+
+### Features
+
+* prometheus monitoring ([98d0195](https://github.com/jaminitbot/Jam-Bot/commit/98d019559724712306c8d275e97ab1cb3b981789))
+
+
+### Bug Fixes
+
+* don't add nodeenv production in docker ([173bb05](https://github.com/jaminitbot/Jam-Bot/commit/173bb05a4757b4d35d5f60f71cda12037d0e8286))
+
 ### [2.11.2](https://github.com/jaminitbot/Jam-Bot/compare/v2.11.1...v2.11.2) (2021-11-10)
 
 
