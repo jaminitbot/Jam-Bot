@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.12.4](https://github.com/jaminitbot/Jam-Bot/compare/v2.12.3...v2.12.4) (2021-11-16)
+
+
+### Features
+
+* **metrics:** save websocket ping ([a13166a](https://github.com/jaminitbot/Jam-Bot/commit/a13166a3e8de7f84a50e77627a21b20b396d92ca))
+
+
+### Bug Fixes
+
+* imports ([161c717](https://github.com/jaminitbot/Jam-Bot/commit/161c7173488b52136007678bf77ae2684a9dec58))
+
 ### [2.12.3](https://github.com/jaminitbot/Jam-Bot/compare/v2.12.2...v2.12.3) (2021-11-16)
 
 

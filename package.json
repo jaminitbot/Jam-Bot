@@ -1,6 +1,6 @@
 {
 	"name": "jambot",
-	"version": "2.12.3",
+	"version": "2.12.4",
 	"description": "Jammy bot",
 	"main": "dist/index.js",
 	"private": true,
