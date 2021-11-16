@@ -9,7 +9,7 @@ import { Message, MessageEmbed } from 'discord.js'
 import { getErrorMessage } from '../functions/messages'
 import Sentry from '../functions/sentry'
 import i18next from 'i18next'
-import { incrementMessageCounter } from 'src/functions/metrics'
+import { incrementMessageCounter } from '../functions/metrics'
 const bannedIds = ['']
 export const name = 'messageCreate'
 
