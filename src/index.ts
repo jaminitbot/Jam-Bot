@@ -19,7 +19,6 @@ import {
 	registerCommands,
 	registerEvents,
 } from "./functions/registerCommands"
-import { saveStatsToDB, connectToSatsCollection } from "./cron/stats"
 // Misc Scripts
 import sendTwitchNotifications from "./cron/twitch"
 import { connect, returnRawClient } from "./functions/db"
@@ -145,7 +144,6 @@ import { initTranslations } from "./functions/locales";
 		logger.error("DB not found")
 		await stopBot(client, null, 1)
 	}
-	connectToSatsCollection(returnRawClient())
 	// Events
 	client.on("guildCreate", (guild) => {
 		client.events.get("guildCreate").register(client, guild)
@@ -214,9 +212,6 @@ import { initTranslations } from "./functions/locales";
 				sendTwitchNotifications(client)
 			})
 		}
-		scheduleJob("0 * * * *", function () {
-			saveStatsToDB()
-		})
 		scheduleJob("*/30 * * * * *", function () {
 			processTasks(client)
 		})

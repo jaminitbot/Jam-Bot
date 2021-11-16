@@ -6,7 +6,6 @@ import {
     getErrorMessage,
     getInvalidPermissionsMessage,
 } from '../functions/messages'
-import { storeSlashCommandCreate } from '../cron/stats'
 import Sentry from '../functions/sentry'
 import i18next from 'i18next'
 
@@ -58,18 +57,17 @@ export async function register(client: BotClient, interaction: Interaction) {
         try {
             await interaction.channel.join()
             // eslint-disable-next-line no-empty
-        } catch {}
+        } catch { }
     }
     if (command.permissions) {
         // @ts-expect-error
         if (!checkPermissions(interaction.member, [...command.permissions])) {
             // User doesn't have specified permissions to run command
             client.logger.debug(
-                `messageHandler: User ${
-                    interaction.user.tag
+                `messageHandler: User ${interaction.user.tag
                 } doesn't have the required permissions to run command ${
-                    // @ts-expect-error
-                    interaction.commandName ?? 'NULL'
+                // @ts-expect-error
+                interaction.commandName ?? 'NULL'
                 }`
             )
             if (
@@ -88,7 +86,6 @@ export async function register(client: BotClient, interaction: Interaction) {
     }
     if (interaction.isCommand()) {
         // Is a slash command
-        storeSlashCommandCreate(interaction)
         if (typeof command.executeSlash != 'function') {
             const prefix =
                 (await getKey(guildId, 'prefix')) || process.env.defaultPrefix
@@ -121,12 +118,12 @@ export async function register(client: BotClient, interaction: Interaction) {
                                 content: getErrorMessage(),
                             })
                             // eslint-disable-next-line no-empty
-                        } catch {}
+                        } catch { }
                     } else {
                         try {
                             interaction.reply({ content: getErrorMessage() })
                             // eslint-disable-next-line no-empty
-                        } catch {}
+                        } catch { }
                     }
                     // eslint-disable-next-line no-empty
                 } catch (err) {
@@ -150,7 +147,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 // Error running command
                 client.logger.error(
                     'interactionHandler: Command button failed with error: ' +
-                        error
+                    error
                 )
             } finally {
                 transaction.finish()
@@ -169,7 +166,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 // Error running command
                 client.logger.error(
                     'interactionHandler: Command button failed with error: ' +
-                        error
+                    error
                 )
             } finally {
                 transaction.finish()
@@ -188,7 +185,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 // Error running command
                 client.logger.error(
                     'interactionHandler: Command button failed with error: ' +
-                        error
+                    error
                 )
             } finally {
                 transaction.finish()
@@ -207,7 +204,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 // Error running command
                 client.logger.error(
                     'interactionHandler: Command button failed with error: ' +
-                        error
+                    error
                 )
             } finally {
                 transaction.finish()

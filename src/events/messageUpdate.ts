@@ -1,7 +1,6 @@
 import { Message, MessageEmbed } from 'discord.js'
 import { BotClient } from 'src/customDefinitions'
 import { inputSnipe } from '../functions/snipe'
-import { storeMessageEdit } from '../cron/stats'
 import { postToModlog } from '../functions/mod'
 import { isBotOwner } from '../functions/util'
 import i18next from 'i18next'
@@ -19,7 +18,6 @@ export async function register(
         return
     }
     if (oldMessage.content == newMessage.content) return
-    storeMessageEdit(newMessage)
     if (
         !(
             newMessage.channel.type == 'GUILD_TEXT' ||
