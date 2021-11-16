@@ -8,9 +8,9 @@ import {
 } from '../functions/messages'
 import Sentry from '../functions/sentry'
 import i18next from 'i18next'
+import { incrementInteractionCounter } from '../functions/metrics'
 
 export const name = 'interactionCreate'
-
 export async function register(client: BotClient, interaction: Interaction) {
     const guildId = interaction.guild ? interaction.guild.id : 0
     let commandName
@@ -133,6 +133,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 transaction.finish()
             }
         })
+        incrementInteractionCounter('command', commandName)
     } else if (interaction.isButton()) {
         if (typeof command.executeButton != 'function') return
         Sentry.withInteractionScope(interaction, async () => {
@@ -153,6 +154,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 transaction.finish()
             }
         })
+        incrementInteractionCounter('button', commandName)
     } else if (interaction.isContextMenu()) {
         if (typeof command.executeContextMenu != 'function') return
         Sentry.withInteractionScope(interaction, async () => {
@@ -172,6 +174,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 transaction.finish()
             }
         })
+        incrementInteractionCounter('context_menu', commandName)
     } else if (interaction.isAutocomplete()) {
         if (typeof command.executeAutocomplete != 'function') return
         Sentry.withInteractionScope(interaction, async () => {
@@ -191,6 +194,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 transaction.finish()
             }
         })
+        incrementInteractionCounter('autocomplete', commandName)
     } else if (interaction.isSelectMenu()) {
         if (typeof command.executeSelectMenu != 'function') return
         Sentry.withInteractionScope(interaction, async () => {
@@ -210,5 +214,6 @@ export async function register(client: BotClient, interaction: Interaction) {
                 transaction.finish()
             }
         })
+        incrementInteractionCounter('select_menu', commandName)
     }
 }
