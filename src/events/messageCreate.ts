@@ -6,7 +6,6 @@ import {
 import { getKey } from '../functions/db'
 import { BotClient } from '../customDefinitions'
 import { Message, MessageEmbed } from 'discord.js'
-import { storeMessageCreate } from '../cron/stats'
 import { getErrorMessage } from '../functions/messages'
 import Sentry from '../functions/sentry'
 import i18next from 'i18next'
@@ -16,7 +15,6 @@ export const name = 'messageCreate'
 // let mentionSlash = true
 export async function register(client: BotClient, message: Message) {
     if (message.author.bot) return
-    storeMessageCreate(message)
     if (bannedIds.includes(message.author.id)) return
     const guildId = message.guild ? message.guild.id : 0
     const prefix =
@@ -31,16 +29,14 @@ export async function register(client: BotClient, message: Message) {
     if (message.content.startsWith(prefix)) {
         if (!command) {
             client.logger.debug(
-                `messageHandler: Command ${
-                    commandRequested ?? 'NULL'
+                `messageHandler: Command ${commandRequested ?? 'NULL'
                 } doesn't exist, not continuing...`
             ) // Doesn't have specified command
             return
         }
         if (typeof command.execute != 'function') return
         client.logger.verbose(
-            `messageHandler: Command ${
-                commandRequested ?? 'NULL'
+            `messageHandler: Command ${commandRequested ?? 'NULL'
             } has been requested by ${message.author.tag}, executing command...`
         )
         if (
@@ -59,7 +55,7 @@ export async function register(client: BotClient, message: Message) {
                     i18next.t('events:interactionCreate.DISABLED_IN_DMS')
                 )
                 // eslint-disable-next-line no-empty
-            } catch {}
+            } catch { }
             return
         }
         // if (typeof command.executeSlash == 'function' && !command.exposeSlash && mentionSlash) {
@@ -72,17 +68,15 @@ export async function register(client: BotClient, message: Message) {
             if (!checkPermissions(message.member, [...command.permissions])) {
                 // User doesn't have specified permissions to run command
                 client.logger.debug(
-                    `messageHandler: User ${
-                        message.author.tag
-                    } doesn't have the required permissions to run command ${
-                        commandRequested ?? 'NULL'
+                    `messageHandler: User ${message.author.tag
+                    } doesn't have the required permissions to run command ${commandRequested ?? 'NULL'
                     }, returning invalid permission message`
                 )
                 if (command.permissions.includes('OWNER')) return
                 try {
                     returnInvalidPermissionMessage(message)
                     // eslint-disable-next-line no-empty
-                } catch {}
+                } catch { }
                 return
             }
         }
@@ -102,7 +96,7 @@ export async function register(client: BotClient, message: Message) {
                 try {
                     await message.reply(getErrorMessage())
                     // eslint-disable-next-line no-empty
-                } catch {}
+                } catch { }
             } finally {
                 transaction.finish()
             }

@@ -1,7 +1,6 @@
 import { Message, MessageEmbed } from 'discord.js'
 import { BotClient } from '../customDefinitions'
 import { inputSnipe } from '../functions/snipe'
-import { storeMessageDelete } from '../cron/stats'
 import { postToModlog } from '../functions/mod'
 import { isBotOwner } from '../functions/util'
 import i18next from 'i18next'
@@ -12,7 +11,6 @@ export async function register(
     message: Message
 ): Promise<void> {
     if (message.partial) return
-    storeMessageDelete(message)
     if (
         !(
             message.channel.type == 'GUILD_NEWS' ||

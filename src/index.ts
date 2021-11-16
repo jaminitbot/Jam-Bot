@@ -19,13 +19,13 @@ import {
 	registerCommands,
 	registerEvents,
 } from "./functions/registerCommands"
-import { saveStatsToDB, connectToSatsCollection } from "./cron/stats"
 // Misc Scripts
 import sendTwitchNotifications from "./cron/twitch"
 import { connect, returnRawClient } from "./functions/db"
 import { saveLogger, stopBot, removeItemFromArray } from "./functions/util"
 import { processTasks } from "./functions/mod"
 import { initTranslations } from "./functions/locales";
+import { initProm } from "./functions/metrics"
 
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
@@ -145,7 +145,6 @@ import { initTranslations } from "./functions/locales";
 		logger.error("DB not found")
 		await stopBot(client, null, 1)
 	}
-	connectToSatsCollection(returnRawClient())
 	// Events
 	client.on("guildCreate", (guild) => {
 		client.events.get("guildCreate").register(client, guild)
@@ -204,6 +203,8 @@ import { initTranslations } from "./functions/locales";
 		logger.debug("SIGINT received, stopping bot")
 		stopBot(client, returnRawClient())
 	})
+	logger.verbose('Starting prom client')
+	initProm()
 	// Initialisation
 	client.on("ready", async () => {
 		logger.info("Bot is READY")
@@ -214,9 +215,6 @@ import { initTranslations } from "./functions/locales";
 				sendTwitchNotifications(client)
 			})
 		}
-		scheduleJob("0 * * * *", function () {
-			saveStatsToDB()
-		})
 		scheduleJob("*/30 * * * * *", function () {
 			processTasks(client)
 		})
