@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.12.2](https://github.com/jaminitbot/Jam-Bot/compare/v2.12.1...v2.12.2) (2021-11-16)
+
+
+### Features
+
+* message counter ([9e1a3f6](https://github.com/jaminitbot/Jam-Bot/commit/9e1a3f6d33395453052a5807990a8ca69b974362))
+
 ### [2.12.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.12.0...v2.12.1) (2021-11-16)
 
 
