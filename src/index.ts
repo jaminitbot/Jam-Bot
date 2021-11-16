@@ -25,7 +25,7 @@ import { connect, returnRawClient } from "./functions/db"
 import { saveLogger, stopBot, removeItemFromArray } from "./functions/util"
 import { processTasks } from "./functions/mod"
 import { initTranslations } from "./functions/locales";
-import { initProm } from "./functions/metrics"
+import { incrementEventsCounter, initProm } from "./functions/metrics"
 
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
@@ -148,20 +148,25 @@ import { initProm } from "./functions/metrics"
 	// Events
 	client.on("guildCreate", (guild) => {
 		client.events.get("guildCreate").register(client, guild)
+		incrementEventsCounter('guild_create')
 	})
 	client.on("guildDelete", (guild) => {
 		client.events.get("guildDelete").register(guild)
+		incrementEventsCounter('guild_delete')
 	})
 	client.on("messageCreate", (message) => {
 		client.events.get("messageCreate").register(client, message)
+		incrementEventsCounter('message_create')
 	})
 	client.on("messageDelete", (message) => {
 		client.events.get("messageDelete").register(client, message)
+		incrementEventsCounter('message_delete')
 	})
 	client.on("messageUpdate", (oldMessage, newMessage) => {
 		client.events
 			.get("messageUpdate")
 			.register(client, oldMessage, newMessage)
+		incrementEventsCounter('message_update')
 	})
 	client.on("error", (error) => {
 		logger.error("Error logged: " + error)
@@ -178,12 +183,15 @@ import { initProm } from "./functions/metrics"
 	})
 	client.on("interactionCreate", (interaction) => {
 		client.events.get("interactionCreate").register(client, interaction)
+		incrementEventsCounter('interaction_create')
 	})
 	client.on("guildMemberAdd", (member) => {
 		client.events.get("guildMemberAdd").register(client, member)
+		incrementEventsCounter('guild_member_add')
 	})
 	client.on("guildMemberRemove", (member) => {
 		client.events.get("guildMemberRemove").register(client, member)
+		incrementEventsCounter('guild_member_remove')
 	})
 	//#region SIGINT WINDOWS
 	if (process.platform === "win32") {
