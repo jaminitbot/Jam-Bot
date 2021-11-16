@@ -1,4 +1,4 @@
-import { collectDefaultMetrics, Counter, register } from 'prom-client'
+import { collectDefaultMetrics, Counter, Gauge, register } from 'prom-client'
 import Fastify, { FastifyInstance } from 'fastify'
 const server: FastifyInstance = Fastify({})
 
@@ -8,7 +8,7 @@ export const defaultLabels = {
 const interactionCounter = new Counter({
     name: 'interaction_counter_total',
     help: 'Total number of interaction events received',
-    labelNames: ['interaction_type', 'command_name'] as const
+    labelNames: ['interaction_type', 'command_name', 'guild_id'] as const
 })
 const eventsCounter = new Counter({
     name: 'events_counter_total',
@@ -18,7 +18,11 @@ const eventsCounter = new Counter({
 const messageCounter = new Counter({
     name: 'message_counter_total',
     help: 'Total number of messages received',
-    labelNames: ['guild_id', 'user_id'] as const
+    labelNames: ['guild_id'] as const
+})
+const websocketPing = new Gauge({
+    name: 'websocket_ping_gauge',
+    help: 'Discord websocket ping'
 })
 export async function initProm() {
     collectDefaultMetrics({
@@ -37,10 +41,11 @@ export async function initProm() {
 }
 
 type InteractionType = 'command' | 'context_menu' | 'autocomplete' | 'button' | 'select_menu'
-export function incrementInteractionCounter(interactionType: InteractionType, commandName: string) {
+export function incrementInteractionCounter(interactionType: InteractionType, commandName: string, guildId: string) {
     interactionCounter.inc({
         interaction_type: interactionType,
-        command_name: commandName
+        command_name: commandName,
+        guild_id: guildId ?? undefined
     })
 }
 type EventName = 'guild_create' | 'guild_delete' | 'guild_member_add' | 'guild_member_remove' | 'interaction_create' | 'message_create' | 'message_delete' | 'message_update'
@@ -49,9 +54,11 @@ export function incrementEventsCounter(eventName: EventName) {
         event_name: eventName
     })
 }
-export function incrementMessageCounter(guildId: string | null, userId: string) {
+export function incrementMessageCounter(guildId: string | null) {
     messageCounter.inc({
         guild_id: guildId ?? undefined,
-        user_id: userId
     })
+}
+export function saveClientPing(ping: number) {
+    websocketPing.set(ping)
 }

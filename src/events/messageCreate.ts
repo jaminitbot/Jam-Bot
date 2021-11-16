@@ -15,7 +15,7 @@ export const name = 'messageCreate'
 
 // let mentionSlash = true
 export async function register(client: BotClient, message: Message) {
-    incrementMessageCounter(message.guild?.id ?? null, message.author.id)
+    incrementMessageCounter(message.guild?.id ?? null)
     if (message.author.bot) return
     if (bannedIds.includes(message.author.id)) return
     const guildId = message.guild ? message.guild.id : 0

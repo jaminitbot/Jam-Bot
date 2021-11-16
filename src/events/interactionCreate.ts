@@ -133,7 +133,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 transaction.finish()
             }
         })
-        incrementInteractionCounter('command', commandName)
+        incrementInteractionCounter('command', commandName, interaction.guild?.id ?? null)
     } else if (interaction.isButton()) {
         if (typeof command.executeButton != 'function') return
         Sentry.withInteractionScope(interaction, async () => {
@@ -154,7 +154,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 transaction.finish()
             }
         })
-        incrementInteractionCounter('button', commandName)
+        incrementInteractionCounter('button', commandName, interaction.guild?.id ?? null)
     } else if (interaction.isContextMenu()) {
         if (typeof command.executeContextMenu != 'function') return
         Sentry.withInteractionScope(interaction, async () => {
@@ -174,7 +174,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 transaction.finish()
             }
         })
-        incrementInteractionCounter('context_menu', commandName)
+        incrementInteractionCounter('context_menu', commandName, interaction.guild?.id ?? null)
     } else if (interaction.isAutocomplete()) {
         if (typeof command.executeAutocomplete != 'function') return
         Sentry.withInteractionScope(interaction, async () => {
@@ -194,7 +194,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 transaction.finish()
             }
         })
-        incrementInteractionCounter('autocomplete', commandName)
+        incrementInteractionCounter('autocomplete', commandName, interaction.guild?.id ?? null)
     } else if (interaction.isSelectMenu()) {
         if (typeof command.executeSelectMenu != 'function') return
         Sentry.withInteractionScope(interaction, async () => {
@@ -214,6 +214,6 @@ export async function register(client: BotClient, interaction: Interaction) {
                 transaction.finish()
             }
         })
-        incrementInteractionCounter('select_menu', commandName)
+        incrementInteractionCounter('select_menu', commandName, interaction.guild?.id ?? null)
     }
 }

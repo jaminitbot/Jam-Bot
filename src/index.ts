@@ -25,7 +25,7 @@ import { connect, returnRawClient } from "./functions/db"
 import { saveLogger, stopBot, removeItemFromArray } from "./functions/util"
 import { processTasks } from "./functions/mod"
 import { initTranslations } from "./functions/locales";
-import { incrementEventsCounter, initProm } from "./functions/metrics"
+import { incrementEventsCounter, initProm, saveClientPing } from "./functions/metrics"
 
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
@@ -225,6 +225,9 @@ import { incrementEventsCounter, initProm } from "./functions/metrics"
 		}
 		scheduleJob("*/30 * * * * *", function () {
 			processTasks(client)
+		})
+		scheduleJob("*/5 * * * * *", function () {
+			saveClientPing(client.ws.ping)
 		})
 	})
 	await client.login(process.env.token)
