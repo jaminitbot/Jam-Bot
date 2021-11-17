@@ -1,18 +1,18 @@
 import { Message, User } from 'discord.js'
 import i18next from 'i18next'
-import { isBotOwner } from './util'
+import { isBotOwner, removeItemFromArray } from './util'
 
 export const snipeLifetime = 20
 
 export interface MessageSniped {
-    channel: string
-    oldMessage: string
-    newMessage: string
-    user: User
-    type: string
-    isOwner: boolean
+	channel: string
+	oldMessage: string
+	newMessage: string
+	user: User
+	type: string
+	isOwner: boolean
 }
-const buffer = new Map<number, MessageSniped>()
+const buffer = new Map<string, Array<MessageSniped>>()
 /**
  *
  * @param message The message
@@ -20,35 +20,35 @@ const buffer = new Map<number, MessageSniped>()
  * @param type Delete or edit
  */
 export async function inputSnipe(
-    message: Message,
-    oldMessage: Message,
-    type: string
+	message: Message,
+	oldMessage: Message,
+	type: string
 ): Promise<void> {
-    if (!oldMessage) {
-        // @ts-expect-error
-        oldMessage = {
-            content: null,
-        }
-    }
-    const isOwner = isBotOwner(message.author.id)
-    const messageObject: MessageSniped = {
-        channel: message.channel.id,
-        oldMessage:
-            oldMessage.content || i18next.t('events:messageLogs.NO_CONTENT'),
-        newMessage:
-            message.content || i18next.t('events:messageLogs.NO_CONTENT'),
-        user: message.author,
-        type: type,
-        isOwner: isOwner,
-    }
-    const id = Math.random()
-    buffer.set(id, messageObject)
-    setTimeout(() => buffer.delete(id), snipeLifetime * 1000)
+	if (!oldMessage) {
+		// @ts-expect-error
+		oldMessage = {
+			content: null,
+		}
+	}
+	const messageObject: MessageSniped = {
+		channel: message.channel.id,
+		oldMessage:
+			oldMessage.content || i18next.t('events:messageLogs.NO_CONTENT'),
+		newMessage:
+			message.content || i18next.t('events:messageLogs.NO_CONTENT'),
+		user: message.author,
+		type: type,
+		isOwner: isBotOwner(message.author.id),
+	}
+	const channelArray = buffer.get(message.channel.id) ?? []
+	channelArray.push(messageObject)
+	buffer.set(message.channel.id, channelArray)
+	setTimeout(() => buffer.set(message.channel.id, removeItemFromArray(buffer.get(message.channel.id), messageObject)), snipeLifetime * 1000)
 }
 /**
  *
  * @returns Array of sniped messages
  */
-export function returnSnipedMessages(): Array<MessageSniped> {
-    return Array.from(buffer.values()).reverse()
+export function returnSnipedMessages(channelId: string): Array<MessageSniped> {
+	return buffer.get(channelId).reverse()
 }
