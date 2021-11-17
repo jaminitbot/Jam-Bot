@@ -78,7 +78,7 @@ async function returnDefineEmbed(wordToDefine: string) {
 	// @ts-expect-error
 	if (jsonResponse == 'NOT_FOUND' || !jsonResponse.list[0]) {
 		const embed = new MessageEmbed()
-		embed.setDescription(i18next.t('define.NO_DEFINITIONS'))
+		embed.setDescription(i18next.t('define.NO_DEFINITIONS', { word: wordToDefine }))
 		embed.setColor(colours[colours.length - 1])
 		return embed
 	}
@@ -113,6 +113,7 @@ export async function executeSlash(
 ) {
 	await interaction.deferReply()
 	const word = interaction.options.getString('word')
+	console.log(word)
 	const embed = await returnDefineEmbed(word)
 	await interaction.editReply({ embeds: [embed] })
 }
