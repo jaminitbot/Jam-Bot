@@ -8,20 +8,20 @@ dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
 export function initTranslations() {
-    i18next.use(i18nextBackend).init({
-        lng: 'en',
-        ns: ['general', 'commands', 'events', 'misc'],
-        defaultNS: 'commands',
-        backend: {
-            loadPath: '../locales/{{lng}}/{{ns}}.json',
-        },
-        interpolation: {
-            escapeValue: false,
-            format: function (value, format, lng) {
-                if (format === 'capitalise') return capitaliseSentence(value)
-                if (format === 'duration')
-                    return dayjs.duration(value, 'ms').humanize()
-            },
-        },
-    })
+	i18next.use(i18nextBackend).init({
+		lng: 'en',
+		ns: ['general', 'commands', 'events', 'misc'],
+		defaultNS: 'commands',
+		backend: {
+			loadPath: '../locales/{{lng}}/{{ns}}.json',
+		},
+		interpolation: {
+			escapeValue: false,
+			format: function (value, format, lng) {
+				if (format === 'capitalise') return capitaliseSentence(value)
+				if (format === 'duration')
+					return dayjs.duration(value, 'ms').humanize()
+			},
+		},
+	})
 }

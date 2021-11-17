@@ -24,7 +24,7 @@ import sendTwitchNotifications from "./cron/twitch"
 import { connect, returnRawClient } from "./functions/db"
 import { saveLogger, stopBot, removeItemFromArray } from "./functions/util"
 import { processTasks } from "./functions/mod"
-import { initTranslations } from "./functions/locales";
+import { initTranslations } from "./functions/locales"
 import { incrementEventsCounter, initProm, saveClientPing } from "./functions/metrics"
 
 // eslint-disable-next-line no-unexpected-multiline

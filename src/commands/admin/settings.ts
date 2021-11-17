@@ -1,19 +1,19 @@
-import { CommandInteraction, Message } from "discord.js";
-import { BotClient, Permissions } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
+import { CommandInteraction, Message } from "discord.js"
+import { BotClient, Permissions } from "../../customDefinitions"
+import { SlashCommandBuilder } from "@discordjs/builders"
 import {
 	setKey,
 	getNestedSetting,
 	setNestedSetting,
 	getKey,
-} from "../../functions/db";
-import { booleanToHuman, removeItemFromArray } from "../../functions/util";
-import i18next from "i18next";
+} from "../../functions/db"
+import { booleanToHuman, removeItemFromArray } from "../../functions/util"
+import i18next from "i18next"
 
-export const name = "settings";
-export const description = "Configures the bot's settings";
-export const permissions: Permissions = ["MANAGE_GUILD"];
-export const usage = "settings";
+export const name = "settings"
+export const description = "Configures the bot's settings"
+export const permissions: Permissions = ["MANAGE_GUILD"]
+export const usage = "settings"
 export const slashData = new SlashCommandBuilder()
 	.setName(name)
 	.setDescription(description)
@@ -176,13 +176,13 @@ export const slashData = new SlashCommandBuilder()
 					.setName("list")
 					.setDescription("Lists the currently allowed roles")
 			)
-	);
+	)
 async function validTextChannel(client: BotClient, channelId: string) {
-	const channel = await client.channels.fetch(channelId);
+	const channel = await client.channels.fetch(channelId)
 	if (!channel.isText || channel.type == "DM") {
-		return null;
+		return null
 	}
-	return channel;
+	return channel
 }
 export async function execute(
 	client: BotClient,
@@ -191,27 +191,27 @@ export async function execute(
 ) {
 	message.channel.send(
 		i18next.t("general:ONLY_SLASH_COMMAND", { command: name })
-	);
+	)
 }
 export async function executeSlash(
 	client: BotClient,
 	interaction: CommandInteraction
 ) {
-	const subCommandGroup = interaction.options.getSubcommandGroup();
-	const subCommand = interaction.options.getSubcommand();
+	const subCommandGroup = interaction.options.getSubcommandGroup()
+	const subCommand = interaction.options.getSubcommand()
 	if (subCommandGroup == "general") {
 		if (subCommand == "prefix") {
-			const newPrefix = interaction.options.getString("prefix");
+			const newPrefix = interaction.options.getString("prefix")
 			if (!newPrefix) {
 				const currentPrefix =
 					(await getKey(interaction.guild.id, "prefix")) ??
-					process.env.defaultPrefix;
+					process.env.defaultPrefix
 				interaction.reply({
 					content: i18next.t("settings.CURRENT_PREFIX", {
 						prefix: currentPrefix,
 					}),
-				});
-				return;
+				})
+				return
 			}
 			if (newPrefix.length > 10) {
 				interaction.reply({
@@ -219,70 +219,70 @@ export async function executeSlash(
 						length: 10,
 					}),
 					ephemeral: true,
-				});
+				})
 			} else {
-				await setKey(interaction.guild.id, "prefix", newPrefix);
+				await setKey(interaction.guild.id, "prefix", newPrefix)
 				interaction.reply({
 					content: i18next.t("settings.SET_PREFIX_SUCCESS", {
 						prefix: newPrefix,
 					}),
-				});
+				})
 			}
-			return;
+			return
 		}
 	} else if (subCommandGroup == "suggestions") {
 		if (subCommand == "channel") {
 			const newSuggestionsChannel =
-				interaction.options.getChannel("channel");
+				interaction.options.getChannel("channel")
 			if (!newSuggestionsChannel) {
 				const currentSuggestionChannelId = await getNestedSetting(
 					interaction.guild.id,
 					"suggestions",
 					"channel"
-				);
+				)
 				const currentSuggestionsChannel = currentSuggestionChannelId
 					? `<#${currentSuggestionChannelId}>`
-					: "not set";
+					: "not set"
 				interaction.reply(
 					i18next.t("settings.CURRENT_SUGGESTIONS_CHANNEL", {
 						channel: currentSuggestionsChannel,
 					})
-				);
-				return;
+				)
+				return
 			}
 			const newChannel = await client.channels.fetch(
 				newSuggestionsChannel.id
-			);
+			)
 			if (!newChannel.isText || newChannel.type == "DM") {
 				interaction.reply({
 					content: i18next.t("general:INVALID_CHANNEL_TYPE", {
 						correctType: "text",
 					}),
 					ephemeral: true,
-				});
+				})
 			} else {
 				await setNestedSetting(
 					interaction.guild.id,
 					"suggestions",
 					"channel",
 					newChannel.id
-				);
+				)
 				await setNestedSetting(
 					interaction.guild.id,
 					"suggestions",
 					"enabled",
 					true
-				);
-				const newSuggestionsChannel = `<#${newChannel.id}>`;
+				)
+				const newSuggestionsChannel = `<#${newChannel.id}>`
 				interaction.reply(
 					i18next.t("settings.SET_SUGGESTIONS_CHANNEL_SUCCESS", {
 						channel: newSuggestionsChannel,
 					})
-				);
+				)
 			}
-			return;
+			return
 		} else if (subCommand == "useable") {
-			const sendSuggestions = interaction.options.getBoolean("on");
+			const sendSuggestions = interaction.options.getBoolean("on")
 			if (typeof sendSuggestions != "boolean") {
 				interaction.reply(
 					i18next.t("settings.SUGGESTIONS_ENABLED_DISABLED_CURRENT", {
@@ -294,31 +294,31 @@ export async function executeSlash(
 							)
 						),
 					})
-				);
-				return;
+				)
+				return
 			}
 			await setNestedSetting(
 				interaction.guild.id,
 				"suggestions",
 				"enabled",
 				sendSuggestions
-			);
+			)
 			interaction.reply(
 				i18next.t("settings.SET_SUGGESTIONS_ENABLED_DISABLED_SUCCESS", {
 					toggle: booleanToHuman(sendSuggestions),
 				})
-			);
-			return;
+			)
+			return
 		}
 	} else if (subCommandGroup == "modlog") {
 		if (subCommand == "channels") {
-			const mainChannelRaw = interaction.options.getChannel("default");
+			const mainChannelRaw = interaction.options.getChannel("default")
 			const messagesChannelRaw =
-				interaction.options.getChannel("messages");
-			const membersChannelRaw = interaction.options.getChannel("members");
-			const serverChannelRaw = interaction.options.getChannel("server");
+				interaction.options.getChannel("messages")
+			const membersChannelRaw = interaction.options.getChannel("members")
+			const serverChannelRaw = interaction.options.getChannel("server")
 			const joinLeavesChannelRaw =
-				interaction.options.getChannel("joinleaves");
+				interaction.options.getChannel("joinleaves")
 			if (
 				!mainChannelRaw &&
 				!messagesChannelRaw &&
@@ -330,43 +330,43 @@ export async function executeSlash(
 					interaction.guild.id,
 					"modlog",
 					"mainChannelId"
-				);
+				)
 				const currentMainChannelMentioned = currentMainChannelId
 					? `<#${currentMainChannelId}>`
-					: "Not Set";
+					: "Not Set"
 				const currentMessagesChannelId = await getNestedSetting(
 					interaction.guild.id,
 					"modlog",
 					"messagesChannelId"
-				);
+				)
 				const currentMessagesChannelMentioned = currentMessagesChannelId
 					? `<#${currentMessagesChannelId}>`
-					: "Not Set";
+					: "Not Set"
 				const currentMembersChannelId = await getNestedSetting(
 					interaction.guild.id,
 					"modlog",
 					"membersChannelId"
-				);
+				)
 				const currentMembersChannelMentioned = currentMembersChannelId
 					? `<#${currentMembersChannelId}>`
-					: "Not Set";
+					: "Not Set"
 				const currentServerChannelId = await getNestedSetting(
 					interaction.guild.id,
 					"modlog",
 					"serverChannelId"
-				);
+				)
 				const currentServerChannelMentioned = currentServerChannelId
 					? `<#${currentServerChannelId}>`
-					: "Not Set";
+					: "Not Set"
 				const currentJoinLeavesChannelId = await getNestedSetting(
 					interaction.guild.id,
 					"modlog",
 					"joinLeavesChannelId"
-				);
+				)
 				const currentJoinLeavesChannelMentioned =
 					currentJoinLeavesChannelId
 						? `<#${currentJoinLeavesChannelId}>`
-						: "Not Set";
+						: "Not Set"
 				interaction.reply({
 					content:
 						i18next.t("settings.CURRENT_MODLOG_CHANNEL", {
@@ -393,171 +393,171 @@ export async function executeSlash(
 							modLogType: "join/leaves",
 							channel: currentJoinLeavesChannelMentioned,
 						}),
-				});
+				})
 			} else {
-				let response = "";
+				let response = ""
 				if (mainChannelRaw) {
 					const newMainChannel = await validTextChannel(
 						client,
 						mainChannelRaw.id
-					);
+					)
 					if (!newMainChannel) {
 						response += i18next.t(
 							"settings.MODLOG_CHANNEL_INVALID",
 							{ modLogType: "default" }
-						);
+						)
 					} else {
 						await setNestedSetting(
 							interaction.guild.id,
 							"modlog",
 							"mainChannelId",
 							newMainChannel.id
-						);
+						)
 						response += i18next.t(
 							"settings.SET_MODLOG_CHANNEL_SUCCESS",
 							{
 								modLogType: "default",
 								channel: `<#${newMainChannel.id}>`,
 							}
-						);
+						)
 					}
 				}
 				if (messagesChannelRaw) {
 					const newMessagesChannel = await validTextChannel(
 						client,
 						messagesChannelRaw.id
-					);
+					)
 					if (!newMessagesChannel) {
 						response +=
 							"\n" +
 							i18next.t("settings.MODLOG_CHANNEL_INVALID", {
 								modLogType: "message",
-							});
+							})
 					} else {
 						await setNestedSetting(
 							interaction.guild.id,
 							"modlog",
 							"messagesChannelId",
 							newMessagesChannel.id
-						);
+						)
 						await setNestedSetting(
 							interaction.guild.id,
 							"modlog",
 							"logMessages",
 							true
-						);
+						)
 						response +=
 							"\n" +
 							i18next.t("settings.SET_MODLOG_CHANNEL_SUCCESS", {
 								modLogType: "message",
 								channel: `<#${newMessagesChannel.id}>`,
-							});
+							})
 					}
 				}
 				if (membersChannelRaw) {
 					const newMembersChannel = await validTextChannel(
 						client,
 						membersChannelRaw.id
-					);
+					)
 					if (!newMembersChannel) {
 						response +=
 							"\n" +
 							i18next.t("settings.MODLOG_CHANNEL_INVALID", {
 								modLogType: "member",
-							});
+							})
 					} else {
 						await setNestedSetting(
 							interaction.guild.id,
 							"modlog",
 							"membersChannelId",
 							newMembersChannel.id
-						);
+						)
 						await setNestedSetting(
 							interaction.guild.id,
 							"modlog",
 							"logMembers",
 							true
-						);
+						)
 						response +=
 							"\n" +
 							i18next.t("settings.SET_MODLOG_CHANNEL_SUCCESS", {
 								modLogType: "member",
 								channel: `<#${newMembersChannel.id}>`,
-							});
+							})
 					}
 				}
 				if (serverChannelRaw) {
 					const newServerChannel = await validTextChannel(
 						client,
 						serverChannelRaw.id
-					);
+					)
 					if (!newServerChannel) {
 						response +=
 							"\n" +
 							i18next.t("settings.MODLOG_CHANNEL_INVALID", {
 								modLogType: "server",
-							});
+							})
 					} else {
 						await setNestedSetting(
 							interaction.guild.id,
 							"modlog",
 							"serverChannelId",
 							newServerChannel.id
-						);
+						)
 						await setNestedSetting(
 							interaction.guild.id,
 							"modlog",
 							"logServer",
 							true
-						);
+						)
 						response +=
 							"\n" +
 							i18next.t("settings.SET_MODLOG_CHANNEL_SUCCESS", {
 								modLogType: "server",
 								channel: `<#${newServerChannel.id}>`,
-							});
+							})
 					}
 				}
 				if (joinLeavesChannelRaw) {
 					const newJoinLeavesChannel = await validTextChannel(
 						client,
 						joinLeavesChannelRaw.id
-					);
+					)
 					if (!newJoinLeavesChannel) {
 						response +=
 							"\n" +
 							i18next.t("settings.MODLOG_CHANNEL_INVALID", {
 								modLogType: "join/leaves",
-							});
+							})
 					} else {
 						await setNestedSetting(
 							interaction.guild.id,
 							"modlog",
 							"joinLeavesChannelId",
 							newJoinLeavesChannel.id
-						);
+						)
 						await setNestedSetting(
 							interaction.guild.id,
 							"modlog",
 							"logJoinLeaves",
 							true
-						);
+						)
 						response +=
 							"\n" +
 							i18next.t("settings.SET_MODLOG_CHANNEL_SUCCESS", {
 								modLogType: "join/leave",
 								channel: `<#${newJoinLeavesChannel.id}>`,
-							});
+							})
 					}
 				}
-				interaction.reply({ content: response });
-				return;
+				interaction.reply({ content: response })
+				return
 			}
 		} else if (subCommand == "log") {
-			const logMessages = interaction.options.getBoolean("messages");
-			const logMembers = interaction.options.getBoolean("members");
-			const logServer = interaction.options.getBoolean("server");
-			const logJoinLeaves = interaction.options.getBoolean("joinleaves");
+			const logMessages = interaction.options.getBoolean("messages")
+			const logMembers = interaction.options.getBoolean("members")
+			const logServer = interaction.options.getBoolean("server")
+			const logJoinLeaves = interaction.options.getBoolean("joinleaves")
 			if (
 				typeof logMessages != "boolean" &&
 				typeof logMembers != "boolean" &&
@@ -569,25 +569,25 @@ export async function executeSlash(
 						interaction.guild.id,
 						"modlog",
 						"logMessages"
-					)) ?? false;
+					)) ?? false
 				const currentLogMembersSetting =
 					(await getNestedSetting(
 						interaction.guild.id,
 						"modlog",
 						"logMembers"
-					)) ?? false;
+					)) ?? false
 				const currentLogServerSetting =
 					(await getNestedSetting(
 						interaction.guild.id,
 						"modlog",
 						"logServer"
-					)) ?? false;
+					)) ?? false
 				const currentLogJoinLeavesSetting =
 					(await getNestedSetting(
 						interaction.guild.id,
 						"modlog",
 						"logJoinLeaves"
-					)) ?? false;
+					)) ?? false
 				interaction.reply({
 					content:
 						i18next.t(
@@ -627,23 +627,23 @@ export async function executeSlash(
 								),
 							}
 						),
-				});
+				})
 			} else {
-				let response = "";
+				let response = ""
 				if (typeof logMessages == "boolean") {
 					await setNestedSetting(
 						interaction.guild.id,
 						"modlog",
 						"logMessages",
 						logMessages
-					);
+					)
 					response += i18next.t(
 						"settings.SET_MODLOG_EVENTS_ENABLED_DISABLED_SUCCESS",
 						{
 							event: "message",
 							toggle: booleanToHuman(logMessages),
 						}
-					);
+					)
 				}
 				if (typeof logMembers == "boolean") {
 					await setNestedSetting(
@@ -651,7 +651,7 @@ export async function executeSlash(
 						"modlog",
 						"logMembers",
 						logMembers
-					);
+					)
 					response +=
 						"\n" +
 						i18next.t(
@@ -660,7 +660,7 @@ export async function executeSlash(
 								event: "member",
 								toggle: booleanToHuman(logMembers),
 							}
-						);
+						)
 				}
 				if (typeof logServer == "boolean") {
 					await setNestedSetting(
@@ -668,7 +668,7 @@ export async function executeSlash(
 						"modlog",
 						"logServer",
 						logServer
-					);
+					)
 					response +=
 						"\n" +
 						i18next.t(
@@ -677,7 +677,7 @@ export async function executeSlash(
 								event: "server",
 								toggle: booleanToHuman(logServer),
 							}
-						);
+						)
 				}
 				if (typeof logJoinLeaves == "boolean") {
 					await setNestedSetting(
@@ -685,7 +685,7 @@ export async function executeSlash(
 						"modlog",
 						"logJoinLeaves",
 						logJoinLeaves
-					);
+					)
 					response +=
 						"\n" +
 						i18next.t(
@@ -694,10 +694,10 @@ export async function executeSlash(
 								event: "join/leave",
 								toggle: booleanToHuman(logJoinLeaves),
 							}
-						);
+						)
 				}
-				interaction.reply({ content: response });
-				return;
+				interaction.reply({ content: response })
+				return
 			}
 		}
 	} else if (subCommandGroup == "roles") {
@@ -705,85 +705,85 @@ export async function executeSlash(
 			interaction.guild.id,
 			"assignableRoles",
 			"allowedRoles"
-		);
-		if (!allowedRoles) allowedRoles = [];
+		)
+		if (!allowedRoles) allowedRoles = []
 		if (subCommand == "allow") {
-			const role = interaction.options.getRole("role");
+			const role = interaction.options.getRole("role")
 			if (allowedRoles.includes(role.id)) {
 				return interaction.reply({
 					content: i18next.t("settings.ROLE_ALREADY_ALLOWED", {
 						role: role.name,
 					}),
 					ephemeral: true,
-				});
+				})
 			}
 			if (role.managed) {
 				return interaction.reply({
 					content: i18next.t("settings.ROLE_IS_MANAGED"),
 					ephemeral: true,
-				});
+				})
 			}
 			if (role.position > interaction.guild.me.roles.highest.position) {
 				return interaction.reply({
 					content: i18next.t("settings.ROLE_HIGHER_THAN_ME"),
 					ephemeral: true,
-				});
+				})
 			}
-			allowedRoles.push(role.id);
+			allowedRoles.push(role.id)
 			await setNestedSetting(
 				interaction.guild.id,
 				"assignableRoles",
 				"allowedRoles",
 				allowedRoles
-			);
+			)
 			interaction.reply({
 				content: i18next.t("settings.ROLE_ADDED_TO_ALLOW_LIST", {
 					role: role.name,
 				}),
-			});
+			})
 		} else if (subCommand == "disallow") {
-			const role = interaction.options.getRole("role");
+			const role = interaction.options.getRole("role")
 			if (!allowedRoles.includes(role.id)) {
 				return interaction.reply({
 					content: i18next.t("settings.ROLE_NOT_ON_ALLOW_LIST", {
 						role: role.name,
 					}),
 					ephemeral: true,
-				});
+				})
 			}
-			allowedRoles = removeItemFromArray(allowedRoles, role.id);
+			allowedRoles = removeItemFromArray(allowedRoles, role.id)
 			await setNestedSetting(
 				interaction.guild.id,
 				"assignableRoles",
 				"allowedRoles",
 				allowedRoles
-			);
+			)
 			interaction.reply({
 				content: i18next.t("settings.ROLE_REMOVED_FROM_ALLOW_LIST", {
 					role: role.name,
 				}),
-			});
+			})
 		} else if (subCommand == "list") {
-			let allowListFormatted = "";
+			let allowListFormatted = ""
 			if (allowedRoles.length) {
 				for (const roleId of allowedRoles) {
-					const role = await interaction.guild.roles.fetch(roleId);
-					allowListFormatted += role.name + ", ";
+					const role = await interaction.guild.roles.fetch(roleId)
+					allowListFormatted += role.name + ", "
 				}
 				allowListFormatted = allowListFormatted.substring(
 					0,
 					allowListFormatted.length - 2
-				);
+				)
 			} else {
 				allowListFormatted = i18next.t(
 					"settings.NO_ROLES_ON_ALLOW_LIST"
-				);
+				)
 			}
 			interaction.reply({
 				content: i18next.t("settings.ROLES_ON_ALLOW_LIST", {
 					roles: allowListFormatted,
 				}),
-			});
+			})
 		}
 	}
 }
