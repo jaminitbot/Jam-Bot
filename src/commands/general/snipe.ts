@@ -43,7 +43,6 @@ function returnSnipesEmbed(
 		)
 	}
 	for (const snipe of snipes) {
-		if (snipe.channel != channelId) continue // Not a snipe for that channel
 		if (snipe.isOwner) continue // Don't snipe owners
 		if (!type || snipe.type == type) {
 			if (embed.fields.length == 24) {
