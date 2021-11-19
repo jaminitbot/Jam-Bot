@@ -44,6 +44,7 @@ export async function setKey(
 	const db: Collection = this.db.collection('guilds')
 	this.logger.debug(`DB: Updating ${key} to ${value}`)
 	let guildDbObject = await db.findOne({ guildId: guildIdInput }) // Find the guild in db
+	// @ts-expect-error
 	if (!guildDbObject) guildDbObject = {}
 	guildDbObject[key] = value // Set the key to the new value
 	db.replaceOne({ guildId: guildIdInput }, guildDbObject, { upsert: true }) // Save to DB
