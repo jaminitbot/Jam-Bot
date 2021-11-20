@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.13.3](https://github.com/jaminitbot/Jam-Bot/compare/v2.13.2...v2.13.3) (2021-11-20)
+
+
+### Bug Fixes
+
+* build ([11235c0](https://github.com/jaminitbot/Jam-Bot/commit/11235c0a0fc23d4c90bcdd4c2c4ef36c931cc13b))
+
 ### [2.13.2](https://github.com/jaminitbot/Jam-Bot/compare/v2.13.1...v2.13.2) (2021-11-20)
 
 ### [2.13.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.13.0...v2.13.1) (2021-11-20)
