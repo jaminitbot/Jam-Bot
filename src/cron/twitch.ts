@@ -1,7 +1,7 @@
 import { BotClient } from '../customDefinitions'
 import { request, Dispatcher } from 'undici'
 import { MessageAttachment, MessageEmbed, TextChannel } from 'discord.js'
-import { getNestedSetting, setNestedSetting } from '../functions/db'
+import { getKey, setKey } from '../functions/db'
 import messages = require('../functions/messages')
 import sha1 = require('sha1')
 import dayjs = require('dayjs')
@@ -83,21 +83,26 @@ export default async function execute(client: BotClient) {
 		embed.setFooter('Updates every 5 seconds.')
 		embed.setColor('#A077FF')
 		const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
-		const LiveTime = await getNestedSetting(
+		const LiveTime = await getKey(
 			guildId,
-			'twitchNotifications',
-			'liveTime'
+			{
+				group: 'twitchNotifications',
+				name: 'liveTime'
+			}
 		)
 		if (LiveTime != startedAt) {
 			client.logger.info(
 				"twitch: Twitch channel is now live, and we haven't notified yet. Notifying now..."
 			)
 			// We haven't notified for this live
-			await setNestedSetting(
+			await setKey(
 				guildId,
-				'twitchNotifications',
-				'liveTime',
-				startedAt
+				{
+					group: 'twitchNotifications',
+					name: 'liveTime',
+					value: startedAt
+				}
+
 			)
 			const sentMessage = await notificationChannel.send({
 				content: notificationMessageContent,
@@ -105,40 +110,55 @@ export default async function execute(client: BotClient) {
 			}) // Notify for the live in the right channel
 			if (sentMessage.channel.type == 'GUILD_NEWS')
 				await sentMessage.crosspost()
-			await setNestedSetting(
+			await setKey(
 				guildId,
-				'twitchNotifications',
-				'liveMessageId',
-				sentMessage.id
+				{
+					group: 'twitchNotifications',
+					name: 'liveMessageId',
+					value: sentMessage.id
+				}
+
 			) // Put the notification message id in db so we can edit the message later
-			await setNestedSetting(
+			await setKey(
 				guildId,
-				'twitchNotifications',
-				'liveIdentifier',
-				newLiveIdentifier
+				{
+					group: 'twitchNotifications',
+					name: 'liveIdentifier',
+					value: newLiveIdentifier
+				}
+
 			) // Put the title into the db
 		} else {
 			// We've already notified for this live
-			const savedLiveIdentifier = await getNestedSetting(
+			const savedLiveIdentifier = await getKey(
 				guildId,
-				'twitchNotifications',
-				'liveIdentifier'
+				{
+					group: 'twitchNotifications',
+					name: 'liveIdentifier'
+				}
+
 			)
 			if (newLiveIdentifier == savedLiveIdentifier) {
 				// If the title in the message and title of stream is the same, do nothing
 				return
 			} else {
 				// If not
-				await setNestedSetting(
+				await setKey(
 					guildId,
-					'twitchNotifications',
-					'liveIdentifier',
-					newLiveIdentifier
+					{
+						group: 'twitchNotifications',
+						name: 'liveIdentifier',
+						value: newLiveIdentifier
+					}
+
 				)
-				const MessageId = await getNestedSetting(
+				const MessageId = await getKey(
 					guildId,
-					'twitchNotifications',
-					'liveMessageId'
+					{
+						group: 'twitchNotifications',
+						name: 'liveMessageId'
+					}
+
 				) // Get the message id of the notification we sent
 				if (MessageId) {
 					const messageToUpdate =

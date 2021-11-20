@@ -12,7 +12,7 @@ import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { registerSlashCommands } from '../../functions/registerCommands'
 import i18next from 'i18next'
-import { getKey, setKey, getNestedSetting, setNestedSetting, purgeCache } from '../../functions/db'
+import { getKey, setKey, purgeCache } from '../../functions/db'
 export const name = 'util'
 export const description = 'Various util commands'
 export const permissions: Permissions = ['OWNER']
@@ -103,11 +103,6 @@ export const slashData = new SlashCommandBuilder()
 				command.setName('purgecache')
 					.setDescription('Purges the database cache of a particular key')
 					.addStringOption(option =>
-						option.setName('key')
-							.setDescription('Key to purge')
-							.setRequired(true)
-					)
-					.addStringOption(option =>
 						option.setName('guildid')
 							.setDescription('Guild ID to purge the key in')
 							.setRequired(true)
@@ -115,6 +110,11 @@ export const slashData = new SlashCommandBuilder()
 					.addStringOption(option =>
 						option.setName('group')
 							.setDescription('Group to purge the key in')
+							.setRequired(false)
+					)
+					.addStringOption(option =>
+						option.setName('key')
+							.setDescription('Key to purge')
 							.setRequired(false)
 					)
 			)
@@ -254,7 +254,7 @@ export async function executeSlash(
 					const guildId = interaction.options.getString('guildid')
 					const value = interaction.options.getString('value')
 					try {
-						await setNestedSetting(guildId, groupName, key, value)
+						await setKey(guildId, { group: groupName, name: key, value: value })
 					} catch (err) {
 						const embed = new MessageEmbed()
 						embed.setDescription(i18next.t('general:UNKNOWN_ERROR'))
@@ -268,7 +268,7 @@ export async function executeSlash(
 					const key = interaction.options.getString('key')
 					const groupName = interaction.options.getString('group')
 					const guildId = interaction.options.getString('guildid')
-					const valueReturned = String(await getNestedSetting(guildId, groupName, key))
+					const valueReturned = String(await getKey(guildId, { group: groupName, name: key }))
 					const embed = returnGetKeyEmbed(guildId, `${groupName}/${key}`, valueReturned)
 					interaction.reply({ embeds: [embed] })
 					break
@@ -277,7 +277,7 @@ export async function executeSlash(
 					const key = interaction.options.getString('key')
 					const groupName = interaction.options.getString('group')
 					const guildId = interaction.options.getString('guildid')
-					await purgeCache(guildId, groupName, key)
+					await purgeCache(guildId, { group: groupName, name: key })
 					interaction.reply({ content: `Successfully purged the cache of \`${groupName ? groupName + '/' + name : name}\`` })
 				}
 			}
@@ -463,7 +463,6 @@ export async function executeSlash(
 						}
 						break
 					}
-
 			}
 			break
 		}

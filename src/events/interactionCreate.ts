@@ -129,6 +129,9 @@ export async function register(client: BotClient, interaction: Interaction) {
 				} catch (err) {
 					Sentry.captureException(err)
 				}
+				if (process.env.NODE_ENV != 'production') {
+					throw error
+				}
 			} finally {
 				transaction.finish()
 			}

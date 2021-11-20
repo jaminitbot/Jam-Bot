@@ -7,7 +7,7 @@ import {
 	User,
 } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
-import { getNestedSetting, setNestedSetting } from '../../functions/db'
+import { getKey, setKey } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 import i18next from 'i18next'
@@ -31,31 +31,38 @@ async function sendSuggestion(
 	attachment: string,
 	author: User
 ) {
-	const suggestionChannelId = await getNestedSetting(
+	const suggestionChannelId = await getKey(
 		guildId,
-		'suggestions',
-		'channel'
+		{
+			group: 'suggestions',
+			name: 'channel'
+		}
+
 	)
 	if (!suggestionChannelId) return i18next.t('suggest.NO_SUGGESTION_CHANNEL') // Suggestions aren't setup yet
-	if (!(await getNestedSetting(guildId, 'suggestions', 'enabled')))
+	if (!(await getKey(guildId, { group: 'suggestions', name: 'enabled' })))
 		return i18next.t('suggest.SUGGESTIONS_DISABLED') // Suggestions are disabled
 	// @ts-expect-error
 	const suggestionChannel: TextChannel = await client.channels.fetch(
 		suggestionChannelId
 	)
 	if (!suggestionChannel) return i18next.t('suggest.ERROR_FINDING_CHANNEL') // Error finding suggestions channel
-	let suggestionCount = await getNestedSetting(
+	let suggestionCount = await getKey(
 		guildId,
-		'suggestions',
-		'suggestionCount'
+		{
+			group: 'suggestions',
+			name: 'suggestionCount'
+		}
 	)
 	if (!suggestionCount) suggestionCount = 0
 	suggestionCount = parseInt(suggestionCount)
-	await setNestedSetting(
+	await setKey(
 		guildId,
-		'suggestions',
-		'suggestionCount',
-		suggestionCount + 1
+		{
+			group: 'suggestions',
+			name: 'suggestionCount',
+			value: suggestionCount + 1
+		}
 	)
 	const embed = new MessageEmbed()
 	embed.setTitle(

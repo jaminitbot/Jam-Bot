@@ -3,8 +3,6 @@ import { BotClient, Permissions } from "../../customDefinitions"
 import { SlashCommandBuilder } from "@discordjs/builders"
 import {
 	setKey,
-	getNestedSetting,
-	setNestedSetting,
 	getKey,
 } from "../../functions/db"
 import { booleanToHuman, removeItemFromArray } from "../../functions/util"
@@ -235,10 +233,12 @@ export async function executeSlash(
 			const newSuggestionsChannel =
 				interaction.options.getChannel("channel")
 			if (!newSuggestionsChannel) {
-				const currentSuggestionChannelId = await getNestedSetting(
+				const currentSuggestionChannelId = await getKey(
 					interaction.guild.id,
-					"suggestions",
-					"channel"
+					{
+						group: "suggestions",
+						name: "channel"
+					}
 				)
 				const currentSuggestionsChannel = currentSuggestionChannelId
 					? `<#${currentSuggestionChannelId}>`
@@ -261,17 +261,21 @@ export async function executeSlash(
 					ephemeral: true,
 				})
 			} else {
-				await setNestedSetting(
+				await setKey(
 					interaction.guild.id,
-					"suggestions",
-					"channel",
-					newChannel.id
+					{
+						group: "suggestions",
+						name: "channel",
+						value: newChannel.id
+					}
 				)
-				await setNestedSetting(
+				await setKey(
 					interaction.guild.id,
-					"suggestions",
-					"enabled",
-					true
+					{
+						group: "suggestions",
+						name: "enabled",
+						value: true
+					}
 				)
 				const newSuggestionsChannel = `<#${newChannel.id}>`
 				interaction.reply(
@@ -287,21 +291,26 @@ export async function executeSlash(
 				interaction.reply(
 					i18next.t("settings.SUGGESTIONS_ENABLED_DISABLED_CURRENT", {
 						toggle: booleanToHuman(
-							await getNestedSetting(
+							await getKey(
 								interaction.guild.id,
-								"suggestions",
-								"enabled"
+								{
+									group: "suggestions",
+									name: "enabled"
+								}
+
 							)
 						),
 					})
 				)
 				return
 			}
-			await setNestedSetting(
+			await setKey(
 				interaction.guild.id,
-				"suggestions",
-				"enabled",
-				sendSuggestions
+				{
+					group: "suggestions",
+					name: "enabled",
+					value: sendSuggestions
+				}
 			)
 			interaction.reply(
 				i18next.t("settings.SET_SUGGESTIONS_ENABLED_DISABLED_SUCCESS", {
@@ -326,42 +335,52 @@ export async function executeSlash(
 				!serverChannelRaw &&
 				!joinLeavesChannelRaw
 			) {
-				const currentMainChannelId = await getNestedSetting(
+				const currentMainChannelId = await getKey(
 					interaction.guild.id,
-					"modlog",
-					"mainChannelId"
+					{
+						group: "modlog",
+						name: "mainChannelId"
+					}
 				)
 				const currentMainChannelMentioned = currentMainChannelId
 					? `<#${currentMainChannelId}>`
 					: "Not Set"
-				const currentMessagesChannelId = await getNestedSetting(
+				const currentMessagesChannelId = await getKey(
 					interaction.guild.id,
-					"modlog",
-					"messagesChannelId"
+					{
+						group: "modlog",
+						name: "messagesChannelId"
+					}
 				)
 				const currentMessagesChannelMentioned = currentMessagesChannelId
 					? `<#${currentMessagesChannelId}>`
 					: "Not Set"
-				const currentMembersChannelId = await getNestedSetting(
+				const currentMembersChannelId = await getKey(
 					interaction.guild.id,
-					"modlog",
-					"membersChannelId"
+					{
+						group: "modlog",
+						name: "membersChannelId"
+					}
 				)
 				const currentMembersChannelMentioned = currentMembersChannelId
 					? `<#${currentMembersChannelId}>`
 					: "Not Set"
-				const currentServerChannelId = await getNestedSetting(
+				const currentServerChannelId = await getKey(
 					interaction.guild.id,
-					"modlog",
-					"serverChannelId"
+					{
+						group: "modlog",
+						name: "serverChannelId"
+					}
 				)
 				const currentServerChannelMentioned = currentServerChannelId
 					? `<#${currentServerChannelId}>`
 					: "Not Set"
-				const currentJoinLeavesChannelId = await getNestedSetting(
+				const currentJoinLeavesChannelId = await getKey(
 					interaction.guild.id,
-					"modlog",
-					"joinLeavesChannelId"
+					{
+						group: "modlog",
+						name: "joinLeavesChannelId"
+					}
 				)
 				const currentJoinLeavesChannelMentioned =
 					currentJoinLeavesChannelId
@@ -407,11 +426,14 @@ export async function executeSlash(
 							{ modLogType: "default" }
 						)
 					} else {
-						await setNestedSetting(
+						await setKey(
 							interaction.guild.id,
-							"modlog",
-							"mainChannelId",
-							newMainChannel.id
+							{
+								group: "modlog",
+								name: "mainChannelId",
+								value: newMainChannel.id
+							}
+
 						)
 						response += i18next.t(
 							"settings.SET_MODLOG_CHANNEL_SUCCESS",
@@ -434,17 +456,22 @@ export async function executeSlash(
 								modLogType: "message",
 							})
 					} else {
-						await setNestedSetting(
+						await setKey(
 							interaction.guild.id,
-							"modlog",
-							"messagesChannelId",
-							newMessagesChannel.id
+							{
+								group: "modlog",
+								name: "messagesChannelId",
+								value: newMessagesChannel.id
+							}
+
 						)
-						await setNestedSetting(
+						await setKey(
 							interaction.guild.id,
-							"modlog",
-							"logMessages",
-							true
+							{
+								group: "modlog",
+								name: "logMessages",
+								value: true
+							}
 						)
 						response +=
 							"\n" +
@@ -466,17 +493,21 @@ export async function executeSlash(
 								modLogType: "member",
 							})
 					} else {
-						await setNestedSetting(
+						await setKey(
 							interaction.guild.id,
-							"modlog",
-							"membersChannelId",
-							newMembersChannel.id
+							{
+								group: "modlog",
+								name: "membersChannelId",
+								value: newMembersChannel.id
+							}
 						)
-						await setNestedSetting(
+						await setKey(
 							interaction.guild.id,
-							"modlog",
-							"logMembers",
-							true
+							{
+								group: "modlog",
+								name: "logMembers",
+								value: true
+							}
 						)
 						response +=
 							"\n" +
@@ -498,17 +529,23 @@ export async function executeSlash(
 								modLogType: "server",
 							})
 					} else {
-						await setNestedSetting(
+						await setKey(
 							interaction.guild.id,
-							"modlog",
-							"serverChannelId",
-							newServerChannel.id
+							{
+								group: "modlog",
+								name: "serverChannelId",
+								value: newServerChannel.id
+							}
+
 						)
-						await setNestedSetting(
+						await setKey(
 							interaction.guild.id,
-							"modlog",
-							"logServer",
-							true
+							{
+								group: "modlog",
+								name: "logServer",
+								value: true
+							}
+
 						)
 						response +=
 							"\n" +
@@ -530,17 +567,23 @@ export async function executeSlash(
 								modLogType: "join/leaves",
 							})
 					} else {
-						await setNestedSetting(
+						await setKey(
 							interaction.guild.id,
-							"modlog",
-							"joinLeavesChannelId",
-							newJoinLeavesChannel.id
+							{
+								group: "modlog",
+								value: "joinLeavesChannelId",
+								name: newJoinLeavesChannel.id
+							}
+
 						)
-						await setNestedSetting(
+						await setKey(
 							interaction.guild.id,
-							"modlog",
-							"logJoinLeaves",
-							true
+							{
+								group: "modlog",
+								name: "logJoinLeaves",
+								value: true
+							}
+
 						)
 						response +=
 							"\n" +
@@ -565,28 +608,38 @@ export async function executeSlash(
 				typeof logJoinLeaves != "boolean"
 			) {
 				const currentlogMessagesSetting =
-					(await getNestedSetting(
+					(await getKey(
 						interaction.guild.id,
-						"modlog",
-						"logMessages"
+						{
+							group: "modlog",
+							name: "logMessages"
+						}
+
 					)) ?? false
 				const currentLogMembersSetting =
-					(await getNestedSetting(
+					(await getKey(
 						interaction.guild.id,
-						"modlog",
-						"logMembers"
+						{
+							group: "modlog",
+							name: "logMembers"
+						}
 					)) ?? false
 				const currentLogServerSetting =
-					(await getNestedSetting(
+					(await getKey(
 						interaction.guild.id,
-						"modlog",
-						"logServer"
+						{
+							group: "modlog",
+							name: "logServer"
+						}
+
 					)) ?? false
 				const currentLogJoinLeavesSetting =
-					(await getNestedSetting(
+					(await getKey(
 						interaction.guild.id,
-						"modlog",
-						"logJoinLeaves"
+						{
+							group: "modlog",
+							name: "logJoinLeaves"
+						}
 					)) ?? false
 				interaction.reply({
 					content:
@@ -631,11 +684,14 @@ export async function executeSlash(
 			} else {
 				let response = ""
 				if (typeof logMessages == "boolean") {
-					await setNestedSetting(
+					await setKey(
 						interaction.guild.id,
-						"modlog",
-						"logMessages",
-						logMessages
+						{
+							group: "modlog",
+							name: "logMessages",
+							value: logMessages
+						}
+
 					)
 					response += i18next.t(
 						"settings.SET_MODLOG_EVENTS_ENABLED_DISABLED_SUCCESS",
@@ -646,11 +702,13 @@ export async function executeSlash(
 					)
 				}
 				if (typeof logMembers == "boolean") {
-					await setNestedSetting(
+					await setKey(
 						interaction.guild.id,
-						"modlog",
-						"logMembers",
-						logMembers
+						{
+							group: "modlog",
+							name: "logServer",
+							value: logServer
+						}
 					)
 					response +=
 						"\n" +
@@ -663,11 +721,14 @@ export async function executeSlash(
 						)
 				}
 				if (typeof logServer == "boolean") {
-					await setNestedSetting(
+					await setKey(
 						interaction.guild.id,
-						"modlog",
-						"logServer",
-						logServer
+						{
+							group: "modlog",
+							name: "logServer",
+							value: logServer
+						}
+
 					)
 					response +=
 						"\n" +
@@ -680,11 +741,14 @@ export async function executeSlash(
 						)
 				}
 				if (typeof logJoinLeaves == "boolean") {
-					await setNestedSetting(
+					await setKey(
 						interaction.guild.id,
-						"modlog",
-						"logJoinLeaves",
-						logJoinLeaves
+						{
+							group: "modlog",
+							name: "logJoinLeaves",
+							value: logJoinLeaves
+						}
+
 					)
 					response +=
 						"\n" +
@@ -701,10 +765,13 @@ export async function executeSlash(
 			}
 		}
 	} else if (subCommandGroup == "roles") {
-		let allowedRoles: Array<string> = await getNestedSetting(
+		let allowedRoles: Array<string> = await getKey(
 			interaction.guild.id,
-			"assignableRoles",
-			"allowedRoles"
+			{
+				group: "assignableRoles",
+				name: "allowedRoles"
+			}
+
 		)
 		if (!allowedRoles) allowedRoles = []
 		if (subCommand == "allow") {
@@ -730,11 +797,14 @@ export async function executeSlash(
 				})
 			}
 			allowedRoles.push(role.id)
-			await setNestedSetting(
+			await setKey(
 				interaction.guild.id,
-				"assignableRoles",
-				"allowedRoles",
-				allowedRoles
+				{
+					group: "assignableRoles",
+					name: "allowedRoles",
+					value: allowedRoles
+				}
+
 			)
 			interaction.reply({
 				content: i18next.t("settings.ROLE_ADDED_TO_ALLOW_LIST", {
@@ -752,11 +822,14 @@ export async function executeSlash(
 				})
 			}
 			allowedRoles = removeItemFromArray(allowedRoles, role.id)
-			await setNestedSetting(
+			await setKey(
 				interaction.guild.id,
-				"assignableRoles",
-				"allowedRoles",
-				allowedRoles
+				{
+					group: "assignableRoles",
+					name: "allowedRoles",
+					value: allowedRoles
+				}
+
 			)
 			interaction.reply({
 				content: i18next.t("settings.ROLE_REMOVED_FROM_ALLOW_LIST", {

@@ -11,8 +11,9 @@ import { Logger } from 'winston'
 let ThisRawClient: MongoClient
 let thisDb: Db
 let thisDbCache: NodeCache
+let thisLogger: Logger
 export async function connect(logger: Logger) {
-	logger = getLogger()
+	thisLogger = getLogger()
 	const databaseUrl = process.env.mongoUrl
 	const databaseClient = new MongoClient(databaseUrl)
 	try {
@@ -31,7 +32,11 @@ export async function connect(logger: Logger) {
 		returnRawClient: returnRawClient,
 	}
 }
-
+interface SetKeyOptions {
+	name: string
+	group?: string | undefined
+	value: unknown
+}
 /**
  * Sets a specified key for the guild
  * @param guildIdInput The guild identifier
@@ -40,59 +45,112 @@ export async function connect(logger: Logger) {
  * @returns Boolean
  */
 export async function setKey(
-	guildIdInput: string,
-	key: string,
-	value: unknown
-): Promise<boolean> {
+	guildId: string,
+	key: string | SetKeyOptions,
+	value?: unknown
+): Promise<void> {
+	let group: string | undefined
+	if (typeof key == 'object') {
+		const tempObject: SetKeyOptions = key
+		key = tempObject.name
+		value = tempObject.value
+		group = tempObject.group
+	} else if (!value) {
+		throw ('Value not specified')
+	}
+	const setObject: Record<string, unknown> = {}
+	if (group) {
+		setObject[group + '.' + key] = value
+	} else {
+		setObject[key] = value
+	}
+	// setObject['guildId'] = guildId
 	const db: Collection = thisDb.collection('guilds')
-	this.logger.debug(`DB: Updating ${key} to ${value}`)
-	let guildDbObject = await db.findOne({ guildId: guildIdInput }) // Find the guild in db
-	// @ts-expect-error
-	if (!guildDbObject) guildDbObject = {}
-	guildDbObject[key] = value // Set the key to the new value
-	db.replaceOne({ guildId: guildIdInput }, guildDbObject, { upsert: true }) // Save to DB
-	await thisDbCache.set(guildIdInput, guildDbObject) // Set in cache as well
-	return true
+	if (group) {
+		await db.updateOne({ guildId: guildId }, { $set: setObject }, { upsert: true })
+	} else {
+		await db.updateOne({ guildId: guildId }, { $set: setObject }, { upsert: true })
+	}
+	const currentCache: Record<string, unknown> = thisDbCache.get(guildId) ?? {}
+	if (group) {
+		if (!currentCache[group]) currentCache[group] = {}
+		// @ts-expect-error
+		currentCache[group][key] = value
+	} else {
+		currentCache[key] = value
+	}
+	thisDbCache.set(guildId, currentCache)
 }
 
+interface GetKeyOptions {
+	name: string
+	group?: string | undefined
+	bypassCache?: boolean | undefined
+}
 /**
  * Gets a particular key for the guild
  * @param guildIdInput The guild identifier
- * @param key The key to get from the database
+ * @param key The key or GetKeyOptions
  * @returns String
  */
-
 export async function getKey(
-	guildIdInput: string | number,
-	key: string
+	guildId: string | number,
+	key: string | GetKeyOptions
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
-	const db = thisDb.collection('guilds')
-	const cacheValue: Record<string, unknown> = await thisDbCache.get(guildIdInput) // Check if guild is already in cache
-	if (cacheValue && cacheValue[key]) {
-		this.logger.debug(
-			`DB: Got ${key} from CACHE with value: ${cacheValue[key]}`
-		)
-		return cacheValue[key] // If found in cache, return it
+	let group: string | null
+	let bypassCache: boolean | undefined = false
+	if (typeof key == 'object') { // Using getkey options
+		const tempObject: GetKeyOptions = key
+		key = tempObject.name
+		group = tempObject.group
+		bypassCache = tempObject.bypassCache ?? false
+	}
+	thisLogger.verbose(`Getting ${key} from group ${group ?? 'none'}, bypass cache is set to ${bypassCache}`)
+	const currentCache: Record<string, unknown> = thisDbCache.get(guildId) ?? {}
+	if (!bypassCache) {
+		if (currentCache) {
+			// @ts-expect-error
+			if (group && currentCache[group] && currentCache[group][key]) {
+				thisLogger.debug(`Got ${key} from CACHE`)
+				// @ts-expect-error
+				return currentCache[group][key]
+			} else if (currentCache[key]) {
+				thisLogger.debug(`Got ${key} from CACHE`)
+				return currentCache[key]
+			}
+		}
 	}
 	const projection: Record<string, number> = {}
-	projection[key] = 1
-	const guildDbObject = await db.findOne(
+	projection[group ?? key] = 1
+	const guildDbObject = await thisDb.collection('guilds').findOne(
 		// Find guild in mongo db
-		{ guildId: guildIdInput },
+		{ guildId: guildId },
 		{ projection: projection }
 	)
-	if (!guildDbObject) return null // If no guild object is found, return nothing
-	if (!guildDbObject[key]) {
-		return null // Key doesn't exist
+	if (!guildDbObject) {
+		thisLogger.debug('Guild object was null, returning undefined')
+		return undefined // If no guild object is found, return nothing
 	}
-	const currentCache: Record<string, unknown> = thisDbCache.get(guildIdInput) ?? {}
-	currentCache[key] = guildDbObject[key]
-	thisDbCache.set(guildIdInput, currentCache) // Put the key into the cache
-	this.logger.debug(
-		`DB: Got ${key} from DB with value: ${guildDbObject[key]}`
-	)
-	return guildDbObject[key] // Return the value from db
+	let returnValue: unknown
+	if (group && guildDbObject[group]) {
+		thisLogger.debug(`Got ${key} from DATABASE`)
+		returnValue = guildDbObject[group][key]
+		if (!currentCache[group]) currentCache[group] = {}
+		// @ts-expect-error
+		currentCache[group][key] = returnValue
+	} else if (guildDbObject[key]) {
+		thisLogger.debug(`Got ${key} from DATABASE`)
+		returnValue = guildDbObject[key]
+		currentCache[key] = returnValue
+	} else {
+		thisLogger.debug(`Got ${key} from DATABASE value was NULL`)
+		returnValue = null
+	}
+	if (returnValue) {
+		thisDbCache.set(guildId, currentCache)
+	}
+	return returnValue
 }
 
 /**
@@ -103,45 +161,35 @@ export function returnRawClient(): MongoClient {
 	return ThisRawClient
 }
 
-export async function getNestedSetting(
-	guildId: string,
-	nestedGroupName: string,
-	key: string
-) {
-	const nestedGroupRaw = await getKey(guildId, nestedGroupName)
-	if (!nestedGroupRaw) return null
-	return nestedGroupRaw[key]
-}
-
-export async function setNestedSetting(
-	guildId: string,
-	nestedGroupName: string,
-	key: string,
-	value: unknown
-) {
-	let nestedGroupRaw = await getKey(guildId, nestedGroupName)
-	if (!nestedGroupRaw) {
-		nestedGroupRaw = {}
-	}
-	// eslint-disable-next-line prefer-const
-	nestedGroupRaw[key] = value
-	await setKey(guildId, nestedGroupName, nestedGroupRaw)
+interface PurgeCacheOptions {
+	group?: string | undefined
+	name?: string | undefined
 }
 /**
- * 
+ * Purges the database cache
  * @param guildId Guild ID
- * @param group (optional) group namw
- * @param key Key
- * @returns Promise<void>
+ * @param options Purge Cache Options
+ * @returns Status Code
  */
-export async function purgeCache(guildId: string, group: string | null, key: string): Promise<void> {
-	const cacheValue: Record<string, unknown> = await thisDbCache.get(guildId)
-	if (!cacheValue) return
-	if (group) {
-		// @ts-expect-error
-		delete cacheValue[group][key]
-	} else {
-		delete cacheValue[key]
+export async function purgeCache(guildId: string, options?: PurgeCacheOptions) {
+	let currentCache: Record<string, unknown> = thisDbCache.get(guildId)
+	if (!currentCache) return 1
+	const name = options.name
+	const group = options.group
+	try {
+		if (group && name) {
+			// @ts-expect-error
+			delete currentCache[group][name]
+		} else if (group && !name) {
+			delete currentCache[group]
+		} else if (!group && name) {
+			delete currentCache[name]
+		} else {
+			currentCache = undefined
+		}
+	} catch {
+		return 2
 	}
-	await thisDbCache.set(guildId, cacheValue)
+	thisDbCache.set(guildId, currentCache)
+	return 0
 }

@@ -6,7 +6,7 @@ import {
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from 'i18next'
-import { getNestedSetting } from '../../functions/db'
+import { getKey } from '../../functions/db'
 
 export const name = 'roles'
 export const description = 'Manages your self-assignable roles'
@@ -95,10 +95,12 @@ export async function executeSlash(
 	const roleId = interaction.options.getString('role')
 	const role = await interaction.guild.roles.fetch(roleId)
 	const allowedRoles: Array<string> =
-		(await getNestedSetting(
+		(await getKey(
 			interaction.guild.id,
-			'assignableRoles',
-			'allowedRoles'
+			{
+				group: 'assignableRoles',
+				name: 'allowedRoles'
+			}
 		)) ?? []
 	if (subCommand == 'add' || subCommand == 'remove') {
 		if (!allowedRoles || !allowedRoles.includes(role.id)) {
@@ -183,10 +185,13 @@ export async function executeAutocomplete(
 	interaction: AutocompleteInteraction
 ) {
 	const allowedRoles: Array<string> =
-		(await getNestedSetting(
+		(await getKey(
 			interaction.guild.id,
-			'assignableRoles',
-			'allowedRoles'
+			{
+				group: 'assignableRoles',
+				name: 'allowedRoles'
+			}
+
 		)) ?? []
 	if (!allowedRoles.length) {
 		interaction.respond([])

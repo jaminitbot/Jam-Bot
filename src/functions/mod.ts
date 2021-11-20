@@ -1,6 +1,6 @@
 import { Channel, Guild, GuildMember, MessageOptions } from 'discord.js'
 import { BotClient } from '../customDefinitions'
-import { getNestedSetting, returnRawClient } from './db'
+import { getKey, returnRawClient } from './db'
 import ms from 'ms'
 import is_number from 'is-number'
 import { capitaliseSentence } from './util'
@@ -52,19 +52,23 @@ export async function postToModlog(
 	messageContent: string | MessageOptions,
 	logType: LogType
 ) {
-	const shouldLog = await getNestedSetting(
+	const shouldLog = await getKey(
 		guildId,
-		'modlog',
-		'log' + capitaliseSentence(logType)
+		{
+			group: 'modlog',
+			name: 'log' + capitaliseSentence(logType)
+		}
 	)
 	if (!shouldLog) return 5
-	let channelId = await getNestedSetting(
+	let channelId = await getKey(
 		guildId,
-		'modlog',
-		logType + 'ChannelId'
+		{
+			group: 'modlog',
+			name: logType + 'ChannelId'
+		}
 	)
 	if (!channelId) {
-		channelId = await getNestedSetting(guildId, 'modlog', 'mainChannelId')
+		channelId = await getKey(guildId, { group: 'modlog', name: 'mainChannelId' })
 		if (!channelId) return 4
 	}
 	let channel: Channel
