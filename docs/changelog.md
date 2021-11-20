@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.13.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.12.5...v2.13.0) (2021-11-20)
+
+
+### Features
+
+* **db:** rewrite database code ([2f0aa66](https://github.com/jaminitbot/Jam-Bot/commit/2f0aa66d80796e98670ed82f535e571951bddca0))
+* stricter typescript ([659c643](https://github.com/jaminitbot/Jam-Bot/commit/659c643c6e1ba45964d730b917aa3f897f07c1c3))
+
+
+### Bug Fixes
+
+* new mongo types ([d06726a](https://github.com/jaminitbot/Jam-Bot/commit/d06726a9a38ff1fa9876d42618779f6eefaf186e))
+* **snipe:** skip checking channel ([30ab69c](https://github.com/jaminitbot/Jam-Bot/commit/30ab69c1c1b80e04e85b7770e8e6fb7f5a47dc82))
+* **urban:** no definitions found text ([303cf8e](https://github.com/jaminitbot/Jam-Bot/commit/303cf8e448f0c77f0fdd7a9ef5c3292e77c00d7e))
+
 ### [2.12.5](https://github.com/jaminitbot/Jam-Bot/compare/v2.12.4...v2.12.5) (2021-11-17)
 
 ### [2.12.4](https://github.com/jaminitbot/Jam-Bot/compare/v2.12.3...v2.12.4) (2021-11-16)
