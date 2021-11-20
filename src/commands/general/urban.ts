@@ -64,7 +64,7 @@ async function returnDefineEmbed(wordToDefine: string) {
 			)
 		} catch (err) {
 			Sentry.captureException(err)
-			error = err
+			error = String(err)
 		}
 		if (error || response.statusCode != 200) {
 			// @ts-expect-error

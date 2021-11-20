@@ -191,7 +191,7 @@ export const slashData = new SlashCommandBuilder()
 					)
 			)
 	)
-function returnSetKeyEmbed(guildId, key, value) {
+function returnSetKeyEmbed(guildId: string, key: string, value: string) {
 	const embed = new MessageEmbed()
 	embed.setTitle(i18next.t('setkey.SET_KEY'))
 	embed.setDescription(i18next.t('setkey.SUCCESSFULLY_SET_KEY'))
@@ -201,7 +201,7 @@ function returnSetKeyEmbed(guildId, key, value) {
 	embed.setTimestamp(Date.now())
 	return embed
 }
-function returnGetKeyEmbed(guild, key, valueReturned) {
+function returnGetKeyEmbed(guild: string, key: string, valueReturned: string) {
 	const embed = new MessageEmbed()
 	embed.setTitle('GetKey')
 	embed.addField('Guild', guild, true)

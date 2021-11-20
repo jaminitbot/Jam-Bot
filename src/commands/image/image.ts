@@ -1,7 +1,7 @@
 import { CommandInteraction, Message } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
+// @ts-expect-error
 import isImageUrl = require('is-image-url')
-import isNumber from 'is-number'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request } from 'undici'
 import { Logger } from 'winston'
@@ -101,27 +101,7 @@ export async function execute(
 	message: Message,
 	args: Array<unknown>
 ) {
-	if (!args[0])
-		return message.reply(i18next.t('image.NO_ARGUMENTS_SPECIFIED'))
-	let splitBy = 0
-	let position
-	if (isNumber(args[0])) {
-		splitBy = 1 // Make sure we don't include the position in the search
-		position = args[0]
-	}
-	const sentMessage = await message.channel.send(
-		i18next.t('image.SEARCH_LOADING')
-	)
-	const search = args.splice(splitBy).join(' ')
-	// @ts-expect-error
-	const isNsfw = message.channel.nsfw
-	const imageUrl = await searchForImage(
-		search,
-		position,
-		isNsfw,
-		client.logger
-	)
-	await sentMessage.edit(imageUrl)
+	message.reply(i18next.t('general:ONLY_SLASH_COMMAND', { command: '/image' }))
 }
 
 export async function executeSlash(

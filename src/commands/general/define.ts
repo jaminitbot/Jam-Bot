@@ -104,8 +104,7 @@ async function returnDefineEmbed(
 	}
 	const jsonResponse: WordDefinition = cache.get(wordToDefine)
 	const partOfSpeechTypes = []
-	// eslint-disable-next-line prefer-const
-	let meaningsJson = {}
+	const meaningsJson: Record<string, Array<DefinitionsObject>> = {}
 	for (const meaning of jsonResponse.meanings) {
 		partOfSpeechTypes.push({
 			label: capitaliseSentence(meaning.partOfSpeech),

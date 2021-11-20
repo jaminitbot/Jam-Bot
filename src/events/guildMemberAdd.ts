@@ -1,5 +1,5 @@
 import { GuildMember, MessageEmbed } from 'discord.js'
-import { BotClient } from 'src/customDefinitions'
+import { BotClient } from '../customDefinitions'
 import { postToModlog } from '../functions/mod'
 import dayjs from 'dayjs'
 import relative from 'dayjs/plugin/relativeTime'

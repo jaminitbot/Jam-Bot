@@ -49,6 +49,8 @@ export async function inputSnipe(
  *
  * @returns Array of sniped messages
  */
-export function returnSnipedMessages(channelId: string): Array<MessageSniped> {
-	return buffer.get(channelId).reverse()
+export function returnSnipedMessages(channelId: string): Array<MessageSniped> | null {
+	const bufferValue = buffer.get(channelId)
+	if (!bufferValue) return null
+	return bufferValue.reverse()
 }

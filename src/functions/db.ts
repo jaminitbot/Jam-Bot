@@ -1,6 +1,6 @@
-import { Collection, MongoClient } from 'mongodb'
+import { Collection, Db, MongoClient } from 'mongodb'
 import NodeCache = require('node-cache')
-import { stopBot } from './util'
+import { getLogger, stopBot } from './util'
 import { Logger } from 'winston'
 
 /**
@@ -8,8 +8,11 @@ import { Logger } from 'winston'
  * @param logger Winston Logger
  * @returns exports of Database object
  */
+let ThisRawClient: MongoClient
+let thisDb: Db
+let thisDbCache: NodeCache
 export async function connect(logger: Logger) {
-	this.logger = logger
+	logger = getLogger()
 	const databaseUrl = process.env.mongoUrl
 	const databaseClient = new MongoClient(databaseUrl)
 	try {
@@ -18,14 +21,14 @@ export async function connect(logger: Logger) {
 		logger.error(e)
 		await stopBot(null, null, 0)
 	}
-	this.rawClient = databaseClient
+	ThisRawClient = databaseClient
 	const db = databaseClient.db(process.env.databaseName)
-	this.db = db
-	this.dbCache = new NodeCache({ stdTTL: 300, checkperiod: 60 })
+	thisDb = db
+	thisDbCache = new NodeCache({ stdTTL: 300, checkperiod: 60 })
 	return {
-		setKey: this.setKey,
-		getKey: this.getKey,
-		returnRawClient: this.returnRawClient,
+		setKey: setKey,
+		getKey: getKey,
+		returnRawClient: returnRawClient,
 	}
 }
 
@@ -41,14 +44,14 @@ export async function setKey(
 	key: string,
 	value: unknown
 ): Promise<boolean> {
-	const db: Collection = this.db.collection('guilds')
+	const db: Collection = thisDb.collection('guilds')
 	this.logger.debug(`DB: Updating ${key} to ${value}`)
 	let guildDbObject = await db.findOne({ guildId: guildIdInput }) // Find the guild in db
 	// @ts-expect-error
 	if (!guildDbObject) guildDbObject = {}
 	guildDbObject[key] = value // Set the key to the new value
 	db.replaceOne({ guildId: guildIdInput }, guildDbObject, { upsert: true }) // Save to DB
-	await this.dbCache.set(guildIdInput, guildDbObject) // Set in cache as well
+	await thisDbCache.set(guildIdInput, guildDbObject) // Set in cache as well
 	return true
 }
 
@@ -64,15 +67,15 @@ export async function getKey(
 	key: string
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
-	const db = this.db.collection('guilds')
-	const cacheValue = await this.dbCache.get(guildIdInput) // Check if guild is already in cache
+	const db = thisDb.collection('guilds')
+	const cacheValue: Record<string, unknown> = await thisDbCache.get(guildIdInput) // Check if guild is already in cache
 	if (cacheValue && cacheValue[key]) {
 		this.logger.debug(
 			`DB: Got ${key} from CACHE with value: ${cacheValue[key]}`
 		)
 		return cacheValue[key] // If found in cache, return it
 	}
-	const projection = {}
+	const projection: Record<string, number> = {}
 	projection[key] = 1
 	const guildDbObject = await db.findOne(
 		// Find guild in mongo db
@@ -83,9 +86,9 @@ export async function getKey(
 	if (!guildDbObject[key]) {
 		return null // Key doesn't exist
 	}
-	const currentCache = this.dbCache.get(guildIdInput) ?? {}
+	const currentCache: Record<string, unknown> = thisDbCache.get(guildIdInput) ?? {}
 	currentCache[key] = guildDbObject[key]
-	this.dbCache.set(guildIdInput, currentCache) // Put the key into the cache
+	thisDbCache.set(guildIdInput, currentCache) // Put the key into the cache
 	this.logger.debug(
 		`DB: Got ${key} from DB with value: ${guildDbObject[key]}`
 	)
@@ -97,7 +100,7 @@ export async function getKey(
  * @returns MongoClient
  */
 export function returnRawClient(): MongoClient {
-	return this.rawClient
+	return ThisRawClient
 }
 
 export async function getNestedSetting(
@@ -132,12 +135,13 @@ export async function setNestedSetting(
  * @returns Promise<void>
  */
 export async function purgeCache(guildId: string, group: string | null, key: string): Promise<void> {
-	const cacheValue = await this.dbCache.get(guildId)
+	const cacheValue: Record<string, unknown> = await thisDbCache.get(guildId)
 	if (!cacheValue) return
 	if (group) {
+		// @ts-expect-error
 		delete cacheValue[group][key]
 	} else {
 		delete cacheValue[key]
 	}
-	await this.dbCache.set(guildId, cacheValue)
+	await thisDbCache.set(guildId, cacheValue)
 }

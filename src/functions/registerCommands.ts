@@ -1,7 +1,8 @@
 /* eslint-disable prefer-const */
 import { REST } from '@discordjs/rest'
-import { Routes } from 'discord-api-types/v9'
+import { RESTPostAPIApplicationCommandsJSONBody, Routes } from 'discord-api-types/v9'
 const token = process.env.token
+if (!token) throw ('NO TOKEN')
 const rest = new REST({ version: '9' }).setToken(token)
 import { Collection } from 'discord.js'
 import { BotClient } from '../customDefinitions'
@@ -12,8 +13,8 @@ import fs = require('fs')
  */
 export async function registerSlashCommands(client: BotClient) {
 	const commands = client.commands
-	let data = []
-	let devData = []
+	let data: Array<RESTPostAPIApplicationCommandsJSONBody> = []
+	let devData: Array<RESTPostAPIApplicationCommandsJSONBody> = []
 	commands.forEach((command) => {
 		if (typeof command.executeSlash == 'function') {
 			if (

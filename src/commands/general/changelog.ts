@@ -8,7 +8,8 @@ import Sentry from '../../functions/sentry'
 import i18next from 'i18next'
 const cache = new NodeCache({ stdTTL: 600, checkperiod: 60 })
 
-function generateDateFromEntry(entry) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function generateDateFromEntry(entry: Record<string, any>) {
 	if (!entry) throw new Error('No entry specified')
 	if (entry.date) {
 		return `<t:${Math.floor(entry.date / 1000)}:R>`
@@ -37,7 +38,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The change ID to get')
 			.setRequired(false)
 	)
-async function returnChangelogEmbed(changeNumber = null, logger: Logger) {
+async function returnChangelogEmbed(changeNumber: number = null, logger: Logger) {
 	const embed = new MessageEmbed()
 	embed.setTitle(i18next.t('changelog.CHANGELOG'))
 	if (!process.env.changelogLink) {

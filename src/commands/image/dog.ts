@@ -17,7 +17,7 @@ export const slashData = new SlashCommandBuilder()
 			.setDescription('The breed of the dog')
 			.setRequired(false)
 	)
-async function getDogPhoto(breed) {
+async function getDogPhoto(breed: string | null) {
 	let response: Dispatcher.ResponseData
 	const breedArray = breed ? breed.trim().split(/ +/) : null
 	if (!breed) {
@@ -48,7 +48,7 @@ export async function execute(
 			data = await getDogPhoto(args[0] + ' ' + args[1])
 		} else {
 			// Just breed
-			data = await getDogPhoto(args[0])
+			data = await getDogPhoto(String(args[0]))
 		}
 	} else {
 		// Just random dog

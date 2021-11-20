@@ -11,7 +11,7 @@ type TaskType = 'UNMUTE' | 'UNBAN'
  * @param duration duration to parse
  * @returns parsed duration as number
  */
-export function parseDuration(duration: string) {
+export function parseDuration(duration: string | null) {
 	if (!duration) return null
 	const durationArray = String(duration).split(' ')
 	let parsedDuration = 0
@@ -151,7 +151,7 @@ export async function processTasks(client: BotClient) {
 export async function ban(
 	guild: Guild,
 	userId: string,
-	reason: string | null,
+	reason: string,
 	duration: number | null
 ) {
 	const target = await guild.members.fetch(userId)
@@ -191,7 +191,7 @@ export async function unban(guild: Guild, userId: string, reason: string) {
 export async function kick(
 	guild: Guild,
 	userId: string,
-	reason: string | null
+	reason: string
 ) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1
@@ -213,7 +213,7 @@ export async function kick(
 export async function mute(
 	guild: Guild,
 	userId: string,
-	reason: string | null,
+	reason: string,
 	duration: number | null
 ) {
 	const target = await guild.members.fetch(userId)
@@ -240,7 +240,7 @@ export async function mute(
 export async function unmute(
 	guild: Guild,
 	userId: string,
-	reason: string | null
+	reason: string
 ) {
 	const target = await guild.members.fetch(userId)
 	if (!target) return 1

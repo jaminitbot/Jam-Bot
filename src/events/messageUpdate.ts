@@ -1,5 +1,5 @@
 import { Message, MessageEmbed } from 'discord.js'
-import { BotClient } from 'src/customDefinitions'
+import { BotClient } from '../customDefinitions'
 import { inputSnipe } from '../functions/snipe'
 import { postToModlog } from '../functions/mod'
 import { isBotOwner } from '../functions/util'

@@ -25,7 +25,7 @@ function createLatencyEmbed(
 	embed.setColor('#FB21CB')
 	return embed
 }
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	const sent = await message.channel.send('Pinging...')
 	await sent.edit({
 		content: null,

@@ -52,7 +52,7 @@ export async function executeContextMenu(
 	const reason = 'Muted from context menu'
 	const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')
 		}`
-	const duration = null
+	const duration: string = null
 	const parsedDuration = parseDuration(duration)
 	const muteResult = await mute(
 		interaction.guild,

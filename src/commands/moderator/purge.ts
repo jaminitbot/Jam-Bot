@@ -30,7 +30,7 @@ export const slashCommandOptions = [
 ]
 async function bulkDeleteMessages(
 	channel: TextBasedChannels,
-	NumOfMessagesToDelete
+	NumOfMessagesToDelete: number
 ) {
 	if (channel.type != 'GUILD_TEXT' && channel.type != 'GUILD_NEWS') return
 	if (!channel.guild.me.permissions.has(['MANAGE_MESSAGES']))
@@ -38,7 +38,7 @@ async function bulkDeleteMessages(
 			friendlyPermissionName: 'manage messages',
 			permissionName: permissions[0],
 		})
-	const deleteCount = parseInt(NumOfMessagesToDelete)
+	const deleteCount = NumOfMessagesToDelete
 	if (deleteCount < 1) {
 		return i18next.t('purge.DELETE_COUNT_TOO_LOW')
 	} else if (deleteCount > 100) {
@@ -57,10 +57,13 @@ export async function execute(
 ) {
 	if (!args[0])
 		return message.reply(i18next.t('purge.NO_ARGUMENTS_SPECIFIED'))
-	if (!isNumber(args[0]))
-		return message.reply(i18next.t('purge.DELETE_COUNT_INVALID'))
+	if (!isNumber(args[0])) {
+		message.reply(i18next.t('purge.DELETE_COUNT_INVALID'))
+		return
+	}
 	await message.delete()
 	const sentMessage = await message.channel.send(
+		// @ts-expect-error
 		await bulkDeleteMessages(message.channel, args[0])
 	)
 	setTimeout(() => {

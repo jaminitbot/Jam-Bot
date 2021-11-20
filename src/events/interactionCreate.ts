@@ -13,7 +13,7 @@ import { incrementInteractionCounter } from '../functions/metrics'
 export const name = 'interactionCreate'
 export async function register(client: BotClient, interaction: Interaction) {
 	const guildId = interaction.guild ? interaction.guild.id : 0
-	let commandName
+	let commandName: string
 	if (
 		interaction.isCommand() ||
 		interaction.isContextMenu() ||

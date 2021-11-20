@@ -11,6 +11,7 @@ export default (() => {
 			debug: process.env.NODE_ENV ? false : true,
 			integrations: [
 				new RewriteFrames({
+					// @ts-expect-error
 					root: global.__rootdir__,
 				}),
 			],
@@ -23,7 +24,8 @@ export default (() => {
 		 * @param {Message} message - Message to configure scope with
 		 * @param {Function} fn - Handler function to call within the configured scope
 		 */
-		withMessageScope: (message: Message, fn) => {
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		withMessageScope: (message: Message, fn: Function) => {
 			Sentry.withScope(async (scope) => {
 				const { tag, id } = message.author
 				scope.setUser({ username: tag, id })
@@ -51,7 +53,8 @@ export default (() => {
 				}
 			})
 		},
-		withInteractionScope: (interaction: Interaction, fn) => {
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		withInteractionScope: (interaction: Interaction, fn: Function) => {
 			Sentry.withScope((scope) => {
 				const { tag, id } = interaction.user
 				scope.setUser({ username: tag, id: id })
@@ -61,7 +64,7 @@ export default (() => {
 						'Guild Name': interaction.guild.name,
 					})
 					scope.setContext('Channel', {
-						'Channel ID': interaction.channel.id,
+						'Channel ID': interaction.channel?.id,
 						//@ts-expect-error
 						'Channel Name': interaction.channel.name,
 					})

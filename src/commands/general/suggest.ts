@@ -82,7 +82,7 @@ async function sendSuggestion(
 	}
 	return i18next.t('suggest.SUGGESTION_SUCCESSFUL')
 }
-export async function execute(client: BotClient, message: Message, args) {
+export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
 	if (!args[0]) return message.reply(i18next.t('NO_ARGUMENTS_SPECFIED'))
 	message.delete()
 	const suggestionDescription = args.join(' ')

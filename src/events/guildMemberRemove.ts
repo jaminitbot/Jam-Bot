@@ -1,6 +1,6 @@
 import { GuildMember, MessageEmbed } from 'discord.js'
 import i18next from 'i18next'
-import { BotClient } from 'src/customDefinitions'
+import { BotClient } from '../customDefinitions'
 import { postToModlog } from '../functions/mod'
 
 export const name = 'guildMemberRemove'

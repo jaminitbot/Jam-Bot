@@ -1,4 +1,4 @@
-import { GuildMember, Message, Guild, Channel, Role } from 'discord.js'
+import { GuildMember, Message, Guild, Channel, Role, GuildChannel, ThreadChannel } from 'discord.js'
 import { MongoClient } from 'mongodb'
 import { BotClient, Permission } from '../customDefinitions'
 import { getInvalidPermissionsMessage } from './messages'
@@ -36,8 +36,8 @@ export function checkPermissions(
  * @param stopCode Process exit code, default 0
  */
 export async function stopBot(
-	client: BotClient,
-	mongoClient: MongoClient,
+	client: BotClient | null,
+	mongoClient: MongoClient | null,
 	stopCode = 0
 ): Promise<void> {
 	try {
@@ -87,7 +87,7 @@ export function returnInvalidPermissionMessage(message: Message): void {
 export async function getUserFromString(
 	guild: Guild,
 	text: unknown
-): Promise<GuildMember> {
+): Promise<GuildMember | null> {
 	try {
 		if (!text) return null
 		let stringText = String(text)
@@ -125,7 +125,7 @@ export async function getUserFromString(
 export async function getRoleFromString(
 	guild: Guild,
 	text: unknown
-): Promise<Role> {
+): Promise<Role | null> {
 	try {
 		if (!text) return null
 		let stringText = String(text)
@@ -161,7 +161,7 @@ export async function getRoleFromString(
 export async function getChannelFromString(
 	guild: Guild,
 	text: unknown
-): Promise<Channel> {
+): Promise<Channel | ThreadChannel | GuildChannel | null | undefined> {
 	try {
 		if (!text) return null
 		let stringText = String(text)
@@ -193,7 +193,7 @@ export async function getChannelFromString(
 export async function uploadToHasteBin(
 	logger: Logger,
 	dataToUpload: string
-): Promise<string> {
+): Promise<string | null> {
 	if (!dataToUpload) {
 		if (logger)
 			logger.error(
@@ -242,14 +242,15 @@ export function removeItemFromArray(arr: Array<any>, value: unknown) {
  * @returns Boolean
  */
 export function isBotOwner(userId: string) {
-	const owners = process.env.ownerId.split(',')
+	const owners = String(process.env.ownerId).split(',')
 	return owners.includes(userId)
 }
-export function saveLogger(logger: Logger): void {
-	this.logger = logger
+let thisLogger: Logger
+export const saveLogger = (logger: Logger) => {
+	thisLogger = logger
 }
-export function getLogger(): Logger {
-	return this.logger
+export const getLogger = () => {
+	return thisLogger
 }
 
 /**
