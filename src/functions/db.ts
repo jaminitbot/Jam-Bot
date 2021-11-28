@@ -86,8 +86,13 @@ export async function setGuildSetting(
 				guildId: guildId
 			},
 		})
-		// @ts-expect-error
-		dataToSet[group] = { ...groupValue[group] }
+		if (groupValue) {
+			// @ts-expect-error
+			dataToSet[group] = { ...groupValue[group] }
+		} else {
+			// @ts-expect-error
+			dataToSet[group] = {}
+		}
 		// @ts-expect-error
 		dataToSet[group][key] = value
 	} else {
