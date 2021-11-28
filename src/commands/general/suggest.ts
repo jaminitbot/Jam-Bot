@@ -7,7 +7,7 @@ import {
 	User,
 } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
-import { getKey, setKey } from '../../functions/db'
+import { getGuildSetting, setGuildSetting } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 
 import i18next from 'i18next'
@@ -31,7 +31,7 @@ async function sendSuggestion(
 	attachment: string,
 	author: User
 ) {
-	const suggestionChannelId = await getKey(
+	const suggestionChannelId = await getGuildSetting(
 		guildId,
 		{
 			group: 'suggestions',
@@ -40,14 +40,14 @@ async function sendSuggestion(
 
 	)
 	if (!suggestionChannelId) return i18next.t('suggest.NO_SUGGESTION_CHANNEL') // Suggestions aren't setup yet
-	if (!(await getKey(guildId, { group: 'suggestions', name: 'enabled' })))
+	if (!(await getGuildSetting(guildId, { group: 'suggestions', name: 'enabled' })))
 		return i18next.t('suggest.SUGGESTIONS_DISABLED') // Suggestions are disabled
 	// @ts-expect-error
 	const suggestionChannel: TextChannel = await client.channels.fetch(
 		suggestionChannelId
 	)
 	if (!suggestionChannel) return i18next.t('suggest.ERROR_FINDING_CHANNEL') // Error finding suggestions channel
-	let suggestionCount = await getKey(
+	let suggestionCount = await getGuildSetting(
 		guildId,
 		{
 			group: 'suggestions',
@@ -56,7 +56,7 @@ async function sendSuggestion(
 	)
 	if (!suggestionCount) suggestionCount = 0
 	suggestionCount = parseInt(suggestionCount)
-	await setKey(
+	await setGuildSetting(
 		guildId,
 		{
 			group: 'suggestions',

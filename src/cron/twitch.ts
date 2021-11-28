@@ -1,7 +1,7 @@
 import { BotClient } from '../customDefinitions'
 import { request, Dispatcher } from 'undici'
 import { MessageAttachment, MessageEmbed, TextChannel } from 'discord.js'
-import { getKey, setKey } from '../functions/db'
+import { getGuildSetting, setGuildSetting } from '../functions/db'
 import messages = require('../functions/messages')
 import sha1 = require('sha1')
 import dayjs = require('dayjs')
@@ -83,7 +83,7 @@ export default async function execute(client: BotClient) {
 		embed.setFooter('Updates every 5 seconds.')
 		embed.setColor('#A077FF')
 		const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
-		const LiveTime = await getKey(
+		const LiveTime = await getGuildSetting(
 			guildId,
 			{
 				group: 'twitchNotifications',
@@ -95,7 +95,7 @@ export default async function execute(client: BotClient) {
 				"twitch: Twitch channel is now live, and we haven't notified yet. Notifying now..."
 			)
 			// We haven't notified for this live
-			await setKey(
+			await setGuildSetting(
 				guildId,
 				{
 					group: 'twitchNotifications',
@@ -110,7 +110,7 @@ export default async function execute(client: BotClient) {
 			}) // Notify for the live in the right channel
 			if (sentMessage.channel.type == 'GUILD_NEWS')
 				await sentMessage.crosspost()
-			await setKey(
+			await setGuildSetting(
 				guildId,
 				{
 					group: 'twitchNotifications',
@@ -119,7 +119,7 @@ export default async function execute(client: BotClient) {
 				}
 
 			) // Put the notification message id in db so we can edit the message later
-			await setKey(
+			await setGuildSetting(
 				guildId,
 				{
 					group: 'twitchNotifications',
@@ -130,7 +130,7 @@ export default async function execute(client: BotClient) {
 			) // Put the title into the db
 		} else {
 			// We've already notified for this live
-			const savedLiveIdentifier = await getKey(
+			const savedLiveIdentifier = await getGuildSetting(
 				guildId,
 				{
 					group: 'twitchNotifications',
@@ -143,7 +143,7 @@ export default async function execute(client: BotClient) {
 				return
 			} else {
 				// If not
-				await setKey(
+				await setGuildSetting(
 					guildId,
 					{
 						group: 'twitchNotifications',
@@ -152,7 +152,7 @@ export default async function execute(client: BotClient) {
 					}
 
 				)
-				const MessageId = await getKey(
+				const MessageId = await getGuildSetting(
 					guildId,
 					{
 						group: 'twitchNotifications',

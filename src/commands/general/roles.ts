@@ -6,7 +6,7 @@ import {
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from 'i18next'
-import { getKey } from '../../functions/db'
+import { getGuildSetting } from '../../functions/db'
 
 export const name = 'roles'
 export const description = 'Manages your self-assignable roles'
@@ -95,7 +95,7 @@ export async function executeSlash(
 	const roleId = interaction.options.getString('role')
 	const role = await interaction.guild.roles.fetch(roleId)
 	const allowedRoles: Array<string> =
-		(await getKey(
+		(await getGuildSetting(
 			interaction.guild.id,
 			{
 				group: 'assignableRoles',
@@ -185,7 +185,7 @@ export async function executeAutocomplete(
 	interaction: AutocompleteInteraction
 ) {
 	const allowedRoles: Array<string> =
-		(await getKey(
+		(await getGuildSetting(
 			interaction.guild.id,
 			{
 				group: 'assignableRoles',
