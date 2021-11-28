@@ -12,7 +12,7 @@ import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { registerSlashCommands } from '../../functions/registerCommands'
 import i18next from 'i18next'
-import { getKey, setKey, purgeCache } from '../../functions/db'
+import { getGuildSetting, setGuildSetting } from '../../functions/db'
 export const name = 'util'
 export const description = 'Various util commands'
 export const permissions: Permissions = ['OWNER']
@@ -99,25 +99,6 @@ export const slashData = new SlashCommandBuilder()
 							.setRequired(true)
 					)
 			)
-			.addSubcommand(command =>
-				command.setName('purgecache')
-					.setDescription('Purges the database cache of a particular key')
-					.addStringOption(option =>
-						option.setName('guildid')
-							.setDescription('Guild ID to purge the key in')
-							.setRequired(true)
-					)
-					.addStringOption(option =>
-						option.setName('group')
-							.setDescription('Group to purge the key in')
-							.setRequired(false)
-					)
-					.addStringOption(option =>
-						option.setName('key')
-							.setDescription('Key to purge')
-							.setRequired(false)
-					)
-			)
 	)
 	.addSubcommandGroup(group =>
 		group.setName('lookup')
@@ -191,19 +172,19 @@ export const slashData = new SlashCommandBuilder()
 					)
 			)
 	)
-function returnSetKeyEmbed(guildId: string, key: string, value: string) {
+function returnsetGuildSettingEmbed(guildId: string, key: string, value: string) {
 	const embed = new MessageEmbed()
-	embed.setTitle(i18next.t('setkey.SET_KEY'))
-	embed.setDescription(i18next.t('setkey.SUCCESSFULLY_SET_KEY'))
-	embed.addField(i18next.t('setkey.GUILD_ID'), guildId, true)
-	embed.addField(i18next.t('setkey.KEY'), key, true)
-	embed.addField(i18next.t('setkey.VALUE_SET'), value, true)
+	embed.setTitle(i18next.t('setGuildSetting.SET_KEY'))
+	embed.setDescription(i18next.t('setGuildSetting.SUCCESSFULLY_SET_KEY'))
+	embed.addField(i18next.t('setGuildSetting.GUILD_ID'), guildId, true)
+	embed.addField(i18next.t('setGuildSetting.KEY'), key, true)
+	embed.addField(i18next.t('setGuildSetting.VALUE_SET'), value, true)
 	embed.setTimestamp(Date.now())
 	return embed
 }
-function returnGetKeyEmbed(guild: string, key: string, valueReturned: string) {
+function returngetGuildSettingEmbed(guild: string, key: string, valueReturned: string) {
 	const embed = new MessageEmbed()
-	embed.setTitle('GetKey')
+	embed.setTitle('getGuildSetting')
 	embed.addField('Guild', guild, true)
 	embed.addField('Key', key, true)
 	embed.addField('Value', valueReturned, true)
@@ -225,26 +206,26 @@ export async function executeSlash(
 	switch (interaction.options.getSubcommandGroup()) {
 		case 'db': {
 			switch (interaction.options.getSubcommand()) {
-				case 'setkey': {
+				case 'setGuildSetting': {
 					const key = interaction.options.getString('key')
 					const guildId = interaction.options.getString('guildid')
 					const value = interaction.options.getString('value')
 					try {
-						await setKey(guildId, key, value)
+						await setGuildSetting(guildId, key, value)
 					} catch (err) {
 						const embed = new MessageEmbed()
 						embed.setDescription(i18next.t('general:UNKNOWN_ERROR'))
 						interaction.reply({ embeds: [embed] })
 					}
-					const embed = returnSetKeyEmbed(guildId, key, value)
+					const embed = returnsetGuildSettingEmbed(guildId, key, value)
 					interaction.reply({ embeds: [embed] })
 					break
 				}
-				case 'getkey': {
+				case 'getGuildSetting': {
 					const key = interaction.options.getString('key')
 					const guildId = interaction.options.getString('guildid')
-					const valueReturned = String(await getKey(guildId, key))
-					const embed = returnGetKeyEmbed(guildId, key, valueReturned)
+					const valueReturned = String(await getGuildSetting(guildId, key))
+					const embed = returngetGuildSettingEmbed(guildId, key, valueReturned)
 					interaction.reply({ embeds: [embed] })
 					break
 				}
@@ -254,13 +235,13 @@ export async function executeSlash(
 					const guildId = interaction.options.getString('guildid')
 					const value = interaction.options.getString('value')
 					try {
-						await setKey(guildId, { group: groupName, name: key, value: value })
+						await setGuildSetting(guildId, { group: groupName, name: key, value: value })
 					} catch (err) {
 						const embed = new MessageEmbed()
 						embed.setDescription(i18next.t('general:UNKNOWN_ERROR'))
 						interaction.reply({ embeds: [embed] })
 					}
-					const embed = returnSetKeyEmbed(guildId, `${groupName}/${key}`, value)
+					const embed = returnsetGuildSettingEmbed(guildId, `${groupName}/${key}`, value)
 					interaction.reply({ embeds: [embed] })
 					break
 				}
@@ -268,17 +249,10 @@ export async function executeSlash(
 					const key = interaction.options.getString('key')
 					const groupName = interaction.options.getString('group')
 					const guildId = interaction.options.getString('guildid')
-					const valueReturned = String(await getKey(guildId, { group: groupName, name: key }))
-					const embed = returnGetKeyEmbed(guildId, `${groupName}/${key}`, valueReturned)
+					const valueReturned = String(await getGuildSetting(guildId, { group: groupName, name: key }))
+					const embed = returngetGuildSettingEmbed(guildId, `${groupName}/${key}`, valueReturned)
 					interaction.reply({ embeds: [embed] })
 					break
-				}
-				case 'purgecache': {
-					const key = interaction.options.getString('key')
-					const groupName = interaction.options.getString('group')
-					const guildId = interaction.options.getString('guildid')
-					await purgeCache(guildId, { group: groupName, name: key })
-					interaction.reply({ content: `Successfully purged the cache of \`${groupName ? groupName + '/' + name : name}\`` })
 				}
 			}
 			break

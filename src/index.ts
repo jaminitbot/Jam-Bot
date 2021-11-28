@@ -21,7 +21,7 @@ import {
 } from "./functions/registerCommands"
 // Misc Scripts
 import sendTwitchNotifications from "./cron/twitch"
-import { connect, returnRawClient } from "./functions/db"
+import { connect } from "./functions/db"
 import { saveLogger, stopBot, removeItemFromArray } from "./functions/util"
 import { processTasks } from "./functions/mod"
 import { initTranslations } from "./functions/locales"
@@ -140,10 +140,10 @@ import { incrementEventsCounter, initProm, saveClientPing } from "./functions/me
 	registerEvents(client)
 	// Database connections
 	logger.verbose("Connecting to database...")
-	const db = await connect(logger)
+	const db = await connect()
 	if (!db) {
 		logger.error("DB not found")
-		await stopBot(client, null, 1)
+		await stopBot(client, 1)
 	}
 	// Events
 	client.on("guildCreate", (guild) => {
@@ -171,7 +171,7 @@ import { incrementEventsCounter, initProm, saveClientPing } from "./functions/me
 	})
 	client.on("invalidated", function () {
 		logger.error("Client invalidated, quitting...")
-		stopBot(client, returnRawClient(), 1)
+		stopBot(client, 1)
 	})
 	client.on("guildUnavailable", (guild) => {
 		logger.warn(`Guild ${guild.id} has gone offline.`)
@@ -207,7 +207,7 @@ import { incrementEventsCounter, initProm, saveClientPing } from "./functions/me
 	process.on("SIGINT", function () {
 		// Shutdown stuff nicely
 		logger.debug("SIGINT received, stopping bot")
-		stopBot(client, returnRawClient())
+		stopBot(client)
 	})
 	logger.verbose('Starting prom client')
 	initProm()

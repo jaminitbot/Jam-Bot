@@ -1,6 +1,6 @@
 import { BotClient } from '../customDefinitions'
 import { Interaction } from 'discord.js'
-import { getKey } from '../functions/db'
+import { getGuildSetting } from '../functions/db'
 import { capitaliseSentence, checkPermissions } from '../functions/util'
 import {
 	getErrorMessage,
@@ -88,7 +88,7 @@ export async function register(client: BotClient, interaction: Interaction) {
 		// Is a slash command
 		if (typeof command.executeSlash != 'function') {
 			const prefix =
-				(await getKey(guildId, 'prefix')) || process.env.defaultPrefix
+				(await getGuildSetting(guildId, 'prefix')) || process.env.defaultPrefix
 			interaction.reply({
 				content: i18next.t(
 					'events:interactionCreate.SLASH_FUNCTION_NULL',

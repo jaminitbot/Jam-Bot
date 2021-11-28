@@ -1,11 +1,11 @@
 import { GuildMember, Message, Guild, Channel, Role, GuildChannel, ThreadChannel } from 'discord.js'
-import { MongoClient } from 'mongodb'
 import { BotClient, Permission } from '../customDefinitions'
 import { getInvalidPermissionsMessage } from './messages'
 import is_number = require('is-number')
 import { request } from 'undici'
 import { Logger } from 'winston'
 import i18next from 'i18next'
+import db from './db'
 
 /**
  * Checks permissions against a guild member
@@ -37,7 +37,6 @@ export function checkPermissions(
  */
 export async function stopBot(
 	client: BotClient | null,
-	mongoClient: MongoClient | null,
 	stopCode = 0
 ): Promise<void> {
 	try {
@@ -48,9 +47,7 @@ export async function stopBot(
 			)
 			client.destroy()
 		}
-		if (mongoClient) {
-			await mongoClient.close()
-		}
+		await db.$disconnect()
 		process.exit(stopCode)
 	} catch {
 		process.exit()

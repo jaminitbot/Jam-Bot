@@ -2,8 +2,8 @@ import { CommandInteraction, Message } from "discord.js"
 import { BotClient, Permissions } from "../../customDefinitions"
 import { SlashCommandBuilder } from "@discordjs/builders"
 import {
-	setKey,
-	getKey,
+	setGuildSetting,
+	getGuildSetting,
 } from "../../functions/db"
 import { booleanToHuman, removeItemFromArray } from "../../functions/util"
 import i18next from "i18next"
@@ -202,7 +202,7 @@ export async function executeSlash(
 			const newPrefix = interaction.options.getString("prefix")
 			if (!newPrefix) {
 				const currentPrefix =
-					(await getKey(interaction.guild.id, "prefix")) ??
+					(await getGuildSetting(interaction.guild.id, "prefix")) ??
 					process.env.defaultPrefix
 				interaction.reply({
 					content: i18next.t("settings.CURRENT_PREFIX", {
@@ -219,7 +219,7 @@ export async function executeSlash(
 					ephemeral: true,
 				})
 			} else {
-				await setKey(interaction.guild.id, "prefix", newPrefix)
+				await setGuildSetting(interaction.guild.id, "prefix", newPrefix)
 				interaction.reply({
 					content: i18next.t("settings.SET_PREFIX_SUCCESS", {
 						prefix: newPrefix,
@@ -233,7 +233,7 @@ export async function executeSlash(
 			const newSuggestionsChannel =
 				interaction.options.getChannel("channel")
 			if (!newSuggestionsChannel) {
-				const currentSuggestionChannelId = await getKey(
+				const currentSuggestionChannelId = await getGuildSetting(
 					interaction.guild.id,
 					{
 						group: "suggestions",
@@ -261,7 +261,7 @@ export async function executeSlash(
 					ephemeral: true,
 				})
 			} else {
-				await setKey(
+				await setGuildSetting(
 					interaction.guild.id,
 					{
 						group: "suggestions",
@@ -269,7 +269,7 @@ export async function executeSlash(
 						value: newChannel.id
 					}
 				)
-				await setKey(
+				await setGuildSetting(
 					interaction.guild.id,
 					{
 						group: "suggestions",
@@ -291,7 +291,7 @@ export async function executeSlash(
 				interaction.reply(
 					i18next.t("settings.SUGGESTIONS_ENABLED_DISABLED_CURRENT", {
 						toggle: booleanToHuman(
-							await getKey(
+							await getGuildSetting(
 								interaction.guild.id,
 								{
 									group: "suggestions",
@@ -304,7 +304,7 @@ export async function executeSlash(
 				)
 				return
 			}
-			await setKey(
+			await setGuildSetting(
 				interaction.guild.id,
 				{
 					group: "suggestions",
@@ -335,7 +335,7 @@ export async function executeSlash(
 				!serverChannelRaw &&
 				!joinLeavesChannelRaw
 			) {
-				const currentMainChannelId = await getKey(
+				const currentMainChannelId = await getGuildSetting(
 					interaction.guild.id,
 					{
 						group: "modlog",
@@ -345,7 +345,7 @@ export async function executeSlash(
 				const currentMainChannelMentioned = currentMainChannelId
 					? `<#${currentMainChannelId}>`
 					: "Not Set"
-				const currentMessagesChannelId = await getKey(
+				const currentMessagesChannelId = await getGuildSetting(
 					interaction.guild.id,
 					{
 						group: "modlog",
@@ -355,7 +355,7 @@ export async function executeSlash(
 				const currentMessagesChannelMentioned = currentMessagesChannelId
 					? `<#${currentMessagesChannelId}>`
 					: "Not Set"
-				const currentMembersChannelId = await getKey(
+				const currentMembersChannelId = await getGuildSetting(
 					interaction.guild.id,
 					{
 						group: "modlog",
@@ -365,7 +365,7 @@ export async function executeSlash(
 				const currentMembersChannelMentioned = currentMembersChannelId
 					? `<#${currentMembersChannelId}>`
 					: "Not Set"
-				const currentServerChannelId = await getKey(
+				const currentServerChannelId = await getGuildSetting(
 					interaction.guild.id,
 					{
 						group: "modlog",
@@ -375,7 +375,7 @@ export async function executeSlash(
 				const currentServerChannelMentioned = currentServerChannelId
 					? `<#${currentServerChannelId}>`
 					: "Not Set"
-				const currentJoinLeavesChannelId = await getKey(
+				const currentJoinLeavesChannelId = await getGuildSetting(
 					interaction.guild.id,
 					{
 						group: "modlog",
@@ -426,7 +426,7 @@ export async function executeSlash(
 							{ modLogType: "default" }
 						)
 					} else {
-						await setKey(
+						await setGuildSetting(
 							interaction.guild.id,
 							{
 								group: "modlog",
@@ -456,7 +456,7 @@ export async function executeSlash(
 								modLogType: "message",
 							})
 					} else {
-						await setKey(
+						await setGuildSetting(
 							interaction.guild.id,
 							{
 								group: "modlog",
@@ -465,7 +465,7 @@ export async function executeSlash(
 							}
 
 						)
-						await setKey(
+						await setGuildSetting(
 							interaction.guild.id,
 							{
 								group: "modlog",
@@ -493,7 +493,7 @@ export async function executeSlash(
 								modLogType: "member",
 							})
 					} else {
-						await setKey(
+						await setGuildSetting(
 							interaction.guild.id,
 							{
 								group: "modlog",
@@ -501,7 +501,7 @@ export async function executeSlash(
 								value: newMembersChannel.id
 							}
 						)
-						await setKey(
+						await setGuildSetting(
 							interaction.guild.id,
 							{
 								group: "modlog",
@@ -529,7 +529,7 @@ export async function executeSlash(
 								modLogType: "server",
 							})
 					} else {
-						await setKey(
+						await setGuildSetting(
 							interaction.guild.id,
 							{
 								group: "modlog",
@@ -538,7 +538,7 @@ export async function executeSlash(
 							}
 
 						)
-						await setKey(
+						await setGuildSetting(
 							interaction.guild.id,
 							{
 								group: "modlog",
@@ -567,7 +567,7 @@ export async function executeSlash(
 								modLogType: "join/leaves",
 							})
 					} else {
-						await setKey(
+						await setGuildSetting(
 							interaction.guild.id,
 							{
 								group: "modlog",
@@ -576,7 +576,7 @@ export async function executeSlash(
 							}
 
 						)
-						await setKey(
+						await setGuildSetting(
 							interaction.guild.id,
 							{
 								group: "modlog",
@@ -608,7 +608,7 @@ export async function executeSlash(
 				typeof logJoinLeaves != "boolean"
 			) {
 				const currentlogMessagesSetting =
-					(await getKey(
+					(await getGuildSetting(
 						interaction.guild.id,
 						{
 							group: "modlog",
@@ -617,7 +617,7 @@ export async function executeSlash(
 
 					)) ?? false
 				const currentLogMembersSetting =
-					(await getKey(
+					(await getGuildSetting(
 						interaction.guild.id,
 						{
 							group: "modlog",
@@ -625,7 +625,7 @@ export async function executeSlash(
 						}
 					)) ?? false
 				const currentLogServerSetting =
-					(await getKey(
+					(await getGuildSetting(
 						interaction.guild.id,
 						{
 							group: "modlog",
@@ -634,7 +634,7 @@ export async function executeSlash(
 
 					)) ?? false
 				const currentLogJoinLeavesSetting =
-					(await getKey(
+					(await getGuildSetting(
 						interaction.guild.id,
 						{
 							group: "modlog",
@@ -684,7 +684,7 @@ export async function executeSlash(
 			} else {
 				let response = ""
 				if (typeof logMessages == "boolean") {
-					await setKey(
+					await setGuildSetting(
 						interaction.guild.id,
 						{
 							group: "modlog",
@@ -702,7 +702,7 @@ export async function executeSlash(
 					)
 				}
 				if (typeof logMembers == "boolean") {
-					await setKey(
+					await setGuildSetting(
 						interaction.guild.id,
 						{
 							group: "modlog",
@@ -721,7 +721,7 @@ export async function executeSlash(
 						)
 				}
 				if (typeof logServer == "boolean") {
-					await setKey(
+					await setGuildSetting(
 						interaction.guild.id,
 						{
 							group: "modlog",
@@ -741,7 +741,7 @@ export async function executeSlash(
 						)
 				}
 				if (typeof logJoinLeaves == "boolean") {
-					await setKey(
+					await setGuildSetting(
 						interaction.guild.id,
 						{
 							group: "modlog",
@@ -765,7 +765,7 @@ export async function executeSlash(
 			}
 		}
 	} else if (subCommandGroup == "roles") {
-		let allowedRoles: Array<string> = await getKey(
+		let allowedRoles: Array<string> = await getGuildSetting(
 			interaction.guild.id,
 			{
 				group: "assignableRoles",
@@ -797,7 +797,7 @@ export async function executeSlash(
 				})
 			}
 			allowedRoles.push(role.id)
-			await setKey(
+			await setGuildSetting(
 				interaction.guild.id,
 				{
 					group: "assignableRoles",
@@ -822,7 +822,7 @@ export async function executeSlash(
 				})
 			}
 			allowedRoles = removeItemFromArray(allowedRoles, role.id)
-			await setKey(
+			await setGuildSetting(
 				interaction.guild.id,
 				{
 					group: "assignableRoles",

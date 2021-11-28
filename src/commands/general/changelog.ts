@@ -2,11 +2,10 @@ import { CommandInteraction, Message, MessageEmbed } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { request } from 'undici'
-import NodeCache from 'node-cache'
 import { Logger } from 'winston'
 import Sentry from '../../functions/sentry'
 import i18next from 'i18next'
-const cache = new NodeCache({ stdTTL: 600, checkperiod: 60 })
+const cache = new Map()
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function generateDateFromEntry(entry: Record<string, any>) {

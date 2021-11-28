@@ -1,9 +1,10 @@
 import { Channel, Guild, GuildMember, MessageOptions } from 'discord.js'
 import { BotClient } from '../customDefinitions'
-import { getKey, returnRawClient } from './db'
+import { getGuildSetting } from './db'
 import ms from 'ms'
 import is_number from 'is-number'
 import { capitaliseSentence } from './util'
+import db from '../functions/db'
 
 type TaskType = 'UNMUTE' | 'UNBAN'
 /**
@@ -52,7 +53,7 @@ export async function postToModlog(
 	messageContent: string | MessageOptions,
 	logType: LogType
 ) {
-	const shouldLog = await getKey(
+	const shouldLog = await getGuildSetting(
 		guildId,
 		{
 			group: 'modlog',
@@ -60,7 +61,7 @@ export async function postToModlog(
 		}
 	)
 	if (!shouldLog) return 5
-	let channelId = await getKey(
+	let channelId = await getGuildSetting(
 		guildId,
 		{
 			group: 'modlog',
@@ -68,7 +69,7 @@ export async function postToModlog(
 		}
 	)
 	if (!channelId) {
-		channelId = await getKey(guildId, { group: 'modlog', name: 'mainChannelId' })
+		channelId = await getGuildSetting(guildId, { group: 'modlog', name: 'mainChannelId' })
 		if (!channelId) return 4
 	}
 	let channel: Channel
@@ -94,15 +95,15 @@ async function scheduleTask(
 	type: TaskType,
 	duration: number
 ) {
-	const collection = returnRawClient()
-		.db(process.env.databaseName)
-		.collection('tasks')
+
 	try {
-		await collection.insertOne({
-			guildId: guildId,
-			targetId: targetId,
-			type: type,
-			time: Date.now() + duration,
+		db.modlogTask.create({
+			data: {
+				guildId: guildId,
+				targetId: targetId,
+				type: type,
+				time: Date.now() + duration
+			}
 		})
 	} catch {
 		return 1
@@ -111,37 +112,43 @@ async function scheduleTask(
 }
 
 export async function processTasks(client: BotClient) {
-	const collection = returnRawClient()
-		.db(process.env.databaseName)
-		.collection('tasks')
-	// @ts-expect-error
-	collection.find().forEach(async (task) => {
-		if (task.time < Date.now()) {
-			const guild = await client.guilds.fetch(task.guildId)
-			if (guild) {
-				switch (task.type) {
-					case 'UNMUTE':
-						if (guild.me.permissions.has('MANAGE_ROLES')) {
-							unmute(
-								guild,
-								task.targetId,
-								'Automatically unmuted'
-							)
-						}
-						break
-					case 'UNBAN':
-						if (guild.me.permissions.has('BAN_MEMBERS')) {
-							unban(
-								guild,
-								task.targetId,
-								'Automatically unbanned'
-							)
-						}
-						break
-				}
+
+	const tasks = await db.modlogTask.findMany({
+		where: {
+			time: {
+				lt: Date.now()
 			}
-			collection.deleteOne({ _id: task._id })
 		}
+	})
+	tasks.forEach(async (task) => {
+		const guild = await client.guilds.fetch(task.guildId)
+		if (guild) {
+			switch (task.type) {
+				case 'UNMUTE':
+					if (guild.me.permissions.has('MANAGE_ROLES')) {
+						unmute(
+							guild,
+							task.targetId,
+							'Automatically unmuted'
+						)
+					}
+					break
+				case 'UNBAN':
+					if (guild.me.permissions.has('BAN_MEMBERS')) {
+						unban(
+							guild,
+							task.targetId,
+							'Automatically unbanned'
+						)
+					}
+					break
+			}
+		}
+		db.modlogTask.delete({
+			where: {
+				id: task.id
+			}
+		})
 	})
 }
 /**

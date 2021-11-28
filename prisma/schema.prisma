@@ -1,0 +1,29 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("mongoUrl")
+}
+
+model guildSetting {
+  id      String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  guildId String @unique
+  prefix String?
+  suggestions Json?
+  modlog  Json?
+  twitchNotifications Json?
+  assignableRoles Json?
+  @@map("guild_settings")
+}
+
+model modlogTask {
+  id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  guildId String
+  type String
+  targetId String
+  time BigInt
+  @@map("modlog_tasks")
+}

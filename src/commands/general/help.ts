@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
-import { getKey } from '../../functions/db'
+import { getGuildSetting } from '../../functions/db'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { isBotOwner } from '../../functions/util'
 import i18next from 'i18next'
@@ -90,7 +90,7 @@ export async function execute(
 	const commandToFind = String(args[0])
 	const guildId = message.guild ? message.guild.id : 0
 	const prefix =
-		(await getKey(guildId, 'prefix')) || process.env.defaultPrefix
+		(await getGuildSetting(guildId, 'prefix')) || process.env.defaultPrefix
 	const embed = await returnHelpEmbed(
 		client,
 		commandToFind,

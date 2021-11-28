@@ -3,7 +3,7 @@ import {
 	checkPermissions,
 	returnInvalidPermissionMessage,
 } from '../functions/util'
-import { getKey } from '../functions/db'
+import { getGuildSetting } from '../functions/db'
 import { BotClient } from '../customDefinitions'
 import { Message, MessageEmbed } from 'discord.js'
 import { getErrorMessage } from '../functions/messages'
@@ -20,7 +20,7 @@ export async function register(client: BotClient, message: Message) {
 	if (bannedIds.includes(message.author.id)) return
 	const guildId = message.guild ? message.guild.id : 0
 	const prefix =
-		(await getKey(guildId, 'prefix')) || process.env.defaultPrefix
+		(await getGuildSetting(guildId, 'prefix')) || process.env.defaultPrefix
 	const args = message.content.slice(prefix.length).trim().split(/ +/)
 	const commandRequested = args.shift().toLowerCase()
 	const command =
