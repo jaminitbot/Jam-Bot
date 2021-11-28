@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.14.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.14.0...v2.14.1) (2021-11-28)
+
+
+### Bug Fixes
+
+* prisma client docker ([afef61e](https://github.com/jaminitbot/Jam-Bot/commit/afef61e7f804d623e347a0865ed7d7e60ffbb46e))
+
 ## [2.14.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.13.3...v2.14.0) (2021-11-28)
 
 
