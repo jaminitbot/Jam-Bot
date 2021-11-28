@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.14.2](https://github.com/jaminitbot/Jam-Bot/compare/v2.14.1...v2.14.2) (2021-11-28)
+
+
+### Bug Fixes
+
+* fix docker build ([27da358](https://github.com/jaminitbot/Jam-Bot/commit/27da358d5452d2d9fceb3aa8627f27290b5a5d28))
+
 ### [2.14.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.14.0...v2.14.1) (2021-11-28)
 
 
