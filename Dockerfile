@@ -6,4 +6,5 @@ RUN pnpm install && pnpm install -g typescript
 RUN tsc
 RUN rm -r node_modules
 RUN NODE_ENV=production pnpm install
+RUN pnpm prisma generate
 CMD pnpm start
