@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.14.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.13.3...v2.14.0) (2021-11-28)
+
+
+### Features
+
+* prisma client ([#90](https://github.com/jaminitbot/Jam-Bot/issues/90)) ([dd23ea2](https://github.com/jaminitbot/Jam-Bot/commit/dd23ea208640eea36a6d058e48617a2e43bcf7f8))
+
 ### [2.13.3](https://github.com/jaminitbot/Jam-Bot/compare/v2.13.2...v2.13.3) (2021-11-20)
 
 
