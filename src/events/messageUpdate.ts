@@ -54,6 +54,6 @@ export async function register(
     )
     embed.setTimestamp(Date.now())
     embed.setColor('#61C9A8')
-    postToModlog(client, newMessage.guild.id, {embeds: [embed]}, 'messages')
+    await postToModlog(client, newMessage.guild.id, {embeds: [embed]}, 'messages')
     //#endregion
 }

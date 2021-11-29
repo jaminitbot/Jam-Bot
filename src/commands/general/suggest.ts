@@ -77,7 +77,7 @@ async function sendSuggestion(
     const suggestionMessage = await suggestionChannel.send({embeds: [embed]})
     try {
         await suggestionMessage.react('✅')
-        suggestionMessage.react('❌')
+        await suggestionMessage.react('❌')
     } catch {
         // Code
     }
@@ -85,8 +85,8 @@ async function sendSuggestion(
 }
 
 export async function execute(client: BotClient, message: Message, args: Array<unknown>) {
-    if (!args[0]) return message.reply(i18next.t('NO_ARGUMENTS_SPECFIED'))
-    message.delete()
+    if (!args[0]) return message.reply(i18next.t('suggest.NO_ARGUMENTS_SPECIFIED'))
+    await message.delete()
     const suggestionDescription = args.join(' ')
     const attachment = message.attachments.first()
         ? message.attachments.first().url
@@ -113,5 +113,5 @@ export async function executeSlash(
         null,
         interaction.user
     )
-    interaction.reply({content: result, ephemeral: true})
+    await interaction.reply({content: result, ephemeral: true})
 }

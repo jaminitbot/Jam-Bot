@@ -66,7 +66,7 @@ export async function executeSlash(
         await interaction.guild.bans.fetch(targetUser.id)
     } catch (err) {
         if (String(err).includes('Unknown Ban')) {
-            interaction.reply({
+            await interaction.reply({
                 content: i18next.t('unban.TARGET_USER_NOT_BANNED', {
                     tag: targetUser.tag,
                 }),
@@ -74,7 +74,7 @@ export async function executeSlash(
             })
             return
         } else {
-            interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
+            await interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
             client.logger.warn('Unknown error when fetching bans: ' + err)
             return
         }
@@ -88,7 +88,7 @@ export async function executeSlash(
         formattedReason
     )
     if (banResult == 0) {
-        interaction.reply({
+        await interaction.reply({
             content: i18next.t('mod.ACTION_SUCCESSFUL', {
                 tag: targetUser.tag,
                 action: 'unbanned',
@@ -97,6 +97,6 @@ export async function executeSlash(
             allowedMentions: {parse: []},
         })
     } else {
-        interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
+        await interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
     }
 }

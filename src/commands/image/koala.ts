@@ -31,5 +31,5 @@ export async function executeSlash(
     interaction: CommandInteraction
 ) {
     await interaction.deferReply()
-    interaction.editReply(await getKoalaImage())
+    await interaction.editReply(await getKoalaImage())
 }

@@ -32,5 +32,5 @@ export async function executeSlash(
     interaction: CommandInteraction
 ) {
     await interaction.deferReply()
-    interaction.editReply(await returnBirdUrl())
+    await interaction.editReply(await returnBirdUrl())
 }

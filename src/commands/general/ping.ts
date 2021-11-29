@@ -39,7 +39,7 @@ export async function execute(client: BotClient, message: Message, args: Array<u
             ),
         ],
     })
-    message.react('🏓')
+    await message.react('🏓')
 }
 
 export async function executeSlash(
@@ -53,5 +53,5 @@ export async function executeSlash(
         reply.createdTimestamp,
         client
     )
-    interaction.editReply({embeds: [embed]})
+    await interaction.editReply({embeds: [embed]})
 }

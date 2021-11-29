@@ -18,5 +18,5 @@ export async function register(client: BotClient, member: GuildMember) {
     embed.setFooter(i18next.t('events:userLogs.USER_ID', {id: member.id}))
     embed.setTimestamp(Date.now())
     embed.setColor('#A8201A')
-    postToModlog(client, member.guild.id, {embeds: [embed]}, 'joinLeaves')
+    await postToModlog(client, member.guild.id, {embeds: [embed]}, 'joinLeaves')
 }

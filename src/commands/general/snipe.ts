@@ -24,7 +24,7 @@ function returnSnipesEmbed(
     const embed = new MessageEmbed()
     let ed
     if (type) {
-        ed = type.endsWith('e') ? type.substr(0, type.length - 1) : type
+        ed = type.endsWith('e') ? type.substring(0, type.length - 1) : type
         embed.setTitle(
             i18next.t('snipe.SNIPE_TITLE', {
                 context: 'SPECIFIC',
@@ -43,7 +43,7 @@ function returnSnipesEmbed(
             if (embed.fields.length == 24) {
                 // Discord api limitation
                 embed.addField(
-                    i18next.t('snipe.EMBED_LIMIT_REACHED_BREIF'),
+                    i18next.t('snipe.EMBED_LIMIT_REACHED_BRIEF'),
                     i18next.t('snipe.EMBED_LIMIT_REACHED_DESCRIPTION')
                 )
                 break

@@ -93,7 +93,7 @@ export async function executeSlash(
     )
     if (banResult == 0) {
         if (duration) {
-            interaction.reply({
+            await interaction.reply({
                 content: i18next.t('mod.ACTION_SUCCESSFUL_WITH_DURATION', {
                     tag: targetUser.tag,
                     action: 'banned',
@@ -103,7 +103,7 @@ export async function executeSlash(
                 allowedMentions: {parse: []},
             })
         } else {
-            interaction.reply({
+            await interaction.reply({
                 content: i18next.t('mod.ACTION_SUCCESSFUL', {
                     tag: targetUser.tag,
                     action: 'banned',
@@ -113,6 +113,6 @@ export async function executeSlash(
             })
         }
     } else {
-        interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
+        await interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
     }
 }

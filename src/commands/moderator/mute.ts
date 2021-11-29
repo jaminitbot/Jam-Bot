@@ -99,7 +99,7 @@ export async function executeSlash(
     )
     if (muteResult == 0) {
         if (duration) {
-            interaction.reply({
+            await interaction.reply({
                 content: i18next.t('mod.ACTION_SUCCESSFUL_WITH_DURATION', {
                     tag: targetUser.tag,
                     action: 'muted',
@@ -109,7 +109,7 @@ export async function executeSlash(
                 allowedMentions: {parse: []},
             })
         } else {
-            interaction.reply({
+            await interaction.reply({
                 content: i18next.t('mod.ACTION_SUCCESSFUL', {
                     tag: targetUser.tag,
                     action: 'muted',
@@ -119,11 +119,11 @@ export async function executeSlash(
             })
         }
     } else if (muteResult == 3) {
-        interaction.reply({
+        await interaction.reply({
             content: i18next.t('mute.NO_MUTED_ROLE'),
             ephemeral: true,
         })
     } else {
-        interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
+        await interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
     }
 }

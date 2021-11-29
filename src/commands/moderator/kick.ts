@@ -86,7 +86,7 @@ export async function executeSlash(
         formattedReason
     )
     if (kickResult == 0) {
-        interaction.reply({
+        await interaction.reply({
             content: i18next.t('mod.ACTION_SUCCESSFUL', {
                 tag: targetUser.tag,
                 action: 'kicked',
@@ -95,6 +95,6 @@ export async function executeSlash(
             allowedMentions: {parse: []},
         }) //
     } else {
-        interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
+        await interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
     }
 }

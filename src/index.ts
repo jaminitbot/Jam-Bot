@@ -12,7 +12,7 @@ import { scheduleJob } from 'node-schedule'
 import { registerCommands, registerEvents, } from './functions/registerCommands'
 // Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
-import { connect } from './functions/db'
+import db from './functions/db'
 import { removeItemFromArray, saveLogger, stopBot } from './functions/util'
 import { processTasks } from './functions/mod'
 import { initTranslations } from './functions/locales'
@@ -80,7 +80,7 @@ import { incrementEventsCounter, initProm, saveClientPing } from './functions/me
                 embed.addField(String(data.level).toUpperCase(), data.message)
                 loggerBuffer.push(data.message)
                 try {
-                    loggerWebhookClient.send({
+                    await loggerWebhookClient.send({
                         username: client.user.username,
                         avatarURL: client.user.avatarURL(),
                         embeds: [embed],
@@ -124,7 +124,7 @@ import { incrementEventsCounter, initProm, saveClientPing } from './functions/me
     const client: BotClient = new Client(clientOptions)
     client.logger = logger
     logger.verbose('Registering translations...')
-    initTranslations()
+    await initTranslations()
     // Registers all the commands in the commands folder
     // https://discordjs.guide/command-handling/dynamic-commands.html#how-it-works
     logger.verbose('Registering commands...')
@@ -133,8 +133,8 @@ import { incrementEventsCounter, initProm, saveClientPing } from './functions/me
     registerEvents(client)
     // Database connections
     logger.verbose('Connecting to database...')
-    const db = await connect()
-    if (!db) {
+    const database = db.$connect()
+    if (!database) {
         logger.error('DB not found')
         await stopBot(client, 1)
     }
@@ -203,7 +203,7 @@ import { incrementEventsCounter, initProm, saveClientPing } from './functions/me
         stopBot(client)
     })
     logger.verbose('Starting prom client')
-    initProm()
+    await initProm()
     // Initialisation
     client.on('ready', async () => {
         logger.info('Bot is READY')

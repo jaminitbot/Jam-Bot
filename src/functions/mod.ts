@@ -129,7 +129,7 @@ export async function processTasks(client: BotClient) {
             switch (task.type) {
                 case 'UNMUTE':
                     if (guild.me.permissions.has('MANAGE_ROLES')) {
-                        unmute(
+                        await unmute(
                             guild,
                             task.targetId,
                             'Automatically unmuted'
@@ -138,7 +138,7 @@ export async function processTasks(client: BotClient) {
                     break
                 case 'UNBAN':
                     if (guild.me.permissions.has('BAN_MEMBERS')) {
-                        unban(
+                        await unban(
                             guild,
                             task.targetId,
                             'Automatically unbanned'

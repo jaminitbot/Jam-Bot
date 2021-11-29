@@ -23,7 +23,7 @@ export async function generateGuildInfoEmbed(guild: Guild) {
 
 export async function register(client: BotClient, guild: Guild) {
     if (guild.id == process.env.devServerId) {
-        registerSlashCommands(client)
+        await registerSlashCommands(client)
     }
     if (!process.env.guildLogChannel) return
     const channel = await guild.client.channels.fetch(

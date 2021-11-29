@@ -19,14 +19,6 @@ export const slashData = new SlashCommandBuilder()
             .setDescription('The number of messages to delete')
             .setRequired(true)
     )
-export const slashCommandOptions = [
-    {
-        name: 'number',
-        type: 'INTEGER',
-        description: 'The number of messages to purge',
-        required: true,
-    },
-]
 
 async function bulkDeleteMessages(
     channel: TextBasedChannels,
@@ -59,7 +51,7 @@ export async function execute(
     if (!args[0])
         return message.reply(i18next.t('purge.NO_ARGUMENTS_SPECIFIED'))
     if (!isNumber(args[0])) {
-        message.reply(i18next.t('purge.DELETE_COUNT_INVALID'))
+        await message.reply(i18next.t('purge.DELETE_COUNT_INVALID'))
         return
     }
     await message.delete()

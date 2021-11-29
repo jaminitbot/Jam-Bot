@@ -72,7 +72,7 @@ export async function executeSlash(
     client: BotClient,
     interaction: CommandInteraction
 ) {
-    interaction.reply(
+    await interaction.reply(
         `<https://youtu.be/${rickRollCodes[randomInt(0, rickRollCodes.length - 1)]
         }>`
     )

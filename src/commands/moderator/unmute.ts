@@ -80,7 +80,7 @@ export async function executeSlash(
         formattedReason
     )
     if (unmuteResult == 0) {
-        interaction.reply({
+        await interaction.reply({
             content: i18next.t('mod.ACTION_SUCCESSFUL', {
                 tag: targetUser.tag,
                 action: 'unmuted',
@@ -89,17 +89,17 @@ export async function executeSlash(
             allowedMentions: {parse: []},
         })
     } else if (unmuteResult == 3) {
-        interaction.reply({
+        await interaction.reply({
             content: i18next.t('mute.NO_MUTED_ROLE'),
             ephemeral: true,
         })
     } else if (unmuteResult == 4) {
-        interaction.reply({
+        await interaction.reply({
             content: i18next.t('unmute.USER_NOT_MUTED'),
             ephemeral: true,
         })
     } else {
-        interaction.reply({
+        await interaction.reply({
             content: i18next.t('general:UNKNOWN_ERROR'),
             ephemeral: true,
         })

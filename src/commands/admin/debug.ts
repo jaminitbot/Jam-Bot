@@ -71,5 +71,5 @@ export async function executeSlash(
         client.ws.ping,
         interaction.guild.id
     )
-    interaction.editReply({embeds: [embed]})
+    await interaction.editReply({embeds: [embed]})
 }

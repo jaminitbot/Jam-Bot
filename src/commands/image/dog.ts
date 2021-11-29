@@ -65,5 +65,5 @@ export async function executeSlash(
 ) {
     await interaction.deferReply()
     const breed = interaction.options.getString('breed') ?? null
-    interaction.editReply(await getDogPhoto(breed))
+    await interaction.editReply(await getDogPhoto(breed))
 }

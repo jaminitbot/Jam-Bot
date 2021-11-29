@@ -42,7 +42,7 @@ export async function register(client: BotClient, interaction: Interaction) {
             interaction.isContextMenu() ||
             interaction.isSelectMenu()
         ) {
-            interaction.reply(
+            await interaction.reply(
                 i18next.t('events:interactionCreate.DISABLED_IN_DMS')
             )
         }
@@ -88,7 +88,7 @@ export async function register(client: BotClient, interaction: Interaction) {
         if (typeof command.executeSlash != 'function') {
             const prefix =
                 (await getGuildSetting(guildId, 'prefix')) || process.env.defaultPrefix
-            interaction.reply({
+            await interaction.reply({
                 content: i18next.t(
                     'events:interactionCreate.SLASH_FUNCTION_NULL',
                     {prefix: prefix, command: command.name}
@@ -113,7 +113,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 try {
                     if (interaction.deferred) {
                         try {
-                            interaction.editReply({
+                            await interaction.editReply({
                                 content: getErrorMessage(),
                             })
                             // eslint-disable-next-line no-empty
@@ -121,7 +121,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                         }
                     } else {
                         try {
-                            interaction.reply({content: getErrorMessage()})
+                            await interaction.reply({content: getErrorMessage()})
                             // eslint-disable-next-line no-empty
                         } catch {
                         }
@@ -146,7 +146,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 name: capitaliseSentence(command.name) + ' Command',
             })
             try {
-                command.executeButton(client, interaction)
+                await command.executeButton(client, interaction)
             } catch (error) {
                 Sentry.captureException(error)
                 // Error running command
@@ -167,7 +167,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 name: capitaliseSentence(command.name) + ' Command',
             })
             try {
-                command.executeContextMenu(client, interaction)
+                await command.executeContextMenu(client, interaction)
             } catch (error) {
                 // Error running command
                 client.logger.error(
@@ -187,7 +187,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 name: capitaliseSentence(command.name) + ' Command',
             })
             try {
-                command.executeAutocomplete(client, interaction)
+                await command.executeAutocomplete(client, interaction)
             } catch (error) {
                 // Error running command
                 client.logger.error(
@@ -207,7 +207,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                 name: capitaliseSentence(command.name) + ' Command',
             })
             try {
-                command.executeSelectMenu(client, interaction)
+                await command.executeSelectMenu(client, interaction)
             } catch (error) {
                 // Error running command
                 client.logger.error(

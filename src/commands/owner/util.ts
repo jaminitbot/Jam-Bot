@@ -210,10 +210,11 @@ export async function executeSlash(
                     } catch (err) {
                         const embed = new MessageEmbed()
                         embed.setDescription(i18next.t('general:UNKNOWN_ERROR'))
-                        interaction.reply({embeds: [embed]})
+                        await interaction.reply({embeds: [embed]})
+                        return
                     }
                     const embed = returnsetGuildSettingEmbed(guildId, key, value)
-                    interaction.reply({embeds: [embed]})
+                    await interaction.reply({embeds: [embed]})
                     break
                 }
                 case 'getGuildSetting': {
@@ -221,7 +222,7 @@ export async function executeSlash(
                     const guildId = interaction.options.getString('guildid')
                     const valueReturned = String(await getGuildSetting(guildId, key))
                     const embed = returngetGuildSettingEmbed(guildId, key, valueReturned)
-                    interaction.reply({embeds: [embed]})
+                    await interaction.reply({embeds: [embed]})
                     break
                 }
                 case 'setgroupedkey': {
@@ -234,10 +235,11 @@ export async function executeSlash(
                     } catch (err) {
                         const embed = new MessageEmbed()
                         embed.setDescription(i18next.t('general:UNKNOWN_ERROR'))
-                        interaction.reply({embeds: [embed]})
+                        await interaction.reply({embeds: [embed]})
+                        return
                     }
                     const embed = returnsetGuildSettingEmbed(guildId, `${groupName}/${key}`, value)
-                    interaction.reply({embeds: [embed]})
+                    await interaction.reply({embeds: [embed]})
                     break
                 }
                 case 'getgroupedkey': {
@@ -246,7 +248,7 @@ export async function executeSlash(
                     const guildId = interaction.options.getString('guildid')
                     const valueReturned = String(await getGuildSetting(guildId, {group: groupName, name: key}))
                     const embed = returngetGuildSettingEmbed(guildId, `${groupName}/${key}`, valueReturned)
-                    interaction.reply({embeds: [embed]})
+                    await interaction.reply({embeds: [embed]})
                     break
                 }
             }
@@ -282,10 +284,10 @@ export async function executeSlash(
                         .addField('Verified', String(guild.verified).toUpperCase(), true)
                         .addField('Premium Tier', guild.premiumTier, true)
                     guild.vanityURLCode && embed.addField('Vanity URL Code', guild.vanityURLCode, true)
-                    embed.addField('Prefered Locale', guild.preferredLocale, true)
+                    embed.addField('Preferred Locale', guild.preferredLocale, true)
                         .addField('Bot Permissions', `\`${botPermissions}\``, false)
                         .addField('Shard ID', String(guild.shardId), true)
-                    interaction.reply({embeds: [embed]})
+                    await interaction.reply({embeds: [embed]})
                     break
                 }
                 case 'user': {
@@ -295,7 +297,7 @@ export async function executeSlash(
                     try {
                         user = await interaction.client.users.fetch(userId)
                     } catch {
-                        interaction.reply({content: 'Error fetching user', ephemeral: true})
+                        await interaction.reply({content: 'Error fetching user', ephemeral: true})
                         return
                     }
                     const embed = new MessageEmbed
@@ -339,7 +341,7 @@ export async function executeSlash(
                                     isGuildOwner && memberEmbed.addField('Guild Owner', 'TRUE', true)
                                     showPermissions && memberEmbed.addField('Permissions', `\`${memberPermissions}\``, true)
                                     !member.manageable && memberEmbed.addField('Highest Role Position', String(member.roles?.highest?.position) || 'N/A', true)
-                                    !member.manageable && memberEmbed.addField('Bot Highest Role Positon', String(guild.me.roles?.highest?.position) || 'N/A', true)
+                                    !member.manageable && memberEmbed.addField('Bot Highest Role Position', String(guild.me.roles?.highest?.position) || 'N/A', true)
                                 } else {
                                     memberEmbed.addField('Guild Member', 'Error fetching', false)
                                 }
@@ -351,7 +353,7 @@ export async function executeSlash(
                         }
                         embeds.push(memberEmbed)
                     }
-                    interaction.reply({embeds: embeds})
+                    await interaction.reply({embeds: embeds})
                     break
                 }
                 case 'channel': {
@@ -364,7 +366,7 @@ export async function executeSlash(
                     } catch {
                     }
                     if (!channel) {
-                        interaction.reply({content: 'Error fetching channel', ephemeral: true})
+                        await interaction.reply({content: 'Error fetching channel', ephemeral: true})
                         return
                     }
                     const embed = new MessageEmbed
@@ -390,10 +392,10 @@ export async function executeSlash(
                         .addField('Created At', channel.createdAt.toUTCString(), true)
                     if (guildChannel) {
                         guildChannel.parent && embed.addField('Category Name', guildChannel.parent.name, true)
-                        embed.addField('Managable', String(guildChannel.manageable).toUpperCase(), true)
+                        embed.addField('Manageable', String(guildChannel.manageable).toUpperCase(), true)
                             .addField('Viewable', String(guildChannel.viewable).toUpperCase(), true)
                     }
-                    interaction.reply({embeds: [embed]})
+                    await interaction.reply({embeds: [embed]})
                     break
                 }
             }
@@ -404,7 +406,7 @@ export async function executeSlash(
                 case 'deployslash': {
                     await interaction.deferReply()
                     await registerSlashCommands(client)
-                    interaction.editReply({content: i18next.t('util.RELOADED_SLASH_COMMANDS')})
+                    await interaction.editReply({content: i18next.t('util.RELOADED_SLASH_COMMANDS')})
                     break
                 }
 
@@ -421,7 +423,7 @@ export async function executeSlash(
                     try {
                         channel = await interaction.client.channels.fetch(interaction.options.getString('channelid') ?? interaction.channel.id)
                     } catch {
-                        interaction.reply({content: 'Error fetching channel', ephemeral: true})
+                        await interaction.reply({content: 'Error fetching channel', ephemeral: true})
                         return
                     }
                     if (channel.isText) {
@@ -429,10 +431,10 @@ export async function executeSlash(
                             // @ts-expect-error
                             await channel.send(thingToSay)
                         } catch {
-                            interaction.reply({content: 'Error sending message in channel'})
+                            await interaction.reply({content: 'Error sending message in channel'})
                             return
                         }
-                        interaction.reply({
+                        await interaction.reply({
                             content: 'Successfully sent message',
                             ephemeral: interaction.channel.id == channel.id
                         })

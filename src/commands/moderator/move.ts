@@ -117,5 +117,5 @@ export async function executeSlash(
         interaction.guild.id,
         interaction.user.tag
     )
-    interaction.editReply(result)
+    await interaction.editReply(result)
 }

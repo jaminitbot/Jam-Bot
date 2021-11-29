@@ -101,7 +101,7 @@ export async function execute(
     message: Message,
     args: Array<unknown>
 ) {
-    message.reply(i18next.t('general:ONLY_SLASH_COMMAND', {command: '/image'}))
+    await message.reply(i18next.t('general:ONLY_SLASH_COMMAND', {command: '/image'}))
 }
 
 export async function executeSlash(

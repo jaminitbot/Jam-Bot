@@ -39,7 +39,7 @@ export async function initProm() {
             return 'An error occurred'
         }
     })
-    server.listen(process.env.PROM_PORT ?? 3000, '0.0.0.0')
+    await server.listen(process.env.PROM_PORT ?? 3000, '0.0.0.0')
 }
 
 type InteractionType = 'command' | 'context_menu' | 'autocomplete' | 'button' | 'select_menu'

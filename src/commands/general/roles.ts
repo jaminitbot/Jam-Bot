@@ -170,7 +170,7 @@ export async function executeSlash(
         })
     }
     const type = subCommand == 'add' ? 'added' : 'removed'
-    interaction.reply({
+    await interaction.reply({
         content: i18next.t('roles.MANAGED_SUCCESS', {
             role: role.id,
             type: type,
@@ -192,7 +192,7 @@ export async function executeAutocomplete(
             }
         )) ?? []
     if (!allowedRoles.length) {
-        interaction.respond([])
+        await interaction.respond([])
         return
     }
     const input = interaction.options.getFocused()
@@ -212,5 +212,5 @@ export async function executeAutocomplete(
             break
         }
     }
-    interaction.respond(matchedChoices)
+    await interaction.respond(matchedChoices)
 }

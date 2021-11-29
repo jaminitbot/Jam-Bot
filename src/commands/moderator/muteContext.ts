@@ -61,7 +61,7 @@ export async function executeContextMenu(
         parsedDuration
     )
     if (muteResult == 0) {
-        interaction.reply({
+        await interaction.reply({
             content: i18next.t('mod.ACTION_SUCCESSFUL', {
                 tag: targetUser.user.tag,
                 action: 'muted',
@@ -70,11 +70,11 @@ export async function executeContextMenu(
             allowedMentions: {parse: []},
         })
     } else if (muteResult == 3) {
-        interaction.reply({
+        await interaction.reply({
             content: i18next.t('mute.NO_MUTED_ROLE'),
             ephemeral: true,
         })
     } else {
-        interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
+        await interaction.reply(i18next.t('general:UNKNOWN_ERROR'))
     }
 }

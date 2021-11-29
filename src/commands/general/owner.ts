@@ -23,5 +23,5 @@ export async function executeSlash(
     client: BotClient,
     interaction: CommandInteraction
 ) {
-    interaction.reply(process.env.ownerName ?? i18next.t('owner.NOT_FOUND'))
+    await interaction.reply(process.env.ownerName ?? i18next.t('owner.NOT_FOUND'))
 }

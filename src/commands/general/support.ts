@@ -49,7 +49,7 @@ export async function executeSlash(
 ) {
     const embedObject = await returnSupportEmbed()
     // @ts-expect-error
-    interaction.reply({
+    await interaction.reply({
         embeds: [embedObject[0]],
         components: [embedObject[1]],
     })

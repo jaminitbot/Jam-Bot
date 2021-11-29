@@ -42,6 +42,6 @@ export async function register(
             channelId: message.channel.id,
         })
     )
-    postToModlog(client, message.guild.id, {embeds: [embed]}, 'messages')
+    await postToModlog(client, message.guild.id, {embeds: [embed]}, 'messages')
     //#endregion
 }

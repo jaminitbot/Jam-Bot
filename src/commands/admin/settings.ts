@@ -204,7 +204,7 @@ export async function executeSlash(
                 const currentPrefix =
                     (await getGuildSetting(interaction.guild.id, 'prefix')) ??
                     process.env.defaultPrefix
-                interaction.reply({
+                await interaction.reply({
                     content: i18next.t('settings.CURRENT_PREFIX', {
                         prefix: currentPrefix,
                     }),
@@ -212,7 +212,7 @@ export async function executeSlash(
                 return
             }
             if (newPrefix.length > 10) {
-                interaction.reply({
+                await interaction.reply({
                     content: i18next.t('settings.PREFIX_TOO_LONG', {
                         length: 10,
                     }),
@@ -220,7 +220,7 @@ export async function executeSlash(
                 })
             } else {
                 await setGuildSetting(interaction.guild.id, 'prefix', newPrefix)
-                interaction.reply({
+                await interaction.reply({
                     content: i18next.t('settings.SET_PREFIX_SUCCESS', {
                         prefix: newPrefix,
                     }),
@@ -243,7 +243,7 @@ export async function executeSlash(
                 const currentSuggestionsChannel = currentSuggestionChannelId
                     ? `<#${currentSuggestionChannelId}>`
                     : 'not set'
-                interaction.reply(
+                await interaction.reply(
                     i18next.t('settings.CURRENT_SUGGESTIONS_CHANNEL', {
                         channel: currentSuggestionsChannel,
                     })
@@ -254,7 +254,7 @@ export async function executeSlash(
                 newSuggestionsChannel.id
             )
             if (!newChannel.isText || newChannel.type == 'DM') {
-                interaction.reply({
+                await interaction.reply({
                     content: i18next.t('general:INVALID_CHANNEL_TYPE', {
                         correctType: 'text',
                     }),
@@ -278,7 +278,7 @@ export async function executeSlash(
                     }
                 )
                 const newSuggestionsChannel = `<#${newChannel.id}>`
-                interaction.reply(
+                await interaction.reply(
                     i18next.t('settings.SET_SUGGESTIONS_CHANNEL_SUCCESS', {
                         channel: newSuggestionsChannel,
                     })
@@ -288,7 +288,7 @@ export async function executeSlash(
         } else if (subCommand == 'useable') {
             const sendSuggestions = interaction.options.getBoolean('on')
             if (typeof sendSuggestions != 'boolean') {
-                interaction.reply(
+                await interaction.reply(
                     i18next.t('settings.SUGGESTIONS_ENABLED_DISABLED_CURRENT', {
                         toggle: booleanToHuman(
                             await getGuildSetting(
@@ -311,7 +311,7 @@ export async function executeSlash(
                     value: sendSuggestions
                 }
             )
-            interaction.reply(
+            await interaction.reply(
                 i18next.t('settings.SET_SUGGESTIONS_ENABLED_DISABLED_SUCCESS', {
                     toggle: booleanToHuman(sendSuggestions),
                 })
@@ -385,7 +385,7 @@ export async function executeSlash(
                     currentJoinLeavesChannelId
                         ? `<#${currentJoinLeavesChannelId}>`
                         : 'Not Set'
-                interaction.reply({
+                await interaction.reply({
                     content:
                         i18next.t('settings.CURRENT_MODLOG_CHANNEL', {
                             modLogType: 'default',
@@ -586,7 +586,7 @@ export async function executeSlash(
                             })
                     }
                 }
-                interaction.reply({content: response})
+                await interaction.reply({content: response})
                 return
             }
         } else if (subCommand == 'log') {
@@ -632,7 +632,7 @@ export async function executeSlash(
                             name: 'logJoinLeaves'
                         }
                     )) ?? false
-                interaction.reply({
+                await interaction.reply({
                     content:
                         i18next.t(
                             'settings.CURRENT_MODLOG_EVENTS_ENABLED_DISABLED',
@@ -748,7 +748,7 @@ export async function executeSlash(
                             }
                         )
                 }
-                interaction.reply({content: response})
+                await interaction.reply({content: response})
                 return
             }
         }
@@ -792,7 +792,7 @@ export async function executeSlash(
                     value: allowedRoles
                 }
             )
-            interaction.reply({
+            await interaction.reply({
                 content: i18next.t('settings.ROLE_ADDED_TO_ALLOW_LIST', {
                     role: role.name,
                 }),
@@ -816,7 +816,7 @@ export async function executeSlash(
                     value: allowedRoles
                 }
             )
-            interaction.reply({
+            await interaction.reply({
                 content: i18next.t('settings.ROLE_REMOVED_FROM_ALLOW_LIST', {
                     role: role.name,
                 }),
@@ -837,7 +837,7 @@ export async function executeSlash(
                     'settings.NO_ROLES_ON_ALLOW_LIST'
                 )
             }
-            interaction.reply({
+            await interaction.reply({
                 content: i18next.t('settings.ROLES_ON_ALLOW_LIST', {
                     roles: allowListFormatted,
                 }),

@@ -61,7 +61,7 @@ export async function executeSlash(
         // @ts-expect-error
         sent.react('❌')
     } catch (err) {
-        interaction.followUp({
+        await interaction.followUp({
             content: i18next.t('poll.REACTION_ERROR'),
             ephemeral: true,
         })

@@ -8,8 +8,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
-export function initTranslations() {
-    i18next.use(i18nextBackend).init({
+export async function initTranslations() {
+    await i18next.use(i18nextBackend).init({
         lng: 'en',
         ns: ['general', 'commands', 'events', 'misc'],
         defaultNS: 'commands',

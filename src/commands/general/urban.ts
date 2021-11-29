@@ -90,7 +90,7 @@ async function returnDefineEmbed(wordToDefine: string) {
     if (definition.length > 1024)
         definition = definition.substring(0, 1024 - 3) + '...'
     embed.addField(i18next.t('urban.DEFINITION'), definition)
-    let example = String(jsonResponse.list[0].example).replace(/\[|\]/g, '')
+    let example = String(jsonResponse.list[0].example).replace(/[|]/g, '')
     if (example.length > 1024) example = example.substring(0, 1024 - 3) + '...'
     example && embed.addField(i18next.t('urban.EXAMPLE'), example)
     return embed
@@ -101,7 +101,7 @@ export async function execute(
     message: Message,
     args: Array<unknown>
 ) {
-    message.reply(i18next.t('general:ONLY_SLASH_COMMAND'))
+    await message.reply(i18next.t('general:ONLY_SLASH_COMMAND'))
     // message.channel.send({ embeds: [await returnDefineEmbed(args[0])] })
 }
 
