@@ -1,6 +1,7 @@
-docs/
-devScripts/
-.devcontainer/
-.es*
-.git*
-.prettier*
+*
+!locales
+!prisma
+!src
+!package.json
+!pnpm-lock.yaml
+!tsconfig.json
