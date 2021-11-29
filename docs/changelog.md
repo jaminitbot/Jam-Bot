@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.14.3](https://github.com/jaminitbot/Jam-Bot/compare/v2.14.2...v2.14.3) (2021-11-29)
+
+
+### Bug Fixes
+
+* fix db if group is null ([6cd08be](https://github.com/jaminitbot/Jam-Bot/commit/6cd08be882620760bde66b0ba037d1ad999fab9e))
+
 ### [2.14.2](https://github.com/jaminitbot/Jam-Bot/compare/v2.14.1...v2.14.2) (2021-11-28)
 
 
