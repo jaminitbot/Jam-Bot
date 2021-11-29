@@ -10,7 +10,6 @@ import { createLogger, format, transports } from 'winston'
 import { BotClient } from './customDefinitions'
 import { scheduleJob } from 'node-schedule'
 import { registerCommands, registerEvents, } from './functions/registerCommands'
-// Misc Scripts
 import sendTwitchNotifications from './cron/twitch'
 import db from './functions/db'
 import { removeItemFromArray, saveLogger, stopBot } from './functions/util'

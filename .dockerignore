@@ -1,7 +1,5 @@
-.git/
 docs/
 devScripts/
-.github/
 .devcontainer/
 .es*
 .git*
