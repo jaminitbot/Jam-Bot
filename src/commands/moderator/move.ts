@@ -9,7 +9,7 @@ export const name = 'move'
 export const description = 'Moves users from one vc to another'
 export const permissions = ['MOVE_MEMBERS']
 export const usage = 'move #fromvc #tovc'
-export const aliases = ['massmove']
+export const aliases = ['movevc']
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
