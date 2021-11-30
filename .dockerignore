@@ -1,7 +1,7 @@
 *
-!locales
-!prisma
-!src
+!locales/
+!prisma/
+!src/
 !package.json
 !pnpm-lock.yaml
 !tsconfig.json
