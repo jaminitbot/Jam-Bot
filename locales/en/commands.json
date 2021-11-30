@@ -172,9 +172,6 @@
     "NO_ARGUMENTS_SPECIFIED": "You need to specify a command to run",
     "COMMAND_RUNNING": "Executing command..."
   },
-  "getguildsetting": {
-    "NO_VALUE_SPECIFIED": "You need to specify a key to get"
-  },
   "log": {
     "INVALID_LOG_TYPE": "That isn't a valid log type",
     "LOG_EMPTY": "The log was empty, not uploading",
@@ -182,14 +179,6 @@
   },
   "say": {
     "NO_MESSAGE_SPECIFIED": "You need to specify what to say"
-  },
-  "setguildsetting": {
-    "SET_KEY": "Set Key",
-    "SUCCESSFULLY_SET_KEY": "Success",
-    "GUILD_ID": "Guild ID",
-    "KEY": "Key",
-    "VALUE_SET": "Value",
-    "NO_VALUE_SPECIFIED": "You need to specify a value to set"
   },
   "shutdown": {
     "SHUTTING_DOWN": "Shutting down..."
@@ -205,6 +194,12 @@
     "NO_ROLES_ON_ALLOW_LIST": "none"
   },
   "util": {
-    "RELOADED_SLASH_COMMANDS": "Successfully deployed slash commands"
+    "RELOADED_SLASH_COMMANDS": "Successfully deployed slash commands",
+    "SET_SETTING_TITLE": "Set Setting",
+    "GET_SETTING_TITLE": "Get Setting",
+    "GUILD_ID": "Guild ID",
+    "SETTING_GROUP": "Setting Group",
+    "SETTING": "Setting",
+    "VALUE": "Value"
   }
 }

@@ -16,79 +16,44 @@ export const slashData = new SlashCommandBuilder()
         group.setName('db')
             .setDescription('DB related commands')
             .addSubcommand(command =>
-                command.setName('setkey')
-                    .setDescription('Sets a key in the database')
+                command.setName('getguildsetting')
+                    .setDescription('Gets the value of a setting in a guild')
                     .addStringOption(option =>
-                        option.setName('key')
-                            .setDescription('Key to set')
+                        option.setName('guildid')
+                            .setDescription('Guild ID to get the setting for')
                             .setRequired(true)
                     )
                     .addStringOption(option =>
+                        option.setName('setting')
+                            .setDescription('Setting to get')
+                            .setRequired(true)
+                    )
+                    .addStringOption(option =>
+                        option.setName('group')
+                            .setDescription('Setting group to use')
+                    )
+            )
+            .addSubcommand(command =>
+                command.setName('setguildsetting')
+                    .setDescription('Sets the value of a setting in a guild')
+                    .addStringOption(option =>
                         option.setName('guildid')
-                            .setDescription('Guild ID to to set the key in')
+                            .setDescription('Target guild ID')
+                            .setRequired(true)
+                    )
+                    .addStringOption(option =>
+                        option.setName('setting')
+                            .setDescription('Setting to get')
                             .setRequired(true)
                     )
                     .addStringOption(option =>
                         option.setName('value')
-                            .setDescription('The value to set')
+                            .setDescription('Value to set the setting')
                             .setRequired(true)
                     )
-            )
-            .addSubcommand(command =>
-                command.setName('getkey')
-                    .setDescription('Gets a key from the database')
-                    .addStringOption(option =>
-                        option.setName('key')
-                            .setDescription('Key to get')
-                            .setRequired(true)
-                    )
-                    .addStringOption(option =>
-                        option.setName('guildid')
-                            .setDescription('Guild ID to to get the key in')
-                            .setRequired(true)
-                    )
-            )
-            .addSubcommand(command =>
-                command.setName('setgroupedkey')
-                    .setDescription('Sets a grouped key in the database')
                     .addStringOption(option =>
                         option.setName('group')
-                            .setDescription('Group name to set')
-                            .setRequired(true)
-                    )
-                    .addStringOption(option =>
-                        option.setName('key')
-                            .setDescription('Key to set')
-                            .setRequired(true)
-                    )
-                    .addStringOption(option =>
-                        option.setName('guildid')
-                            .setDescription('Guild ID to to set the key in')
-                            .setRequired(true)
-                    )
-                    .addStringOption(option =>
-                        option.setName('value')
-                            .setDescription('The value to set')
-                            .setRequired(true)
-                    )
-            )
-            .addSubcommand(command =>
-                command.setName('getgroupedkey')
-                    .setDescription('Gets a key from the database')
-                    .addStringOption(option =>
-                        option.setName('group')
-                            .setDescription('Group name to get')
-                            .setRequired(true)
-                    )
-                    .addStringOption(option =>
-                        option.setName('key')
-                            .setDescription('Key to get')
-                            .setRequired(true)
-                    )
-                    .addStringOption(option =>
-                        option.setName('guildid')
-                            .setDescription('Guild ID to to get the key in')
-                            .setRequired(true)
+                            .setDescription('Setting group to use')
                     )
             )
     )
@@ -165,24 +130,15 @@ export const slashData = new SlashCommandBuilder()
             )
     )
 
-function returnsetGuildSettingEmbed(guildId: string, key: string, value: string) {
+function makeGetSetSettingEmbed(options: { guildId: string, group?: string, setting: string, value?: string, type: 'SET_SETTING' | 'GET_SETTING' }) {
+    const { guildId, group, setting, value, type } = options
+    const embedTitle = type == 'SET_SETTING' ? i18next.t('util.SET_SETTING_TITLE') : i18next.t('util.GET_SETTING_TITLE')
     const embed = new MessageEmbed()
-    embed.setTitle(i18next.t('setGuildSetting.SET_KEY'))
-    embed.setDescription(i18next.t('setGuildSetting.SUCCESSFULLY_SET_KEY'))
-    embed.addField(i18next.t('setGuildSetting.GUILD_ID'), guildId, true)
-    embed.addField(i18next.t('setGuildSetting.KEY'), key, true)
-    embed.addField(i18next.t('setGuildSetting.VALUE_SET'), value, true)
-    embed.setTimestamp(Date.now())
-    return embed
-}
-
-function returngetGuildSettingEmbed(guild: string, key: string, valueReturned: string) {
-    const embed = new MessageEmbed()
-    embed.setTitle('getGuildSetting')
-    embed.addField('Guild', guild, true)
-    embed.addField('Key', key, true)
-    embed.addField('Value', valueReturned, true)
-    embed.setTimestamp(Date.now())
+        .setTitle(embedTitle)
+        .addField(i18next.t('util.GUILD_ID'), guildId, true)
+    group && embed.addField(i18next.t('util.SETTING_GROUP'), group, true)
+    embed.addField(i18next.t('util.SETTING'), setting, true)
+    value && embed.addField(i18next.t('util.VALUE'), value, true)
     return embed
 }
 
@@ -201,54 +157,42 @@ export async function executeSlash(
     switch (interaction.options.getSubcommandGroup()) {
         case 'db': {
             switch (interaction.options.getSubcommand()) {
-                case 'setGuildSetting': {
-                    const key = interaction.options.getString('key')
+                case 'setguildsetting': {
                     const guildId = interaction.options.getString('guildid')
+                    const group = interaction.options.getString('group')
+                    const setting = interaction.options.getString('setting')
                     const value = interaction.options.getString('value')
                     try {
-                        await setGuildSetting(guildId, key, value)
+                        await setGuildSetting(guildId, { setting: setting, group: group, value: value })
                     } catch (err) {
                         const embed = new MessageEmbed()
                         embed.setDescription(i18next.t('general:UNKNOWN_ERROR'))
-                        await interaction.reply({embeds: [embed]})
+                        await interaction.reply({ embeds: [embed] })
                         return
                     }
-                    const embed = returnsetGuildSettingEmbed(guildId, key, value)
-                    await interaction.reply({embeds: [embed]})
+                    const embed = makeGetSetSettingEmbed({
+                        guildId: guildId,
+                        group: group,
+                        setting: setting,
+                        value: value,
+                        type: 'SET_SETTING'
+                    })
+                    await interaction.reply({ embeds: [embed] })
                     break
                 }
-                case 'getGuildSetting': {
-                    const key = interaction.options.getString('key')
+                case 'getguildsetting': {
                     const guildId = interaction.options.getString('guildid')
-                    const valueReturned = String(await getGuildSetting(guildId, key))
-                    const embed = returngetGuildSettingEmbed(guildId, key, valueReturned)
-                    await interaction.reply({embeds: [embed]})
-                    break
-                }
-                case 'setgroupedkey': {
-                    const key = interaction.options.getString('key')
-                    const groupName = interaction.options.getString('group')
-                    const guildId = interaction.options.getString('guildid')
-                    const value = interaction.options.getString('value')
-                    try {
-                        await setGuildSetting(guildId, {group: groupName, name: key, value: value})
-                    } catch (err) {
-                        const embed = new MessageEmbed()
-                        embed.setDescription(i18next.t('general:UNKNOWN_ERROR'))
-                        await interaction.reply({embeds: [embed]})
-                        return
-                    }
-                    const embed = returnsetGuildSettingEmbed(guildId, `${groupName}/${key}`, value)
-                    await interaction.reply({embeds: [embed]})
-                    break
-                }
-                case 'getgroupedkey': {
-                    const key = interaction.options.getString('key')
-                    const groupName = interaction.options.getString('group')
-                    const guildId = interaction.options.getString('guildid')
-                    const valueReturned = String(await getGuildSetting(guildId, {group: groupName, name: key}))
-                    const embed = returngetGuildSettingEmbed(guildId, `${groupName}/${key}`, valueReturned)
-                    await interaction.reply({embeds: [embed]})
+                    const group = interaction.options.getString('group')
+                    const setting = interaction.options.getString('setting')
+                    const value = await getGuildSetting(guildId, { group: group, setting: setting })
+                    const embed = makeGetSetSettingEmbed({
+                        guildId: guildId,
+                        group: group,
+                        setting: setting,
+                        value: value,
+                        type: 'GET_SETTING'
+                    })
+                    await interaction.reply({ embeds: [embed] })
                     break
                 }
             }
@@ -262,10 +206,10 @@ export async function executeSlash(
                     try {
                         guild = await interaction.client.guilds.fetch(guildId)
                     } catch {
-                        return interaction.reply({content: 'Error getting guild', ephemeral: true})
+                        return interaction.reply({ content: 'Error getting guild', ephemeral: true })
                     }
-                    if (!guild) return interaction.reply({content: 'Guild not found', ephemeral: true})
-                    if (!guild.available) return interaction.reply({content: 'Guild not avaliable', ephemeral: true})
+                    if (!guild) return interaction.reply({ content: 'Guild not found', ephemeral: true })
+                    if (!guild.available) return interaction.reply({ content: 'Guild not avaliable', ephemeral: true })
                     const guildOwner = await guild.fetchOwner()
                     let botPermissions = guild.me.permissions.toArray().join(', ')
                     botPermissions = botPermissions ? botPermissions.substring(0, botPermissions.length) : 'NONE'
@@ -287,7 +231,7 @@ export async function executeSlash(
                     embed.addField('Preferred Locale', guild.preferredLocale, true)
                         .addField('Bot Permissions', `\`${botPermissions}\``, false)
                         .addField('Shard ID', String(guild.shardId), true)
-                    await interaction.reply({embeds: [embed]})
+                    await interaction.reply({ embeds: [embed] })
                     break
                 }
                 case 'user': {
@@ -297,7 +241,7 @@ export async function executeSlash(
                     try {
                         user = await interaction.client.users.fetch(userId)
                     } catch {
-                        await interaction.reply({content: 'Error fetching user', ephemeral: true})
+                        await interaction.reply({ content: 'Error fetching user', ephemeral: true })
                         return
                     }
                     const embed = new MessageEmbed
@@ -353,7 +297,7 @@ export async function executeSlash(
                         }
                         embeds.push(memberEmbed)
                     }
-                    await interaction.reply({embeds: embeds})
+                    await interaction.reply({ embeds: embeds })
                     break
                 }
                 case 'channel': {
@@ -366,7 +310,7 @@ export async function executeSlash(
                     } catch {
                     }
                     if (!channel) {
-                        await interaction.reply({content: 'Error fetching channel', ephemeral: true})
+                        await interaction.reply({ content: 'Error fetching channel', ephemeral: true })
                         return
                     }
                     const embed = new MessageEmbed
@@ -395,7 +339,7 @@ export async function executeSlash(
                         embed.addField('Manageable', String(guildChannel.manageable).toUpperCase(), true)
                             .addField('Viewable', String(guildChannel.viewable).toUpperCase(), true)
                     }
-                    await interaction.reply({embeds: [embed]})
+                    await interaction.reply({ embeds: [embed] })
                     break
                 }
             }
@@ -406,7 +350,7 @@ export async function executeSlash(
                 case 'deployslash': {
                     await interaction.deferReply()
                     await registerSlashCommands(client)
-                    await interaction.editReply({content: i18next.t('util.RELOADED_SLASH_COMMANDS')})
+                    await interaction.editReply({ content: i18next.t('util.RELOADED_SLASH_COMMANDS') })
                     break
                 }
 
@@ -423,7 +367,7 @@ export async function executeSlash(
                     try {
                         channel = await interaction.client.channels.fetch(interaction.options.getString('channelid') ?? interaction.channel.id)
                     } catch {
-                        await interaction.reply({content: 'Error fetching channel', ephemeral: true})
+                        await interaction.reply({ content: 'Error fetching channel', ephemeral: true })
                         return
                     }
                     if (channel.isText) {
@@ -431,7 +375,7 @@ export async function executeSlash(
                             // @ts-expect-error
                             await channel.send(thingToSay)
                         } catch {
-                            await interaction.reply({content: 'Error sending message in channel'})
+                            await interaction.reply({ content: 'Error sending message in channel' })
                             return
                         }
                         await interaction.reply({
