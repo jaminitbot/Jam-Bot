@@ -7,6 +7,7 @@ import i18next from 'i18next'
 import db from './db'
 import is_number = require('is-number')
 import { remove as removeFromArray } from 'lodash'
+import { BinaryLike, createHash } from 'crypto'
 
 /**
  * Checks permissions against a guild member
@@ -266,4 +267,11 @@ export function booleanToHuman(booleanToConvert: boolean) {
 
 export async function delay(time: number) {
     return new Promise((resolve) => setTimeout(resolve, time))
+}
+
+export function hash(data: BinaryLike, hashType: string) {
+    const hash = createHash(hashType)
+        .update(data)
+        .digest('hex')
+    return hash
 }

@@ -123,7 +123,7 @@ export async function processTasks(client: BotClient) {
             }
         }
     })
-    tasks.forEach(async (task) => {
+    for (const task of tasks) {
         const guild = await client.guilds.fetch(task.guildId)
         if (guild) {
             switch (task.type) {
@@ -152,7 +152,7 @@ export async function processTasks(client: BotClient) {
                 id: task.id
             }
         })
-    })
+    }
 }
 
 /**

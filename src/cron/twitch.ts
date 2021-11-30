@@ -4,8 +4,8 @@ import { MessageAttachment, MessageEmbed, TextChannel } from 'discord.js'
 import { getGuildSetting, setGuildSetting } from '../functions/db'
 import Sentry from '../functions/sentry'
 import messages = require('../functions/messages')
-import sha1 = require('sha1')
 import dayjs = require('dayjs')
+import { hash } from '../functions/util'
 
 export default async function execute(client: BotClient) {
     if (
@@ -82,7 +82,7 @@ export default async function execute(client: BotClient) {
         embed.setImage(thumbnailAttachment.url)
         embed.setFooter('Updates every 5 seconds.')
         embed.setColor('#A077FF')
-        const newLiveIdentifier = sha1(liveTitle + playingGame) // NOTE: hash because we don't want the title to contain SQL escaping characters
+        const newLiveIdentifier = hash(liveTitle + playingGame, 'sha1') // NOTE: hash because we don't want the title to contain SQL escaping characters
         const LiveTime = await getGuildSetting(
             guildId,
             {

@@ -1,7 +1,7 @@
 process.chdir(__dirname)
 if (process.env.NODE_ENV != 'production') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('dotenv').config({path: '../.env'})
+    require('dotenv').config({ path: '../.env' })
 }
 
 // Mr imports
@@ -107,7 +107,7 @@ import { incrementEventsCounter, initProm, saveClientPing } from './functions/me
     saveLogger(logger)
     //#endregion
     const clientOptions: ClientOptions = {
-        allowedMentions: {parse: ['roles', 'users']},
+        allowedMentions: { parse: ['roles', 'users'] },
         intents: [
             Intents.FLAGS.GUILDS,
             Intents.FLAGS.GUILD_MESSAGES,
@@ -115,7 +115,7 @@ import { incrementEventsCounter, initProm, saveClientPing } from './functions/me
         ],
         presence: {
             status: 'online',
-            activities: [{name: '/help', type: 'WATCHING'}],
+            activities: [{ name: '/help', type: 'WATCHING' }],
         },
         partials: ['MESSAGE', 'GUILD_MEMBER'],
     }
