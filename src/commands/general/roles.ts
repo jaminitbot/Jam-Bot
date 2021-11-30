@@ -64,7 +64,7 @@ function toJSON() {
     return slashDataTemp
 }
 
-export const slashData = {toJSON: toJSON}
+export const slashData = { toJSON: toJSON }
 
 export async function execute(
     client: BotClient,
@@ -72,7 +72,7 @@ export async function execute(
     args: Array<unknown>
 ) {
     message.channel.send(
-        i18next.t('general:ONLY_SLASH_COMMAND', {command: name})
+        i18next.t('general:ONLY_SLASH_COMMAND', { command: name })
     )
 }
 
@@ -97,7 +97,7 @@ export async function executeSlash(
             interaction.guild.id,
             {
                 group: 'assignableRoles',
-                name: 'allowedRoles'
+                setting: 'allowedRoles'
             }
         )) ?? []
     if (subCommand == 'add' || subCommand == 'remove') {
@@ -188,7 +188,7 @@ export async function executeAutocomplete(
             interaction.guild.id,
             {
                 group: 'assignableRoles',
-                name: 'allowedRoles'
+                setting: 'allowedRoles'
             }
         )) ?? []
     if (!allowedRoles.length) {
@@ -206,7 +206,7 @@ export async function executeAutocomplete(
                 !input) &&
             (member.roles.cache.has(roleID) || subCommand == 'add')
         ) {
-            matchedChoices.push({name: role.name, value: role.id})
+            matchedChoices.push({ name: role.name, value: role.id })
         }
         if (matchedChoices.length >= 24) {
             break

@@ -187,7 +187,7 @@ export async function execute(
     args: Array<unknown>
 ) {
     message.channel.send(
-        i18next.t('general:ONLY_SLASH_COMMAND', {command: name})
+        i18next.t('general:ONLY_SLASH_COMMAND', { command: name })
     )
 }
 
@@ -237,7 +237,7 @@ export async function executeSlash(
                     interaction.guild.id,
                     {
                         group: 'suggestions',
-                        name: 'channel'
+                        setting: 'channel'
                     }
                 )
                 const currentSuggestionsChannel = currentSuggestionChannelId
@@ -265,7 +265,7 @@ export async function executeSlash(
                     interaction.guild.id,
                     {
                         group: 'suggestions',
-                        name: 'channel',
+                        setting: 'channel',
                         value: newChannel.id
                     }
                 )
@@ -273,7 +273,7 @@ export async function executeSlash(
                     interaction.guild.id,
                     {
                         group: 'suggestions',
-                        name: 'enabled',
+                        setting: 'enabled',
                         value: true
                     }
                 )
@@ -295,7 +295,7 @@ export async function executeSlash(
                                 interaction.guild.id,
                                 {
                                     group: 'suggestions',
-                                    name: 'enabled'
+                                    setting: 'enabled'
                                 }
                             )
                         ),
@@ -307,7 +307,7 @@ export async function executeSlash(
                 interaction.guild.id,
                 {
                     group: 'suggestions',
-                    name: 'enabled',
+                    setting: 'enabled',
                     value: sendSuggestions
                 }
             )
@@ -338,7 +338,7 @@ export async function executeSlash(
                     interaction.guild.id,
                     {
                         group: 'modlog',
-                        name: 'mainChannelId'
+                        setting: 'mainChannelId'
                     }
                 )
                 const currentMainChannelMentioned = currentMainChannelId
@@ -348,7 +348,7 @@ export async function executeSlash(
                     interaction.guild.id,
                     {
                         group: 'modlog',
-                        name: 'messagesChannelId'
+                        setting: 'messagesChannelId'
                     }
                 )
                 const currentMessagesChannelMentioned = currentMessagesChannelId
@@ -358,7 +358,7 @@ export async function executeSlash(
                     interaction.guild.id,
                     {
                         group: 'modlog',
-                        name: 'membersChannelId'
+                        setting: 'membersChannelId'
                     }
                 )
                 const currentMembersChannelMentioned = currentMembersChannelId
@@ -368,7 +368,7 @@ export async function executeSlash(
                     interaction.guild.id,
                     {
                         group: 'modlog',
-                        name: 'serverChannelId'
+                        setting: 'serverChannelId'
                     }
                 )
                 const currentServerChannelMentioned = currentServerChannelId
@@ -378,7 +378,7 @@ export async function executeSlash(
                     interaction.guild.id,
                     {
                         group: 'modlog',
-                        name: 'joinLeavesChannelId'
+                        setting: 'joinLeavesChannelId'
                     }
                 )
                 const currentJoinLeavesChannelMentioned =
@@ -422,14 +422,14 @@ export async function executeSlash(
                     if (!newMainChannel) {
                         response += i18next.t(
                             'settings.MODLOG_CHANNEL_INVALID',
-                            {modLogType: 'default'}
+                            { modLogType: 'default' }
                         )
                     } else {
                         await setGuildSetting(
                             interaction.guild.id,
                             {
                                 group: 'modlog',
-                                name: 'mainChannelId',
+                                setting: 'mainChannelId',
                                 value: newMainChannel.id
                             }
                         )
@@ -458,7 +458,7 @@ export async function executeSlash(
                             interaction.guild.id,
                             {
                                 group: 'modlog',
-                                name: 'messagesChannelId',
+                                setting: 'messagesChannelId',
                                 value: newMessagesChannel.id
                             }
                         )
@@ -466,7 +466,7 @@ export async function executeSlash(
                             interaction.guild.id,
                             {
                                 group: 'modlog',
-                                name: 'logMessages',
+                                setting: 'logMessages',
                                 value: true
                             }
                         )
@@ -494,7 +494,7 @@ export async function executeSlash(
                             interaction.guild.id,
                             {
                                 group: 'modlog',
-                                name: 'membersChannelId',
+                                setting: 'membersChannelId',
                                 value: newMembersChannel.id
                             }
                         )
@@ -502,7 +502,7 @@ export async function executeSlash(
                             interaction.guild.id,
                             {
                                 group: 'modlog',
-                                name: 'logMembers',
+                                setting: 'logMembers',
                                 value: true
                             }
                         )
@@ -530,7 +530,7 @@ export async function executeSlash(
                             interaction.guild.id,
                             {
                                 group: 'modlog',
-                                name: 'serverChannelId',
+                                setting: 'serverChannelId',
                                 value: newServerChannel.id
                             }
                         )
@@ -538,7 +538,7 @@ export async function executeSlash(
                             interaction.guild.id,
                             {
                                 group: 'modlog',
-                                name: 'logServer',
+                                setting: 'logServer',
                                 value: true
                             }
                         )
@@ -567,14 +567,14 @@ export async function executeSlash(
                             {
                                 group: 'modlog',
                                 value: 'joinLeavesChannelId',
-                                name: newJoinLeavesChannel.id
+                                setting: newJoinLeavesChannel.id
                             }
                         )
                         await setGuildSetting(
                             interaction.guild.id,
                             {
                                 group: 'modlog',
-                                name: 'logJoinLeaves',
+                                setting: 'logJoinLeaves',
                                 value: true
                             }
                         )
@@ -586,7 +586,7 @@ export async function executeSlash(
                             })
                     }
                 }
-                await interaction.reply({content: response})
+                await interaction.reply({ content: response })
                 return
             }
         } else if (subCommand == 'log') {
@@ -605,7 +605,7 @@ export async function executeSlash(
                         interaction.guild.id,
                         {
                             group: 'modlog',
-                            name: 'logMessages'
+                            setting: 'logMessages'
                         }
                     )) ?? false
                 const currentLogMembersSetting =
@@ -613,7 +613,7 @@ export async function executeSlash(
                         interaction.guild.id,
                         {
                             group: 'modlog',
-                            name: 'logMembers'
+                            setting: 'logMembers'
                         }
                     )) ?? false
                 const currentLogServerSetting =
@@ -621,7 +621,7 @@ export async function executeSlash(
                         interaction.guild.id,
                         {
                             group: 'modlog',
-                            name: 'logServer'
+                            setting: 'logServer'
                         }
                     )) ?? false
                 const currentLogJoinLeavesSetting =
@@ -629,7 +629,7 @@ export async function executeSlash(
                         interaction.guild.id,
                         {
                             group: 'modlog',
-                            name: 'logJoinLeaves'
+                            setting: 'logJoinLeaves'
                         }
                     )) ?? false
                 await interaction.reply({
@@ -679,7 +679,7 @@ export async function executeSlash(
                         interaction.guild.id,
                         {
                             group: 'modlog',
-                            name: 'logMessages',
+                            setting: 'logMessages',
                             value: logMessages
                         }
                     )
@@ -696,7 +696,7 @@ export async function executeSlash(
                         interaction.guild.id,
                         {
                             group: 'modlog',
-                            name: 'logServer',
+                            setting: 'logServer',
                             value: logServer
                         }
                     )
@@ -715,7 +715,7 @@ export async function executeSlash(
                         interaction.guild.id,
                         {
                             group: 'modlog',
-                            name: 'logServer',
+                            setting: 'logServer',
                             value: logServer
                         }
                     )
@@ -734,7 +734,7 @@ export async function executeSlash(
                         interaction.guild.id,
                         {
                             group: 'modlog',
-                            name: 'logJoinLeaves',
+                            setting: 'logJoinLeaves',
                             value: logJoinLeaves
                         }
                     )
@@ -748,7 +748,7 @@ export async function executeSlash(
                             }
                         )
                 }
-                await interaction.reply({content: response})
+                await interaction.reply({ content: response })
                 return
             }
         }
@@ -757,7 +757,7 @@ export async function executeSlash(
             interaction.guild.id,
             {
                 group: 'assignableRoles',
-                name: 'allowedRoles'
+                setting: 'allowedRoles'
             }
         )
         if (!allowedRoles) allowedRoles = []
@@ -788,7 +788,7 @@ export async function executeSlash(
                 interaction.guild.id,
                 {
                     group: 'assignableRoles',
-                    name: 'allowedRoles',
+                    setting: 'allowedRoles',
                     value: allowedRoles
                 }
             )
@@ -812,7 +812,7 @@ export async function executeSlash(
                 interaction.guild.id,
                 {
                     group: 'assignableRoles',
-                    name: 'allowedRoles',
+                    setting: 'allowedRoles',
                     value: allowedRoles
                 }
             )

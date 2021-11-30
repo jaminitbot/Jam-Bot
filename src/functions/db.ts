@@ -7,7 +7,7 @@ export default (() => {
 })()
 
 interface GetGuildSettingOptions {
-    name: string
+    setting: string
     group?: string | undefined
     bypassCache?: boolean | undefined
 }
@@ -26,7 +26,7 @@ export async function getGuildSetting(
     let group: string | null
     if (typeof key == 'object') { // Using getGuildSetting options
         const tempObject: GetGuildSettingOptions = key
-        key = tempObject.name
+        key = tempObject.setting
         group = tempObject.group
     }
     const response = await prisma.guildSetting.findUnique({
@@ -45,7 +45,7 @@ export async function getGuildSetting(
 }
 
 interface SetGuildSettingOptions {
-    name: string
+    setting: string
     group?: string | undefined
     value: unknown
 }
@@ -65,7 +65,7 @@ export async function setGuildSetting(
     let group: string | undefined
     if (typeof key == 'object') {
         const tempObject: SetGuildSettingOptions = key
-        key = tempObject.name
+        key = tempObject.setting
         value = tempObject.value
         group = tempObject.group
     } else if (!value) {
@@ -82,7 +82,7 @@ export async function setGuildSetting(
         })
         if (groupValue) {
             // @ts-expect-error
-            dataToSet[group] = {...groupValue[group]}
+            dataToSet[group] = { ...groupValue[group] }
         } else {
             // @ts-expect-error
             dataToSet[group] = {}

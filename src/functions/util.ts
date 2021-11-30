@@ -6,6 +6,7 @@ import { Logger } from 'winston'
 import i18next from 'i18next'
 import db from './db'
 import is_number = require('is-number')
+import { remove as removeFromArray } from 'lodash'
 
 /**
  * Checks permissions against a guild member
@@ -216,20 +217,14 @@ export async function uploadToHasteBin(
 
 /**
  * Removes a specified value from an array
- * @param arr Array to perform on
+ * @param array Input array
  * @param value Value to remove
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function removeItemFromArray(arr: Array<any>, value: unknown) {
-    let i = 0
-    while (i < arr.length) {
-        if (arr[i] == value) {
-            arr.splice(i, 1)
-        } else {
-            ++i
-        }
-    }
-    return arr
+export function removeItemFromArray(array: Array<any>, value: unknown): Array<any> {
+    return removeFromArray(array, function (n: unknown) {
+        return value == n
+    })
 }
 
 /**

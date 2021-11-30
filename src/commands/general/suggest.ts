@@ -30,11 +30,11 @@ async function sendSuggestion(
         guildId,
         {
             group: 'suggestions',
-            name: 'channel'
+            setting: 'channel'
         }
     )
     if (!suggestionChannelId) return i18next.t('suggest.NO_SUGGESTION_CHANNEL') // Suggestions aren't setup yet
-    if (!(await getGuildSetting(guildId, {group: 'suggestions', name: 'enabled'})))
+    if (!(await getGuildSetting(guildId, { group: 'suggestions', setting: 'enabled' })))
         return i18next.t('suggest.SUGGESTIONS_DISABLED') // Suggestions are disabled
     // @ts-expect-error
     const suggestionChannel: TextChannel = await client.channels.fetch(
@@ -45,7 +45,7 @@ async function sendSuggestion(
         guildId,
         {
             group: 'suggestions',
-            name: 'suggestionCount'
+            setting: 'suggestionCount'
         }
     )
     if (!suggestionCount) suggestionCount = 0
@@ -54,7 +54,7 @@ async function sendSuggestion(
         guildId,
         {
             group: 'suggestions',
-            name: 'suggestionCount',
+            setting: 'suggestionCount',
             value: suggestionCount + 1
         }
     )
@@ -70,11 +70,11 @@ async function sendSuggestion(
     }
     embed.setColor('#E9D985')
     embed.setFooter(
-        i18next.t('suggest.SUGGESTION_FOOTER', {tag: author.tag}),
+        i18next.t('suggest.SUGGESTION_FOOTER', { tag: author.tag }),
         author.displayAvatarURL()
     )
     embed.setTimestamp(Date.now())
-    const suggestionMessage = await suggestionChannel.send({embeds: [embed]})
+    const suggestionMessage = await suggestionChannel.send({ embeds: [embed] })
     try {
         await suggestionMessage.react('✅')
         await suggestionMessage.react('❌')
@@ -113,5 +113,5 @@ export async function executeSlash(
         null,
         interaction.user
     )
-    await interaction.reply({content: result, ephemeral: true})
+    await interaction.reply({ content: result, ephemeral: true })
 }

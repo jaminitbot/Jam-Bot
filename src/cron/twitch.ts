@@ -87,7 +87,7 @@ export default async function execute(client: BotClient) {
             guildId,
             {
                 group: 'twitchNotifications',
-                name: 'liveTime'
+                setting: 'liveTime'
             }
         )
         if (LiveTime != startedAt) {
@@ -99,7 +99,7 @@ export default async function execute(client: BotClient) {
                 guildId,
                 {
                     group: 'twitchNotifications',
-                    name: 'liveTime',
+                    setting: 'liveTime',
                     value: startedAt
                 }
             )
@@ -113,7 +113,7 @@ export default async function execute(client: BotClient) {
                 guildId,
                 {
                     group: 'twitchNotifications',
-                    name: 'liveMessageId',
+                    setting: 'liveMessageId',
                     value: sentMessage.id
                 }
             ) // Put the notification message id in db so we can edit the message later
@@ -121,7 +121,7 @@ export default async function execute(client: BotClient) {
                 guildId,
                 {
                     group: 'twitchNotifications',
-                    name: 'liveIdentifier',
+                    setting: 'liveIdentifier',
                     value: newLiveIdentifier
                 }
             ) // Put the title into the db
@@ -131,7 +131,7 @@ export default async function execute(client: BotClient) {
                 guildId,
                 {
                     group: 'twitchNotifications',
-                    name: 'liveIdentifier'
+                    setting: 'liveIdentifier'
                 }
             )
             if (newLiveIdentifier == savedLiveIdentifier) {
@@ -143,7 +143,7 @@ export default async function execute(client: BotClient) {
                     guildId,
                     {
                         group: 'twitchNotifications',
-                        name: 'liveIdentifier',
+                        setting: 'liveIdentifier',
                         value: newLiveIdentifier
                     }
                 )
@@ -151,7 +151,7 @@ export default async function execute(client: BotClient) {
                     guildId,
                     {
                         group: 'twitchNotifications',
-                        name: 'liveMessageId'
+                        setting: 'liveMessageId'
                     }
                 ) // Get the message id of the notification we sent
                 if (MessageId) {

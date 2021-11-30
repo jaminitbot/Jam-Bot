@@ -60,7 +60,7 @@ export async function postToModlog(
         guildId,
         {
             group: 'modlog',
-            name: 'log' + capitaliseSentence(logType)
+            setting: 'log' + capitaliseSentence(logType)
         }
     )
     if (!shouldLog) return 5
@@ -68,11 +68,11 @@ export async function postToModlog(
         guildId,
         {
             group: 'modlog',
-            name: logType + 'ChannelId'
+            setting: logType + 'ChannelId'
         }
     )
     if (!channelId) {
-        channelId = await getGuildSetting(guildId, {group: 'modlog', name: 'mainChannelId'})
+        channelId = await getGuildSetting(guildId, { group: 'modlog', setting: 'mainChannelId' })
         if (!channelId) return 4
     }
     let channel: Channel
@@ -172,7 +172,7 @@ export async function ban(
     const target = await guild.members.fetch(userId)
     if (!target) return 1
     try {
-        await target.ban({reason: reason, days: 1})
+        await target.ban({ reason: reason, days: 1 })
     } catch {
         return 1 // Unknown error
     }
