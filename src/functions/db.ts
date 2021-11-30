@@ -37,6 +37,8 @@ export async function getGuildSetting(
     if (!response) return null
     if (group) {
         // @ts-expect-error
+        if (!response[group]) return null
+        // @ts-expect-error
         return response[group][key] ?? null
     } else {
         // @ts-expect-error
