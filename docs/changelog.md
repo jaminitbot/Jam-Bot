@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.14.4](https://github.com/jaminitbot/Jam-Bot/compare/v2.14.3...v2.14.4) (2021-11-30)
+
+
+### Bug Fixes
+
+* set/get key owner commands ([6a51860](https://github.com/jaminitbot/Jam-Bot/commit/6a518609a2fbd356aaac15a6a47514b58ceaf18f))
+
 ### [2.14.3](https://github.com/jaminitbot/Jam-Bot/compare/v2.14.2...v2.14.3) (2021-11-29)
 
 
