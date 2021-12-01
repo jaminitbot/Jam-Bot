@@ -196,10 +196,9 @@ import { incrementEventsCounter, initProm, saveClientPing } from './functions/me
         })
     }
     //#endregion
-    process.on('SIGINT', function () {
+    process.on('exit', (code) => {
         // Shutdown stuff nicely
-        logger.debug('SIGINT received, stopping bot')
-        stopBot(client)
+        stopBot(client, code)
     })
     logger.verbose('Starting prom client')
     await initProm()
