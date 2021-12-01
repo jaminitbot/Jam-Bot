@@ -113,7 +113,7 @@
     "NO_ARGUMENTS_SPECIFIED": "You need to specify a name for your emoji",
     "NO_ATTACHMENT": "You need to attach the emoji to your message",
     "AUDIT_REASON": "Uploaded by {{tag}}",
-    "CREATION_SUCCESSFUL": "The emoji \"{{emojiName}}\" was sucessfully created",
+    "CREATION_SUCCESSFUL": "The emoji \"{{emojiName}}\" was successfully created",
     "UNKNOWN_ERROR": "There was an unknown error uploading your emoji, check the file size"
   },
   "mod": {
@@ -185,12 +185,12 @@
   },
   "roles": {
     "ROLE_NOT_WHITELISTED": "<@&{{role}}> is not whitelisted, you can't {{type}} that one",
-    "UNKOWN_ERROR": "There was an unknown error managing that role, check with admin to see if I have the correct permissions",
+    "UNKNOWN_ERROR": "There was an unknown error managing that role, check with admin to see if I have the correct permissions",
     "MANAGED_SUCCESS": "Successfully {{type}} <@&{{role}}>",
     "USER_ALREADY_HAS_ROLE": "You already have <@&{{role}}>, I can't add it again",
     "USER_DOESNT_HAVE_ROLE": "You don't have <@&{{role}}>, I can't take something you don't have",
     "ROLE_HIGHER_THAN_ME": "<@&{{role}}> is higher than my role, ask an admin to move my role higher",
-    "ROLES_ON_ALLOW_LIST": "Roles avaliable to self-assign: {{roles}}",
+    "ROLES_ON_ALLOW_LIST": "Roles available to self-assign: {{roles}}",
     "NO_ROLES_ON_ALLOW_LIST": "none"
   },
   "util": {
