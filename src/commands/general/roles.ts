@@ -8,7 +8,7 @@ export const name = 'roles'
 export const description = 'Manages your self-assignable roles'
 export const usage = 'role'
 export const allowInDm = false
-const slashDataTemp = new SlashCommandBuilder()
+export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
     .addSubcommand(
@@ -16,55 +16,32 @@ const slashDataTemp = new SlashCommandBuilder()
             command
                 .setName('add')
                 .setDescription('Gives you a self-assignable role')
-        // .addRoleOption((option) =>
-        // 	option
-        // 		.setName("role")
-        // 		.setDescription("The role you'd like to give yourself")
-        // 		.setRequired(true)
-        // )
+                .addStringOption((option) =>
+                    option
+                        .setName('role')
+                        .setDescription('The role you\'d like to give yourself')
+                        .setAutocomplete(true)
+                        .setRequired(true)
+                )
     )
     .addSubcommand(
         (command) =>
             command
                 .setName('remove')
                 .setDescription('Removes a self-assignable role from yourself')
-        // .addRoleOption((option) =>
-        // 	option
-        // 		.setName("role")
-        // 		.setDescription(
-        // 			"The role you'd like to remove from yourself"
-        // 		)
-        // 		.setRequired(true)
-        // )
+                .addStringOption((option) =>
+                    option
+                        .setName('role')
+                        .setDescription('The role you\'d like to remove from yourself')
+                        .setAutocomplete(true)
+                        .setRequired(true)
+                )
     )
     .addSubcommand((command) =>
         command
             .setName('list')
-            .setDescription('Lists the avaliable self-assignable roles')
+            .setDescription('Lists the available self-assignable roles')
     )
-    .toJSON()
-// @ts-expect-error
-slashDataTemp.options[0].options[0] = {
-    name: 'role',
-    description: 'The role you\'d like to give yourself',
-    type: 3,
-    autocomplete: true,
-    required: true,
-}
-// @ts-expect-error
-slashDataTemp.options[1].options[0] = {
-    name: 'role',
-    description: 'The role you\'d like to remove from yourself',
-    type: 3,
-    autocomplete: true,
-    required: true,
-}
-
-function toJSON() {
-    return slashDataTemp
-}
-
-export const slashData = { toJSON: toJSON }
 
 export async function execute(
     client: BotClient,

@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@discordjs/builders': ^0.8.2
+  '@discordjs/builders': ^0.9.0
   '@discordjs/rest': ^0.1.0-canary.0
   '@prisma/client': ^3.6.0
   '@sentry/integrations': ^6.15.0
@@ -35,13 +35,13 @@ specifiers:
   standard-version: ^9.3.2
   tslib: ^2.3.1
   typescript: ^4.5.2
-  undici: ^4.10.3
+  undici: ^4.10.4
   utf-8-validate: ^5.0.7
   winston: ^3.3.3
   zlib-sync: ^0.1.7
 
 dependencies:
-  '@discordjs/builders': 0.8.2
+  '@discordjs/builders': 0.9.0
   '@discordjs/rest': 0.1.0-canary.0
   '@prisma/client': 3.6.0_prisma@3.6.0
   '@sentry/integrations': 6.15.0
@@ -61,7 +61,7 @@ dependencies:
   node-schedule: 2.1.0
   prom-client: 14.0.1
   tslib: 2.3.1
-  undici: 4.10.3
+  undici: 4.10.4
   winston: 3.3.3
 
 optionalDependencies:
@@ -130,6 +130,17 @@ packages:
       ow: 0.27.0
       ts-mixer: 6.0.0
       tslib: 2.3.1
+    dev: false
+
+  /@discordjs/builders/0.9.0:
+    resolution: {integrity: sha512-XM/5yrTxMF0SDKza32YzGDQO1t+qEJTaF8Zvxu/UOjzoqzMPPGQBjC1VgZxz8/CBLygW5qI+UVygMa88z13G3g==}
+    engines: {node: '>=16.0.0', npm: '>=7.0.0'}
+    dependencies:
+      '@sindresorhus/is': 4.2.0
+      discord-api-types: 0.24.0
+      ts-mixer: 6.0.0
+      tslib: 2.3.1
+      zod: 3.11.6
     dev: false
 
   /@discordjs/collection/0.1.6:
@@ -2937,8 +2948,8 @@ packages:
     dev: true
     optional: true
 
-  /undici/4.10.3:
-    resolution: {integrity: sha512-oMfhoSsFdu7ft+10gBpQ98gfIGT6qovXXRxYPOe07xfUJwpVTcFs0xvuAEpNqtObhf4HQWuMW5kWzaD768YS4Q==}
+  /undici/4.10.4:
+    resolution: {integrity: sha512-hpT3oKnZOZfOav5Gk+MzGPuiiQGtNPcMhZo6lf8+NCI8VNxMF/YakziTqhB0gij5m9LSEmNc5y+6vbeVu6ZhVA==}
     engines: {node: '>=12.18'}
     dev: false
 
@@ -3098,6 +3109,10 @@ packages:
       nan: 2.15.0
     dev: false
     optional: true
+
+  /zod/3.11.6:
+    resolution: {integrity: sha512-daZ80A81I3/9lIydI44motWe6n59kRBfNzTuS2bfzVh1nAXi667TOTWWtatxyG+fwgNUiagSj/CWZwRRbevJIg==}
+    dev: false
 
   github.com/discord/erlpack/f7d730debe32c416d1b55b4217f8aef2ade05874:
     resolution: {tarball: https://codeload.github.com/discord/erlpack/tar.gz/f7d730debe32c416d1b55b4217f8aef2ade05874}
