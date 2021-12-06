@@ -1,7 +1,8 @@
-process.chdir(__dirname)
+import path from 'path'
+
 if (process.env.NODE_ENV != 'production') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('dotenv').config({ path: '../.env' })
+    require('dotenv').config({ path: path.join(__dirname, '..', '.env')})
 }
 
 // Mr imports

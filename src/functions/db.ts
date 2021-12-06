@@ -36,12 +36,12 @@ export async function getGuildSetting(
     })
     if (!response) return null
     if (group) {
-        // @ts-expect-error
+        // @ts-ignore-error
         if (!response[group]) return null
-        // @ts-expect-error
+        // @ts-ignore-error
         return response[group][key] ?? null
     } else {
-        // @ts-expect-error
+        // @ts-ignore-error
         return response[key] ?? null
     }
 }

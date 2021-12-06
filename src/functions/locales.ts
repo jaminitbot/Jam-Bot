@@ -14,7 +14,7 @@ export async function initTranslations() {
         ns: ['general', 'commands', 'events', 'misc'],
         defaultNS: 'commands',
         backend: {
-            loadPath: '../locales/{{lng}}/{{ns}}.json',
+            loadPath: __dirname + '/..' + '/..' + '/locales' + '/{{lng}}' + '/{{ns}}.json'
         },
         interpolation: {
             escapeValue: false,

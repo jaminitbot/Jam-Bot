@@ -8,6 +8,7 @@ const token = process.env.token
 if (!token) throw ('NO TOKEN')
 const rest = new REST({version: '9'}).setToken(token)
 import fs = require('fs')
+import path from 'path'
 
 /**
  * Registers slash commands with discord
@@ -62,17 +63,17 @@ export async function registerSlashCommands(client: BotClient) {
 
 export function registerCommands(client: BotClient) {
     client.commands = new Collection()
-    const commandFolders = fs.readdirSync('./commands')
+    const commandFolders = fs.readdirSync(path.join(__dirname, '..', 'commands'))
     for (const folder of commandFolders) {
         const commandFiles = fs
-            .readdirSync(`./commands/${folder}`)
+            .readdirSync(path.join(__dirname, '..', 'commands', folder))
             .filter((file) => file.endsWith('.js'))
         for (const file of commandFiles) {
             delete require.cache[
-                require.resolve(`../commands/${folder}/${file}`)
+                require.resolve(path.join(__dirname, '..', 'commands', folder, file))
                 ]
             // eslint-disable-next-line @typescript-eslint/no-var-requires
-            const command = require(`../commands/${folder}/${file}`)
+            const command = require(path.join(__dirname, '..', 'commands', folder, file))
             if (!command.name) continue
             client.commands.set(command.name, command)
         }
@@ -82,12 +83,12 @@ export function registerCommands(client: BotClient) {
 export function registerEvents(client: BotClient) {
     client.events = new Collection()
     const commandFiles = fs
-        .readdirSync(`./events`)
+        .readdirSync(path.join(__dirname, '..', 'events'))
         .filter((file) => file.endsWith('.js'))
     for (const file of commandFiles) {
-        delete require.cache[require.resolve(`../events/${file}`)]
+        delete require.cache[path.join(__dirname, '..', 'events', file)]
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const event = require(`../events/${file}`)
+        const event = require(path.join(__dirname, '..', 'events', file))
         client.events.set(event.name, event)
     }
 }
