@@ -282,11 +282,16 @@ const emojis = [
 
 /**
  * Returns a random emoji
+ * @returns {string} Emoji
  */
 export function randomEmoji() {
     return emojis[Math.floor(Math.random() * emojis.length)]
 }
 
+/**
+ * Returns a random hex code
+ * @returns {string} Hex Code
+ */
 export function randomHexCode() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16)
 }

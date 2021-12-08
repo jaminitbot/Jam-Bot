@@ -24,7 +24,7 @@ async function returnSupportEmbed() {
         new MessageButton()
             .setStyle('LINK')
             .setLabel(i18next.t('support.SUPPORT_SERVER'))
-            .setURL('https://discord.gg/AP8ajhMBZK')
+            .setURL('https://discord.gg/KNTCurHsEz')
     )
     return [embed, row]
 }
