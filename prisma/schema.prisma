@@ -27,3 +27,13 @@ model modlogTask {
   time BigInt
   @@map("modlog_tasks")
 }
+
+model reactionRoleMessages {
+    id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+    guildId String
+    channelId String?
+    messageId String?
+    name String
+    roleIds String[]
+    @@map("reaction_role_messages")
+}

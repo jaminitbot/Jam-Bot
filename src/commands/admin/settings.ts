@@ -1,9 +1,20 @@
-import { CommandInteraction, Message } from 'discord.js'
+import {
+    AutocompleteInteraction, Channel,
+    CommandInteraction,
+    Message,
+    MessageActionRow,
+    MessageButton,
+    MessageEmbed
+} from 'discord.js'
 import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { getGuildSetting, setGuildSetting, } from '../../functions/db'
-import { booleanToHuman, removeItemFromArray } from '../../functions/util'
+import prisma, { getGuildSetting, setGuildSetting } from '../../functions/db'
+import { booleanToHuman, randomEmoji, randomHexCode } from '../../functions/util'
 import i18next from 'i18next'
+import { ChannelType } from 'discord-api-types'
+import { removeItemFromArray } from '../../functions/util'
+import { chunk as chunkArray } from 'lodash'
+import { ObjectID } from 'bson'
 
 export const name = 'settings'
 export const description = 'Configures the bot\'s settings'
@@ -142,34 +153,90 @@ export const slashData = new SlashCommandBuilder()
             .setDescription(
                 'Manages settings relating to self assignable roles'
             )
-            .addSubcommand((command) =>
-                command
-                    .setName('allow')
-                    .setDescription(
-                        'Allows a role to be self-assigned by members'
+            .addSubcommand(command =>
+                command.setName('add')
+                    .setDescription('Adds a role to a reaction role message')
+                    .addStringOption(option =>
+                        option.setName('messagename')
+                            .setDescription('The reaction role message')
+                            .setRequired(true)
+                            .setAutocomplete(true)
                     )
-                    .addRoleOption((option) =>
-                        option
-                            .setName('role')
-                            .setDescription('The role to allow')
+                    .addRoleOption(option =>
+                        option.setName('role')
+                            .setDescription('Role to add')
                             .setRequired(true)
                     )
             )
-            .addSubcommand((command) =>
-                command
-                    .setName('disallow')
-                    .setDescription('Remove a role from the allow list')
-                    .addRoleOption((option) =>
-                        option
-                            .setName('role')
-                            .setDescription('The role to remove')
+            .addSubcommand(command =>
+                command.setName('remove')
+                    .setDescription('Removes a role to a reaction role message')
+                    .addStringOption(option =>
+                        option.setName('messagename')
+                            .setDescription('The reaction role message')
+                            .setRequired(true)
+                            .setAutocomplete(true)
+                    )
+                    .addRoleOption(option =>
+                        option.setName('role')
+                            .setDescription('Role to remove')
                             .setRequired(true)
                     )
             )
-            .addSubcommand((command) =>
-                command
-                    .setName('list')
-                    .setDescription('Lists the currently allowed roles')
+            .addSubcommand(command =>
+                command.setName('createmessage')
+                    .setDescription('Creates the reaction role message')
+                    .addStringOption(option =>
+                        option.setName('name')
+                            .setDescription('A name for the reaction role message')
+                            .setRequired(true)
+                    )
+            )
+            .addSubcommand(command =>
+                command.setName('deletemessage')
+                    .setDescription('Deletes a given reaction role message')
+                    .addStringOption(option =>
+                        option.setName('messagename')
+                            .setDescription('The name of the reaction role message')
+                            .setRequired(true)
+                            .setAutocomplete(true)
+                    )
+            )
+            .addSubcommand(command =>
+                command.setName('sendmessage')
+                    .setDescription('Sends the given reaction role message')
+                    .addStringOption(option =>
+                        option.setName('messagename')
+                            .setDescription('The reaction role message')
+                            .setRequired(true)
+                            .setAutocomplete(true)
+                    )
+                    .addChannelOption(option =>
+                        option.setName('channel')
+                            .setDescription('Channel to send the message in')
+                            .addChannelTypes([ChannelType.GuildNews, ChannelType.GuildText])
+                            .setRequired(true)
+                    )
+                    .addStringOption(option =>
+                        option.setName('messagecontent')
+                            .setDescription('The content of the message')
+                            .setRequired(false)
+                    )
+            )
+            .addSubcommand(command =>
+                command.setName('regeneratemessage')
+                    .setDescription('Recreates a reaction message')
+                    .addStringOption(option =>
+                        option.setName('messagename')
+                            .setDescription('The reaction role message')
+                            .setRequired(true)
+                            .setAutocomplete(true)
+                    )
+                    .addStringOption(option =>
+                        option.setName('messagecontent')
+                            .setDescription('The content of the message')
+                            .setRequired(false)
+                    )
             )
     )
 
@@ -753,95 +820,301 @@ export async function executeSlash(
             }
         }
     } else if (subCommandGroup == 'roles') {
-        let allowedRoles: Array<string> = await getGuildSetting(
-            interaction.guild.id,
-            {
-                group: 'assignableRoles',
-                setting: 'allowedRoles'
+        const reactionRoleDatabaseId = interaction.options.getString('messagename')
+        if (!ObjectID.isValid(reactionRoleDatabaseId) && subCommand != 'createmessage') {
+            console.log(reactionRoleDatabaseId)
+            interaction.reply({ content: 'Nono' })
+            return
+        }
+        if (subCommand == 'add') {
+            const reactionRoleDatabaseId = interaction.options.getString('messagename')
+            const reactionRoleObject = await prisma.reactionRoleMessages.findFirst({
+                    where: {
+                        AND: [
+                            { id: reactionRoleDatabaseId },
+                            { guildId: interaction.guild.id }
+                        ]
+                    }
+                }
+            )
+            if (!reactionRoleObject) {
+                interaction.reply({
+                    content: i18next.t('settings.REACTION_ROLE_MESSAGE_DOESNT_EXIST'),
+                    ephemeral: true
+                })
+                return
             }
-        )
-        if (!allowedRoles) allowedRoles = []
-        if (subCommand == 'allow') {
             const role = interaction.options.getRole('role')
-            if (allowedRoles.includes(role.id)) {
+            if (reactionRoleObject.roleIds.includes(role.id)) {
                 return interaction.reply({
-                    content: i18next.t('settings.ROLE_ALREADY_ALLOWED', {
+                    content: i18next.t('settings.SUCCESSFULLY_ADDED_ROLE_TO_MESSAGE', {
                         role: role.name,
                     }),
                     ephemeral: true,
                 })
             }
             if (role.managed) {
-                return interaction.reply({
-                    content: i18next.t('settings.ROLE_IS_MANAGED'),
-                    ephemeral: true,
-                })
+                interaction.reply({ content: i18next.t('settings.ROLE_IS_MANAGED'), ephemeral: true })
+                return
             }
-            if (role.position > interaction.guild.me.roles.highest.position) {
-                return interaction.reply({
-                    content: i18next.t('settings.ROLE_HIGHER_THAN_ME'),
-                    ephemeral: true,
-                })
+            if (reactionRoleObject.roleIds.includes(role.id)) {
+                interaction.reply({ content: i18next.t('settings.ROLE_ALREADY_IN_MESSAGE'), ephemeral: true })
+                return
             }
-            allowedRoles.push(role.id)
-            await setGuildSetting(
-                interaction.guild.id,
-                {
-                    group: 'assignableRoles',
-                    setting: 'allowedRoles',
-                    value: allowedRoles
+            if (reactionRoleObject.roleIds.length >= 25) {
+                interaction.reply({ content: i18next.t('settings.TOO_MANY_ROLES_ON_MESSAGE'), ephemeral: true })
+                return
+            }
+            reactionRoleObject.roleIds.push(role.id)
+            await prisma.reactionRoleMessages.update({
+                where: {
+                    id: reactionRoleDatabaseId
+                },
+                data: {
+                    roleIds: reactionRoleObject.roleIds
+                }
+            })
+            interaction.reply({ content: i18next.t('settings.SUCCESSFULLY_ADDED_ROLE_TO_MESSAGE') })
+        } else if (subCommand == 'remove') {
+            const reactionRoleDatabaseId = interaction.options.getString('messagename')
+            const reactionRoleObject = await prisma.reactionRoleMessages.findFirst({
+                    where: {
+                        AND: [
+                            { id: reactionRoleDatabaseId },
+                            { guildId: interaction.guild.id }
+                        ]
+                    }
                 }
             )
-            await interaction.reply({
-                content: i18next.t('settings.ROLE_ADDED_TO_ALLOW_LIST', {
-                    role: role.name,
-                }),
-            })
-        } else if (subCommand == 'disallow') {
+            if (!reactionRoleObject) {
+                interaction.reply({
+                    content: i18next.t('settings.REACTION_ROLE_MESSAGE_DOESNT_EXIST'),
+                    ephemeral: true
+                })
+                return
+            }
             const role = interaction.options.getRole('role')
-            if (!allowedRoles.includes(role.id)) {
-                return interaction.reply({
-                    content: i18next.t('settings.ROLE_NOT_ON_ALLOW_LIST', {
-                        role: role.name,
-                    }),
-                    ephemeral: true,
-                })
+            if (!reactionRoleObject.roleIds.includes(role.id)) {
+                interaction.reply({ content: i18next.t('settings.ROLE_NOT_IN_MESSAGE'), ephemeral: true })
+                return
             }
-            allowedRoles = removeItemFromArray(allowedRoles, role.id)
-            await setGuildSetting(
-                interaction.guild.id,
-                {
-                    group: 'assignableRoles',
-                    setting: 'allowedRoles',
-                    value: allowedRoles
+            reactionRoleObject.roleIds = removeItemFromArray(reactionRoleObject.roleIds, role.id)
+            await prisma.reactionRoleMessages.update({
+                where: {
+                    id: reactionRoleDatabaseId
+                },
+                data: {
+                    roleIds: reactionRoleObject.roleIds
+                }
+            })
+            interaction.reply({ content: i18next.t('settings.SUCCESSFULLY_REMOVED_ROLE_FROM_MESSAGE') })
+        } else if (subCommand == 'createmessage') {
+            const reactionRoleMessages = await prisma.reactionRoleMessages.findMany({
+                where: {
+                    guildId: interaction.guild.id
+                }
+            })
+            if (reactionRoleMessages.length == 5) {
+                interaction.reply({
+                    content: i18next.t('settings.REACTION_ROLES_NO_MORE_THAN', { maxAmount: 5 }),
+                    ephemeral: true
+                })
+                return
+            }
+            const messageName = interaction.options.getString('name')
+            for (const reactionMessage of reactionRoleMessages) {
+                if (reactionMessage.name == messageName) {
+                    interaction.reply({
+                        content: i18next.t('settings.ALREADY_REACTION_ROLE_MESSAGE_WITH_NAME'),
+                        ephemeral: true
+                    })
+                    return
+                }
+            }
+            await prisma.reactionRoleMessages.create({
+                data: {
+                    guildId: interaction.guild.id,
+                    name: messageName,
+                    roleIds: []
+                }
+            })
+            interaction.reply({ content: i18next.t('settings.REACTION_ROLE_MESSAGE_CREATE_SUCCESS') })
+        } else if (subCommand == 'deletemessage') {
+            const reactionRoleDatabaseId = interaction.options.getString('messagename')
+            const reactionRoleObject = await prisma.reactionRoleMessages.findFirst({
+                    where: {
+                        AND: [
+                            { id: reactionRoleDatabaseId },
+                            { guildId: interaction.guild.id }
+                        ]
+                    }
                 }
             )
-            await interaction.reply({
-                content: i18next.t('settings.ROLE_REMOVED_FROM_ALLOW_LIST', {
-                    role: role.name,
-                }),
-            })
-        } else if (subCommand == 'list') {
-            let allowListFormatted = ''
-            if (allowedRoles.length) {
-                for (const roleId of allowedRoles) {
-                    const role = await interaction.guild.roles.fetch(roleId)
-                    allowListFormatted += role.name + ', '
-                }
-                allowListFormatted = allowListFormatted.substring(
-                    0,
-                    allowListFormatted.length - 2
-                )
-            } else {
-                allowListFormatted = i18next.t(
-                    'settings.NO_ROLES_ON_ALLOW_LIST'
-                )
+            if (!reactionRoleObject) {
+                interaction.reply({
+                    content: i18next.t('settings.REACTION_ROLE_MESSAGE_DOESNT_EXIST'),
+                    ephemeral: true
+                })
+                return
             }
-            await interaction.reply({
-                content: i18next.t('settings.ROLES_ON_ALLOW_LIST', {
-                    roles: allowListFormatted,
-                }),
+            try {
+                const channel = await interaction.client.channels.fetch(reactionRoleObject.channelId)
+                if (channel.isText()) {
+                    const message = await channel.messages.fetch(reactionRoleObject.messageId)
+                    await message.delete()
+                }
+            } catch {
+                // So much error tracking
+            }
+            await prisma.reactionRoleMessages.delete({
+                where: {
+                    id: reactionRoleDatabaseId
+                }
             })
+            interaction.reply({ content: i18next.t('settings.SUCCESSFULLY_DELETED_REACTION_MESSAGE') })
+        } else if (subCommand == 'sendmessage' || subCommand == 'regeneratemessage') {
+            const reactionRoleDatabaseId = interaction.options.getString('messagename')
+            const reactionRoleObject = await prisma.reactionRoleMessages.findFirst({
+                    where: {
+                        AND: [
+                            { id: reactionRoleDatabaseId },
+                            { guildId: interaction.guild.id }
+                        ]
+                    }
+                }
+            )
+            if (!reactionRoleObject) {
+                interaction.reply({
+                    content: i18next.t('settings.REACTION_ROLE_MESSAGE_DOESNT_EXIST'),
+                    ephemeral: true
+                })
+                return
+            }
+            const roleNames = []
+            let messageContent = interaction.options.getString('messagecontent') ?? ''
+            const makeMessageContent = !messageContent
+            const emojis = []
+            for (const roleId of reactionRoleObject.roleIds) {
+                try {
+                    const emoji = randomEmoji()
+                    emojis.push(emoji)
+                    const role = await interaction.guild.roles.fetch(roleId)
+                    roleNames.push(role.name)
+                    if (makeMessageContent) {
+                        messageContent += `${emoji} ${role.name}\n`
+                    }
+                } catch {
+                    interaction.reply({ content: i18next.t('settings.FAILED_FETCHING_ROLE', { roleId: roleId }) })
+                    return
+                }
+            }
+            const messageComponents = []
+            const roleIdsChunked = chunkArray(reactionRoleObject.roleIds, 5)
+            let roleNumber = 0
+            for (let i = 0; i < roleIdsChunked.length; i++) {
+                const chunk = roleIdsChunked[i]
+                const row = new MessageActionRow()
+                for (let j = 0; j < chunk.length; j++) {
+                    const button = new MessageButton()
+                        .setLabel(roleNames[roleNumber])
+                        .setCustomId('reactionRoleHandler-' + roleIdsChunked[i][j])
+                        .setStyle('PRIMARY')
+                        .setEmoji(emojis[roleNumber])
+                    row.addComponents(button)
+                    roleNumber++
+                }
+                messageComponents.push(row)
+            }
+            const embed = new MessageEmbed()
+                .setTitle('Reaction Roles')
+                .setDescription(messageContent)
+                // @ts-expect-error
+                .setColor(randomHexCode())
+            let channelId
+            if (subCommand == 'sendmessage') {
+                channelId = interaction.options.getChannel('channel').id
+            } else if (subCommand == 'regeneratemessage') {
+                channelId = (await prisma.reactionRoleMessages.findFirst({
+                        where: {
+                            AND: [
+                                { id: reactionRoleDatabaseId },
+                                { guildId: interaction.guild.id }
+                            ]
+                        }
+                    }
+                )).channelId
+            }
+            let channel: Channel
+            try {
+                channel = await interaction.guild.channels.fetch(channelId)
+            } catch {
+                interaction.reply({ content: i18next.t('settings.FAILED_FETCHING_REACTION_CHANNEL'), ephemeral: true })
+                return
+            }
+            if (!channel.isText()) {
+                interaction.reply({ content: i18next.t('settings.CHANNEL_IS_NOT_TEXT'), ephemeral: true })
+                return
+            }
+            if (subCommand == 'sendmessage') {
+                try {
+                    const message = await channel.send({ embeds: [embed], components: messageComponents })
+                    await prisma.reactionRoleMessages.update({
+                        where: {
+                            id: reactionRoleDatabaseId
+                        },
+                        data: {
+                            channelId: channel.id,
+                            messageId: message.id
+                        }
+                    })
+                } catch {
+                    interaction.reply({
+                        content: i18next.t('settings.FAILED_SENDING_REACTION_MESSAGE'),
+                        ephemeral: true
+                    })
+                    return
+                }
+                interaction.reply({ content: i18next.t('settings.SUCCESSFULLY_SEND_REACTION_MESSAGE') })
+            } else if (subCommand == 'regeneratemessage') {
+                try {
+                    const message = await channel.messages.fetch(reactionRoleObject.messageId)
+                    await message.edit({ embeds: [embed], components: messageComponents })
+                } catch {
+                    interaction.reply({
+                        content: i18next.t('settings.FAILED_EDITING_REACTION_MESSAGE'),
+                        ephemeral: true
+                    })
+                    return
+                }
+                interaction.reply({ content: i18next.t('settings.SUCCESSFULLY_EDITED_REACTION_MESSAGE') })
+            }
         }
+    }
+}
+
+export async function executeAutocomplete(
+    client: BotClient,
+    interaction: AutocompleteInteraction
+) {
+    const subCommandGroup = interaction.options.getSubcommandGroup()
+    // const subCommand = interaction.options.getSubcommand()
+    const input = interaction.options.getFocused()
+    const matchedChoices = []
+    if (subCommandGroup == 'roles') {
+        const reactionRoleMessages = await prisma.reactionRoleMessages.findMany({
+            where: {
+                guildId: interaction.guild.id
+            }
+        })
+        if (!reactionRoleMessages.length) {
+            interaction.respond([])
+            return
+        }
+        for (const reactionRoleMessage of reactionRoleMessages) {
+            if (reactionRoleMessage.name.toLowerCase().startsWith(String(input).toLowerCase())) {
+                matchedChoices.push({ name: reactionRoleMessage.name, value: reactionRoleMessage.id })
+            }
+        }
+        interaction.respond(matchedChoices)
     }
 }

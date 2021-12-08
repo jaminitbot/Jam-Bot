@@ -19,14 +19,25 @@
     "SET_MODLOG_CHANNEL_SUCCESS": "{{modLogType, capitalise}} channel changed to {{channel}}",
     "CURRENT_MODLOG_EVENTS_ENABLED_DISABLED": "Logging of {{event}} events: {{toggle}}",
     "SET_MODLOG_EVENTS_ENABLED_DISABLED_SUCCESS": "Set logging of {{event}} events: {{toggle}}",
-    "ROLE_ALREADY_ALLOWED": "{{role}} is already on the allow list",
-    "ROLE_ADDED_TO_ALLOW_LIST": "{{role}} was successfully added to the allow list",
-    "ROLE_NOT_ON_ALLOW_LIST": "{{role}} is not on the allow list, so I couldn't remove it",
-    "ROLE_REMOVED_FROM_ALLOW_LIST": "{{role}} was successfully removed from the allow list",
-    "ROLES_ON_ALLOW_LIST": "Roles currently on the allow list: {{roles}}",
-    "NO_ROLES_ON_ALLOW_LIST": "none",
-    "ROLE_HIGHER_THAN_ME": "That role is higher than my role, make sure my role is higher so I can give it to members",
-    "ROLE_IS_MANAGED": "You cannot allow roles which are for a bot"
+    "REACTION_ROLES_NO_MORE_THAN": "You have reached the limit of the amount of {{maxAmount}} reaction messages",
+    "ALREADY_REACTION_ROLE_MESSAGE_WITH_NAME": "There is already a reaction role message with that name",
+    "REACTION_ROLE_MESSAGE_CREATE_SUCCESS": "A reaction role message was created, you can now add roles to it",
+    "REACTION_ROLE_MESSAGE_DOESNT_EXIST": "That reaction role message doesn't exist",
+    "ROLE_IS_HIGHER_THAN_MINE": "The specified role is higher than mine, I won't be able to add it",
+    "ROLE_IS_MANAGED": "The specified role is managed, I won't be able to add it",
+    "ROLE_ALREADY_IN_MESSAGE": "The specified role is already included in that message",
+    "TOO_MANY_ROLES_ON_MESSAGE": "You can only have up to 25 roles on one message",
+    "SUCCESSFULLY_ADDED_ROLE_TO_MESSAGE": "Successfully added that role to the message",
+    "SUCCESSFULLY_REMOVED_ROLE_FROM_MESSAGE": "Successfully removed role from the message",
+    "ROLE_NOT_IN_MESSAGE": "The specified role is not included in that message",
+    "SUCCESSFULLY_DELETED_REACTION_MESSAGE": "Successfully deleted message",
+    "FAILED_FETCHING_ROLE": "Failed fetching role with ID `{{roleId}}, if you recently deleted a role, please remove it from the message, otherwise contact support",
+    "FAILED_FETCHING_REACTION_CHANNEL": "Failed fetching channel",
+    "CHANNEL_IS_NOT_TEXT": "That channel isn't valid text channel",
+    "FAILED_SENDING_REACTION_MESSAGE": "Failed sending reaction message in channel",
+    "FAILED_EDITING_REACTION_MESSAGE": "Failed editing reaction message in channel",
+    "SUCCESSFULLY_SEND_REACTION_MESSAGE": "Successfully sent reaction message",
+    "SUCCESSFULLY_EDITED_REACTION_MESSAGE": "Successfully edited reaction message"
   },
   "changelog": {
     "CHANGELOG": "Changelog",
@@ -201,5 +212,13 @@
     "SETTING_GROUP": "Setting Group",
     "SETTING": "Setting",
     "VALUE": "Value"
+  },
+  "reactionRoleHandler": {
+    "FAILED_FETCHING_ROLE": "Failed fetching role `{{roleId}}`, ask an admin to check the role still exists",
+    "FAILED_FETCHING_MEMBER": "Failed fetching member, if this issue persists please report it",
+    "FAILED_REMOVING_ROLE": "Failed removing `{{roleName}}`, ask an admin to check my permissions",
+    "FAILED_ADDING_ROLE": "Failed adding `{{roleName}}`, ask an admin to check my permissions",
+    "SUCCESSFULLY_ADDED_ROLE": "Successfully given you role: `{{roleName}}`",
+    "SUCCESSFULLY_REMOVED_ROLE": "Successfully removed your role: `{{roleName}}`"
   }
 }
