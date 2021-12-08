@@ -218,7 +218,7 @@
     "FAILED_FETCHING_MEMBER": "Failed fetching member, if this issue persists please report it",
     "FAILED_REMOVING_ROLE": "Failed removing `{{roleName}}`, ask an admin to check my permissions",
     "FAILED_ADDING_ROLE": "Failed adding `{{roleName}}`, ask an admin to check my permissions",
-    "SUCCESSFULLY_ADDED_ROLE": "Successfully given you role: `{{roleName}}`",
-    "SUCCESSFULLY_REMOVED_ROLE": "Successfully removed your role: `{{roleName}}`"
+    "SUCCESSFULLY_ADDED_ROLE": "You have been give: `{{roleName}}`",
+    "SUCCESSFULLY_REMOVED_ROLE": "Removed role: `{{roleName}}`"
   }
 }
