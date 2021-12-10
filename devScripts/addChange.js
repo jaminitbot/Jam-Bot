@@ -10,13 +10,12 @@ function prompt(question, callback) {
     });
 }
 
-process.chdir(__dirname);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const {readFileSync, writeFile} = require("fs");
 
 // import {readFileSync, writeFile} from "fs";
 
-const filePath = "../changelog.json";
+const filePath = __dirname + "/../changelog.json";
 const data = JSON.parse(readFileSync(filePath, "utf8"));
 prompt("Enter the title of the change: ", function (inputData) {
     const title = inputData;

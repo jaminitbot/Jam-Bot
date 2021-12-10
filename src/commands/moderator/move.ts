@@ -69,7 +69,7 @@ async function moveVoiceChannel(
         client.logger.warn('moveCommand: Potentional error: ' + err)
         return i18next.t('general:UNKNOWN_ERROR')
     }
-    return i18next.t('move.SUCESS_MOVED_USERS', {
+    return i18next.t('move.SUCCESS_MOVED_USERS', {
         numberOfUsers: count,
         fromChannel: fromChannel.name,
         toChannel: toChannel.name,
