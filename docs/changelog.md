@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.15.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.14.4...v2.15.0) (2021-12-11)
+
+
+### Features
+
+* reaction roles! ([ff04251](https://github.com/jaminitbot/Jam-Bot/commit/ff04251cfeefc55eceba2c620266aa1d84010267))
+
+
+### Bug Fixes
+
+* build? ([153029e](https://github.com/jaminitbot/Jam-Bot/commit/153029ec95d8617033c5f08308bb059d0665df9f))
+* clean up deps/code ([38add64](https://github.com/jaminitbot/Jam-Bot/commit/38add649045fe53ffbe15af4da3d6838abc4b245))
+* **db:** fix when group is null ([16a1fb3](https://github.com/jaminitbot/Jam-Bot/commit/16a1fb3c08b843310a14a22e351eb753d5d46b60))
+* docker build ([c215898](https://github.com/jaminitbot/Jam-Bot/commit/c21589850d979c06e70a7c84fa21586b0d5696b8))
+* docker improvements ([377840a](https://github.com/jaminitbot/Jam-Bot/commit/377840a727c6a59e783c479c29fb147da6fcba4a))
+* fix locales ([746fbdc](https://github.com/jaminitbot/Jam-Bot/commit/746fbdc1cf75ac09894b6d06aa1f6c474847a9c6))
+* use __dirname ([41a71ab](https://github.com/jaminitbot/Jam-Bot/commit/41a71ab3687f654cfcf674f55976b1cb792e78ad))
+* use @discordjs/builders for autocomplete ([f9594dc](https://github.com/jaminitbot/Jam-Bot/commit/f9594dcf36c82f3db3a66301da8f943c626e4686))
+
 ### [2.14.4](https://github.com/jaminitbot/Jam-Bot/compare/v2.14.3...v2.14.4) (2021-11-30)
 
 
