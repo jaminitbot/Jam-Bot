@@ -14,7 +14,8 @@ import i18next from 'i18next'
 import { ChannelType } from 'discord-api-types'
 import { removeItemFromArray } from '../../functions/util'
 import { chunk as chunkArray } from 'lodash'
-import { ObjectID } from 'bson'
+// @ts-expect-error no types
+import { ObjectID } from 'bson-ext'
 
 export const name = 'settings'
 export const description = 'Configures the bot\'s settings'
@@ -829,13 +830,13 @@ export async function executeSlash(
         if (subCommand == 'add') {
             const reactionRoleDatabaseId = interaction.options.getString('messagename')
             const reactionRoleObject = await prisma.reactionRoleMessages.findFirst({
-                    where: {
-                        AND: [
-                            { id: reactionRoleDatabaseId },
-                            { guildId: interaction.guild.id }
-                        ]
-                    }
+                where: {
+                    AND: [
+                        { id: reactionRoleDatabaseId },
+                        { guildId: interaction.guild.id }
+                    ]
                 }
+            }
             )
             if (!reactionRoleObject) {
                 interaction.reply({
@@ -878,13 +879,13 @@ export async function executeSlash(
         } else if (subCommand == 'remove') {
             const reactionRoleDatabaseId = interaction.options.getString('messagename')
             const reactionRoleObject = await prisma.reactionRoleMessages.findFirst({
-                    where: {
-                        AND: [
-                            { id: reactionRoleDatabaseId },
-                            { guildId: interaction.guild.id }
-                        ]
-                    }
+                where: {
+                    AND: [
+                        { id: reactionRoleDatabaseId },
+                        { guildId: interaction.guild.id }
+                    ]
                 }
+            }
             )
             if (!reactionRoleObject) {
                 interaction.reply({
@@ -942,13 +943,13 @@ export async function executeSlash(
         } else if (subCommand == 'deletemessage') {
             const reactionRoleDatabaseId = interaction.options.getString('messagename')
             const reactionRoleObject = await prisma.reactionRoleMessages.findFirst({
-                    where: {
-                        AND: [
-                            { id: reactionRoleDatabaseId },
-                            { guildId: interaction.guild.id }
-                        ]
-                    }
+                where: {
+                    AND: [
+                        { id: reactionRoleDatabaseId },
+                        { guildId: interaction.guild.id }
+                    ]
                 }
+            }
             )
             if (!reactionRoleObject) {
                 interaction.reply({
@@ -975,13 +976,13 @@ export async function executeSlash(
         } else if (subCommand == 'sendmessage' || subCommand == 'regeneratemessage') {
             const reactionRoleDatabaseId = interaction.options.getString('messagename')
             const reactionRoleObject = await prisma.reactionRoleMessages.findFirst({
-                    where: {
-                        AND: [
-                            { id: reactionRoleDatabaseId },
-                            { guildId: interaction.guild.id }
-                        ]
-                    }
+                where: {
+                    AND: [
+                        { id: reactionRoleDatabaseId },
+                        { guildId: interaction.guild.id }
+                    ]
                 }
+            }
             )
             if (!reactionRoleObject) {
                 interaction.reply({
@@ -1035,13 +1036,13 @@ export async function executeSlash(
                 channelId = interaction.options.getChannel('channel').id
             } else if (subCommand == 'regeneratemessage') {
                 channelId = (await prisma.reactionRoleMessages.findFirst({
-                        where: {
-                            AND: [
-                                { id: reactionRoleDatabaseId },
-                                { guildId: interaction.guild.id }
-                            ]
-                        }
+                    where: {
+                        AND: [
+                            { id: reactionRoleDatabaseId },
+                            { guildId: interaction.guild.id }
+                        ]
                     }
+                }
                 )).channelId
             }
             let channel: Channel

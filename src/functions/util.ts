@@ -256,7 +256,11 @@ export function capitaliseSentence(string: string) {
     const str = String(string)
     return str.charAt(0).toUpperCase() + str.slice(1)
 }
-
+/**
+ * Converts a boolean value to a string representation
+ * @param booleanToConvert Boolean to convert
+ * @returns
+ */
 export function booleanToHuman(booleanToConvert: boolean) {
     if (booleanToConvert == true) {
         return i18next.t('misc:ON')
@@ -265,10 +269,21 @@ export function booleanToHuman(booleanToConvert: boolean) {
     }
 }
 
+/**
+ * Returns a promise for the given task
+ * @param time miliseconds to wait
+ * @returns  Promise
+ */
 export async function delay(time: number) {
     return new Promise((resolve) => setTimeout(resolve, time))
 }
 
+/**
+ * Hashes data using a specific hash type
+ * @param data data to hash
+ * @param hashType type of hash to use
+ * @returns hash
+ */
 export function hash(data: BinaryLike, hashType: string) {
     const hash = createHash(hashType)
         .update(data)
@@ -282,7 +297,7 @@ const emojis = [
 
 /**
  * Returns a random emoji
- * @returns {string} Emoji
+ * @returns Emoji
  */
 export function randomEmoji() {
     return emojis[Math.floor(Math.random() * emojis.length)]
@@ -290,7 +305,7 @@ export function randomEmoji() {
 
 /**
  * Returns a random hex code
- * @returns {string} Hex Code
+ * @returns Hex Code
  */
 export function randomHexCode() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16)

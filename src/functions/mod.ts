@@ -5,6 +5,7 @@ import ms from 'ms'
 import is_number from 'is-number'
 import { capitaliseSentence } from './util'
 import db from '../functions/db'
+import sentry from './sentry'
 
 type TaskType = 'UNMUTE' | 'UNBAN'
 
@@ -98,9 +99,8 @@ async function scheduleTask(
     type: TaskType,
     duration: number
 ) {
-
     try {
-        db.modlogTask.create({
+        await db.modlogTask.create({
             data: {
                 guildId: guildId,
                 targetId: targetId,
@@ -108,21 +108,22 @@ async function scheduleTask(
                 time: Date.now() + duration
             }
         })
-    } catch {
+    } catch (err) {
+        sentry.captureException(err)
         return 1
     }
     return 0
 }
 
 export async function processTasks(client: BotClient) {
-
     const tasks = await db.modlogTask.findMany({
         where: {
             time: {
-                lt: Date.now()
+                gte: Date.now()
             }
         }
     })
+    console.log(tasks)
     for (const task of tasks) {
         const guild = await client.guilds.fetch(task.guildId)
         if (guild) {
