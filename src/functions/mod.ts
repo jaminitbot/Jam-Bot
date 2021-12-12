@@ -119,11 +119,10 @@ export async function processTasks(client: BotClient) {
     const tasks = await db.modlogTask.findMany({
         where: {
             time: {
-                gte: Date.now()
+                lte: Date.now()
             }
         }
     })
-    console.log(tasks)
     for (const task of tasks) {
         const guild = await client.guilds.fetch(task.guildId)
         if (guild) {
@@ -148,7 +147,7 @@ export async function processTasks(client: BotClient) {
                     break
             }
         }
-        db.modlogTask.delete({
+        await db.modlogTask.delete({
             where: {
                 id: task.id
             }

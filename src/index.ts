@@ -2,7 +2,7 @@ import path from 'path'
 
 if (process.env.NODE_ENV != 'production') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('dotenv').config({ path: path.join(__dirname, '..', '.env')})
+    require('dotenv').config({ path: path.join(__dirname, '..', '.env') })
 }
 
 // Mr imports
@@ -213,7 +213,7 @@ import { incrementEventsCounter, initProm, saveClientPing } from './functions/me
                 sendTwitchNotifications(client)
             })
         }
-        scheduleJob('*/30 * * * * *', function () {
+        scheduleJob('*/5 * * * * *', function () {
             processTasks(client)
         })
         scheduleJob('*/5 * * * * *', function () {
