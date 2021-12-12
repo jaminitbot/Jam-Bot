@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.15.0...v2.15.1) (2021-12-12)
+
+
+### Bug Fixes
+
+* fix tasks ([78e46d5](https://github.com/jaminitbot/Jam-Bot/commit/78e46d57f044397abf0ff9152cb13f8e112d7db7))
+* modlog unmute/unban ([5739c98](https://github.com/jaminitbot/Jam-Bot/commit/5739c98eb349fef87c3e4e459a77c201b6244b52))
+
 ## [2.15.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.14.4...v2.15.0) (2021-12-11)
 
 
