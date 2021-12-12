@@ -14,8 +14,7 @@ import i18next from 'i18next'
 import { ChannelType } from 'discord-api-types'
 import { removeItemFromArray } from '../../functions/util'
 import { chunk as chunkArray } from 'lodash'
-// @ts-expect-error no types
-import { ObjectID } from 'bson-ext'
+import { ObjectID } from 'bson'
 
 export const name = 'settings'
 export const description = 'Configures the bot\'s settings'
