@@ -1,4 +1,4 @@
-import { Channel, CommandInteraction, Guild, GuildChannel, GuildMember, Message, MessageEmbed, User, } from 'discord.js'
+import { Channel, CommandInteraction, Guild, GuildChannel, GuildMember, Message, MessageEmbed, TextChannel, User, } from 'discord.js'
 import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { registerSlashCommands } from '../../functions/registerCommands'
@@ -125,6 +125,11 @@ export const slashData = new SlashCommandBuilder()
                     .addStringOption(option =>
                         option.setName('channelid')
                             .setDescription('Channel ID to send the message in')
+                            .setRequired(false)
+                    )
+                    .addStringOption(option =>
+                        option.setName('messageid')
+                            .setDescription('Message ID to reply to')
                             .setRequired(false)
                     )
             )
@@ -361,30 +366,41 @@ export async function executeSlash(
                     break
                 }
                 case
-                'say': {
-                    const thingToSay = interaction.options.getString('message')
-                    let channel: Channel
-                    try {
-                        channel = await interaction.client.channels.fetch(interaction.options.getString('channelid') ?? interaction.channel.id)
-                    } catch {
-                        await interaction.reply({ content: 'Error fetching channel', ephemeral: true })
-                        return
-                    }
-                    if (channel.isText) {
+                    'say': {
+                        const thingToSay = interaction.options.getString('message')
+                        const messagetoReplyToID = interaction.options.getString('messageid')
+                        let channel: TextChannel
                         try {
                             // @ts-expect-error
-                            await channel.send(thingToSay)
+                            channel = await interaction.client.channels.fetch(interaction.options.getString('channelid') ?? interaction.channel.id)
                         } catch {
-                            await interaction.reply({ content: 'Error sending message in channel' })
+                            await interaction.reply({ content: 'Error fetching channel', ephemeral: true })
                             return
                         }
-                        await interaction.reply({
-                            content: 'Successfully sent message',
-                            ephemeral: interaction.channel.id == channel.id
-                        })
+                        if (channel.isText) {
+                            if (!messagetoReplyToID) {
+                                try {
+                                    await channel.send(thingToSay)
+                                } catch {
+                                    await interaction.reply({ content: 'Error sending message in channel' })
+                                    return
+                                }
+                            } else {
+                                try {
+                                    const message = await channel.messages.fetch(messagetoReplyToID)
+                                    message.reply(thingToSay)
+                                } catch {
+                                    await interaction.reply({ content: 'Error sending message in channel' })
+                                    return
+                                }
+                            }
+                            await interaction.reply({
+                                content: 'Successfully sent message',
+                                ephemeral: interaction.channel.id == channel.id
+                            })
+                        }
+                        break
                     }
-                    break
-                }
             }
             break
         }
