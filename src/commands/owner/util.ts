@@ -398,6 +398,8 @@ export async function executeSlash(
                                 content: 'Successfully sent message',
                                 ephemeral: interaction.channel.id == channel.id
                             })
+                        } else {
+                            await interaction.reply({ content: 'Specified channel wasn\'t a text channel', ephemeral: true })
                         }
                         break
                     }
