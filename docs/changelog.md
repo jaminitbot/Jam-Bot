@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.2](https://github.com/jaminitbot/Jam-Bot/compare/v2.15.1...v2.15.2) (2021-12-16)
+
+
+### Features
+
+* add sensible rate limits to commands ([a3b3b52](https://github.com/jaminitbot/Jam-Bot/commit/a3b3b524e95e07aa26b7325c15bdcaf3bae89436))
+* ratelimits ([1a1900a](https://github.com/jaminitbot/Jam-Bot/commit/1a1900a56e81c773d535e928d2e4b179624db8f1))
+* reply to specific message say owner command ([d088ba5](https://github.com/jaminitbot/Jam-Bot/commit/d088ba5584afa1227962ea7e79bf6c68641d5ed9))
+
+
+### Bug Fixes
+
+* use bson ([b7306ec](https://github.com/jaminitbot/Jam-Bot/commit/b7306ecf812a91c7b7061533a04c1ca012364222))
+* **utilCommand:** add error message ([bdb3c70](https://github.com/jaminitbot/Jam-Bot/commit/bdb3c70bbf834a65a62cef2ec30083510e372d51))
+
 ### [2.15.1](https://github.com/jaminitbot/Jam-Bot/compare/v2.15.0...v2.15.1) (2021-12-12)
 
 
