@@ -8,6 +8,7 @@ export const name = 'dog'
 export const description = 'Gets a random image of a dog'
 export const usage = 'dog'
 export const allowInDm = true
+export const rateLimit = 3
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)

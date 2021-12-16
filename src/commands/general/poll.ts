@@ -8,6 +8,7 @@ export const description = 'Creates a simple yes/no poll'
 export const usage = 'poll Are chips tasty?'
 export const aliases = ['question']
 export const allowInDm = true
+export const rateLimit = 15
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
@@ -36,10 +37,10 @@ export async function execute(
     const text = args.splice(0).join(' ')
     const embed = createPollEmbed(text)
     embed.setFooter(
-        i18next.t('poll.POLL_FOOTER', {tag: message.author.tag}),
+        i18next.t('poll.POLL_FOOTER', { tag: message.author.tag }),
         message.author.avatarURL()
     )
-    const sent = await message.channel.send({embeds: [embed]})
+    const sent = await message.channel.send({ embeds: [embed] })
     try {
         await sent.react('✅')
         sent.react('❌')
@@ -54,7 +55,7 @@ export async function executeSlash(
 ) {
     const pollContent = interaction.options.getString('question')
     const embed = createPollEmbed(pollContent)
-    const sent = await interaction.reply({embeds: [embed], fetchReply: true})
+    const sent = await interaction.reply({ embeds: [embed], fetchReply: true })
     try {
         // @ts-expect-error
         await sent.react('✅')

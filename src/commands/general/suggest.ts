@@ -9,6 +9,7 @@ import i18next from 'i18next'
 export const name = 'suggest'
 export const description = 'Suggests something'
 export const usage = 'suggest Make a memes channel'
+export const rateLimit = 30
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)

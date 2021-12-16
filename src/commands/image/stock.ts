@@ -10,6 +10,7 @@ const logger = getLogger()
 export const name = 'stock'
 export const description = 'Searches Pexels for a stock image'
 export const usage = 'stock nature'
+export const rateLimit = 5
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
@@ -78,7 +79,7 @@ export async function getStockImage(
     const json: PexelsResponse = await response.body.json()
     const photoPosition = position ?? 1
     if (1 > position || position > json.photos.length) {
-        return i18next.t('image.NO_IMAGE_FOR_POSITION', {position: position})
+        return i18next.t('image.NO_IMAGE_FOR_POSITION', { position: position })
     }
     const image = json.photos[photoPosition - 1].src.medium // eslint-disable-line no-undef
     return image || i18next.t('general:API_ERROR')

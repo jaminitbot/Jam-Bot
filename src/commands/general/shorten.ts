@@ -8,6 +8,7 @@ export const name = 'shorten'
 export const description = 'Shortens a URL'
 export const usage = 'shorten https://google.com'
 export const allowInDm = true
+export const rateLimit = 10
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
@@ -62,6 +63,6 @@ export async function executeSlash(
     await interaction.reply({
         content: url,
         ephemeral: userOnly,
-        allowedMentions: {parse: []},
+        allowedMentions: { parse: [] },
     })
 }

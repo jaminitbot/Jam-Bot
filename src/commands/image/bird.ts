@@ -9,6 +9,7 @@ export const description = 'Chirp chirp'
 export const usage = 'bird'
 export const aliases = ['birb']
 export const allowInDm = true
+export const rateLimit = 3
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)

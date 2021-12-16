@@ -30,6 +30,7 @@ export const name = 'urban'
 export const description = 'Defines a word using urban dictionary'
 export const usage = 'urban word'
 export const allowInDm = false
+export const rateLimit = 3
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
@@ -76,13 +77,13 @@ async function returnDefineEmbed(wordToDefine: string) {
     // @ts-expect-error
     if (jsonResponse == 'NOT_FOUND' || !jsonResponse.list[0]) {
         const embed = new MessageEmbed()
-        embed.setDescription(i18next.t('define.NO_DEFINITIONS', {word: wordToDefine}))
+        embed.setDescription(i18next.t('define.NO_DEFINITIONS', { word: wordToDefine }))
         embed.setColor(colours[colours.length - 1])
         return embed
     }
     const embed = new MessageEmbed()
     embed.setColor(colours[randomInt(0, colours.length - 1)])
-    embed.setTitle(i18next.t('urban.URBAN_TITLE', {word: wordToDefine}))
+    embed.setTitle(i18next.t('urban.URBAN_TITLE', { word: wordToDefine }))
     let definition = String(jsonResponse.list[0].definition).replace(
         /[|]/g,
         ''
@@ -113,5 +114,5 @@ export async function executeSlash(
     const word = interaction.options.getString('word')
     console.log(word)
     const embed = await returnDefineEmbed(word)
-    await interaction.editReply({embeds: [embed]})
+    await interaction.editReply({ embeds: [embed] })
 }

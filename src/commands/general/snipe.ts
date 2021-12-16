@@ -7,6 +7,7 @@ import i18next from 'i18next'
 export const name = 'snipe'
 export const description = 'Shows recent edited/deleted messages'
 export const usage = 'snipe (deletes|edits)'
+export const rateLimit = 5
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
@@ -34,7 +35,7 @@ function returnSnipesEmbed(
         )
     } else {
         embed.setTitle(
-            i18next.t('snipe.SNIPE_TITLE', {snipeLifetime: snipeLifetime})
+            i18next.t('snipe.SNIPE_TITLE', { snipeLifetime: snipeLifetime })
         )
     }
     for (const snipe of snipes) {
@@ -106,7 +107,7 @@ export async function execute(
         `Sniped by ${message.author.username}`,
         message.author.avatarURL()
     ) // Add sniped by since author is not shown when using legacy prefix commands
-    await message.channel.send({embeds: [embed]})
+    await message.channel.send({ embeds: [embed] })
 }
 
 export async function executeSlash(
@@ -122,5 +123,5 @@ export async function executeSlash(
             ephemeral: true,
         })
     const embed = returnSnipesEmbed(snipes, type)
-    await interaction.reply({embeds: [embed]})
+    await interaction.reply({ embeds: [embed] })
 }

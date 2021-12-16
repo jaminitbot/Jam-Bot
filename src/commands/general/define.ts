@@ -46,6 +46,7 @@ const cache = new Map<string, WordDefinition>()
 export const name = 'define'
 export const description = 'Defines a word'
 export const usage = 'define word'
+export const rateLimit = 3
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
@@ -101,7 +102,7 @@ async function returnDefineEmbed(
     if (cache.get(wordToDefine) == 'NOT_FOUND') {
         const embed = new MessageEmbed()
         embed.setDescription(
-            i18next.t('define.NO_DEFINITIONS', {word: wordToDefine})
+            i18next.t('define.NO_DEFINITIONS', { word: wordToDefine })
         )
         embed.setColor(colours[colours.length - 1])
         return [[embed], null]
@@ -221,7 +222,7 @@ export async function execute(
     message: Message,
     args: Array<unknown>
 ) {
-    message.channel.send(i18next.t('ONLY_SLASH_COMMAND', {command: name}))
+    message.channel.send(i18next.t('ONLY_SLASH_COMMAND', { command: name }))
 }
 
 export async function executeSlash(
@@ -236,7 +237,7 @@ export async function executeSlash(
         interaction.user.id
     )
     // @ts-expect-error
-    await interaction.editReply({embeds: embed[0], components: embed[1]})
+    await interaction.editReply({ embeds: embed[0], components: embed[1] })
 }
 
 export async function executeButton(
@@ -276,7 +277,7 @@ export async function executeSelectMenu(
     interaction: SelectMenuInteraction
 ) {
     const interactionNameObject = interaction.customId.split('-')
-    const interactionData = {definitionType: interaction.values[0]}
+    const interactionData = { definitionType: interaction.values[0] }
     const eph = interactionNameObject[2] != interaction.user.id
     const wordToDefine = interactionNameObject.splice(3).join(' ')
     const defineEmbedData = await returnDefineEmbed(

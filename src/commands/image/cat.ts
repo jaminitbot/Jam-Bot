@@ -8,6 +8,7 @@ export const name = 'cat'
 export const description = 'Purrrrrrr'
 export const usage = 'cat'
 export const allowInDm = true
+export const rateLimit = 3
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
