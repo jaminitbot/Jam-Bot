@@ -1,4 +1,4 @@
-import { capitaliseSentence, checkPermissions, returnInvalidPermissionMessage, } from '../functions/util'
+import { capitaliseSentence, checkPermissions, checkRateLimit, returnInvalidPermissionMessage, setRateLimit, } from '../functions/util'
 import { getGuildSetting } from '../functions/db'
 import { BotClient } from '../customDefinitions'
 import { Message, MessageEmbed } from 'discord.js'
@@ -80,6 +80,14 @@ export async function register(client: BotClient, message: Message) {
                 }
                 return
             }
+        }
+        if (command.rateLimit && await checkRateLimit(command.name, command.rateLimit, message.author.id)) {
+            await message.reply({
+                content: i18next.t('general:RATE_LIMIT_HIT', { time: command.rateLimit }),
+            })
+            return
+        } else if (command.rateLimit) {
+            await setRateLimit(command.name, message.author.id)
         }
         Sentry.withMessageScope(message, async () => {
             const transaction = Sentry.startTransaction({

@@ -44,6 +44,7 @@ export interface Command {
     permissions: Array<Permission>
     usage: string
     interactionType: number
+    rateLimit: number
     execute: (
         client: BotClient,
         message: Message,

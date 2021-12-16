@@ -8,6 +8,7 @@ export const name = 'gif'
 export const description = 'Searches the internet for a gif'
 export const usage = 'gif hello'
 export const allowInDm = true
+export const rateLimit = 5
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)

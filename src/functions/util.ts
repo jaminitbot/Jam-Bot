@@ -310,3 +310,16 @@ export function randomEmoji() {
 export function randomHexCode() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16)
 }
+
+
+const rateLimits = new Map()
+
+export async function checkRateLimit(commandName: string, commandLimit: number, userId: string): Promise<boolean> {
+    const rateLimit = rateLimits.get(`${commandName}-${userId}`) ?? 0
+    if (Date.now() < (commandLimit * 1000) + rateLimit) return true
+    return false
+}
+
+export async function setRateLimit(commandName: string, userId: string) {
+    rateLimits.set(`${commandName}-${userId}`, Date.now())
+}

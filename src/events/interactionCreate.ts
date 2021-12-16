@@ -1,7 +1,7 @@
 import { BotClient } from '../customDefinitions'
 import { Interaction } from 'discord.js'
 import { getGuildSetting } from '../functions/db'
-import { capitaliseSentence, checkPermissions } from '../functions/util'
+import { capitaliseSentence, checkPermissions, checkRateLimit, setRateLimit } from '../functions/util'
 import { getErrorMessage, getInvalidPermissionsMessage, } from '../functions/messages'
 import Sentry from '../functions/sentry'
 import i18next from 'i18next'
@@ -58,6 +58,22 @@ export async function register(client: BotClient, interaction: Interaction) {
         } catch {
         }
     }
+    if (command.rateLimit && await checkRateLimit(command.name, command.rateLimit, interaction.user.id)) {
+        if (
+            interaction.isCommand() ||
+            interaction.isButton() ||
+            interaction.isContextMenu() ||
+            interaction.isSelectMenu()
+        ) {
+            await interaction.reply({
+                content: i18next.t('general:RATE_LIMIT_HIT', { time: command.rateLimit }),
+                ephemeral: true,
+            })
+        }
+        return
+    } else if (command.rateLimit) {
+        await setRateLimit(command.name, interaction.user.id)
+    }
     if (command.permissions) {
         // @ts-expect-error
         if (!checkPermissions(interaction.member, [...command.permissions])) {
@@ -65,8 +81,8 @@ export async function register(client: BotClient, interaction: Interaction) {
             client.logger.debug(
                 `messageHandler: User ${interaction.user.tag
                 } doesn't have the required permissions to run command ${
-                    // @ts-expect-error
-                    interaction.commandName ?? 'NULL'
+                // @ts-expect-error
+                interaction.commandName ?? 'NULL'
                 }`
             )
             if (
@@ -91,7 +107,7 @@ export async function register(client: BotClient, interaction: Interaction) {
             await interaction.reply({
                 content: i18next.t(
                     'events:interactionCreate.SLASH_FUNCTION_NULL',
-                    {prefix: prefix, command: command.name}
+                    { prefix: prefix, command: command.name }
                 ),
                 ephemeral: true,
             })
@@ -121,7 +137,7 @@ export async function register(client: BotClient, interaction: Interaction) {
                         }
                     } else {
                         try {
-                            await interaction.reply({content: getErrorMessage()})
+                            await interaction.reply({ content: getErrorMessage() })
                             // eslint-disable-next-line no-empty
                         } catch {
                         }

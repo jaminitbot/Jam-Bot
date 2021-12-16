@@ -15,6 +15,7 @@ const subscriptionKey = process.env.bingImageSearchKey
 export const name = 'image'
 export const description = 'Searches the internet for an image'
 export const usage = 'image duck'
+export const rateLimit = 5
 export const slashData = new SlashCommandBuilder()
     .setName(name)
     .setDescription(description)
@@ -89,7 +90,7 @@ export async function searchForImage(
         // Get specific image at position
         return (
             validImageUrls[position - 1] ||
-            i18next.t('image.NO_IMAGE_FOR_POSITION', {position: position})
+            i18next.t('image.NO_IMAGE_FOR_POSITION', { position: position })
         )
     } else {
         return validImageUrls[0] || i18next.t('image.NO_IMAGE_FOUND')
@@ -101,7 +102,7 @@ export async function execute(
     message: Message,
     args: Array<unknown>
 ) {
-    await message.reply(i18next.t('general:ONLY_SLASH_COMMAND', {command: '/image'}))
+    await message.reply(i18next.t('general:ONLY_SLASH_COMMAND', { command: '/image' }))
 }
 
 export async function executeSlash(
@@ -119,5 +120,5 @@ export async function executeSlash(
         isNsfw,
         client.logger
     )
-    await interaction.editReply({content: imageUrl})
+    await interaction.editReply({ content: imageUrl })
 }
