@@ -40,7 +40,7 @@ async function bulkDeleteMessages(
     await channel.bulkDelete(deleteCount).catch(() => {
         return messages.getErrorMessage()
     })
-    return i18next.t('purge.DELETE_SUCCESSFUL', {count: deleteCount})
+    return i18next.t('purge.DELETE_SUCCESSFUL', { count: deleteCount })
 }
 
 export async function execute(
@@ -59,9 +59,14 @@ export async function execute(
         // @ts-expect-error
         await bulkDeleteMessages(message.channel, args[0])
     )
-    setTimeout(() => {
-        sentMessage.delete()
-    }, 3 * 1000)
+    try {
+        setTimeout(async () => {
+            await sentMessage.delete()
+        }, 3 * 1000)
+    } catch {
+        return
+    }
+
 }
 
 export async function executeSlash(
