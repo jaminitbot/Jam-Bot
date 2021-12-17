@@ -9,7 +9,7 @@ General bot related settings
 Base usage: `/settings general`
 
 ## Roles
-Configures various settings relating to self assignable roles  
+Configures various settings relating to reaction roles
 Base usage: `/settings roles`
 
 ### Suggestions

@@ -2,7 +2,7 @@
 ## Changelog
 
 Shows the latest changes that the bot has undergone  
-Usage: `?changelog`, `?changelog [position]`
+Usage: `/changelog`, `/changelog [position]`
 
 ## Define
 
