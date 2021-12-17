@@ -313,19 +313,35 @@ export function randomHexCode() {
 
 
 const rateLimits = new Map()
-
+/**
+ * Checks whether a user should be rate limited
+ * @param commandName Name of command
+ * @param commandLimit Rate limit of command in seconds
+ * @param userId User ID to check
+ * @returns Boolean
+ */
 export function checkRateLimit(commandName: string, commandLimit: number, userId: string): boolean {
     const rateLimit = rateLimits.get(`${commandName}-${userId}`) ?? 0
     if (Date.now() < (commandLimit * 1000) + rateLimit) return true
     return false
 }
 
+/**
+ * Sets a rate limit when a user runs a command
+ * @param commandName Name of command
+ * @param userId User ID to rate limit
+ */
 export function setRateLimit(commandName: string, userId: string) {
     rateLimits.set(`${commandName}-${userId}`, Date.now())
 }
-
+/**
+ * Gets the tim remaining for a rate limit
+ * @param commandName Name of command
+ * @param commandLimit Rate limit of command in seconds
+ * @param userId User ID to check
+ * @returns Time remaining in MS
+ */
 export function getRateLimitRemaining(commandName: string, commandLimit: number, userId: string) {
-    const rateLimit = rateLimits.get(`${commandName}-${userId}`)
-    if (!rateLimit) return null
+    const rateLimit = rateLimits.get(`${commandName}-${userId}`) ?? 0
     return commandLimit * 1000 - (Date.now() - rateLimit)
 }
