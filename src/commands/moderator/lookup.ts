@@ -1,9 +1,9 @@
 import { CommandInteraction, Guild, GuildMember, Message, MessageEmbed, Role, TextBasedChannels, } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import dayjs from 'dayjs'
 import { getRoleFromString, getUserFromString } from '../../functions/util'
 import i18next from 'i18next'
+import { format } from 'date-fns'
 
 export const name = 'lookup'
 export const description = 'Displays information about a specific user or role'
@@ -33,11 +33,9 @@ async function lookupUserOrRole(
         const userName = member.user.tag
         const avatar = member.user.avatarURL() ?? member.user.defaultAvatarURL
         const isBot = String(member.user.bot).toUpperCase()
-        const createdAt = dayjs(member.user.createdAt).format(
-            'HH:mm [-] DD/MM/YYYY'
-        )
+        const createdAt = format(member.user.createdAt, 'HH:mm - dd/MM/yyyy')
         const nickName = member.nickname ?? member.user.username
-        const {id} = member
+        const { id } = member
         let roles = ''
         member.roles.cache.forEach((role) => {
             roles = `${roles} ${role.name},`
@@ -48,15 +46,15 @@ async function lookupUserOrRole(
         embed.addField(i18next.t('lookup.USER_IS_BOT'), isBot, true)
         embed.addField(i18next.t('lookup.USER_ROLES'), roles, true)
         embed.setAuthor(
-            i18next.t('lookup.USER_FOOTER', {tag: userName}),
+            i18next.t('lookup.USER_FOOTER', { tag: userName }),
             avatar
         )
     } else {
         // Didn't get a valid user, maybe its a role?
         if (role && role.color) {
             // Valid role
-            const {id, createdAt, name, mentionable} = role
-            embed.setTitle(i18next.t('lookup.ROLE_TITLE', {name: name}))
+            const { id, createdAt, name, mentionable } = role
+            embed.setTitle(i18next.t('lookup.ROLE_TITLE', { name: name }))
             embed.addField(i18next.t('lookup.ROLE_ID'), id, true)
             embed.addField(
                 i18next.t('lookup.ROLE_IS_MENTIONABLE'),
@@ -95,7 +93,7 @@ export async function execute(
     const initiatedUser = message.member.user.tag
     const initiatedAvatar = message.member.user.avatarURL()
     embed.setFooter('Command issued by ' + initiatedUser, initiatedAvatar)
-    await message.channel.send({embeds: [embed]})
+    await message.channel.send({ embeds: [embed] })
 }
 
 export async function executeSlash(
@@ -111,5 +109,5 @@ export async function executeSlash(
         userRole,
         userRole
     )
-    await interaction.editReply({embeds: [embed]})
+    await interaction.editReply({ embeds: [embed] })
 }

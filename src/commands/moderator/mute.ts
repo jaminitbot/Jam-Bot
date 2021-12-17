@@ -3,13 +3,7 @@ import { CommandInteraction, Message } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { moddable, mute, parseDuration } from '../../functions/mod'
-import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import i18next from 'i18next'
-
-dayjs.extend(duration)
-dayjs.extend(relativeTime)
 
 export const name = 'mute'
 export const description = 'Mutes a user'
@@ -44,7 +38,7 @@ export async function execute(
     args: Array<unknown>
 ) {
     message.channel.send(
-        i18next.t('general:ONLY_SLASH_COMMAND', {command: '/mute'})
+        i18next.t('general:ONLY_SLASH_COMMAND', { command: '/mute' })
     )
 }
 
@@ -72,7 +66,7 @@ export async function executeSlash(
             })
         case 2:
             return interaction.reply({
-                content: i18next.t('mod.SAME_USER', {action: 'mute'}),
+                content: i18next.t('mod.SAME_USER', { action: 'mute' }),
                 ephemeral: true,
             })
         case 3:
@@ -88,7 +82,7 @@ export async function executeSlash(
     }
     const reason = interaction.options.getString('reason')
     const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')
-    }`
+        }`
     const duration = interaction.options.getString('duration')
     const parsedDuration = parseDuration(duration)
     const muteResult = await mute(
@@ -106,7 +100,7 @@ export async function executeSlash(
                     duration: parsedDuration,
                     reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED'),
                 }),
-                allowedMentions: {parse: []},
+                allowedMentions: { parse: [] },
             })
         } else {
             await interaction.reply({
@@ -115,7 +109,7 @@ export async function executeSlash(
                     action: 'muted',
                     reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED'),
                 }),
-                allowedMentions: {parse: []},
+                allowedMentions: { parse: [] },
             })
         }
     } else if (muteResult == 3) {

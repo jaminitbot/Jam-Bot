@@ -6,5 +6,5 @@
   "API_ERROR": "The API is returning errors, please try again later",
   "BOT_INVALID_PERMISSION": "I don't have permission to {{friendlyPermissionName}} check with an admin to see if I have the {{permissionName}} permission",
   "UNKNOWN_ERROR": "An unknown error occurred",
-  "RATE_LIMIT_HIT": "Slow down! You can only use that command every {{time}} seconds"
+  "RATE_LIMIT_HIT": "Slow down! You can only use that command every {{time, duration}}. Try again {{timeLeft, durationPrefix}}"
 }

@@ -228,13 +228,13 @@ export function removeItemFromArray(array: Array<any>, value: unknown): Array<an
     })
 }
 
+const owners = String(process.env.ownerId).split(',')
 /**
  * Checks if a user ID is one of the bot owners
  * @param userId User ID to check
  * @returns Boolean
  */
 export function isBotOwner(userId: string) {
-    const owners = String(process.env.ownerId).split(',')
     return owners.includes(userId)
 }
 
@@ -314,12 +314,18 @@ export function randomHexCode() {
 
 const rateLimits = new Map()
 
-export async function checkRateLimit(commandName: string, commandLimit: number, userId: string): Promise<boolean> {
+export function checkRateLimit(commandName: string, commandLimit: number, userId: string): boolean {
     const rateLimit = rateLimits.get(`${commandName}-${userId}`) ?? 0
     if (Date.now() < (commandLimit * 1000) + rateLimit) return true
     return false
 }
 
-export async function setRateLimit(commandName: string, userId: string) {
+export function setRateLimit(commandName: string, userId: string) {
     rateLimits.set(`${commandName}-${userId}`, Date.now())
+}
+
+export function getRateLimitRemaining(commandName: string, commandLimit: number, userId: string) {
+    const rateLimit = rateLimits.get(`${commandName}-${userId}`)
+    if (!rateLimit) return null
+    return commandLimit * 1000 - (Date.now() - rateLimit)
 }

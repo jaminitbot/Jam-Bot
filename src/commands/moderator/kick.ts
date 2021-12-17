@@ -2,13 +2,7 @@ import { CommandInteraction, Message } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { kick, moddable } from '../../functions/mod'
-import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import i18next from 'i18next'
-
-dayjs.extend(duration)
-dayjs.extend(relativeTime)
 
 export const name = 'kick'
 export const description = 'Kicks a user from the server'
@@ -36,7 +30,7 @@ export async function execute(
     args: Array<unknown>
 ) {
     message.channel.send(
-        i18next.t('general:ONLY_SLASH_COMMAND', {command: '/mute'})
+        i18next.t('general:ONLY_SLASH_COMMAND', { command: 'mute' })
     )
 }
 
@@ -63,7 +57,7 @@ export async function executeSlash(
             })
         case 2:
             return interaction.reply({
-                content: i18next.t('mod.SAME_USER', {action: 'kick'}),
+                content: i18next.t('mod.SAME_USER', { action: 'kick' }),
                 ephemeral: true,
             })
         case 3:
@@ -79,7 +73,7 @@ export async function executeSlash(
     }
     const reason = interaction.options.getString('reason')
     const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')
-    }`
+        }`
     const kickResult = await kick(
         interaction.guild,
         targetUser.id,
@@ -92,7 +86,7 @@ export async function executeSlash(
                 action: 'kicked',
                 reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED'),
             }),
-            allowedMentions: {parse: []},
+            allowedMentions: { parse: [] },
         }) //
     } else {
         await interaction.reply(i18next.t('general:UNKNOWN_ERROR'))

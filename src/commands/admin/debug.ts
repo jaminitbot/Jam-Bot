@@ -2,8 +2,7 @@ import { CommandInteraction, Message, MessageEmbed } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from 'i18next'
-
-import dayjs from 'dayjs'
+import { format } from 'date-fns'
 
 export const name = 'debug'
 export const description = 'Displays debug information'
@@ -28,9 +27,7 @@ function returnDebugEmbed(
         true
     )
     embed.addField(i18next.t('debug.API_LATENCY'), `${websocketPing}ms`, true)
-    const uptimeDate = dayjs(Date.now() - clientUptime).format(
-        'HH:mm:ss [-] DD/MM/YYYY'
-    )
+    const uptimeDate = format(Date.now() - clientUptime, 'HH:mm:ss - dd/MM/yyyy')
     embed.addField(i18next.t('debug.UPTIME'), uptimeDate.toString(), true)
     embed.addField(i18next.t('debug.GUILD_ID'), guildId, true)
     embed.setTimestamp(Date.now())
@@ -52,17 +49,17 @@ export async function execute(
         message.guild.id
     )
     embed.setFooter(
-        i18next.t('general:INITIATED_BY', {tag: message.author.tag}),
+        i18next.t('general:INITIATED_BY', { tag: message.author.tag }),
         message.author.displayAvatarURL()
     )
-    sentMessage.edit({content: null, embeds: [embed]})
+    sentMessage.edit({ content: null, embeds: [embed] })
 }
 
 export async function executeSlash(
     client: BotClient,
     interaction: CommandInteraction
 ) {
-    const initiatedSlash = await interaction.deferReply({fetchReply: true})
+    const initiatedSlash = await interaction.deferReply({ fetchReply: true })
     if (initiatedSlash.type != 'APPLICATION_COMMAND') return
     const embed = returnDebugEmbed(
         initiatedSlash.createdTimestamp,
@@ -71,5 +68,5 @@ export async function executeSlash(
         client.ws.ping,
         interaction.guild.id
     )
-    await interaction.editReply({embeds: [embed]})
+    await interaction.editReply({ embeds: [embed] })
 }

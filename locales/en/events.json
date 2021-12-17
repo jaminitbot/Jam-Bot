@@ -3,7 +3,7 @@
 		"USER_ID": "User ID: {{id}}"
 	},
 	"guildMemberAdd": {
-		"EMBED_DESCRIPTION": "User: <@{{userId}}>\nAccount created: {{creationDate}}\nThere is now {{numberOfUsers}} users",
+		"EMBED_DESCRIPTION": "User: <@{{userId}}>\nAccount created: {{creationDate, date}}\nThere is now {{numberOfUsers}} users",
 		"USER_JOINED": "User Joined"
 	},
 	"guildMemberRemove": {

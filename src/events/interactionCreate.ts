@@ -1,7 +1,7 @@
 import { BotClient } from '../customDefinitions'
 import { Interaction } from 'discord.js'
 import { getGuildSetting } from '../functions/db'
-import { capitaliseSentence, checkPermissions, checkRateLimit, setRateLimit } from '../functions/util'
+import { capitaliseSentence, checkPermissions, checkRateLimit, getRateLimitRemaining, setRateLimit } from '../functions/util'
 import { getErrorMessage, getInvalidPermissionsMessage, } from '../functions/messages'
 import Sentry from '../functions/sentry'
 import i18next from 'i18next'
@@ -58,7 +58,7 @@ export async function register(client: BotClient, interaction: Interaction) {
         } catch {
         }
     }
-    if (command.rateLimit && await checkRateLimit(command.name, command.rateLimit, interaction.user.id)) {
+    if (command.rateLimit && checkRateLimit(command.name, command.rateLimit, interaction.user.id)) {
         if (
             interaction.isCommand() ||
             interaction.isButton() ||
@@ -66,13 +66,13 @@ export async function register(client: BotClient, interaction: Interaction) {
             interaction.isSelectMenu()
         ) {
             await interaction.reply({
-                content: i18next.t('general:RATE_LIMIT_HIT', { time: command.rateLimit }),
+                content: i18next.t('general:RATE_LIMIT_HIT', { time: command.rateLimit * 1000, timeLeft: getRateLimitRemaining(command.name, command.rateLimit, interaction.user.id) }),
                 ephemeral: true,
             })
         }
         return
     } else if (command.rateLimit) {
-        await setRateLimit(command.name, interaction.user.id)
+        setRateLimit(command.name, interaction.user.id)
     }
     if (command.permissions) {
         // @ts-expect-error
