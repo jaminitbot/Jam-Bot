@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.3](https://github.com/jaminitbot/Jam-Bot/compare/v2.15.2...v2.15.3) (2021-12-17)
+
+
+### Bug Fixes
+
+* improve date formatting ([cbf17c0](https://github.com/jaminitbot/Jam-Bot/commit/cbf17c08eb1b3d738dbc7ca9beecb70973898517))
+
 ### [2.15.2](https://github.com/jaminitbot/Jam-Bot/compare/v2.15.1...v2.15.2) (2021-12-16)
 
 
