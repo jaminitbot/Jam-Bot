@@ -16,26 +16,12 @@ type Permission = PermissionString | 'OWNER'
 export type Permissions = Array<Permission>
 
 export interface Command {
-    executeAutocomplete: (
-        client: BotClient,
-        interaction: AutocompleteInteraction
-    ) => Promise<void>
-    executeSelectMenu: (
-        client: BotClient,
-        interaction: SelectMenuInteraction
-    ) => Promise<void>
-    executeSlash: (
-        client: BotClient,
-        interaction: CommandInteraction
-    ) => Promise<void>
-    executeButton: (
-        client: BotClient,
-        interaction: ButtonInteraction
-    ) => Promise<void>
-    executeContextMenu: (
-        client: BotClient,
-        interaction: ContextMenuInteraction
-    ) => Promise<void>
+    execute: (client: BotClient, message: Message, args: Array<unknown>) => Promise<void>
+    executeAutocomplete: (client: BotClient, interaction: AutocompleteInteraction) => Promise<void>
+    executeSelectMenu: (client: BotClient, interaction: SelectMenuInteraction) => Promise<void>
+    executeSlash: (client: BotClient, interaction: CommandInteraction) => Promise<void>
+    executeButton: (client: BotClient, interaction: ButtonInteraction) => Promise<void>
+    executeContextMenu: (client: BotClient, interaction: ContextMenuInteraction) => Promise<void>
     slashData: SlashCommandBuilder
     allowInDm: boolean
     aliases: Array<string>
@@ -45,11 +31,6 @@ export interface Command {
     usage: string
     interactionType: number
     rateLimit: number
-    execute: (
-        client: BotClient,
-        message: Message,
-        args: Array<unknown>
-    ) => Promise<void>
 }
 
 interface Event {
