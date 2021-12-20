@@ -6,7 +6,7 @@ import { BotClient } from '../customDefinitions'
 
 const token = process.env.token
 if (!token) throw ('NO TOKEN')
-const rest = new REST({version: '9'}).setToken(token)
+const rest = new REST({ version: '9' }).setToken(token)
 import fs = require('fs')
 import path from 'path'
 
@@ -51,14 +51,21 @@ export async function registerSlashCommands(client: BotClient) {
     await rest.put(Routes.applicationCommands(client.application.id), {
         body: data,
     })
-    if (process.env.devServerId)
+    if (process.env.devServerId) {
         await rest.put(
             Routes.applicationGuildCommands(
                 client.application.id,
                 process.env.devServerId
             ),
-            {body: devData}
+            { body: devData }
         )
+        if (process.env.NODE_ENV != 'production') {
+            await rest.put(Routes.applicationCommands(client.application.id), {
+                body: {},
+            })
+        }
+    }
+
 }
 
 export function registerCommands(client: BotClient) {
@@ -71,7 +78,7 @@ export function registerCommands(client: BotClient) {
         for (const file of commandFiles) {
             delete require.cache[
                 require.resolve(path.join(__dirname, '..', 'commands', folder, file))
-                ]
+            ]
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             const command = require(path.join(__dirname, '..', 'commands', folder, file))
             if (!command.name) continue
