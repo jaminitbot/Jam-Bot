@@ -27,6 +27,7 @@ export async function register(
     )
         return
     if (newMessage.author.bot) return
+    if (oldMessage.pinned != newMessage.pinned) return
     await inputSnipe(newMessage, oldMessage, 'edit')
     if (isBotOwner(newMessage.author.id)) return
     //#region Edit Log
@@ -54,6 +55,6 @@ export async function register(
     )
     embed.setTimestamp(Date.now())
     embed.setColor('#61C9A8')
-    await postToModlog(client, newMessage.guild.id, {embeds: [embed]}, 'messages')
+    await postToModlog(client, newMessage.guild.id, { embeds: [embed] }, 'messages')
     //#endregion
 }
