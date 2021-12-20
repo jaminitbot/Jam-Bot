@@ -170,7 +170,7 @@ export const slashData = new SlashCommandBuilder()
             )
             .addSubcommand(command =>
                 command.setName('remove')
-                    .setDescription('Removes a role to a reaction role message')
+                    .setDescription('Removes a role from a reaction role message')
                     .addStringOption(option =>
                         option.setName('messagename')
                             .setDescription('The reaction role message')
@@ -1098,23 +1098,25 @@ export async function executeAutocomplete(
 ) {
     const subCommandGroup = interaction.options.getSubcommandGroup()
     // const subCommand = interaction.options.getSubcommand()
-    const input = interaction.options.getFocused()
     const matchedChoices = []
     if (subCommandGroup == 'roles') {
-        const reactionRoleMessages = await prisma.reactionRoleMessages.findMany({
-            where: {
-                guildId: interaction.guild.id
+        const input = interaction.options.getFocused(true)
+        if (input.name == 'messagename') {
+            const reactionRoleMessages = await prisma.reactionRoleMessages.findMany({
+                where: {
+                    guildId: interaction.guild.id
+                }
+            })
+            if (!reactionRoleMessages.length) {
+                interaction.respond([])
+                return
             }
-        })
-        if (!reactionRoleMessages.length) {
-            interaction.respond([])
-            return
-        }
-        for (const reactionRoleMessage of reactionRoleMessages) {
-            if (reactionRoleMessage.name.toLowerCase().startsWith(String(input).toLowerCase())) {
-                matchedChoices.push({ name: reactionRoleMessage.name, value: reactionRoleMessage.id })
+            for (const reactionRoleMessage of reactionRoleMessages) {
+                if (reactionRoleMessage.name.toLowerCase().startsWith(String(input.value).toLowerCase())) {
+                    matchedChoices.push({ name: reactionRoleMessage.name, value: reactionRoleMessage.id })
+                }
             }
+            interaction.respond(matchedChoices)
         }
-        interaction.respond(matchedChoices)
     }
 }
