@@ -2,13 +2,16 @@ name: Publish Dev Docker
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
       - "devScripts/**"
       - "docs/**"
       - "**.md"
       - ".github/**"
       - "package.json"
+      - ".git*"
+      - ".es*"
+      - ".env.example"
   workflow_dispatch:
 jobs:
   docker:
