@@ -22,16 +22,21 @@ services:
 2. Copy the env file from `.env.example` `.env` and fill out
 3. Run the bot: `docker-compose up -d`
 
+#### Updating
+
+1) Pull the changes: `docker-compose pull`
+2) Restart: `docker-compose up -d`
+
 ### Manual
 
 1. Clone the repo `git clone https://github.com/jamesatjaminit/Jam-Bot`
 2. Install deps `pnpm install`
 3. Copy the env file from `.env.example` to `.env` and fill out
 4. Compile typescript: `pnpm build`
-5. Generate prisma client: `pnpm prisma generate`
+5. Generate prisma client: `pnpx prisma generate`
 6. Run the bot: `pnpm start`
 
 ## TODO:
 
 - More modlogs
-- Better settings/web dashboard
+- Move twitch notifs to per guild
