@@ -1,8 +1,9 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
-import { MessageSniped, returnSnipedMessages, snipeLifetime, } from '../../functions/snipe'
+import { MessageSniped, returnSnipedMessages, } from '../../functions/snipe'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from 'i18next'
+import { SNIPE_DURATION } from '../../consts'
 
 export const name = 'snipe'
 export const description = 'Shows recent edited/deleted messages'
@@ -30,12 +31,12 @@ function returnSnipesEmbed(
             i18next.t('snipe.SNIPE_TITLE', {
                 context: 'SPECIFIC',
                 snipeType: ed + 'ed',
-                snipeLifetime: snipeLifetime,
+                snipeLifetime: SNIPE_DURATION,
             })
         )
     } else {
         embed.setTitle(
-            i18next.t('snipe.SNIPE_TITLE', { snipeLifetime: snipeLifetime })
+            i18next.t('snipe.SNIPE_TITLE', { snipeLifetime: SNIPE_DURATION })
         )
     }
     for (const snipe of snipes) {
@@ -79,7 +80,7 @@ function returnSnipesEmbed(
         embed.setDescription(
             i18next.t('snipe.NO_MESSAGES', {
                 snipeType: ed ? ed + 'ed' : 'edited/deleted',
-                snipeLifetime: snipeLifetime,
+                snipeLifetime: SNIPE_DURATION,
             })
         )
     }

@@ -6,6 +6,8 @@ import Sentry from '../functions/sentry'
 import messages = require('../functions/messages')
 import { hash } from '../functions/util'
 import { getUnixTime } from 'date-fns'
+import { TWITCH_BASE_API_URL, TWITCH_BASE_CDN_URL, TWITCH_BASE_URL } from '../consts'
+
 export default async function execute(client: BotClient) {
     if (
         !process.env.twitchNotificationsChannel ||
@@ -15,7 +17,7 @@ export default async function execute(client: BotClient) {
     let response: Dispatcher.ResponseData
     try {
         response = await request(
-            'https://api.twitch.tv/helix/streams?user_id=' +
+            TWITCH_BASE_API_URL + '/streams?user_id=' +
             process.env.twitchNotificationsUsername,
             {
                 method: 'GET',
@@ -64,7 +66,7 @@ export default async function execute(client: BotClient) {
         const liveTitle = liveInfo.title ?? 'N/A'
         const startedAt = getUnixTime(liveInfo.started_at)
         const playingGame = liveInfo.game_name ?? 'N/A'
-        const thumbnailUrl = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${liveInfo.user_login}-200x100.jpg`
+        const thumbnailUrl = `${TWITCH_BASE_CDN_URL}/previews-ttv/live_user_${liveInfo.user_login}-200x100.jpg`
         const thumbnailAttachment = new MessageAttachment(
             thumbnailUrl,
             'thumnail.jpg'
@@ -74,10 +76,10 @@ export default async function execute(client: BotClient) {
             `${messages.getHappyMessage()} ${liveInfo.user_login
             } is live streaming!`
         )
-        embed.setURL('https://twitch.tv/' + liveInfo.user_login)
+        embed.setURL(`${TWITCH_BASE_URL}/${liveInfo.user_login}`)
         embed.setDescription(liveTitle)
         embed.addField('Playing', playingGame, true)
-        embed.addField('Started', `<t:${startedAt}:R>`, true)
+        embed.addField('Started', `<t:${startedAt}:R> `, true)
         embed.setImage(thumbnailAttachment.url)
         embed.setFooter('Updates every 5 seconds.')
         embed.setColor('#A077FF')

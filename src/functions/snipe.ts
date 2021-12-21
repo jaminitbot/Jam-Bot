@@ -1,8 +1,8 @@
 import { Message, User } from 'discord.js'
 import i18next from 'i18next'
+import { SNIPE_DURATION } from '../consts'
 import { isBotOwner, removeItemFromArray } from './util'
 
-export const snipeLifetime = 20
 
 export interface MessageSniped {
     channel: string
@@ -45,7 +45,7 @@ export async function inputSnipe(
     const channelArray = buffer.get(message.channel.id) ?? []
     channelArray.push(messageObject)
     buffer.set(message.channel.id, channelArray)
-    setTimeout(() => buffer.set(message.channel.id, removeItemFromArray(buffer.get(message.channel.id), messageObject)), snipeLifetime * 1000)
+    setTimeout(() => buffer.set(message.channel.id, removeItemFromArray(buffer.get(message.channel.id), messageObject)), SNIPE_DURATION * 1000)
 }
 
 /**

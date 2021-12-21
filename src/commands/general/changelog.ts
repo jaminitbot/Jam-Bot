@@ -5,7 +5,7 @@ import { request } from 'undici'
 import { Logger } from 'winston'
 import Sentry from '../../functions/sentry'
 import i18next from 'i18next'
-
+import { GITHUB_CHANGELOG_LINK as changelogUrl } from '../../consts'
 const cache = new Map()
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -44,16 +44,12 @@ export const slashData = new SlashCommandBuilder()
 async function returnChangelogEmbed(changeNumber: number = null, logger: Logger) {
     const embed = new MessageEmbed()
     embed.setTitle(i18next.t('changelog.CHANGELOG'))
-    if (!process.env.changelogLink) {
-        embed.setDescription('No changelog URL specified :(')
-        return [embed, true]
-    }
     let log: ChangelogResponse = cache.get('log')
     if (!log) {
         logger.debug(
             'Cache not hit, attempting to retrieve changelog from github...'
         )
-        const response = await request(process.env.changelogLink)
+        const response = await request(changelogUrl)
         if (response.statusCode != 200) {
             logger.warn(
                 'changelog: github seems to be returning non-standard status codes'
@@ -118,7 +114,7 @@ export async function execute(
     args: Array<unknown>
 ) {
     message.channel.send(
-        i18next.t('general:ONLY_SLASH_COMMAND', {command: name})
+        i18next.t('general:ONLY_SLASH_COMMAND', { command: name })
     )
 }
 

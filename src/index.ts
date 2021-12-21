@@ -17,6 +17,7 @@ import { removeItemFromArray, saveLogger, stopBot } from './functions/util'
 import { processTasks } from './functions/mod'
 import { initTranslations } from './functions/locales'
 import { incrementEventsCounter, initProm, saveClientPing } from './functions/metrics'
+import { MODLOG_TASKS_POLLING_DELAY, PROMETHEUS_PING_SAVE_DURATION, TWITCH_NOTIFICATIONS_POLLING_DELAY } from './consts'
 
 // eslint-disable-next-line no-unexpected-multiline
 (async function () {
@@ -208,15 +209,15 @@ import { incrementEventsCounter, initProm, saveClientPing } from './functions/me
         logger.info('Bot is READY')
         if (process.env.twitchApiClientId && process.env.twitchApiSecret) {
             // Only if api tokens are present
-            scheduleJob('*/5 * * * * *', function () {
+            scheduleJob(`*/${TWITCH_NOTIFICATIONS_POLLING_DELAY} * * * * *`, function () {
                 // Twitch notifications
                 sendTwitchNotifications(client)
             })
         }
-        scheduleJob('*/5 * * * * *', function () {
+        scheduleJob(`*/${MODLOG_TASKS_POLLING_DELAY} * * * * *`, function () {
             processTasks(client)
         })
-        scheduleJob('*/5 * * * * *', function () {
+        scheduleJob(`*/${PROMETHEUS_PING_SAVE_DURATION} * * * * *`, function () {
             saveClientPing(client.ws.ping)
         })
     })
