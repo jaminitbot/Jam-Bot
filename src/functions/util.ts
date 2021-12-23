@@ -311,8 +311,9 @@ export function randomHexCode() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16)
 }
 
-
+import { GLOBAL_RATELIMIT_DURATION } from '../consts'
 const rateLimits = new Map()
+
 /**
  * Checks whether a user should be rate limited
  * @param commandName Name of command
@@ -320,7 +321,8 @@ const rateLimits = new Map()
  * @param userId User ID to check
  * @returns Boolean
  */
-export function checkRateLimit(commandName: string, commandLimit: number, userId: string): boolean {
+export function checkRateLimit(commandName: string, commandLimit: number | undefined, userId: string): boolean {
+    if (!commandLimit) commandLimit = GLOBAL_RATELIMIT_DURATION
     const rateLimit = rateLimits.get(`${commandName}-${userId}`) ?? 0
     if (Date.now() < (commandLimit * 1000) + rateLimit) return true
     return false
@@ -334,6 +336,7 @@ export function checkRateLimit(commandName: string, commandLimit: number, userId
 export function setRateLimit(commandName: string, userId: string) {
     rateLimits.set(`${commandName}-${userId}`, Date.now())
 }
+
 /**
  * Gets the tim remaining for a rate limit
  * @param commandName Name of command
@@ -341,7 +344,9 @@ export function setRateLimit(commandName: string, userId: string) {
  * @param userId User ID to check
  * @returns Time remaining in MS
  */
-export function getRateLimitRemaining(commandName: string, commandLimit: number, userId: string) {
-    const rateLimit = rateLimits.get(`${commandName}-${userId}`) ?? 0
+export function getRateLimitRemaining(commandName: string, commandLimit: number | undefined, userId: string) {
+    if (!commandLimit) commandLimit = GLOBAL_RATELIMIT_DURATION
+    const rateLimit = rateLimits.get(`${commandName}-${userId}`)
+    if (!rateLimit) return 0
     return commandLimit * 1000 - (Date.now() - rateLimit)
 }

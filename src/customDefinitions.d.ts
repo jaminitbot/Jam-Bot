@@ -16,21 +16,21 @@ type Permission = PermissionString | 'OWNER'
 export type Permissions = Array<Permission>
 
 export interface Command {
-    execute: (client: BotClient, message: Message, args: Array<unknown>) => Promise<void>
-    executeAutocomplete: (client: BotClient, interaction: AutocompleteInteraction) => Promise<void>
-    executeSelectMenu: (client: BotClient, interaction: SelectMenuInteraction) => Promise<void>
-    executeSlash: (client: BotClient, interaction: CommandInteraction) => Promise<void>
-    executeButton: (client: BotClient, interaction: ButtonInteraction) => Promise<void>
-    executeContextMenu: (client: BotClient, interaction: ContextMenuInteraction) => Promise<void>
-    slashData: SlashCommandBuilder
-    allowInDm: boolean
-    aliases: Array<string>
     name: string
     description: string
-    permissions: Array<Permission>
     usage: string
-    interactionType: number
-    rateLimit: number
+    aliases: Array<string> | undefined
+    allowInDm: boolean | undefined
+    permissions: Array<Permission> | undefined
+    slashData: SlashCommandBuilder | undefined
+    rateLimit: number | undefined
+    execute: (client: BotClient, message: Message, args: Array<unknown>) => Promise<void> | undefined
+    executeAutocomplete: (client: BotClient, interaction: AutocompleteInteraction) => Promise<void> | undefined
+    executeSelectMenu: (client: BotClient, interaction: SelectMenuInteraction) => Promise<void> | undefined
+    executeSlash: (client: BotClient, interaction: CommandInteraction) => Promise<void> | undefined
+    executeButton: (client: BotClient, interaction: ButtonInteraction) => Promise<void> | undefined
+    executeContextMenu: (client: BotClient, interaction: ContextMenuInteraction) => Promise<void> | undefined
+    interactionType: number | undefined
 }
 
 interface Event {

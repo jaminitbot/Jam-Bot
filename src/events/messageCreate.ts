@@ -6,6 +6,7 @@ import { getErrorMessage } from '../functions/messages'
 import Sentry from '../functions/sentry'
 import i18next from 'i18next'
 import { incrementMessageCounter } from '../functions/metrics'
+import { GLOBAL_RATELIMIT_DURATION } from '../consts'
 
 const bannedIds = ['']
 export const name = 'messageCreate'
@@ -81,14 +82,14 @@ export async function register(client: BotClient, message: Message) {
                 return
             }
         }
-        if (command.rateLimit && checkRateLimit(command.name, command.rateLimit, message.author.id)) {
+        if (checkRateLimit(command.name, command.rateLimit, message.author.id)) {
+            const commandRateLimit = command.rateLimit ?? GLOBAL_RATELIMIT_DURATION
             await message.reply({
-                content: i18next.t('general:RATE_LIMIT_HIT', { time: command.rateLimit * 1000, timeLeft: getRateLimitRemaining(command.name, command.rateLimit, message.author.id) }),
+                content: i18next.t('general:RATE_LIMIT_HIT', { time: commandRateLimit * 1000, timeLeft: getRateLimitRemaining(command.name, command.rateLimit, message.author.id) }),
             })
             return
-        } else if (command.rateLimit) {
-            setRateLimit(command.name, message.author.id)
         }
+        setRateLimit(command.name, message.author.id)
         Sentry.withMessageScope(message, async () => {
             const transaction = Sentry.startTransaction({
                 op: command.name + 'Command',

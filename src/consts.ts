@@ -13,3 +13,5 @@ export const TWITCH_BASE_API_URL = `https://api.${TWITCH_BASE_HOST}/helix`
 export const TWITCH_BASE_CDN_URL = 'https://static-cdn.jtvnw.net'
 
 export const SNIPE_DURATION = 20 // How long to let messages be sniped for
+
+export const GLOBAL_RATELIMIT_DURATION = 0.5 // How often a command without a ratelimit can be run

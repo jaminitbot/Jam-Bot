@@ -6,6 +6,7 @@ import { getErrorMessage, getInvalidPermissionsMessage, } from '../functions/mes
 import Sentry from '../functions/sentry'
 import i18next from 'i18next'
 import { incrementInteractionCounter } from '../functions/metrics'
+import { GLOBAL_RATELIMIT_DURATION } from '../consts'
 
 export const name = 'interactionCreate'
 
@@ -58,22 +59,22 @@ export async function register(client: BotClient, interaction: Interaction) {
         } catch {
         }
     }
-    if (command.rateLimit && checkRateLimit(command.name, command.rateLimit, interaction.user.id)) {
+    if (checkRateLimit(command.name, command.rateLimit, interaction.user.id)) {
         if (
             interaction.isCommand() ||
             interaction.isButton() ||
             interaction.isContextMenu() ||
             interaction.isSelectMenu()
         ) {
+            const commandRateLimit = command.rateLimit ?? GLOBAL_RATELIMIT_DURATION
             await interaction.reply({
-                content: i18next.t('general:RATE_LIMIT_HIT', { time: command.rateLimit * 1000, timeLeft: getRateLimitRemaining(command.name, command.rateLimit, interaction.user.id) }),
+                content: i18next.t('general:RATE_LIMIT_HIT', { time: commandRateLimit * 1000, timeLeft: getRateLimitRemaining(command.name, command.rateLimit, interaction.user.id) }),
                 ephemeral: true,
             })
         }
         return
-    } else if (command.rateLimit) {
-        setRateLimit(command.name, interaction.user.id)
     }
+    setRateLimit(command.name, interaction.user.id)
     if (command.permissions) {
         // @ts-expect-error
         if (!checkPermissions(interaction.member, [...command.permissions])) {
