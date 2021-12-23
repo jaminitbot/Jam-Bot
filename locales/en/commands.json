@@ -173,27 +173,6 @@
   "unmute": {
     "USER_NOT_MUTED": "The user isn't muted"
   },
-  "eval": {
-    "SECRET": "[secret]",
-    "COMMAND": "Command",
-    "TOO_LARGE": "The {{type}} was too large for discord",
-    "TOO_LARGE_UPLOADED_SUCCESS": "$t(eval.TOO_LARGE), uploaded to hastebin: {{url}}",
-    "TOO_LARGE_UPLOADED_FAILURE": "$t(eval.TOO_LARGE), but I failed to upload it to hastebin",
-    "OUTPUT": "Output",
-    "NO_ARGUMENTS_SPECIFIED": "You need to specify a command to run",
-    "COMMAND_RUNNING": "Executing command..."
-  },
-  "log": {
-    "INVALID_LOG_TYPE": "That isn't a valid log type",
-    "LOG_EMPTY": "The log was empty, not uploading",
-    "UPLOAD_SUCCESS": "Successfully uploaded log: {{url}}"
-  },
-  "say": {
-    "NO_MESSAGE_SPECIFIED": "You need to specify what to say"
-  },
-  "shutdown": {
-    "SHUTTING_DOWN": "Shutting down..."
-  },
   "roles": {
     "ROLE_NOT_WHITELISTED": "<@&{{role}}> is not whitelisted, you can't {{type}} that one",
     "UNKNOWN_ERROR": "There was an unknown error managing that role, check with admin to see if I have the correct permissions",
@@ -211,7 +190,8 @@
     "GUILD_ID": "Guild ID",
     "SETTING_GROUP": "Setting Group",
     "SETTING": "Setting",
-    "VALUE": "Value"
+    "VALUE": "Value",
+    "SHUTTING_DOWN": "Shutting down..."
   },
   "reactionRoleHandler": {
     "FAILED_FETCHING_ROLE": "Failed fetching role `{{roleId}}`, ask an admin to check the role still exists",

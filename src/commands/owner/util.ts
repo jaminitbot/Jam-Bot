@@ -360,7 +360,7 @@ export async function executeSlash(
                 }
 
                 case 'shutdown': {
-                    await interaction.reply(i18next.t('shutdown.SHUTTING_DOWN'))
+                    await interaction.reply(i18next.t('util.SHUTTING_DOWN'))
                     // @ts-expect-error
                     process.emit('SIGINT')
                     break
