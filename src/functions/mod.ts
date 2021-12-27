@@ -1,4 +1,4 @@
-import { Channel, Guild, GuildMember, MessageOptions } from 'discord.js'
+import { AnyChannel, Guild, GuildMember, MessageOptions } from 'discord.js'
 import { BotClient } from '../customDefinitions'
 import { getGuildSetting } from './db'
 import ms from 'ms'
@@ -76,7 +76,7 @@ export async function postToModlog(
         channelId = await getGuildSetting(guildId, { group: 'modlog', setting: 'mainChannelId' })
         if (!channelId) return 4
     }
-    let channel: Channel
+    let channel: AnyChannel
     try {
         channel = await client.channels.fetch(channelId)
     } catch {

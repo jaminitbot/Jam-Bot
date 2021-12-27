@@ -32,8 +32,7 @@ export async function register(client: BotClient, guild: Guild) {
     if (!channel) return
     if (channel.type != 'GUILD_TEXT' && channel.type != 'GUILD_NEWS') return
     try {
-        // @ts-expect-error
-        channel.send({embeds: [await this.generateGuildInfoEmbed(guild)]})
+        channel.send({ embeds: [await this.generateGuildInfoEmbed(guild)] })
         // eslint-disable-next-line no-empty
     } catch {
     }

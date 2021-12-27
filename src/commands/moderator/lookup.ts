@@ -1,4 +1,4 @@
-import { CommandInteraction, Guild, GuildMember, Message, MessageEmbed, Role, TextBasedChannels, } from 'discord.js'
+import { CommandInteraction, Guild, GuildMember, Message, MessageEmbed, Role, TextBasedChannel } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { getRoleFromString, getUserFromString } from '../../functions/util'
@@ -21,7 +21,7 @@ export const slashData = new SlashCommandBuilder()
     )
 
 async function lookupUserOrRole(
-    channel: TextBasedChannels,
+    channel: TextBasedChannel,
     guild: Guild,
     member: GuildMember,
     role: Role

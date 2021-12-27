@@ -1,4 +1,4 @@
-import { Channel, CommandInteraction, Guild, GuildChannel, GuildMember, Message, MessageEmbed, TextChannel, User, } from 'discord.js'
+import { AnyChannel, CommandInteraction, Guild, GuildChannel, GuildMember, Message, MessageEmbed, TextChannel, User, } from 'discord.js'
 import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { registerSlashCommands } from '../../functions/registerCommands'
@@ -308,7 +308,7 @@ export async function executeSlash(
                 case 'channel': {
                     const channelId = interaction.options.getString('id')
                     const guildId = interaction.options.getString('guildid')
-                    let channel: Channel
+                    let channel: AnyChannel
                     try {
                         channel = await interaction.client.channels.fetch(channelId)
                         // eslint-disable-next-line no-empty

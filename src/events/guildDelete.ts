@@ -10,7 +10,6 @@ export async function register(guild: Guild) {
     if (!channel) return
     if (channel.type != 'GUILD_TEXT' && channel.type != 'GUILD_NEWS') return
     try {
-        // @ts-expect-error
         channel.send(`Oh dear, we left ${guild.name}, ${guild.id}`)
         // eslint-disable-next-line no-empty
     } catch {

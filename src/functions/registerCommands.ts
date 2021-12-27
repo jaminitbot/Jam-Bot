@@ -19,7 +19,7 @@ export async function registerSlashCommands(client: BotClient) {
     let data: Array<RESTPostAPIApplicationCommandsJSONBody> = []
     let devData: Array<RESTPostAPIApplicationCommandsJSONBody> = []
     commands.forEach((command) => {
-        if (typeof command.executeSlash == 'function') {
+        if (typeof command.executeSlash == 'function' && command.slashData) {
             if (
                 (command.permissions &&
                     command.permissions.includes('OWNER')) ||

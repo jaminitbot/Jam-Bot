@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, TextBasedChannels } from 'discord.js'
+import { CommandInteraction, Message, TextBasedChannel } from 'discord.js'
 import { BotClient } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import i18next from 'i18next'
@@ -21,7 +21,7 @@ export const slashData = new SlashCommandBuilder()
     )
 
 async function bulkDeleteMessages(
-    channel: TextBasedChannels,
+    channel: TextBasedChannel,
     NumOfMessagesToDelete: number
 ) {
     if (channel.type != 'GUILD_TEXT' && channel.type != 'GUILD_NEWS') return

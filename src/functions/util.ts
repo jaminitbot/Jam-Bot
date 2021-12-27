@@ -1,4 +1,4 @@
-import { Channel, Guild, GuildChannel, GuildMember, Message, Role, ThreadChannel } from 'discord.js'
+import { AnyChannel, Guild, GuildMember, Message, Role } from 'discord.js'
 import { BotClient, Permission } from '../customDefinitions'
 import { getInvalidPermissionsMessage } from './messages'
 import { request } from 'undici'
@@ -159,7 +159,7 @@ export async function getRoleFromString(
 export async function getChannelFromString(
     guild: Guild,
     text: unknown
-): Promise<Channel | ThreadChannel | GuildChannel | null | undefined> {
+): Promise<AnyChannel> {
     try {
         if (!text) return null
         let stringText = String(text)
