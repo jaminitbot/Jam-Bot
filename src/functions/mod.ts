@@ -127,15 +127,6 @@ export async function processTasks(client: BotClient) {
         const guild = await client.guilds.fetch(task.guildId)
         if (guild) {
             switch (task.type) {
-                case 'UNMUTE':
-                    if (guild.me.permissions.has('MANAGE_ROLES')) {
-                        await unmute(
-                            guild,
-                            task.targetId,
-                            'Automatically unmuted'
-                        )
-                    }
-                    break
                 case 'UNBAN':
                     if (guild.me.permissions.has('BAN_MEMBERS')) {
                         await unban(
@@ -236,15 +227,12 @@ export async function mute(
 ) {
     const target = await guild.members.fetch(userId)
     if (!target) return 1
-    const role = guild.roles.cache.find((role) => role.name == 'Muted')
-    if (!role) return 3
+    if (target.communicationDisabledUntilTimestamp > Date.now()) return 2
     try {
-        await target.roles.add(role, reason)
-    } catch {
-        return 1
-    }
-    if (duration) {
-        await scheduleTask(guild.id, target.id, 'UNMUTE', duration)
+        await target.timeout(duration, reason)
+    } catch (err) {
+        console.log(err)
+        return 3
     }
     return 0
 }
@@ -263,13 +251,10 @@ export async function unmute(
 ) {
     const target = await guild.members.fetch(userId)
     if (!target) return 1
-    const role = guild.roles.cache.find((role) => role.name == 'Muted')
-    if (!role) return 3
-    if (!target.roles.cache.get(role.id)) return 4
     try {
-        await target.roles.remove(role, reason)
+        await target.timeout(null, reason)
     } catch {
-        return 1
+        return 2
     }
     return 0
 }

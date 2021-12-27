@@ -23,7 +23,7 @@ export const slashData = new SlashCommandBuilder()
         option
             .setName('duration')
             .setDescription('Duration to mute the user for')
-            .setRequired(false)
+            .setRequired(true)
     )
     .addStringOption((option) =>
         option
@@ -38,7 +38,7 @@ export async function execute(
     args: Array<unknown>
 ) {
     message.channel.send(
-        i18next.t('general:ONLY_SLASH_COMMAND', { command: '/mute' })
+        i18next.t('general:ONLY_SLASH_COMMAND', { command: 'mute' })
     )
 }
 
@@ -46,11 +46,10 @@ export async function executeSlash(
     client: BotClient,
     interaction: CommandInteraction
 ) {
-    if (!interaction.guild.me.permissions.has('MANAGE_ROLES'))
+    if (!interaction.guild.me.permissions.has('MODERATE_MEMBERS'))
         return interaction.reply({
-            content:
-                'I don\'t have permission to manage roles! Ask an admin to check my permissions!',
-            ephemeral: true,
+            content: i18next.t('general:BOT_INVALID_PERMISSION', { friendlyPermissionName: 'timeout members', permissionName: 'MODERATE_MEMBERS' }),
+            ephemeral: true
         })
     const targetUser = interaction.options.getUser('user')
     const isModdable = await moddable(
@@ -81,8 +80,7 @@ export async function executeSlash(
             })
     }
     const reason = interaction.options.getString('reason')
-    const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')
-        }`
+    const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')}`
     const duration = interaction.options.getString('duration')
     const parsedDuration = parseDuration(duration)
     const muteResult = await mute(
@@ -92,29 +90,18 @@ export async function executeSlash(
         parsedDuration
     )
     if (muteResult == 0) {
-        if (duration) {
-            await interaction.reply({
-                content: i18next.t('mod.ACTION_SUCCESSFUL_WITH_DURATION', {
-                    tag: targetUser.tag,
-                    action: 'muted',
-                    duration: parsedDuration,
-                    reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED'),
-                }),
-                allowedMentions: { parse: [] },
-            })
-        } else {
-            await interaction.reply({
-                content: i18next.t('mod.ACTION_SUCCESSFUL', {
-                    tag: targetUser.tag,
-                    action: 'muted',
-                    reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED'),
-                }),
-                allowedMentions: { parse: [] },
-            })
-        }
-    } else if (muteResult == 3) {
         await interaction.reply({
-            content: i18next.t('mute.NO_MUTED_ROLE'),
+            content: i18next.t('mod.ACTION_SUCCESSFUL_WITH_DURATION', {
+                tag: targetUser.tag,
+                action: 'muted',
+                duration: parsedDuration,
+                reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED'),
+            }),
+            allowedMentions: { parse: [] },
+        })
+    } else if (muteResult == 2) {
+        await interaction.reply({
+            content: i18next.t('mute.TARGET_ALREADY_MUTED', { tag: targetUser.tag }),
             ephemeral: true,
         })
     } else {

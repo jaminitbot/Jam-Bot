@@ -30,7 +30,7 @@ export async function execute(
     args: Array<unknown>
 ) {
     message.channel.send(
-        i18next.t('general:ONLY_SLASH_COMMAND', {command: '/mute'})
+        i18next.t('general:ONLY_SLASH_COMMAND', { command: '/mute' })
     )
 }
 
@@ -38,10 +38,10 @@ export async function executeSlash(
     client: BotClient,
     interaction: CommandInteraction
 ) {
-    if (!interaction.guild.me.permissions.has('MANAGE_ROLES'))
+    if (!interaction.guild.me.permissions.has('MODERATE_MEMBERS'))
         return interaction.reply({
-            content:
-                'I don\'t have the correct permissions to unmute people, ask an admin to check my permissions!',
+            content: i18next.t('general:BOT_INVALID_PERMISSION', { friendlyPermissionName: 'timeout members', permissionName: 'MODERATE_MEMBERS' }),
+            ephemeral: true
         })
     const targetUser = interaction.options.getUser('user')
     const isModdable = await moddable(
@@ -57,7 +57,7 @@ export async function executeSlash(
             })
         case 2:
             return interaction.reply({
-                content: i18next.t('mod.SAME_USER', {action: 'unmute'}),
+                content: i18next.t('mod.SAME_USER', { action: 'unmute' }),
                 ephemeral: true,
             })
         case 3:
@@ -73,7 +73,7 @@ export async function executeSlash(
     }
     const reason = interaction.options.getString('reason')
     const formattedReason = `${interaction.user.tag}: ${reason ?? i18next.t('mod.NO_REASON_SPECIFIED')
-    }`
+        }`
     const unmuteResult = await unmute(
         interaction.guild,
         targetUser.id,
@@ -86,16 +86,11 @@ export async function executeSlash(
                 action: 'unmuted',
                 reason: reason ?? i18next.t('mod.NO_REASON_SPECIFIED'),
             }),
-            allowedMentions: {parse: []},
+            allowedMentions: { parse: [] },
         })
-    } else if (unmuteResult == 3) {
+    } else if (unmuteResult == 2) {
         await interaction.reply({
-            content: i18next.t('mute.NO_MUTED_ROLE'),
-            ephemeral: true,
-        })
-    } else if (unmuteResult == 4) {
-        await interaction.reply({
-            content: i18next.t('unmute.USER_NOT_MUTED'),
+            content: i18next.t('mute.USER_NOT_MUTED', { tag: targetUser.tag }),
             ephemeral: true,
         })
     } else {

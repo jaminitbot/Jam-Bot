@@ -158,7 +158,7 @@
     "SUCCESS_MOVED_USERS": "Successfully moved {{numberOfUsers}} user(s) from {{fromChannel}} to {{toChannel}}"
   },
   "mute": {
-    "NO_MUTED_ROLE": "There isn't a role named `muted`, ask an admin to make it"
+    "TARGET_ALREADY_MUTED": "{{tag}} is already muted!"
   },
   "purge": {
     "DELETE_COUNT_TOO_LOW": "You can't delete less than one message",
@@ -171,7 +171,7 @@
     "TARGET_USER_NOT_BANNED": "{{tag}} is not banned"
   },
   "unmute": {
-    "USER_NOT_MUTED": "The user isn't muted"
+    "USER_NOT_MUTED": "{{tag}} is not muted"
   },
   "roles": {
     "ROLE_NOT_WHITELISTED": "<@&{{role}}> is not whitelisted, you can't {{type}} that one",
