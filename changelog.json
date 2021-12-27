@@ -161,5 +161,10 @@
         "title": "Reaction roles!",
         "date": 1638964224687,
         "description": "The bot can now do reaction roles, set it up with /settings roles"
+    },
+    {
+        "title": "Timeouts!",
+        "date": 1640625417427,
+        "description": "The /mute command now uses the new timeout feature! No more muted role :D"
     }
 ]
