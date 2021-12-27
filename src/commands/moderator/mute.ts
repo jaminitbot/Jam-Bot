@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { CommandInteraction, Message } from 'discord.js'
-import { BotClient } from '../../customDefinitions'
+import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { moddable, mute, parseDuration } from '../../functions/mod'
 import i18next from 'i18next'
 
 export const name = 'mute'
 export const description = 'Mutes a user'
-export const permissions = ['MANAGE_MESSAGES']
+export const permissions: Permissions = ['MODERATE_MEMBERS']
 export const usage = 'mute @user 1h reason'
 export const allowInDm = false
 export const slashData = new SlashCommandBuilder()

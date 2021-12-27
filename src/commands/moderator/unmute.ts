@@ -1,12 +1,12 @@
 import { CommandInteraction, Message } from 'discord.js'
-import { BotClient } from '../../customDefinitions'
+import { BotClient, Permissions } from '../../customDefinitions'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { moddable, unmute } from '../../functions/mod'
 import i18next from 'i18next'
 
 export const name = 'unmute'
 export const description = 'Unmutes a user'
-export const permissions = ['MANAGE_MESSAGES']
+export const permissions: Permissions = ['MODERATE_MEMBERS']
 export const usage = 'unmute @user'
 export const slashData = new SlashCommandBuilder()
     .setName(name)
