@@ -55,6 +55,7 @@ const rickRollCodes = [
     'QTT5iHCHSn0',
     'soceYqv9Dtw',
     'lypGLHSpWa0',
+    'lpiB2wMc49g'
 ]
 
 export async function execute(
