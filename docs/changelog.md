@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.16.0](https://github.com/jaminitbot/Jam-Bot/compare/v2.15.3...v2.16.0) (2021-12-27)
+
+
+### Features
+
+* global command rate limits ([c0da10c](https://github.com/jaminitbot/Jam-Bot/commit/c0da10c0667c34a2bf81d403daa95cc87705ff16))
+* move consts to file ([44e74e1](https://github.com/jaminitbot/Jam-Bot/commit/44e74e17bbdfe4f56b01fb157962527232070a37))
+* move mute to timeout ([9baf572](https://github.com/jaminitbot/Jam-Bot/commit/9baf572db9fb9e89163e839a2711ad987c14c639))
+* upgrade discord.js version ([189f4c1](https://github.com/jaminitbot/Jam-Bot/commit/189f4c12e51b33863cf8550ea331221dfa5ebb01))
+
+
+### Bug Fixes
+
+* catch errors in purge ([f2ab44c](https://github.com/jaminitbot/Jam-Bot/commit/f2ab44c2fb193304bed4f90667ad2989d3003504))
+* **messageUpdateEvent:** don't fire for unpins or pins ([14b9f37](https://github.com/jaminitbot/Jam-Bot/commit/14b9f37cd096953c839bb9e7a4869077b3a6e57d))
+* remove global commands in development envs ([1a37cfe](https://github.com/jaminitbot/Jam-Bot/commit/1a37cfe883f5c5d473a9f557d0277c7d1d3f58f4))
+* removed unused strings in locales ([3b47434](https://github.com/jaminitbot/Jam-Bot/commit/3b4743433700188d38e21a622f34c75be354f850))
+* **settingsCommand:** improve role autocomplete for future use ([1dfc06d](https://github.com/jaminitbot/Jam-Bot/commit/1dfc06da53e1b200c0b508caabac00c5883ae5dd))
+* use new moderate members permission ([c5befc9](https://github.com/jaminitbot/Jam-Bot/commit/c5befc913846b4949fcd2155100221baa7d676ef))
+
 ### [2.15.3](https://github.com/jaminitbot/Jam-Bot/compare/v2.15.2...v2.15.3) (2021-12-17)
 
 
