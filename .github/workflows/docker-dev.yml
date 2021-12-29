@@ -12,6 +12,7 @@ on:
       - ".git*"
       - ".es*"
       - ".env.example"
+      - "changelog.json"
   workflow_dispatch:
 jobs:
   docker:

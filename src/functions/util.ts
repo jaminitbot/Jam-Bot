@@ -338,7 +338,7 @@ export function setRateLimit(commandName: string, userId: string) {
 }
 
 /**
- * Gets the tim remaining for a rate limit
+ * Gets the time remaining for a rate limit
  * @param commandName Name of command
  * @param commandLimit Rate limit of command in seconds
  * @param userId User ID to check
