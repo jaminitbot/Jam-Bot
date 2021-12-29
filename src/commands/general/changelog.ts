@@ -60,6 +60,9 @@ async function returnChangelogEmbed(changeNumber: number = null, logger: Logger)
         }
         log = await response.body.json()
         cache.set('log', log)
+        setTimeout(() => {
+            cache.delete('log')
+        }, 30 * 60 * 1000)
     }
     if (!changeNumber) {
         let count = 0
