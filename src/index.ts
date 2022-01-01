@@ -13,7 +13,7 @@ import { scheduleJob } from 'node-schedule'
 import { registerCommands, registerEvents, } from './functions/registerCommands'
 import sendTwitchNotifications from './cron/twitch'
 import db from './functions/db'
-import { removeItemFromArray, saveLogger, stopBot } from './functions/util'
+import { removeItemFromArray, saveLogger, stopBot, warnForOmittedEnvs } from './functions/util'
 import { processTasks } from './functions/mod'
 import { initTranslations } from './functions/locales'
 import { incrementEventsCounter, initProm, saveClientPing } from './functions/metrics'
@@ -106,6 +106,8 @@ import { MODLOG_TASKS_POLLING_DELAY, PROMETHEUS_PING_SAVE_DURATION, TWITCH_NOTIF
         })
     }
     logger.info('Bot is starting...')
+    logger.info('Checking .env variables')
+    warnForOmittedEnvs(logger)
     saveLogger(logger)
     //#endregion
     const clientOptions: ClientOptions = {

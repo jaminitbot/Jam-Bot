@@ -350,3 +350,30 @@ export function getRateLimitRemaining(commandName: string, commandLimit: number 
     if (!rateLimit) return 0
     return commandLimit * 1000 - (Date.now() - rateLimit)
 }
+
+export function warnForOmittedEnvs(logger: Logger) {
+    if (!process.env.ownerId || !process.env.ownerName) {
+        logger.warn('Owner information not provided in .env')
+    }
+    if (!process.env.guildLogChannel || !process.env.dmChannel) {
+        logger.warn('Guild log channel(s) not provided in .env')
+    }
+    if (!process.env.devServerId) {
+        logger.warn('Dev server ID not provided in .env')
+    }
+    if (!process.env.errorLogWebhookUrl) {
+        logger.warn('Error webhook not provided in .env')
+    }
+    if (!process.env.sentryUrl) {
+        logger.warn('Sentry url not provided in .env')
+    }
+    if (!process.env.twitchNotificationsChannel || !process.env.twitchNotificationsUsername) {
+        logger.warn('Twitch channel information not provided in .env')
+    }
+    if (!process.env.twitchApiSecret || !process.env.twitchApiClientId) {
+        logger.warn('Twitch auth credentials not provided in .env')
+    }
+    if (!process.env.bingImageSearchKey || !process.env.pexelsApiKey) {
+        logger.warn('Image auth credentials not specified in .env')
+    }
+}
