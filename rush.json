@@ -46,7 +46,7 @@
      *
      * The default value is "local".
      */
-    // "pnpmStore": "local",
+    "pnpmStore": "global",
     /**
      * If true, then Rush will add the "--strict-peer-dependencies" option when invoking PNPM.
      * This causes "rush install" to fail if there are unsatisfied peer dependencies, which is
@@ -57,7 +57,7 @@
      * The default value is false to avoid legacy compatibility issues.
      * It is strongly recommended to set strictPeerDependencies=true.
      */
-    "strictPeerDependencies": true
+    "strictPeerDependencies": true,
     /**
      * Configures the strategy used to select versions during installation.
      *
@@ -102,7 +102,7 @@
      *
      * This option is experimental. The default value is false.
      */
-    // "useWorkspaces": true
+    // "useWorkspaces": false
   },
   /**
    * Older releases of the Node.js engine may be missing features required by your system.
@@ -276,12 +276,12 @@
      * The default branch name. This tells "rush change" which remote branch to compare against.
      * The default value is "master"
      */
-    "defaultBranch": "main"
+    "defaultBranch": "main",
     /**
      * The default remote. This tells "rush change" which remote to compare against if the remote URL is
      * not set or if a remote matching the provided remote URL is not found.
      */
-    // "defaultRemote": "origin"
+    "defaultRemote": "origin"
   },
   /**
    * Event hooks are customized script actions that Rush executes when specific events occur
@@ -344,7 +344,7 @@
    * that read these JSON files and do something with them.  These scripts are typically registered
    * in the "eventHooks" section.
    */
-  // "telemetryEnabled": false,
+  "telemetryEnabled": false,
   /**
    * Allows creation of hotfix changes. This feature is experimental so it is disabled by default.
    * If this is set, 'rush change' only allows a 'hotfix' change type to be specified. This change type
@@ -430,7 +430,12 @@
     // }
     {
       "packageName": "@jaminitbot/jam-bot",
-      "projectFolder": "packages/jam-bot"
+      "projectFolder": "packages/jam-bot",
+      "shouldPublish": false
+    },
+    {
+      "packageName": "@jaminitbot/bot-utils",
+      "projectFolder": "packages/bot-utils"
     }
   ]
 }
