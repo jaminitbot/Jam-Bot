@@ -1,22 +1,19 @@
-name: Publish Dev Docker
+name: Publish Dev Docker Jam-Bot
 
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - "devScripts/**"
-      - "docs/**"
-      - "**.md"
-      - ".github/**"
-      - "package.json"
-      - ".git*"
-      - ".es*"
-      - ".env.example"
-      - "changelog.json"
+    paths:
+      - "packages/jam-bot/**"
+      - "!packages/jam-bot/**/devScripts/**"
+      - "!packages/jam-bot/.env.example"
   workflow_dispatch:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/jam-bot
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1

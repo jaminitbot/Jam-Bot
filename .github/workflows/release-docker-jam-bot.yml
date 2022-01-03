@@ -1,4 +1,4 @@
-name: Release Docker
+name: Release Docker Jam-Bot
 
 on:
   workflow_dispatch:
