@@ -3,10 +3,8 @@ name: Publish Dev Docker Jam-Bot
 on:
   push:
     branches: [main]
-    paths:
-      - "packages/jam-bot/**"
-      - "!packages/jam-bot/**/devScripts/**"
-      - "!packages/jam-bot/.env.example"
+    paths-ignore:
+      - "docs/**"
   workflow_dispatch:
 jobs:
   docker:
@@ -24,4 +22,3 @@ jobs:
         with:
           push: true
           tags: jamesatjaminit/jam-bot:dev
-          context: ./packages/jam-bot/

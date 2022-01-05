@@ -22,10 +22,8 @@ jobs:
         with:
           push: true
           tags: jamesatjaminit/jam-bot:${{ github.event.inputs.version }}
-          context: ./packages/jam-bot/
       - name: Build and push latest
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: jamesatjaminit/jam-bot:latest
-          context: ./packages/jam-bot/
