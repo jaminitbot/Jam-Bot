@@ -1,11 +1,11 @@
 # Settings
 
-Allows you to configure basic bot settings  
+Allows you to configure basic bot settings
 Base usage: `/settings`
 
 ### General
 
-General bot related settings  
+General bot related settings
 Base usage: `/settings general`
 
 ## Roles
@@ -14,7 +14,7 @@ Base usage: `/settings roles`
 
 ### Suggestions
 
-Allows you to turn suggestions on and off, and set the channel  
+Allows you to turn suggestions on and off, and set the channel
 Base usage: `/settings suggestions`
 
 ### Modlog

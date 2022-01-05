@@ -1,0 +1,8 @@
+*
+!common/config/*
+!common/git-hooks/*
+!common/scripts
+!packages/jam-bot/*
+!packages/bot-utils/*
+!rush.json
+!common/deploy
