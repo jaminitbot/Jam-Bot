@@ -3,6 +3,11 @@
 !common/git-hooks/*
 !common/scripts
 !packages/jam-bot/*
+!common/autoinstallers/*
+packages/jam-bot/node_modules
+packages/jam-bot/dist
 !packages/bot-utils/*
+packages/bot-utils/node_modules
+packages/bot-utils/dist
 !rush.json
-!common/deploy
+

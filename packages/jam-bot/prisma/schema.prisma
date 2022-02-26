@@ -9,7 +9,7 @@ datasource db {
 }
 
 model guildSetting {
-  id      String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   guildId String @unique
   prefix String?
   suggestions Json?
@@ -20,7 +20,7 @@ model guildSetting {
 }
 
 model modlogTask {
-  id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   guildId String
   type String
   targetId String
@@ -29,7 +29,7 @@ model modlogTask {
 }
 
 model reactionRoleMessages {
-    id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+    id String @id @default(auto()) @map("_id") @db.ObjectId
     guildId String
     channelId String?
     messageId String?
