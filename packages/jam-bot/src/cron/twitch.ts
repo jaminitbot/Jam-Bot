@@ -13,6 +13,7 @@ import {
 } from "../consts";
 
 export default async function execute(client: BotClient) {
+  return;
   if (
     !process.env.twitchNotificationsChannel ||
     !process.env.twitchNotificationsUsername
@@ -41,6 +42,8 @@ export default async function execute(client: BotClient) {
     return;
   }
   if (response.statusCode != 200) {
+    console.log(response.statusCode);
+    console.log(response.body.read());
     client.logger.warn(
       "Twitch returned a non-standard response code, skipping live checks"
     );
