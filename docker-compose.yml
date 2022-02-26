@@ -1,8 +1,8 @@
 services:
-    bot:
-        build: .
-        env_file:
-            - .env
-        restart: unless-stopped
-        ports:
-            - 3000:3000
+  bot:
+    build: .
+    env_file:
+      - .env
+    restart: unless-stopped
+    ports:
+      - 3000:3000

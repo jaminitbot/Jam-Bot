@@ -11,7 +11,7 @@ A discord bot designed to be easy to set up, but full of features.
 ```yaml
 services:
   bot:
-    image: 'jamesatjaminit/jam-bot:latest'
+    image: "jamesatjaminit/jam-bot:latest"
     env_file:
       - .env
     restart: unless-stopped
@@ -24,8 +24,8 @@ services:
 
 #### Updating
 
-1) Pull the changes: `docker-compose pull`
-2) Restart: `docker-compose up -d`
+1. Pull the changes: `docker-compose pull`
+2. Restart: `docker-compose up -d`
 
 ### Manual
 

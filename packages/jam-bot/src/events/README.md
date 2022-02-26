@@ -13,10 +13,10 @@
 - `interactionCreate.ts` - Contains typescript code for the `INTERACTION_CREATE` gateway event, which is fired when a
   bot's interaction is used by a user, this function determines what type of interaction has been used, and passes then
   handles it accordingly.
-    - In the presence of a slash command, the function will check if the initiating user holds the correct permissions
-      to run the command, and whether they can run it in the specified channel. If the checks pass the interaction will
-      then be passed to a function in the corresponding command file
-    - In the presence of a button, the interaction is simply passed to the correct command file to be handled
+  - In the presence of a slash command, the function will check if the initiating user holds the correct permissions
+    to run the command, and whether they can run it in the specified channel. If the checks pass the interaction will
+    then be passed to a function in the corresponding command file
+  - In the presence of a button, the interaction is simply passed to the correct command file to be handled
 - `messageCreate.ts` - Contains typescript code for the `MESSAGE_CREATE` gateway event, which is fired upon a new
   message in any text channel the bot can see, this function is used to check if the initiating user holds the correct
   permissions to run the command, if the initiating user can run the command in the specified channel and also puts the

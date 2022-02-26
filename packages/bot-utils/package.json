@@ -14,5 +14,9 @@
   },
   "files": [
     "dist/**"
-  ]
+  ],
+  "dependencies": {
+    "discord.js": "~13.6.0",
+    "is-number": "~7.0.0"
+  }
 }

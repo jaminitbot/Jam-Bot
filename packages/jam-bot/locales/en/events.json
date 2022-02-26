@@ -1,23 +1,23 @@
 {
-	"userLogs": {
-		"USER_ID": "User ID: {{id}}"
-	},
-	"guildMemberAdd": {
-		"EMBED_DESCRIPTION": "User: <@{{userId}}>\nAccount created: {{creationDate, date}}\nThere is now {{numberOfUsers}} users",
-		"USER_JOINED": "User Joined"
-	},
-	"guildMemberRemove": {
-		"EMBED_DESCRIPTION": "User: {{tag}}\nThere is now {{numberOfUsers}} users",
-		"USER_LEFT": "User Left"
-	},
-	"interactionCreate": {
-		"SLASH_FUNCTION_NULL": "This command hasn't been setup for slash commands yet, please use `{{prefix}}{{command}}` for the time being",
-		"DISABLED_IN_DMS": "This command can only be used in a server"
-	},
-	"messageLogs": {
-		"EMBED_TITLE": "Message {{type}} in #{{channel}}",
-		"NO_CONTENT": "[No Content]",
-		"EMBED_FOOTER": "User ID: {{userId}} | Channel ID: {{channelId}}",
-		"EDIT_ENTRY": "**Before**: {{before}}\n**After**: {{after}}"
-	}
+  "userLogs": {
+    "USER_ID": "User ID: {{id}}"
+  },
+  "guildMemberAdd": {
+    "EMBED_DESCRIPTION": "User: <@{{userId}}>\nAccount created: {{creationDate, date}}\nThere is now {{numberOfUsers}} users",
+    "USER_JOINED": "User Joined"
+  },
+  "guildMemberRemove": {
+    "EMBED_DESCRIPTION": "User: {{tag}}\nThere is now {{numberOfUsers}} users",
+    "USER_LEFT": "User Left"
+  },
+  "interactionCreate": {
+    "SLASH_FUNCTION_NULL": "This command hasn't been setup for slash commands yet, please use `{{prefix}}{{command}}` for the time being",
+    "DISABLED_IN_DMS": "This command can only be used in a server"
+  },
+  "messageLogs": {
+    "EMBED_TITLE": "Message {{type}} in #{{channel}}",
+    "NO_CONTENT": "[No Content]",
+    "EMBED_FOOTER": "User ID: {{userId}} | Channel ID: {{channelId}}",
+    "EDIT_ENTRY": "**Before**: {{before}}\n**After**: {{after}}"
+  }
 }
