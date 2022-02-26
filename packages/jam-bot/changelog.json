@@ -166,5 +166,10 @@
         "title": "Timeouts!",
         "date": 1640625417427,
         "description": "The /mute command now uses the new timeout feature! No more muted role :D"
+    },
+    {
+        "title": "Various Updates",
+        "date": 1645886908721,
+        "description": "The bot has been updated to the newest version of discord.js, along with some other refractoring changes"
     }
 ]
