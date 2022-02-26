@@ -1,5 +1,4 @@
 -   [Home](/)
--   [Changelog](/changelog)
 -   Commands
     -   [General Commands](/commands/general)
     -   [Image Commands](/commands/image)
