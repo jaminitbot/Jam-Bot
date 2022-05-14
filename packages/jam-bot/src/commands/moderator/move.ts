@@ -18,14 +18,14 @@ export const slashData = new SlashCommandBuilder()
     option
       .setName("from")
       .setDescription("The channel to move users from")
-      .addChannelType(ChannelType.GuildVoice)
+      .addChannelTypes(ChannelType.GuildVoice)
       .setRequired(true)
   )
   .addChannelOption((option) =>
     option
       .setName("to")
       .setDescription("The channel to move users to")
-      .addChannelType(ChannelType.GuildVoice)
+      .addChannelTypes(ChannelType.GuildVoice)
       .setRequired(true)
   );
 

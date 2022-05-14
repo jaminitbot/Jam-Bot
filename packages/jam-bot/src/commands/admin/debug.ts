@@ -11,7 +11,6 @@ export const usage = "debug";
 export const slashData = new SlashCommandBuilder()
   .setName(name)
   .setDescription(description);
-
 function returnDebugEmbed(
   sentMessageTimestamp: number,
   newMessageTimestamp: number,

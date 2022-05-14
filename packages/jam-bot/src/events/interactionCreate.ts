@@ -13,6 +13,7 @@ import {
   getInvalidPermissionsMessage,
 } from "../functions/messages";
 import Sentry from "../functions/sentry";
+import "@sentry/tracing";
 import i18next from "i18next";
 import { incrementInteractionCounter } from "../functions/metrics";
 import { GLOBAL_RATELIMIT_DURATION } from "../consts";
@@ -40,22 +41,6 @@ export async function register(client: BotClient, interaction: Interaction) {
       (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
     );
   if (!command) {
-    return;
-  }
-  if (
-    (!interaction.channel || interaction.channel?.type == "DM") &&
-    command.allowInDm !== true
-  ) {
-    if (
-      interaction.isCommand() ||
-      interaction.isButton() ||
-      interaction.isContextMenu() ||
-      interaction.isSelectMenu()
-    ) {
-      await interaction.reply(
-        i18next.t("events:interactionCreate.DISABLED_IN_DMS")
-      );
-    }
     return;
   }
   if (

@@ -65,7 +65,6 @@ export default (() => {
           });
           scope.setContext("Channel", {
             "Channel ID": interaction.channel?.id,
-            //@ts-expect-error
             "Channel Name": interaction.channel.name,
           });
         } else {

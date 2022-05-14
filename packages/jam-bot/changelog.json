@@ -171,5 +171,10 @@
         "title": "Various Updates",
         "date": 1645886908721,
         "description": "The bot has been updated to the newest version of discord.js, along with some other refractoring changes"
+    },
+    {
+        "title": "Slash commands update!",
+        "date": 1652527952813,
+        "description": "Commands you don't have access to are now hidden :)"
     }
 ]

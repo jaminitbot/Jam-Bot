@@ -4,14 +4,29 @@ import {
   RESTPostAPIApplicationCommandsJSONBody,
   Routes,
 } from "discord-api-types/v9";
-import { Collection } from "discord.js";
-import { BotClient } from "../customDefinitions";
+import { Collection, Permissions } from "discord.js";
+import type {
+  BotClient,
+  Permissions as PermissionsType,
+} from "../customDefinitions";
 
 const token = process.env.token;
 if (!token) throw "NO TOKEN";
 const rest = new REST({ version: "9" }).setToken(token);
 import fs = require("fs");
 import path from "path";
+
+function arrayToPermissionObject(permissions: PermissionsType) {
+  const object = new Permissions();
+  permissions.forEach((value) => {
+    if (value != "OWNER") {
+      object.add(value);
+    } else {
+      return "0";
+    }
+  });
+  return object.bitfield;
+}
 
 /**
  * Registers slash commands with discord
@@ -23,6 +38,12 @@ export async function registerSlashCommands(client: BotClient) {
   let devData: Array<RESTPostAPIApplicationCommandsJSONBody> = [];
   commands.forEach((command) => {
     if (typeof command.executeSlash == "function" && command.slashData) {
+      if (command.permissions) {
+        command.slashData.setDefaultMemberPermissions(
+          // @ts-expect-error
+          arrayToPermissionObject(command.permissions)
+        );
+      }
       if (
         (command.permissions && command.permissions.includes("OWNER")) ||
         process.env.NODE_ENV != "production"

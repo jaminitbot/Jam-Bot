@@ -217,7 +217,7 @@ export const slashData = new SlashCommandBuilder()
             option
               .setName("channel")
               .setDescription("Channel to send the message in")
-              .addChannelTypes([ChannelType.GuildText])
+              .addChannelTypes(ChannelType.GuildText)
               .setRequired(true)
           )
           .addStringOption((option) =>
