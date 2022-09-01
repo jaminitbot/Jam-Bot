@@ -1,6 +1,10 @@
-import { CommandInteraction, Message } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+  Message,
+  PermissionFlagsBits,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { moddable, unban } from "../../functions/mod";
 import i18next from "i18next";
 
@@ -33,9 +37,13 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
-  if (!interaction.guild.me.permissions.has("BAN_MEMBERS"))
+  if (
+    !interaction.guild.members.me.permissions.has(
+      PermissionFlagsBits.BanMembers
+    )
+  )
     return interaction.reply({
       content:
         "I don't have the correct permissions to unban people, ask an admin to check my permissions!",

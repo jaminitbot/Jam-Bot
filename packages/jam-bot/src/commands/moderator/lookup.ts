@@ -1,14 +1,14 @@
 import {
-  CommandInteraction,
+  ChatInputCommandInteraction,
   Guild,
   GuildMember,
   Message,
-  MessageEmbed,
+  EmbedBuilder,
   Role,
+  SlashCommandBuilder,
   TextBasedChannel,
 } from "discord.js";
 import { BotClient } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { getRoleFromString, getUserFromString } from "@jaminitbot/bot-utils";
 import i18next from "i18next";
 import { format } from "date-fns";
@@ -34,7 +34,7 @@ async function lookupUserOrRole(
   member: GuildMember,
   role: Role
 ) {
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setColor("#007991");
   if (member && (!role || !role.color) && member.roles) {
     // Valid user found, get info
@@ -48,29 +48,44 @@ async function lookupUserOrRole(
     member.roles.cache.forEach((role) => {
       roles = `${roles} ${role.name},`;
     });
-    embed.addField(i18next.t("lookup.USER_NICKNAME"), nickName, true);
-    embed.addField(i18next.t("lookup.USER_CREATION"), createdAt, true);
-    embed.addField(i18next.t("lookup.USER_ID"), id, true);
-    embed.addField(i18next.t("lookup.USER_IS_BOT"), isBot, true);
-    embed.addField(i18next.t("lookup.USER_ROLES"), roles, true);
-    embed.setAuthor(i18next.t("lookup.USER_FOOTER", { tag: userName }), avatar);
+    embed.addFields([
+      {
+        name: i18next.t("lookup.USER_NICKNAME"),
+        value: nickName,
+        inline: true,
+      },
+      {
+        name: i18next.t("lookup.USER_CREATION"),
+        value: createdAt,
+        inline: true,
+      },
+      { name: i18next.t("lookup.USER_ID"), value: id, inline: true },
+      { name: i18next.t("lookup.USER_IS_BOT"), value: isBot, inline: true },
+      { name: i18next.t("lookup.USER_ROLES"), value: roles, inline: true },
+    ]);
+    embed.setAuthor({
+      name: i18next.t("lookup.USER_FOOTER", { tag: userName }),
+      iconURL: avatar,
+    });
   } else {
     // Didn't get a valid user, maybe its a role?
     if (role && role.color) {
       // Valid role
       const { id, createdAt, name, mentionable } = role;
       embed.setTitle(i18next.t("lookup.ROLE_TITLE", { name: name }));
-      embed.addField(i18next.t("lookup.ROLE_ID"), id, true);
-      embed.addField(
-        i18next.t("lookup.ROLE_IS_MENTIONABLE"),
-        String(mentionable),
-        true
-      );
-      embed.addField(
-        i18next.t("lookup.ROLE_CREATED_AT"),
-        createdAt.toDateString(),
-        true
-      );
+      embed.addFields([
+        { name: i18next.t("lookup.ROLE_ID"), value: id, inline: true },
+        {
+          name: i18next.t("lookup.ROLE_IS_MENTIONABLE"),
+          value: String(mentionable),
+          inline: true,
+        },
+        {
+          name: i18next.t("lookup.ROLE_CREATED_AT"),
+          value: createdAt.toDateString(),
+          inline: true,
+        },
+      ]);
     } else {
       // No role or user found
       embed.setDescription(i18next.t("lookup.LOOKUP_INVALID_USER_ROLE"));
@@ -106,7 +121,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   await interaction.deferReply();
   const userRole = interaction.options.getMentionable("lookup");

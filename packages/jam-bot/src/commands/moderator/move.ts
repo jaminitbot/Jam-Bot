@@ -1,7 +1,12 @@
-import { CommandInteraction, Message, VoiceChannel } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Message,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+  VoiceChannel,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
 import { getChannelFromString } from "@jaminitbot/bot-utils";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
 import { ChannelType } from "discord-api-types/v9";
 
@@ -38,12 +43,17 @@ async function moveVoiceChannel(
 ) {
   if (!fromChannel || !toChannel)
     return i18next.t("move.ARGUMENTS_NOT_SPECIFIED");
-  if (!toChannel.guild.me.permissions.has("MOVE_MEMBERS"))
+  if (
+    !toChannel.guild.members.me.permissions.has(PermissionFlagsBits.MoveMembers)
+  )
     return i18next.t("general:BOT_INVALID_PERMISSION", {
       friendlyPermissionName: "move members",
       permissionName: permissions[0],
     });
-  if (fromChannel.type != "GUILD_VOICE" || toChannel.type != "GUILD_VOICE")
+  if (
+    fromChannel.type != ChannelType.GuildVoice ||
+    toChannel.type != ChannelType.GuildVoice
+  )
     return i18next.t("general:INVALID_CHANNEL_TYPE", {
       count: 2,
       correctType: "voice",
@@ -82,12 +92,10 @@ export async function execute(
   message: Message,
   args: Array<unknown>
 ) {
-  //@ts-expect-error
   const fromChannel: VoiceChannel = await getChannelFromString(
     message.guild,
     args[0]
   );
-  //@ts-expect-error
   const toChannel: VoiceChannel = await getChannelFromString(
     message.guild,
     args[1]
@@ -104,7 +112,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   await interaction.deferReply();
   // @ts-expect-error

@@ -4,7 +4,7 @@ import {
   RESTPostAPIApplicationCommandsJSONBody,
   Routes,
 } from "discord-api-types/v9";
-import { Collection, Permissions } from "discord.js";
+import { Collection, PermissionsBitField } from "discord.js";
 import type {
   BotClient,
   Permissions as PermissionsType,
@@ -17,7 +17,7 @@ import fs = require("fs");
 import path from "path";
 
 function arrayToPermissionObject(permissions: PermissionsType) {
-  const object = new Permissions();
+  const object = new PermissionsBitField();
   permissions.forEach((value) => {
     if (value != "OWNER") {
       object.add(value);
@@ -40,7 +40,6 @@ export async function registerSlashCommands(client: BotClient) {
     if (typeof command.executeSlash == "function" && command.slashData) {
       if (command.permissions) {
         command.slashData.setDefaultMemberPermissions(
-          // @ts-expect-error
           arrayToPermissionObject(command.permissions)
         );
       }

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import {
+  ChatInputCommandInteraction,
   ColorResolvable,
-  CommandInteraction,
   Message,
-  MessageEmbed,
+  EmbedBuilder,
+  SlashCommandBuilder,
 } from "discord.js";
 import { BotClient } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { Dispatcher, request } from "undici";
 import { randomInt } from "../../functions/util";
 import Sentry from "../../functions/sentry";
@@ -81,23 +81,24 @@ async function returnDefineEmbed(wordToDefine: string) {
     cache.get(wordToDefine);
   // @ts-expect-error
   if (jsonResponse == "NOT_FOUND" || !jsonResponse.list[0]) {
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     embed.setDescription(
       i18next.t("define.NO_DEFINITIONS", { word: wordToDefine })
     );
     embed.setColor(colours[colours.length - 1]);
     return embed;
   }
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setColor(colours[randomInt(0, colours.length - 1)]);
   embed.setTitle(i18next.t("urban.URBAN_TITLE", { word: wordToDefine }));
   let definition = String(jsonResponse.list[0].definition).replace(/[|]/g, "");
   if (definition.length > 1024)
     definition = definition.substring(0, 1024 - 3) + "...";
-  embed.addField(i18next.t("urban.DEFINITION"), definition);
+  embed.addFields([{ name: i18next.t("urban.DEFINITION"), value: definition }]);
   let example = String(jsonResponse.list[0].example).replace(/[|]/g, "");
   if (example.length > 1024) example = example.substring(0, 1024 - 3) + "...";
-  example && embed.addField(i18next.t("urban.EXAMPLE"), example);
+  example &&
+    embed.addFields([{ name: i18next.t("urban.EXAMPLE"), value: example }]);
   return embed;
 }
 
@@ -112,7 +113,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   await interaction.deferReply();
   const word = interaction.options.getString("word");

@@ -1,4 +1,4 @@
-import { GuildMember, MessageEmbed } from "discord.js";
+import { GuildMember, EmbedBuilder } from "discord.js";
 import i18next from "i18next";
 import { BotClient } from "../customDefinitions";
 import { postToModlog } from "../functions/mod";
@@ -6,8 +6,8 @@ import { postToModlog } from "../functions/mod";
 export const name = "guildMemberRemove";
 
 export async function register(client: BotClient, member: GuildMember) {
-  const embed = new MessageEmbed();
-  embed.setAuthor(member.displayName, member.user.displayAvatarURL());
+  const embed = new EmbedBuilder();
+  embed.setAuthor({ name: member.displayName, iconURL: member.user.displayAvatarURL() });
   embed.setTitle(i18next.t("events:guildMemberRemove.USER_LEFT"));
   embed.setDescription(
     i18next.t("events:guildMemberRemove.EMBED_DESCRIPTION", {

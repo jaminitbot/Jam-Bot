@@ -1,6 +1,11 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  InteractionType,
+  Message,
+  SlashCommandBuilder,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
 import { format } from "date-fns";
 
@@ -18,17 +23,31 @@ function returnDebugEmbed(
   websocketPing: number,
   guildId: string
 ) {
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setTitle(i18next.t("debug.DEBUG_INFORMATION"));
-  embed.addField(
-    i18next.t("debug.ROUNDTRIP"),
-    `${sentMessageTimestamp - newMessageTimestamp}ms`,
-    true
-  );
-  embed.addField(i18next.t("debug.API_LATENCY"), `${websocketPing}ms`, true);
+  embed.addFields([
+    {
+      name: i18next.t("debug.ROUNDTRIP"),
+      value: `${sentMessageTimestamp - newMessageTimestamp}ms`,
+      inline: true,
+    },
+  ]);
+  embed.addFields([
+    {
+      name: i18next.t("debug.API_LATENCY"),
+      value: `${websocketPing}ms`,
+      inline: true,
+    },
+  ]);
   const uptimeDate = format(Date.now() - clientUptime, "HH:mm:ss - dd/MM/yyyy");
-  embed.addField(i18next.t("debug.UPTIME"), uptimeDate.toString(), true);
-  embed.addField(i18next.t("debug.GUILD_ID"), guildId, true);
+  embed.addFields([
+    {
+      name: i18next.t("debug.UPTIME"),
+      value: uptimeDate.toString(),
+      inline: true,
+    },
+    { name: i18next.t("debug.GUILD_ID"), value: guildId, inline: true },
+  ]);
   embed.setTimestamp(Date.now());
   embed.setColor("#222E50");
   return embed;
@@ -56,10 +75,11 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   const initiatedSlash = await interaction.deferReply({ fetchReply: true });
-  if (initiatedSlash.type != "APPLICATION_COMMAND") return;
+  // @ts-expect-error
+  if (initiatedSlash.type != InteractionType.ApplicationCommand) return;
   const embed = returnDebugEmbed(
     initiatedSlash.createdTimestamp,
     interaction.createdTimestamp,

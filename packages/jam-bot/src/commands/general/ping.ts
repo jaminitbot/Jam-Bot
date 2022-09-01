@@ -1,6 +1,10 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Message,
+  EmbedBuilder,
+  SlashCommandBuilder,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
 
 export const name = "ping";
@@ -17,7 +21,7 @@ function createLatencyEmbed(
   sentMessageTimestamp: number,
   client: BotClient
 ) {
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setDescription(
     `:stopwatch: ${
       sentMessageTimestamp - incomingMessageTimestamp
@@ -49,10 +53,9 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   const reply = await interaction.deferReply({ fetchReply: true });
-  if (reply.type != "APPLICATION_COMMAND") return;
   const embed = createLatencyEmbed(
     interaction.createdTimestamp,
     reply.createdTimestamp,

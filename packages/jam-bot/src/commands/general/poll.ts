@@ -1,6 +1,10 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Message,
+  EmbedBuilder,
+  SlashCommandBuilder,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
 
 export const name = "poll";
@@ -20,7 +24,7 @@ export const slashData = new SlashCommandBuilder()
   );
 
 function createPollEmbed(pollContent: string) {
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setDescription(pollContent);
   embed.setTimestamp(Date.now());
   embed.setColor("#167C6A");
@@ -51,15 +55,13 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   const pollContent = interaction.options.getString("question");
   const embed = createPollEmbed(pollContent);
   const sent = await interaction.reply({ embeds: [embed], fetchReply: true });
   try {
-    // @ts-expect-error
     await sent.react("✅");
-    // @ts-expect-error
     sent.react("❌");
   } catch (err) {
     await interaction.followUp({

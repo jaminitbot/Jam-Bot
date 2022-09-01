@@ -1,14 +1,15 @@
 import {
+  ActionRowBuilder,
   AutocompleteInteraction,
+  ButtonBuilder,
+  ButtonStyle,
   Channel,
-  CommandInteraction,
+  ChatInputCommandInteraction,
+  EmbedBuilder,
   Message,
-  MessageActionRow,
-  MessageButton,
-  MessageEmbed,
+  SlashCommandBuilder,
 } from "discord.js";
 import { BotClient, Permissions } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import prisma, { getGuildSetting, setGuildSetting } from "../../functions/db";
 import { booleanToHuman, randomEmoji } from "../../functions/util";
 import { randomHexCode } from "@jaminitbot/bot-utils";
@@ -249,7 +250,7 @@ export const slashData = new SlashCommandBuilder()
 
 async function validTextChannel(client: BotClient, channelId: string) {
   const channel = await client.channels.fetch(channelId);
-  if (!channel.isText || channel.type == "DM") {
+  if (!channel.isTextBased || channel.isDMBased()) {
     return null;
   }
   return channel;
@@ -267,7 +268,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   const subCommandGroup = interaction.options.getSubcommandGroup();
   const subCommand = interaction.options.getSubcommand();
@@ -324,7 +325,7 @@ export async function executeSlash(
         return;
       }
       const newChannel = await client.channels.fetch(newSuggestionsChannel.id);
-      if (!newChannel.isText || newChannel.type == "DM") {
+      if (!newChannel.isTextBased() || newChannel.isDMBased()) {
         await interaction.reply({
           content: i18next.t("general:INVALID_CHANNEL_TYPE", {
             correctType: "text",
@@ -896,7 +897,7 @@ export async function executeSlash(
         const channel = await interaction.client.channels.fetch(
           reactionRoleObject.channelId
         );
-        if (channel.isText()) {
+        if (channel.isTextBased()) {
           const message = await channel.messages.fetch(
             reactionRoleObject.messageId
           );
@@ -962,19 +963,19 @@ export async function executeSlash(
       let roleNumber = 0;
       for (let i = 0; i < roleIdsChunked.length; i++) {
         const chunk = roleIdsChunked[i];
-        const row = new MessageActionRow();
+        const row = new ActionRowBuilder();
         for (let j = 0; j < chunk.length; j++) {
-          const button = new MessageButton()
+          const button = new ButtonBuilder()
             .setLabel(roleNames[roleNumber])
             .setCustomId("reactionRoleHandler-" + roleIdsChunked[i][j])
-            .setStyle("PRIMARY")
+            .setStyle(ButtonStyle.Primary)
             .setEmoji(emojis[roleNumber]);
           row.addComponents(button);
           roleNumber++;
         }
         messageComponents.push(row);
       }
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle("Reaction Roles")
         .setDescription(messageContent)
         // @ts-expect-error
@@ -1004,7 +1005,7 @@ export async function executeSlash(
         });
         return;
       }
-      if (!channel.isText()) {
+      if (!channel.isTextBased()) {
         interaction.reply({
           content: i18next.t("settings.CHANNEL_IS_NOT_TEXT"),
           ephemeral: true,
@@ -1015,6 +1016,7 @@ export async function executeSlash(
         try {
           const message = await channel.send({
             embeds: [embed],
+            // @ts-expect-error
             components: messageComponents,
           });
           await prisma.reactionRoleMessages.update({
@@ -1043,6 +1045,7 @@ export async function executeSlash(
           );
           await message.edit({
             embeds: [embed],
+            // @ts-expect-error
             components: messageComponents,
           });
         } catch {

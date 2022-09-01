@@ -1,7 +1,11 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Message,
+  EmbedBuilder,
+  SlashCommandBuilder,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
 import { MessageSniped, returnSnipedMessages } from "../../functions/snipe";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
 import { SNIPE_DURATION } from "../../consts";
 
@@ -20,7 +24,7 @@ export const slashData = new SlashCommandBuilder()
   );
 
 function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string) {
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   let ed;
   if (type) {
     ed = type.endsWith("e") ? type.substring(0, type.length - 1) : type;
@@ -39,39 +43,45 @@ function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string) {
   for (const snipe of snipes) {
     if (snipe.isOwner) continue; // Don't snipe owners
     if (!type || snipe.type == type) {
-      if (embed.fields.length == 24) {
+      if (embed.data.fields.length == 24) {
         // Discord api limitation
-        embed.addField(
-          i18next.t("snipe.EMBED_LIMIT_REACHED_BRIEF"),
-          i18next.t("snipe.EMBED_LIMIT_REACHED_DESCRIPTION")
-        );
+        embed.addFields([
+          {
+            name: i18next.t("snipe.EMBED_LIMIT_REACHED_BRIEF"),
+            value: i18next.t("snipe.EMBED_LIMIT_REACHED_DESCRIPTION"),
+          },
+        ]);
         break;
       }
       if (snipe.type == "delete") {
-        embed.addField(
-          i18next.t("snipe.ENTRY_TITLE", {
-            snipeType: "deleted",
-            tag: snipe.user.tag,
-          }),
-          snipe.newMessage
-        );
+        embed.addFields([
+          {
+            name: i18next.t("snipe.ENTRY_TITLE", {
+              snipeType: "deleted",
+              tag: snipe.user.tag,
+            }),
+            value: snipe.newMessage,
+          },
+        ]);
       } else if (snipe.type == "edit") {
-        embed.addField(
-          i18next.t("snipe.ENTRY_TITLE", {
-            snipeType: "edited",
-            tag: snipe.user.tag,
-          }),
-          i18next.t("events:messageLogs.EDIT_ENTRY", {
-            before:
-              snipe.oldMessage ?? i18next.t("events:messageLogs.NO_CONTENT"),
-            after:
-              snipe.newMessage ?? i18next.t("events:messageLogs.NO_CONTENT"),
-          })
-        );
+        embed.addFields([
+          {
+            name: i18next.t("snipe.ENTRY_TITLE", {
+              snipeType: "edited",
+              tag: snipe.user.tag,
+            }),
+            value: i18next.t("events:messageLogs.EDIT_ENTRY", {
+              before:
+                snipe.oldMessage ?? i18next.t("events:messageLogs.NO_CONTENT"),
+              after:
+                snipe.newMessage ?? i18next.t("events:messageLogs.NO_CONTENT"),
+            }),
+          },
+        ]);
       }
     }
   }
-  if (embed.fields.length == 0) {
+  if (embed.data.fields.length == 0) {
     embed.setDescription(
       i18next.t("snipe.NO_MESSAGES", {
         snipeType: ed ? ed + "ed" : "edited/deleted",
@@ -108,7 +118,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   const snipes = returnSnipedMessages(interaction.channel.id);
   let type = interaction.options.getString("type") ?? null;

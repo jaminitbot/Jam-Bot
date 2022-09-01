@@ -1,5 +1,5 @@
 import { BotClient } from "../customDefinitions";
-import { Interaction } from "discord.js";
+import { ChannelType, Interaction, InteractionType } from "discord.js";
 import { getGuildSetting } from "../functions/db";
 import {
   checkPermissions,
@@ -22,10 +22,10 @@ export const name = "interactionCreate";
 
 export async function register(client: BotClient, interaction: Interaction) {
   const guildId = interaction.guild ? interaction.guild.id : 0;
-  let commandName: string;
+  let commandName: string
   if (
-    interaction.isCommand() ||
-    interaction.isContextMenu() ||
+    interaction.type == InteractionType.ApplicationCommand ||
+    interaction.isContextMenuCommand() ||
     interaction.isAutocomplete()
   ) {
     commandName = interaction.commandName;
@@ -44,8 +44,8 @@ export async function register(client: BotClient, interaction: Interaction) {
     return;
   }
   if (
-    interaction.channel?.type == "GUILD_PUBLIC_THREAD" ||
-    interaction.channel?.type == "GUILD_PRIVATE_THREAD"
+    interaction.channel?.type == ChannelType.GuildPublicThread ||
+   interaction.channel?.type == ChannelType.GuildPrivateThread
   ) {
     try {
       await interaction.channel.join();
@@ -56,7 +56,7 @@ export async function register(client: BotClient, interaction: Interaction) {
     if (
       interaction.isCommand() ||
       interaction.isButton() ||
-      interaction.isContextMenu() ||
+      interaction.isContextMenuCommand() ||
       interaction.isSelectMenu()
     ) {
       const commandRateLimit = command.rateLimit ?? GLOBAL_RATELIMIT_DURATION;
@@ -90,7 +90,7 @@ export async function register(client: BotClient, interaction: Interaction) {
       if (
         interaction.isCommand() ||
         interaction.isButton() ||
-        interaction.isContextMenu() ||
+        interaction.isContextMenuCommand() ||
         interaction.isSelectMenu()
       ) {
         await interaction.reply({
@@ -182,7 +182,7 @@ export async function register(client: BotClient, interaction: Interaction) {
       commandName,
       interaction.guild?.id ?? null
     );
-  } else if (interaction.isContextMenu()) {
+  } else if (interaction.isContextMenuCommand()) {
     if (typeof command.executeContextMenu != "function") return;
     Sentry.withInteractionScope(interaction, async () => {
       const transaction = Sentry.startTransaction({
@@ -203,6 +203,7 @@ export async function register(client: BotClient, interaction: Interaction) {
     incrementInteractionCounter(
       "context_menu",
       commandName,
+      // @ts-expect-error TODO: fix here
       interaction.guild?.id ?? null
     );
   } else if (interaction.isAutocomplete()) {

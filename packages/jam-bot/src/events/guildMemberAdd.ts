@@ -1,4 +1,4 @@
-import { GuildMember, MessageEmbed } from "discord.js";
+import { GuildMember, EmbedBuilder } from "discord.js";
 import { BotClient } from "../customDefinitions";
 import { postToModlog } from "../functions/mod";
 import i18next from "i18next";
@@ -6,8 +6,11 @@ import i18next from "i18next";
 export const name = "guildMemberAdd";
 
 export async function sendUserToModlog(client: BotClient, member: GuildMember) {
-  const embed = new MessageEmbed();
-  embed.setAuthor(member.displayName, member.user.displayAvatarURL());
+  const embed = new EmbedBuilder();
+  embed.setAuthor({
+    name: member.displayName,
+    iconURL: member.user.displayAvatarURL(),
+  });
   embed.setTitle(i18next.t("events:guildMemberAdd.USER_JOINED"));
   embed.setDescription(
     i18next.t("events:guildMemberAdd.EMBED_DESCRIPTION", {

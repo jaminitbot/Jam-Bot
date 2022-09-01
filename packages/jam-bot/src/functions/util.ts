@@ -23,7 +23,6 @@ export function checkPermissions(
     if (!isBotOwner(member.id)) validPermission = false;
   }
   if (permissions.length != 0) {
-    // @ts-expect-error
     if (!member.permissions.has(permissions)) validPermission = false;
   }
   return validPermission;

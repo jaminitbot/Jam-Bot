@@ -1,16 +1,17 @@
 import {
   ButtonInteraction,
   ColorResolvable,
-  CommandInteraction,
   Message,
-  MessageActionRow,
-  MessageButton,
-  MessageEmbed,
-  MessageSelectMenu,
+  ActionRowBuilder,
+  ButtonBuilder,
+  EmbedBuilder,
   SelectMenuInteraction,
+  SlashCommandBuilder,
+  SelectMenuBuilder,
+  ChatInputCommandInteraction,
+  ButtonStyle,
 } from "discord.js";
 import { BotClient } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { Dispatcher, request } from "undici";
 import { capitaliseSentence } from "@jaminitbot/bot-utils";
 import Sentry from "../../functions/sentry";
@@ -88,7 +89,7 @@ async function returnDefineEmbed(
       cache.set(wordToDefine, "NOT_FOUND");
     } else if (response.statusCode != 200) {
       Sentry.captureMessage("Dictionary API returned non-standard status code");
-      const embed = new MessageEmbed();
+      const embed = new EmbedBuilder();
       embed.setDescription(i18next.t("general:API_ERROR"));
       embed.setColor(colours[colours.length - 1]);
       return [[embed], null];
@@ -98,7 +99,7 @@ async function returnDefineEmbed(
   }
   // @ts-expect-error
   if (cache.get(wordToDefine) == "NOT_FOUND") {
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     embed.setDescription(
       i18next.t("define.NO_DEFINITIONS", { word: wordToDefine })
     );
@@ -118,13 +119,13 @@ async function returnDefineEmbed(
   const wordType =
     interactionData["definitionType"] ?? partOfSpeechTypes[0]["value"];
   const wordToDefineHiphen = wordToDefine.split(" ").join("-");
-  const selectRow = new MessageActionRow().addComponents(
-    new MessageSelectMenu()
+  const selectRow = new ActionRowBuilder().addComponents(
+    new SelectMenuBuilder()
       .setCustomId("define-selectmenu-" + userId + "-" + wordToDefineHiphen)
       .setPlaceholder(capitaliseSentence(wordType))
       .addOptions(partOfSpeechTypes)
   );
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   let definitionNumberStart = interactionData["definitionStart"] ?? 1;
   if (1 > definitionNumberStart) definitionNumberStart = 1;
   embed.setTitle(
@@ -136,14 +137,18 @@ async function returnDefineEmbed(
   const definitionsArray: Array<any> = meaningsJson[wordType];
   while (definitionNumberStart <= definitionsArray.length) {
     const definition = meaningsJson[wordType][definitionNumberStart - 1];
-    embed.addField(
-      i18next.t("define.DEFINITION_TITLE", {
-        definitionNumber: definitionNumberStart,
-      }),
-      `${capitaliseSentence(definition.definition) ?? "*Not Available*"}`
-    );
+    embed.addFields([
+      {
+        name: i18next.t("define.DEFINITION_TITLE", {
+          definitionNumber: definitionNumberStart,
+        }),
+        value: `${
+          capitaliseSentence(definition.definition) ?? "*Not Available*"
+        }`,
+      },
+    ]);
     definitionNumberStart++;
-    if (embed.fields.length == 5) {
+    if (embed.data.fields.length == 5) {
       break;
     }
   }
@@ -159,10 +164,10 @@ async function returnDefineEmbed(
       totalPages: totalPages,
     }),
   });
-  const buttonsRow = new MessageActionRow();
+  const buttonsRow = new ActionRowBuilder();
   if (1 < interactionData["definitionStart"] ?? 1) {
     buttonsRow.addComponents(
-      new MessageButton()
+      new ButtonBuilder()
         .setCustomId(
           "define-button-" +
             (interactionData["definitionStart"] - 5) +
@@ -174,20 +179,20 @@ async function returnDefineEmbed(
             wordToDefineHiphen
         )
         .setLabel(i18next.t("define.PREVIOUS_PAGE"))
-        .setStyle("SECONDARY")
+        .setStyle(ButtonStyle.Secondary)
     );
   } else {
     buttonsRow.addComponents(
-      new MessageButton()
+      new ButtonBuilder()
         .setCustomId("define-button-disabled")
         .setDisabled(true)
         .setLabel(i18next.t("define.PREVIOUS_PAGE"))
-        .setStyle("SECONDARY")
+        .setStyle(ButtonStyle.Secondary)
     );
   }
   if (definitionNumberStart < definitionsArray.length) {
     buttonsRow.addComponents(
-      new MessageButton()
+      new ButtonBuilder()
         .setCustomId(
           "define-button-" +
             definitionNumberStart +
@@ -199,15 +204,15 @@ async function returnDefineEmbed(
             wordToDefineHiphen
         )
         .setLabel(i18next.t("define.NEXT_PAGE"))
-        .setStyle("PRIMARY")
+        .setStyle(ButtonStyle.Secondary)
     );
   } else {
     buttonsRow.addComponents(
-      new MessageButton()
+      new ButtonBuilder()
         .setCustomId("define-button-disabled2")
         .setDisabled(true)
         .setLabel(i18next.t("define.NEXT_PAGE"))
-        .setStyle("PRIMARY")
+        .setStyle(ButtonStyle.Primary)
     );
   }
   return [[embed], [buttonsRow, selectRow]];
@@ -223,7 +228,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   await interaction.deferReply();
   const wordToDefine = interaction.options.getString("word");

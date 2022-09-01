@@ -1,4 +1,4 @@
-import { Guild } from "discord.js";
+import { ChannelType, Guild } from "discord.js";
 import { BotClient } from "../customDefinitions";
 import { registerSlashCommands } from "../functions/registerCommands";
 
@@ -30,7 +30,7 @@ export async function register(client: BotClient, guild: Guild) {
     process.env.guildLogChannel
   );
   if (!channel) return;
-  if (channel.type != "GUILD_TEXT" && channel.type != "GUILD_NEWS") return;
+  if (channel.type != ChannelType.GuildNews && channel.type != ChannelType.GuildText) return;
   try {
     channel.send({ embeds: [await this.generateGuildInfoEmbed(guild)] });
     // eslint-disable-next-line no-empty
