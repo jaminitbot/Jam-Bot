@@ -176,5 +176,10 @@
         "title": "Slash commands update!",
         "date": 1652527952813,
         "description": "Commands you don't have access to are now hidden :)"
+    },
+    {
+        "title": "Backend Changes",
+        "date": 1662065743186,
+        "description": "Backend libraries updated. No visible user changes"
     }
 ]
