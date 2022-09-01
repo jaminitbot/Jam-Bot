@@ -4,6 +4,7 @@
 	},
 	"scripts": {
 		"build": "turbo run build",
+		"start": "cd packages/jam-bot && pnpm start",
 		"lint": "turbo run lint",
 		"deploy": "pnpm --filter=@jaminitbot/jam-bot --prod deploy output"
 	}
