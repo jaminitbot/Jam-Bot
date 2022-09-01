@@ -101,8 +101,8 @@ import {
         loggerBuffer.push(data.message);
         try {
           await loggerWebhookClient.send({
-            username: client.user.username,
-            avatarURL: client.user.avatarURL(),
+            username: client.user?.username,
+            avatarURL: String(client.user?.avatarURL()),
             embeds: [embed],
           });
           // eslint-disable-next-line no-empty

@@ -47,7 +47,10 @@ export async function inputSnipe(
     () =>
       buffer.set(
         message.channel.id,
-        removeItemFromArray(buffer.get(message.channel.id), messageObject)
+        removeItemFromArray<MessageSniped>(
+          buffer.get(message.channel.id),
+          messageObject
+        )
       ),
     SNIPE_DURATION * 1000
   );

@@ -110,10 +110,12 @@ export async function uploadToHasteBin(
  * @param value Value to remove
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function removeItemFromArray(
-  array: Array<any>,
+export function removeItemFromArray<T>(
+  array: Array<T> | undefined,
   value: unknown
-): Array<any> {
+): Array<T> | undefined {
+  if (!array) return [];
+  // @ts-expect-error
   return removeFromArray(array, function (n: unknown) {
     return value == n;
   });
