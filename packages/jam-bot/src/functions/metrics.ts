@@ -39,7 +39,7 @@ export async function initProm() {
       return "An error occurred";
     }
   });
-  await server.listen(process.env.PROM_PORT ?? 3000, "0.0.0.0");
+  await server.listen({ port: parseInt(process.env.PROM_PORT) ?? 3000, host: "0.0.0.0" });
 }
 
 type InteractionType =
