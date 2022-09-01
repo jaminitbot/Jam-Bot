@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { CommandInteraction, Message } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Message,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+} from "discord.js";
 import { BotClient, Permissions } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { moddable, mute, parseDuration } from "../../functions/mod";
 import i18next from "i18next";
 
@@ -41,9 +45,13 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
-  if (!interaction.guild.me.permissions.has("MODERATE_MEMBERS"))
+  if (
+    !interaction.guild.members.me.permissions.has(
+      PermissionFlagsBits.ModerateMembers
+    )
+  )
     return interaction.reply({
       content: i18next.t("general:BOT_INVALID_PERMISSION", {
         friendlyPermissionName: "timeout members",

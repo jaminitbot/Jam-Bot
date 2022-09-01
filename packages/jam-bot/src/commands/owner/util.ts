@@ -1,16 +1,16 @@
 import {
-  AnyChannel,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   Guild,
   GuildChannel,
   GuildMember,
   Message,
-  MessageEmbed,
+  EmbedBuilder,
   TextChannel,
   User,
+  Channel,
+  SlashCommandBuilder,
 } from "discord.js";
 import { BotClient, Permissions } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { registerSlashCommands } from "../../functions/registerCommands";
 import i18next from "i18next";
 import { getGuildSetting, setGuildSetting } from "../../functions/db";
@@ -167,12 +167,22 @@ function makeGetSetSettingEmbed(options: {
     type == "SET_SETTING"
       ? i18next.t("util.SET_SETTING_TITLE")
       : i18next.t("util.GET_SETTING_TITLE");
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setTitle(embedTitle)
-    .addField(i18next.t("util.GUILD_ID"), guildId, true);
-  group && embed.addField(i18next.t("util.SETTING_GROUP"), group, true);
-  embed.addField(i18next.t("util.SETTING"), setting, true);
-  value && embed.addField(i18next.t("util.VALUE"), value, true);
+    .addFields([
+      { name: i18next.t("util.GUILD_ID"), value: guildId, inline: true },
+    ]);
+  group &&
+    embed.addFields([
+      { name: i18next.t("util.SETTING_GROUP"), value: group, inline: true },
+    ]);
+  embed.addFields([
+    { name: i18next.t("util.SETTING"), value: setting, inline: true },
+  ]);
+  value &&
+    embed.addFields([
+      { name: i18next.t("util.VALUE"), value: value, inline: true },
+    ]);
   return embed;
 }
 
@@ -186,7 +196,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   switch (interaction.options.getSubcommandGroup()) {
     case "db": {
@@ -203,8 +213,9 @@ export async function executeSlash(
               value: value,
             });
           } catch (err) {
-            const embed = new MessageEmbed();
-            embed.setDescription(i18next.t("general:UNKNOWN_ERROR"));
+            const embed = new EmbedBuilder().setDescription(
+              i18next.t("general:UNKNOWN_ERROR")
+            );
             await interaction.reply({ embeds: [embed] });
             return;
           }
@@ -263,42 +274,84 @@ export async function executeSlash(
               ephemeral: true,
             });
           const guildOwner = await guild.fetchOwner();
-          let botPermissions = guild.me.permissions.toArray().join(", ");
+          let botPermissions = guild.members.me.permissions
+            .toArray()
+            .join(", ");
           botPermissions = botPermissions
             ? botPermissions.substring(0, botPermissions.length)
             : "NONE";
           if (botPermissions.includes("ADMINISTRATOR,"))
             botPermissions = "ADMINISTRATOR";
-          const embed = new MessageEmbed();
+          const embed = new EmbedBuilder();
           embed
             .setTitle("Guild Lookup")
-            .setAuthor(guild.name, guild.iconURL())
-            .addField("Name", guild.name, true)
-            .addField("ID", guild.id, true)
-            .addField("Created At", guild.createdAt.toUTCString(), true);
+            .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
+            .addFields([
+              { name: "Name", value: guild.name, inline: true },
+              { name: "ID", value: guild.id, inline: true },
+              {
+                name: "Created At",
+                value: guild.createdAt.toUTCString(),
+                inline: true,
+              },
+            ]);
           guild.description &&
-            embed.addField("Guild Description", guild.description, true);
-          embed
-            .addField("Owner Tag", guildOwner.user.tag, true)
-            .addField("Owner ID", guildOwner.user.id, true)
-            .addField(
-              "Member Count",
-              String(
+            embed.addFields([
+              {
+                name: "Guild Description",
+                value: guild.description,
+                inline: true,
+              },
+            ]);
+          embed.addFields([
+            { name: "Owner Tag", value: guildOwner.user.tag, inline: true },
+            { name: "Owner ID", value: guildOwner.user.id, inline: true },
+            {
+              name: "Member Count",
+              value: String(
                 guild.memberCount ??
                   guild.approximateMemberCount ??
                   "Couldn't fetch"
               ),
-              true
-            )
-            .addField("Partnered", String(guild.partnered).toUpperCase(), true)
-            .addField("Verified", String(guild.verified).toUpperCase(), true)
-            .addField("Premium Tier", guild.premiumTier, true);
+              inline: true,
+            },
+            {
+              name: "Partnered",
+              value: String(guild.partnered).toUpperCase(),
+              inline: true,
+            },
+            {
+              name: "Verified",
+              value: String(guild.verified).toUpperCase(),
+              inline: true,
+            },
+            {
+              name: "Premium Tier",
+              value: String(guild.premiumTier),
+              inline: true,
+            },
+          ]);
           guild.vanityURLCode &&
-            embed.addField("Vanity URL Code", guild.vanityURLCode, true);
-          embed
-            .addField("Preferred Locale", guild.preferredLocale, true)
-            .addField("Bot Permissions", `\`${botPermissions}\``, false)
-            .addField("Shard ID", String(guild.shardId), true);
+            embed.addFields([
+              {
+                name: "Vanity URL Code",
+                value: guild.vanityURLCode,
+                inline: true,
+              },
+            ]);
+          embed.addFields([
+            {
+              name: "Preferred Locale",
+              value: String(guild.preferredLocale),
+              inline: true,
+            },
+            {
+              name: "Bot Permissions",
+              value: `\`${botPermissions}\``,
+              inline: false,
+            },
+            { name: "Shard ID", value: String(guild.shardId), inline: true },
+          ]);
           await interaction.reply({ embeds: [embed] });
           break;
         }
@@ -315,7 +368,7 @@ export async function executeSlash(
             });
             return;
           }
-          const embed = new MessageEmbed();
+          const embed = new EmbedBuilder();
           const embeds = [];
           let userFlags = user.flags.toArray().join(", ");
           userFlags = userFlags
@@ -323,15 +376,25 @@ export async function executeSlash(
             : "NONE";
           embed
             .setTitle("User Lookup")
-            .setAuthor(user.tag, user.avatarURL() ?? user.defaultAvatarURL)
-            .addField("Tag", user.tag, true)
-            .addField("ID", user.id, true)
-            .addField("Bot", String(user.bot).toUpperCase(), true)
-            .addField("Created At", user.createdAt.toUTCString(), true)
-            .addField("Flags", `\`${userFlags}\``, true);
+            .setAuthor({ name: user.tag, iconURL: user.avatarURL() })
+            .addFields([
+              { name: "Tag", value: user.tag, inline: true },
+              { name: "ID", value: user.id, inline: true },
+              {
+                name: "Bot",
+                value: String(user.bot).toUpperCase(),
+                inline: true,
+              },
+              {
+                name: "Created At",
+                value: user.createdAt.toUTCString(),
+                inline: true,
+              },
+              { name: "Flags", value: `\`${userFlags}\``, inline: true },
+            ]);
           embeds.push(embed);
           if (guildId) {
-            const memberEmbed = new MessageEmbed();
+            const memberEmbed = new EmbedBuilder();
             memberEmbed.setTitle("Member Lookup");
             let guild: Guild;
             try {
@@ -346,10 +409,10 @@ export async function executeSlash(
                   // eslint-disable-next-line no-empty
                 } catch {}
                 if (member) {
-                  memberEmbed.setAuthor(
-                    member.nickname ?? user.tag,
-                    member.displayAvatarURL() ?? user.defaultAvatarURL
-                  );
+                  memberEmbed.setAuthor({
+                    name: member.nickname ?? user.tag,
+                    iconURL: member.displayAvatarURL() ?? user.defaultAvatarURL,
+                  });
                   const showPermissions =
                     interaction.options.getBoolean("showpermissions");
                   const isGuildOwner = guild.ownerId == userId;
@@ -360,47 +423,71 @@ export async function executeSlash(
                     ? memberPermissions.substring(0, memberPermissions.length)
                     : "NONE";
                   memberEmbed
-                    .addField("Nickname", member.nickname, true)
-                    .addField(
-                      "Premium Since",
-                      member.premiumSince
-                        ? member.premiumSince.toUTCString()
-                        : "N/A",
-                      true
-                    )
-                    .addField(
-                      "Manageable",
-                      String(member.manageable).toUpperCase(),
-                      true
-                    );
+                    .addFields([
+                      {
+                        name: "Nickname",
+                        value: member.nickname,
+                        inline: true,
+                      },
+                    ])
+                    .addFields([
+                      {
+                        name: "Premium Since",
+                        value: member.premiumSince
+                          ? member.premiumSince.toUTCString()
+                          : "N/A",
+                        inline: true,
+                      },
+                      {
+                        name: "Manageable",
+                        value: String(member.manageable).toUpperCase(),
+                        inline: true,
+                      },
+                    ]);
                   isGuildOwner &&
-                    memberEmbed.addField("Guild Owner", "TRUE", true);
+                    memberEmbed.addFields([
+                      { name: "Guild Owner", value: "TRUE", inline: true },
+                    ]);
                   showPermissions &&
-                    memberEmbed.addField(
-                      "Permissions",
-                      `\`${memberPermissions}\``,
-                      true
-                    );
+                    memberEmbed.addFields([
+                      {
+                        name: "Permissions",
+                        value: `\`${memberPermissions}\``,
+                        inline: true,
+                      },
+                    ]);
                   !member.manageable &&
-                    memberEmbed.addField(
-                      "Highest Role Position",
-                      String(member.roles?.highest?.position) || "N/A",
-                      true
-                    );
+                    memberEmbed.addFields([
+                      {
+                        name: "Highest Role Position",
+                        value: String(member.roles?.highest?.position) || "N/A",
+                        inline: true,
+                      },
+                    ]);
                   !member.manageable &&
-                    memberEmbed.addField(
-                      "Bot Highest Role Position",
-                      String(guild.me.roles?.highest?.position) || "N/A",
-                      true
-                    );
+                    memberEmbed.addFields([
+                      {
+                        name: "Bot Highest Role Position",
+                        value:
+                          String(guild.members.me.roles?.highest?.position) ||
+                          "N/A",
+                        inline: true,
+                      },
+                    ]);
                 } else {
-                  memberEmbed.addField("Guild Member", "Error fetching", false);
+                  memberEmbed.addFields([
+                    { name: "Guild Member", value: "Error fetching" },
+                  ]);
                 }
               } else {
-                memberEmbed.addField("Guild", "Not avaliable", false);
+                memberEmbed.addFields([
+                  { name: "Guild", value: "Not avaliable" },
+                ]);
               }
             } else {
-              memberEmbed.addField("Guild", "Error fetching", false);
+              memberEmbed.addFields([
+                { name: "Guild", value: "Error fetching" },
+              ]);
             }
             embeds.push(memberEmbed);
           }
@@ -410,7 +497,7 @@ export async function executeSlash(
         case "channel": {
           const channelId = interaction.options.getString("id");
           const guildId = interaction.options.getString("guildid");
-          let channel: AnyChannel;
+          let channel: Channel;
           try {
             channel = await interaction.client.channels.fetch(channelId);
             // eslint-disable-next-line no-empty
@@ -422,7 +509,7 @@ export async function executeSlash(
             });
             return;
           }
-          const embed = new MessageEmbed();
+          const embed = new EmbedBuilder();
           embed.setTitle("Channel Lookup");
           let guildChannel: GuildChannel;
           if (guildId) {
@@ -433,30 +520,46 @@ export async function executeSlash(
             } catch {}
             if (guild) {
               guildChannel = await guild.channels.fetch(channelId);
-              embed.addField("Name", guildChannel.name, true);
+              embed.addFields([
+                { name: "Name", value: guildChannel.name, inline: true },
+              ]);
             }
           }
-          embed.addField("ID", channel.id, true);
+          embed.addFields([{ name: "ID", value: channel.id, inline: true }]);
           if (guildChannel) {
-            embed.addField("Guild ID", guildChannel.guild.id, true);
+            embed.addFields([
+              { name: "Guild ID", value: guildChannel.guild.id, inline: true },
+            ]);
           }
-          embed
-            .addField("Type", channel.type, true)
-            .addField("Created At", channel.createdAt.toUTCString(), true);
+          embed.addFields([
+            { name: "Type", value: String(channel.type), inline: true },
+            {
+              name: "Created At",
+              value: channel.createdAt.toUTCString(),
+              inline: true,
+            },
+          ]);
           if (guildChannel) {
             guildChannel.parent &&
-              embed.addField("Category Name", guildChannel.parent.name, true);
-            embed
-              .addField(
-                "Manageable",
-                String(guildChannel.manageable).toUpperCase(),
-                true
-              )
-              .addField(
-                "Viewable",
-                String(guildChannel.viewable).toUpperCase(),
-                true
-              );
+              embed.addFields([
+                {
+                  name: "Category Name",
+                  value: guildChannel.parent.name,
+                  inline: true,
+                },
+              ]);
+            embed.addFields([
+              {
+                name: "Manageable",
+                value: String(guildChannel.manageable).toUpperCase(),
+                inline: true,
+              },
+              {
+                name: "Viewable",
+                value: String(guildChannel.viewable).toUpperCase(),
+                inline: true,
+              },
+            ]);
           }
           await interaction.reply({ embeds: [embed] });
           break;
@@ -477,7 +580,7 @@ export async function executeSlash(
 
         case "shutdown": {
           await interaction.reply(i18next.t("util.SHUTTING_DOWN"));
-          process.emit("SIGINT");
+          process.kill(process.pid, 'SIGINT');
           break;
         }
         case "say": {
@@ -490,6 +593,7 @@ export async function executeSlash(
               interaction.options.getString("channelid") ??
                 interaction.channel.id
             );
+            interaction.options.get;
           } catch {
             await interaction.reply({
               content: "Error fetching channel",
@@ -497,7 +601,7 @@ export async function executeSlash(
             });
             return;
           }
-          if (channel.isText) {
+          if (channel.isTextBased()) {
             if (!messagetoReplyToID) {
               try {
                 await channel.send(thingToSay);

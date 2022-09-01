@@ -1,22 +1,22 @@
 {
   "name": "@jaminitbot/bot-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc"
   },
   "author": "",
-  "license": "MPL-2.0",
   "devDependencies": {
-    "@types/node": "^17.0.7",
+    "@types/is-number": "^7.0.3",
+    "@types/node": "16",
     "typescript": "^4.5.4"
   },
   "files": [
     "dist/**"
   ],
   "dependencies": {
-    "discord.js": "~13.6.0",
+    "discord.js": "^14.3.0",
     "is-number": "~7.0.0"
   }
 }

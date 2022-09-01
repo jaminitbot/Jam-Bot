@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import { ChannelType, Message, EmbedBuilder } from "discord.js";
 import { BotClient } from "../customDefinitions";
 import { inputSnipe } from "../functions/snipe";
 import { postToModlog } from "../functions/mod";
@@ -20,10 +20,8 @@ export async function register(
   }
   if (oldMessage.content == newMessage.content) return;
   if (
-    !(
-      newMessage.channel.type == "GUILD_TEXT" ||
-      newMessage.channel.type == "GUILD_NEWS"
-    )
+      newMessage.channel.type != ChannelType.GuildText &&
+      newMessage.channel.type != ChannelType.GuildNews
   )
     return;
   if (newMessage.author.bot) return;
@@ -31,18 +29,18 @@ export async function register(
   await inputSnipe(newMessage, oldMessage, "edit");
   if (isBotOwner(newMessage.author.id)) return;
   //#region Edit Log
-  const embed = new MessageEmbed();
-  embed.setAuthor(newMessage.author.tag, newMessage.author.avatarURL());
-  embed.addField(
-    i18next.t("events:messageLogs.EMBED_TITLE", {
+  const embed = new EmbedBuilder();
+  embed.setAuthor({ name: newMessage.author.tag, iconURL: newMessage.author.avatarURL() });
+  embed.addFields({
+    name: i18next.t("events:messageLogs.EMBED_TITLE", {
       type: "edited",
       channel: newMessage.channel.name,
     }),
-    i18next.t("events:messageLogs.EDIT_ENTRY", {
+    value: i18next.t("events:messageLogs.EDIT_ENTRY", {
       before: oldMessage.content ?? i18next.t("events:messageLogs.NO_CONTENT"),
       after: newMessage.content ?? i18next.t("events:messageLogs.NO_CONTENT"),
     })
-  );
+  });
   embed.setFooter({
     text: i18next.t("events:messageLogs.EMBED_FOOTER", {
       userId: newMessage.author.id,

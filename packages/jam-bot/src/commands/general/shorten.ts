@@ -1,7 +1,10 @@
-import { CommandInteraction, Message } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Message,
+  SlashCommandBuilder,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
 import { request } from "undici";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
 
 export const name = "shorten";
@@ -47,7 +50,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   let url = interaction.options.getString("url");
   url = await shortenUrl(url);

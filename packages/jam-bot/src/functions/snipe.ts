@@ -47,7 +47,10 @@ export async function inputSnipe(
     () =>
       buffer.set(
         message.channel.id,
-        removeItemFromArray(buffer.get(message.channel.id), messageObject)
+        removeItemFromArray<MessageSniped>(
+          buffer.get(message.channel.id),
+          messageObject
+        )
       ),
     SNIPE_DURATION * 1000
   );
@@ -61,6 +64,6 @@ export function returnSnipedMessages(
   channelId: string
 ): Array<MessageSniped> | null {
   const bufferValue = buffer.get(channelId);
-  if (!bufferValue) return null;
+  if (!bufferValue) return [];
   return bufferValue.reverse();
 }

@@ -4,7 +4,7 @@ export const MODLOG_TASKS_POLLING_DELAY = 5; // How often to check modlog tasks 
 export const PROMETHEUS_PING_SAVE_DURATION = 5; // How often to save the client's websocket ping for use with prometheus
 
 export const GITHUB_CHANGELOG_LINK =
-  "https://raw.githubusercontent.com/jamesatjaminit/Jam-Bot/main/changelog.json"; // User friendly changelog
+  "https://raw.githubusercontent.com/jaminitbot/Jam-Bot/main/packages/jam-bot/changelog.json"; // User friendly changelog
 
 // Twitch
 const TWITCH_BASE_HOST = "twitch.tv";

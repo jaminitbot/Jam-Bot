@@ -1,7 +1,10 @@
-import { CommandInteraction, Message } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Message,
+  SlashCommandBuilder,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
 import { request } from "undici";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { getLogger } from "../../functions/util";
 import Sentry from "../../functions/sentry";
 import i18next from "i18next";
@@ -95,7 +98,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   await interaction.deferReply();
   const search = interaction.options.getString("search");

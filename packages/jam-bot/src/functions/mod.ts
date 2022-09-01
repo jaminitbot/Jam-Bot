@@ -1,4 +1,4 @@
-import { AnyChannel, Guild, GuildMember, MessageOptions } from "discord.js";
+import { Channel, ChannelType, Guild, GuildMember, MessageOptions, PermissionFlagsBits } from "discord.js";
 import { BotClient } from "../customDefinitions";
 import { getGuildSetting } from "./db";
 import ms from "ms";
@@ -72,16 +72,15 @@ export async function postToModlog(
     });
     if (!channelId) return 4;
   }
-  let channel: AnyChannel;
+  let channel: Channel;
   try {
     channel = await client.channels.fetch(channelId);
   } catch {
     return 1;
   }
   if (!channel) return 1;
-  if (!channel.isText) return 2;
+  if (channel.type != ChannelType.GuildNews && channel.type != ChannelType.GuildText) return 2;
   try {
-    // @ts-expect-error
     await channel.send(messageContent);
   } catch {
     return 3;
@@ -124,7 +123,7 @@ export async function processTasks(client: BotClient) {
     if (guild) {
       switch (task.type) {
         case "UNBAN":
-          if (guild.me.permissions.has("BAN_MEMBERS")) {
+          if (guild.members.me.permissions.has(PermissionFlagsBits.BanMembers)) {
             await unban(guild, task.targetId, "Automatically unbanned");
           }
           break;
@@ -155,7 +154,7 @@ export async function ban(
   const target = await guild.members.fetch(userId);
   if (!target) return 1;
   try {
-    await target.ban({ reason: reason, days: 1 });
+    await target.ban({ reason: reason, deleteMessageDays: 1 });
   } catch {
     return 1; // Unknown error
   }

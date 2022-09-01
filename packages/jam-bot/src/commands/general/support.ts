@@ -1,12 +1,13 @@
 import {
-  CommandInteraction,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ChatInputCommandInteraction,
+  EmbedBuilder,
   Message,
-  MessageActionRow,
-  MessageButton,
-  MessageEmbed,
+  SlashCommandBuilder,
 } from "discord.js";
 import { BotClient } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
 
 export const name = "support";
@@ -18,17 +19,17 @@ export const slashData = new SlashCommandBuilder()
   .setDescription(description);
 
 async function returnSupportEmbed() {
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setTitle(i18next.t("support.SUPPORT_TITLE"));
   embed.setDescription(i18next.t("support.SUPPORT_DESCRIPTION"));
-  const row = new MessageActionRow();
+  const row = new ActionRowBuilder();
   row.addComponents(
-    new MessageButton()
-      .setStyle("LINK")
+    new ButtonBuilder()
+      .setStyle(ButtonStyle.Link)
       .setLabel(i18next.t("support.COMMAND_DOCS"))
       .setURL("https://jambot.jaminit.co.uk/#/"),
-    new MessageButton()
-      .setStyle("LINK")
+    new ButtonBuilder()
+      .setStyle(ButtonStyle.Link)
       .setLabel(i18next.t("support.SUPPORT_SERVER"))
       .setURL("https://discord.gg/KNTCurHsEz")
   );
@@ -51,7 +52,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   const embedObject = await returnSupportEmbed();
   // @ts-expect-error

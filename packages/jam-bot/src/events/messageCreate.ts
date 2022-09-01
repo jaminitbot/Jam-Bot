@@ -8,7 +8,7 @@ import {
 import { capitaliseSentence } from "@jaminitbot/bot-utils";
 import { getGuildSetting } from "../functions/db";
 import { BotClient } from "../customDefinitions";
-import { Message, MessageEmbed } from "discord.js";
+import { ChannelType, Message, EmbedBuilder } from "discord.js";
 import { getErrorMessage } from "../functions/messages";
 import Sentry from "../functions/sentry";
 import i18next from "i18next";
@@ -49,8 +49,8 @@ export async function register(client: BotClient, message: Message) {
       } has been requested by ${message.author.tag}, executing command...`
     );
     if (
-      message.channel.type == "GUILD_PUBLIC_THREAD" ||
-      message.channel.type == "GUILD_PRIVATE_THREAD"
+      message.channel.type == ChannelType.GuildPublicThread ||
+      message.channel.type == ChannelType.GuildPrivateThread 
     ) {
       try {
         await message.channel.join();
@@ -58,7 +58,7 @@ export async function register(client: BotClient, message: Message) {
         return;
       }
     }
-    if (message.channel.type == "DM" && !command.allowInDm) {
+    if (message.channel.type == ChannelType.DM && !command.allowInDm) {
       try {
         await message.channel.send(
           i18next.t("events:interactionCreate.DISABLED_IN_DMS")
@@ -128,19 +128,19 @@ export async function register(client: BotClient, message: Message) {
       }
     });
   } else {
-    if (message.channel.type == "DM" && process.env.dmChannel) {
+    if (message.channel.type == ChannelType.DM && process.env.dmChannel) {
       client.logger.verbose(
         `messageHandler: Received a DM from ${message.author.tag}, attempting to notify in the correct channel...`
       );
       const dmChannel = await client.channels.fetch(process.env.dmChannel);
-      const embed = new MessageEmbed();
-      if (message.content) embed.addField("Contents", message.content);
+      const embed = new EmbedBuilder();
+      if (message.content) embed.addFields([{ name: "Contents", value: message.content }]);
       if (message.attachments.first())
         embed.setImage(message.attachments.first().url);
-      embed.setAuthor(message.author.tag, message.author.avatarURL());
+      embed.setAuthor({ name: message.author.tag, iconURL: message.author.avatarURL() });
       embed.setFooter({ text: `User ID: ${message.author.id}` });
       embed.setTimestamp(Date.now());
-      if (dmChannel.type == "GUILD_TEXT" || dmChannel.type == "GUILD_NEWS")
+      if (dmChannel.type != ChannelType.GuildNews && dmChannel.type != ChannelType.GuildText)
         // @ts-expect-error
         await dmChannel.send(embed);
     }

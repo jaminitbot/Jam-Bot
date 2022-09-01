@@ -1,15 +1,14 @@
 // TODO: Improve suggestions to allow for editing and implementation
 import {
-  CommandInteraction,
+  ChatInputCommandInteraction,
   Message,
-  MessageEmbed,
+  EmbedBuilder,
+  SlashCommandBuilder,
   TextChannel,
   User,
 } from "discord.js";
 import { BotClient } from "../../customDefinitions";
 import { getGuildSetting, setGuildSetting } from "../../functions/db";
-import { SlashCommandBuilder } from "@discordjs/builders";
-
 import i18next from "i18next";
 
 export const name = "suggest";
@@ -61,13 +60,15 @@ async function sendSuggestion(
     setting: "suggestionCount",
     value: suggestionCount + 1,
   });
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setTitle(
     i18next.t("suggest.SUGGESTION_TITLE", {
       suggestionId: suggestionCount + 1,
     })
   );
-  embed.addField(i18next.t("suggest.DESCRIPTION"), suggestion);
+  embed.addFields([
+    { name: i18next.t("suggest.DESCRIPTION"), value: suggestion },
+  ]);
   if (attachment) {
     embed.setImage(attachment);
   }
@@ -111,7 +112,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   const suggestionDescription = interaction.options.getString("suggestion");
   const result = await sendSuggestion(

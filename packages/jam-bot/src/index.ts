@@ -9,9 +9,11 @@ if (process.env.NODE_ENV != "production") {
 import {
   Client,
   ClientOptions,
-  Intents,
-  MessageEmbed,
   WebhookClient,
+  Partials,
+  ActivityType,
+  IntentsBitField,
+  EmbedBuilder
 } from "discord.js";
 import { createLogger, format, transports } from "winston";
 import { BotClient } from "./customDefinitions";
@@ -87,20 +89,20 @@ import {
           url: process.env.errorLogWebhookUrl,
         });
         if (loggerBuffer.includes(data.message)) return;
-        const embed = new MessageEmbed();
+        const embed = new EmbedBuilder();
         embed.setTitle(`Logger`);
         embed.setTimestamp(Date.now());
         if (data.level == "error") {
-          embed.setColor("#ff0000");
+          embed.setColor([255, 0, 0]);
         } else {
-          embed.setColor("#ffbf00");
+          embed.setColor([255, 191, 0]);
         }
-        embed.addField(String(data.level).toUpperCase(), data.message);
+        embed.addFields([{ name: String(data.level).toUpperCase(), value: data.message }]);
         loggerBuffer.push(data.message);
         try {
           await loggerWebhookClient.send({
-            username: client.user.username,
-            avatarURL: client.user.avatarURL(),
+            username: client.user?.username,
+            avatarURL: String(client.user?.avatarURL()),
             embeds: [embed],
           });
           // eslint-disable-next-line no-empty
@@ -126,15 +128,15 @@ import {
   const clientOptions: ClientOptions = {
     allowedMentions: { parse: ["roles", "users"] },
     intents: [
-      Intents.FLAGS.GUILDS,
-      Intents.FLAGS.GUILD_MESSAGES,
-      Intents.FLAGS.GUILD_MEMBERS,
+      IntentsBitField.Flags.Guilds,
+      IntentsBitField.Flags.GuildMessages,
+      IntentsBitField.Flags.GuildMembers
     ],
     presence: {
       status: "online",
-      activities: [{ name: "/help", type: "WATCHING" }],
+      activities: [{ name: "/help", type: ActivityType.Watching }],
     },
-    partials: ["MESSAGE", "GUILD_MEMBER"],
+    partials: [Partials.Message, Partials.GuildMember],
   };
   // @ts-expect-error
   const client: BotClient = new Client(clientOptions);

@@ -1,4 +1,4 @@
-import { Guild } from "discord.js";
+import { ChannelType, EmbedBuilder, Guild } from "discord.js";
 import { BotClient } from "../customDefinitions";
 import { registerSlashCommands } from "../functions/registerCommands";
 
@@ -6,19 +6,20 @@ export const name = "guildCreate";
 
 export async function generateGuildInfoEmbed(guild: Guild) {
   const owner = await guild.fetchOwner();
-  return {
-    title: "Joined guild",
-    description: `Guild Name: ${guild.name}
+  return new EmbedBuilder()
+    .setTitle("Joined Guild")
+    .setDescription(
+      `Guild Name: ${guild.name}
 			Guild Id: ${guild.id}
 			Created At: ${guild.createdAt}
 			Description: ${guild.description}
 			Owner: ${owner.user.tag}, ${owner.id}
 			Members: ${guild.memberCount}
 			Partnered: ${guild.partnered}
-			Verified: ${guild.verified}`,
-    color: "#20BE9D",
-    timestamp: Date.now(),
-  };
+			Verified: ${guild.verified}`
+    )
+    .setColor("#20BE9D")
+    .setTimestamp(Date.now());
 }
 
 export async function register(client: BotClient, guild: Guild) {
@@ -30,9 +31,13 @@ export async function register(client: BotClient, guild: Guild) {
     process.env.guildLogChannel
   );
   if (!channel) return;
-  if (channel.type != "GUILD_TEXT" && channel.type != "GUILD_NEWS") return;
+  if (
+    channel.type != ChannelType.GuildNews &&
+    channel.type != ChannelType.GuildText
+  )
+    return;
   try {
-    channel.send({ embeds: [await this.generateGuildInfoEmbed(guild)] });
+    channel.send({ embeds: [await generateGuildInfoEmbed(guild)] });
     // eslint-disable-next-line no-empty
   } catch {}
 }

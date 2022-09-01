@@ -1,18 +1,14 @@
 FROM node:lts as builder
 WORKDIR /build
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
-RUN pnpm install -g @microsoft/rush
+RUN npm install -g pnpm
 COPY . .
-RUN rush install
-RUN rush build
-RUN rush deploy
-RUN mkdir /app
-RUN cp -r /build/common/deploy /app
+RUN pnpm install
+RUN pnpm turbo run build
+RUN pnpm run deploy
 
 FROM node:lts-alpine
 WORKDIR /app
-COPY --from=builder /app .
-WORKDIR /app/deploy/packages/jam-bot
+COPY --from=builder /build/output .
 RUN npm install -g prisma
 RUN prisma generate
 CMD ["node", "dist/index.js"]

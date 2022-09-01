@@ -1,4 +1,4 @@
-import { ContextMenuInteraction } from "discord.js";
+import { ContextMenuCommandInteraction, PermissionFlagsBits } from "discord.js";
 import { BotClient } from "../../customDefinitions";
 import { moddable, mute, parseDuration } from "../../functions/mod";
 import i18next from "i18next";
@@ -11,9 +11,13 @@ export const interactionType = 2;
 
 export async function executeContextMenu(
   client: BotClient,
-  interaction: ContextMenuInteraction
+  interaction: ContextMenuCommandInteraction
 ) {
-  if (!interaction.guild.me.permissions.has("MANAGE_ROLES"))
+  if (
+    !interaction.guild.members.me.permissions.has(
+      PermissionFlagsBits.ManageRoles
+    )
+  )
     return interaction.reply({
       content:
         "I don't have permission to manage roles! Ask an admin to check my permissions!",

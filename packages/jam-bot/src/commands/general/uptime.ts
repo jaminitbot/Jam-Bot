@@ -1,6 +1,9 @@
-import { CommandInteraction, Message } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Message,
+  SlashCommandBuilder,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
 import { format } from "date-fns";
 
@@ -23,12 +26,9 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
-  const timeDate = format(
-    Date.now() - client.uptime,
-    "HH:mm:ss [-] DD/MM/YYYY"
-  );
+  const timeDate = format(Date.now() - client.uptime, "HH:mm:ss - dd/MM/yyyy");
   await interaction.reply(
     i18next.t("uptime.UPTIME_MESSAGE", { date: timeDate })
   );

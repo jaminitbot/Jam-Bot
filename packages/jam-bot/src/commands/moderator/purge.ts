@@ -1,6 +1,12 @@
-import { CommandInteraction, Message, TextBasedChannel } from "discord.js";
+import {
+  ChannelType,
+  ChatInputCommandInteraction,
+  Message,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+  TextBasedChannel,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import i18next from "i18next";
 import messages = require("../../functions/messages");
 import isNumber = require("is-number");
@@ -24,8 +30,16 @@ async function bulkDeleteMessages(
   channel: TextBasedChannel,
   NumOfMessagesToDelete: number
 ) {
-  if (channel.type != "GUILD_TEXT" && channel.type != "GUILD_NEWS") return;
-  if (!channel.guild.me.permissions.has(["MANAGE_MESSAGES"]))
+  if (
+    channel.type != ChannelType.GuildNews &&
+    channel.type != ChannelType.GuildText
+  )
+    return;
+  if (
+    !channel.guild.members.me.permissions.has(
+      PermissionFlagsBits.ManageMessages
+    )
+  )
     return i18next.t("general:BOT_INVALID_PERMISSION", {
       friendlyPermissionName: "manage messages",
       permissionName: permissions[0],
@@ -69,7 +83,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   const numOfMessages = interaction.options.getInteger("number");
   await interaction.reply({

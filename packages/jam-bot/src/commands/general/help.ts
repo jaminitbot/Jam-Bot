@@ -1,7 +1,11 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Message,
+  EmbedBuilder,
+  SlashCommandBuilder,
+} from "discord.js";
 import { BotClient } from "../../customDefinitions";
 import { getGuildSetting } from "../../functions/db";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { isBotOwner } from "../../functions/util";
 import i18next from "i18next";
 
@@ -25,7 +29,7 @@ async function returnHelpEmbed(
   prefix: string,
   userId: string
 ) {
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setColor("#439A86");
   if (commandToGet) {
     commandToGet = String(commandToGet).toLowerCase();
@@ -54,21 +58,31 @@ async function returnHelpEmbed(
       const usage = command.usage
         ? prefix + command.usage
         : prefix + commandToGet;
-      embed.addField(i18next.t("help.DESCRIPTION"), description, true);
-      embed.addField(i18next.t("help.USAGE"), usage, true);
+      embed.addFields([
+        {
+          name: i18next.t("help.DESCRIPTION"),
+          value: description,
+          inline: true,
+        },
+        { name: i18next.t("help.USAGE"), value: usage, inline: true },
+      ]);
       if (command.aliases && prefix != "/")
-        embed.addField(
-          i18next.t("help.ALIASES"),
-          command.aliases.toString(),
-          true
-        );
+        embed.addFields([
+          {
+            name: i18next.t("help.ALIASES"),
+            value: command.aliases.toString(),
+            inline: true,
+          },
+        ]);
       if (command.permissions) {
         const permissionsNeeded = command.permissions.toString();
-        embed.addField(
-          i18next.t("help.PERMISSIONS_REQUIRED"),
-          permissionsNeeded,
-          true
-        );
+        embed.addFields([
+          {
+            name: i18next.t("help.PERMISSIONS_REQUIRED"),
+            value: permissionsNeeded,
+            inline: true,
+          },
+        ]);
       }
     } else {
       embed.setDescription(i18next.t("help.COMMAND_UNKNOWN"));
@@ -104,7 +118,7 @@ export async function execute(
 
 export async function executeSlash(
   client: BotClient,
-  interaction: CommandInteraction
+  interaction: ChatInputCommandInteraction
 ) {
   const commandToGet = interaction.options.getString("command");
   const embed = await returnHelpEmbed(
