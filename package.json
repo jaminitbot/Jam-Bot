@@ -5,6 +5,6 @@
 	"scripts": {
 		"build": "turbo run build",
 		"lint": "turbo run lint",
-		"deploy": "pnpm --filter=@jaminitbot/jam-bot deploy output"
+		"deploy": "pnpm --filter=@jaminitbot/jam-bot --prod deploy output"
 	}
 }

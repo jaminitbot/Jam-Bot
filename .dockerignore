@@ -1,6 +1,7 @@
 .devcontainer/
 .github/
 docs/
-node_modules/
-dist/
+**/node_modules/
+**/dist/
+**/.turbo/
 .env*

@@ -8,8 +8,7 @@ RUN pnpm run deploy
 
 FROM node:lts-alpine
 WORKDIR /app
-COPY --from=builder /app .
-WORKDIR /app/deploy/packages/jam-bot
+COPY --from=builder /build/output .
 RUN npm install -g prisma
 RUN prisma generate
 CMD ["node", "dist/index.js"]
