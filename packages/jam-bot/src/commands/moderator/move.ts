@@ -92,10 +92,12 @@ export async function execute(
   message: Message,
   args: Array<unknown>
 ) {
+  // @ts-expect-error
   const fromChannel: VoiceChannel = await getChannelFromString(
     message.guild,
     args[0]
   );
+  // @ts-expect-error
   const toChannel: VoiceChannel = await getChannelFromString(
     message.guild,
     args[1]

@@ -1,0 +1,10 @@
+{
+	"devDependencies": {
+		"turbo": "^1.4.3"
+	},
+	"scripts": {
+		"build": "turbo run build",
+		"lint": "turbo run lint",
+		"deploy": "pnpm --filter=@jaminitbot/jam-bot deploy output"
+	}
+}

@@ -1,5 +1,4 @@
-import type { Guild, GuildMember, Role, AnyChannel } from "discord.js";
-// @ts-expect-error
+import type { Guild, GuildMember, Role, Channel } from "discord.js";
 import is_number = require("is-number");
 /**
  * Returns a user from a string, usually a ID or mention
@@ -84,7 +83,7 @@ export async function getRoleFromString(
 export async function getChannelFromString(
   guild: Guild,
   text: unknown
-): Promise<AnyChannel> {
+): Promise<Channel> {
   try {
     if (!text) return null;
     let stringText = String(text);

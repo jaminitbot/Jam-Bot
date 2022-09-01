@@ -2,7 +2,8 @@
 common/changes/
 common/scripts/
 common/config/
-CHANGELOG.*
+CHANGELOG.md
+changelog.json
 
 # Package manager files
 pnpm-lock.yaml

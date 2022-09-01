@@ -580,7 +580,7 @@ export async function executeSlash(
 
         case "shutdown": {
           await interaction.reply(i18next.t("util.SHUTTING_DOWN"));
-          process.emit("SIGINT");
+          process.kill(process.pid, 'SIGINT');
           break;
         }
         case "say": {
