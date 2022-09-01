@@ -56,6 +56,10 @@ import {
         level: "info",
         format: format.combine(format.timestamp(), format.json()),
       }),
+      new transports.Console({
+        level: "error",
+        format: format.combine(format.colorize(), format.simple()),
+      })
     ],
   });
   if (String(process.env.showDebugMessages).toUpperCase() == "TRUE") {
