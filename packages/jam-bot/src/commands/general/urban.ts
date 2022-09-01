@@ -117,7 +117,6 @@ export async function executeSlash(
 ) {
   await interaction.deferReply();
   const word = interaction.options.getString("word");
-  console.log(word);
   const embed = await returnDefineEmbed(word);
   await interaction.editReply({ embeds: [embed] });
 }

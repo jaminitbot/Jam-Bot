@@ -78,8 +78,6 @@ export async function executeSlash(
   interaction: ChatInputCommandInteraction
 ) {
   const initiatedSlash = await interaction.deferReply({ fetchReply: true });
-  // @ts-expect-error
-  if (initiatedSlash.type != InteractionType.ApplicationCommand) return;
   const embed = returnDebugEmbed(
     initiatedSlash.createdTimestamp,
     interaction.createdTimestamp,

@@ -28,10 +28,7 @@ export async function executeSlash(
   client: BotClient,
   interaction: ChatInputCommandInteraction
 ) {
-  const timeDate = format(
-    Date.now() - client.uptime,
-    "HH:mm:ss [-] DD/MM/YYYY"
-  );
+  const timeDate = format(Date.now() - client.uptime, "HH:mm:ss - dd/MM/yyyy");
   await interaction.reply(
     i18next.t("uptime.UPTIME_MESSAGE", { date: timeDate })
   );

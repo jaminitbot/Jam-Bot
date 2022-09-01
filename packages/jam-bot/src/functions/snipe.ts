@@ -61,6 +61,6 @@ export function returnSnipedMessages(
   channelId: string
 ): Array<MessageSniped> | null {
   const bufferValue = buffer.get(channelId);
-  if (!bufferValue) return null;
+  if (!bufferValue) return [];
   return bufferValue.reverse();
 }

@@ -81,7 +81,7 @@ function returnSnipesEmbed(snipes: Array<MessageSniped>, type: string) {
       }
     }
   }
-  if (embed.data.fields.length == 0) {
+  if (!embed.data.fields?.length) {
     embed.setDescription(
       i18next.t("snipe.NO_MESSAGES", {
         snipeType: ed ? ed + "ed" : "edited/deleted",
