@@ -1,7 +1,6 @@
 import {
   ChatInputCommandInteraction,
   Guild,
-  GuildChannel,
   GuildMember,
   Message,
   EmbedBuilder,
@@ -9,6 +8,7 @@ import {
   User,
   Channel,
   SlashCommandBuilder,
+  GuildBasedChannel,
 } from "discord.js";
 import { BotClient, Permissions } from "../../customDefinitions";
 import { registerSlashCommands } from "../../functions/registerCommands";
@@ -511,7 +511,7 @@ export async function executeSlash(
           }
           const embed = new EmbedBuilder();
           embed.setTitle("Channel Lookup");
-          let guildChannel: GuildChannel;
+          let guildChannel: GuildBasedChannel;
           if (guildId) {
             let guild: Guild;
             try {
@@ -580,7 +580,7 @@ export async function executeSlash(
 
         case "shutdown": {
           await interaction.reply(i18next.t("util.SHUTTING_DOWN"));
-          process.kill(process.pid, 'SIGINT');
+          process.kill(process.pid, "SIGINT");
           break;
         }
         case "say": {

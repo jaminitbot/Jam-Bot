@@ -1,4 +1,11 @@
-import { Channel, ChannelType, Guild, GuildMember, MessageOptions, PermissionFlagsBits } from "discord.js";
+import {
+  Channel,
+  ChannelType,
+  Guild,
+  GuildMember,
+  BaseMessageOptions,
+  PermissionFlagsBits,
+} from "discord.js";
 import { BotClient } from "../customDefinitions";
 import { getGuildSetting } from "./db";
 import ms from "ms";
@@ -53,7 +60,7 @@ type LogType = "messages" | "members" | "server" | "joinLeaves";
 export async function postToModlog(
   client: BotClient,
   guildId: string,
-  messageContent: string | MessageOptions,
+  messageContent: string | BaseMessageOptions,
   logType: LogType
 ) {
   const shouldLog = await getGuildSetting(guildId, {
@@ -79,7 +86,11 @@ export async function postToModlog(
     return 1;
   }
   if (!channel) return 1;
-  if (channel.type != ChannelType.GuildNews && channel.type != ChannelType.GuildText) return 2;
+  if (
+    channel.type != ChannelType.GuildNews &&
+    channel.type != ChannelType.GuildText
+  )
+    return 2;
   try {
     await channel.send(messageContent);
   } catch {
@@ -123,7 +134,9 @@ export async function processTasks(client: BotClient) {
     if (guild) {
       switch (task.type) {
         case "UNBAN":
-          if (guild.members.me.permissions.has(PermissionFlagsBits.BanMembers)) {
+          if (
+            guild.members.me.permissions.has(PermissionFlagsBits.BanMembers)
+          ) {
             await unban(guild, task.targetId, "Automatically unbanned");
           }
           break;
