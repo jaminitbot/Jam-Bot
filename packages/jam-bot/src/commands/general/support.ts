@@ -27,11 +27,11 @@ async function returnSupportEmbed() {
     new ButtonBuilder()
       .setStyle(ButtonStyle.Link)
       .setLabel(i18next.t("support.COMMAND_DOCS"))
-      .setURL("https://jambot.jaminit.co.uk/#/"),
+      .setURL("https://jaminitbot.github.io/Jam-Bot/"),
     new ButtonBuilder()
       .setStyle(ButtonStyle.Link)
       .setLabel(i18next.t("support.SUPPORT_SERVER"))
-      .setURL("https://discord.gg/KNTCurHsEz")
+      .setURL("https://discord.gg/DTcwugcgZ2")
   );
   return [embed, row];
 }
