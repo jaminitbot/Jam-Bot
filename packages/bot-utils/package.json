@@ -9,14 +9,14 @@
   "author": "",
   "devDependencies": {
     "@types/is-number": "^7.0.3",
-    "@types/node": "16",
-    "typescript": "^4.5.4"
+    "@types/node": "18",
+    "typescript": "^4.9.4"
   },
   "files": [
     "dist/**"
   ],
   "dependencies": {
-    "discord.js": "^14.3.0",
+    "discord.js": "^14.7.1",
     "is-number": "~7.0.0"
   }
 }
